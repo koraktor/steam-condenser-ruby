@@ -3,14 +3,14 @@
 #
 # Copyright (c) 2008, Sebastian Staudt
 #
-# $Id$
+# $Id: master_server_query_response_packet.rb 97 2008-08-07 07:25:49Z koraktor $
 
 require "steam/packets/steam_packet"
 
-class MasterServerQueryResponsePacket < SteamPacket
+class M2A_SERVER_BATCH_Packet < SteamPacket
   
   def initialize(data)
-    super SteamPacket::MASTER_SERVER_QUERY_REQUEST_HEADER, data
+    super SteamPacket::M2A_SERVER_BATCH_HEADER, data
     
     if(@content_data.get_byte != 10)
       raise PacketFormatException.new("Master query response is missing additional 0x0A byte.")

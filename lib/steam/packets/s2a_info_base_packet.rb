@@ -4,13 +4,13 @@
 require "abstract_class"
 require "steam/packets/steam_packet"
 
-# The A2A_INFO_ResponsePacket class represents the response to a A2A_INFO
+# The S2A_INFO_BasePacket class represents the response to a A2S_INFO
 # request send to the server.
-class A2A_INFO_ResponsePacket < SteamPacket
+class S2A_INFO_BasePacket < SteamPacket
   
   include AbstractClass
   
-  # Creates a A2A_INFO response object based on the data received.
+  # Creates a S2A_INFO[...] response object based on the data received.
   def initialize(header, data)
     super header, data
   end

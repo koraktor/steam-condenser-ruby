@@ -3,17 +3,17 @@
 #
 # Copyright (c) 2008, Sebastian Staudt
 #
-# $Id$
+# $Id: a2a_info_source_response_packet.rb 97 2008-08-07 07:25:49Z koraktor $
 
-require "steam/packets/a2a_info_response_packet"
+require "steam/packets/s2a_info_base_packet"
 
-# The A2A_INFO_SourceResponsePacket class represents the response to a A2A_INFO
+# The S2A_INFO2_Packet class represents the response to a A2A_INFO
 # request send to a Source server.
-class A2A_INFO_SourceResponsePacket < A2A_INFO_ResponsePacket
+class S2A_INFO2_Packet < S2A_INFO_BasePacket
   
-  # Creates a A2A_INFO response object based on the data received.
+  # Creates a S2A_INFO2 response object based on the data received.
   def initialize(data)
-    super SteamPacket::A2A_INFO_SOURCE_RESPONSE_HEADER, data
+    super SteamPacket::S2A_INFO2_HEADER, data
     
     @protocol_version = @content_data.get_byte
     @server_name = @content_data.get_string

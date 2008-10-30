@@ -3,21 +3,21 @@
 #
 # Copyright (c) 2008, Sebastian Staudt
 #
-# $Id$
+# $Id: a2a_player_response_packet.rb 97 2008-08-07 07:25:49Z koraktor $
 
 require "steam/packets/steam_packet"
 
-# The A2A_PLAYER_ResponsePacket class represents the response to a A2A_PLAYER
+# The S2A_PLAYER_Packet class represents the response to a A2S_PLAYER
 # request send to the server.
-class A2A_PLAYER_ResponsePacket < SteamPacket
+class S2A_PLAYER_Packet < SteamPacket
   
-  # Creates a A2A_PLAYER response object based on the data received.
+  # Creates a S2A_PLAYER response object based on the data received.
   def initialize(content_data)
     if content_data == nil
-      raise Exception.new("Wrong formatted A2A_PLAYER response packet.")
+      raise Exception.new("Wrong formatted S2A_PLAYER packet.")
     end
     
-    super SteamPacket::A2A_PLAYER_RESPONSE_HEADER, content_data
+    super SteamPacket::S2A_PLAYER_HEADER, content_data
     
     @player_array = Array.new @content_data.get_byte
     
