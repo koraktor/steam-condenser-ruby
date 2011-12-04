@@ -1,4 +1,4 @@
-Steam Condenser [![Build Status](https://secure.travis-ci.org/koraktor/steam-condenser.png)](http://travis-ci.org/koraktor/steam-condenser)
+Steam Condenser [![Build Status](https://secure.travis-ci.org/koraktor/steam-condenser-ruby.png)](http://travis-ci.org/koraktor/steam-condenser-ruby)
 ===============
 
 The Steam Condenser is a multi-language library for querying the Steam
