@@ -10,6 +10,7 @@ require 'steam/community/cacheable'
 require 'steam/community/game_stats'
 require 'steam/community/steam_game'
 require 'steam/community/steam_group'
+require 'steam/community/web_api'
 require 'steam/community/xml_data'
 
 # The SteamId class represents a Steam Community profile (also called Steam ID)
@@ -312,10 +313,13 @@ class SteamId
   # @see #friends
   # @see #initialize
   def fetch_friends
-    friends_data = parse "#{base_url}/friends?xml=1"
+    params = { :relationship => 'friend', :steamid => @steam_id64 }
+
+    friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
+    friends_data = MultiJson.decode(friends_data, { :symbolize_keys => true })
     @friends = []
-    friends_data['friends']['friend'].each do |friend|
-      @friends << SteamId.new(friend.to_i, false)
+    friends_data[:friendslist][:friends].each do |friend|
+      @friends << SteamId.new(friend[:steamid].to_i, false)
     end
   end
 
