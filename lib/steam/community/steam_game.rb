@@ -39,6 +39,20 @@ class SteamGame
     @@games.key?(app_id) ? @@games[app_id] : super(app_id, game_data)
   end
 
+  # Returns whether the given version of the game with the given application ID
+  # is up-to-date
+  #
+  # @param [Fixnum] app_id The application ID of the game to check
+  # @param [Fixnum] version The version to check against the Web API
+  # @return [Boolean] `true` if the given version is up-to-date
+  def self.uptodate?(app_id, version)
+    params = { :appid => app_id, :version => version }
+    result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
+    result = MultiJson.decode(result, { :symbolize_keys => true})[:response]
+    raise SteamCondenserError, result[:error] unless result[:success]
+    result[:up_to_date]
+  end
+
   # Returns whether this game has statistics available
   #
   # @return [Boolean] `true` if this game has stats
@@ -73,11 +87,7 @@ class SteamGame
   # @param [Fixnum] version The version to check against the Web API
   # @return [Boolean] `true` if the given version is up-to-date
   def uptodate?(version)
-    params = { :appid => @app_id, :version => version }
-    result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
-    result = MultiJson.decode(result, { :symbolize_keys => true})[:response]
-    raise SteamCondenserError, result[:error] unless result[:success]
-    result[:up_to_date]
+    self.class.uptodate? @app_id, version
   end
 
   # Creates a stats object for the given user and this game
