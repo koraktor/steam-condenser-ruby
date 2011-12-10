@@ -6,6 +6,7 @@
 require 'open-uri'
 require 'rexml/document'
 
+require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
 require 'steam/community/steam_id'
 
@@ -78,11 +79,15 @@ class SteamGroup
       url = open("#{base_url}/memberslistxml?p=#{page}", {:proxy => true})
       member_data = REXML::Document.new(url.read).root
 
-      @group_id64 = member_data.elements['groupID64'].text.to_i if page == 1
-      total_pages = member_data.elements['totalPages'].text.to_i
+      begin
+        @group_id64 = member_data.elements['groupID64'].text.to_i if page == 1
+        total_pages = member_data.elements['totalPages'].text.to_i
 
-      member_data.elements['members'].elements.each do |member|
-        @members << SteamId.new(member.text.to_i, false)
+        member_data.elements['members'].elements.each do |member|
+          @members << SteamId.new(member.text.to_i, false)
+        end
+      rescue
+        raise SteamCondenserError, 'XML data could not be parsed.'
       end
     end while page < total_pages
 
