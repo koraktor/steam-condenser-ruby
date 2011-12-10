@@ -39,6 +39,22 @@ class SteamGame
     @@games.key?(app_id) ? @@games[app_id] : super(app_id, game_data)
   end
 
+  # Checks if a game is up-to-date by reading information from a `steam.inf`
+  # file and comparing it using the Web API
+  #
+  # @param [String] path The file system path of the `steam.inf` file
+  # @return [Boolean] `true` if the game is up-to-date
+  def self.check_steam_inf(path)
+    steam_inf = File.read path
+    begin
+      app_id = steam_inf.match(/^\s*appID=(\d+)\s*$/im)[1].to_i
+      version = steam_inf.match(/^\s*PatchVersion=([\d\.]+)\s*$/im)[1].gsub('.', '').to_i
+    rescue
+      raise SteamCondenserError, "The steam.inf file at \"#{path}\" is invalid."
+    end
+    uptodate? app_id, version
+  end
+
   # Returns whether the given version of the game with the given application ID
   # is up-to-date
   #
