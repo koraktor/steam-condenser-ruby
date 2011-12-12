@@ -26,12 +26,20 @@ class Test::Unit::TestCase
     assert !boolean, message
   end
 
-  # Reads a file with fixtures from `./test/`
+  # Reads the contents of a fixture file from `./test/`
   #
   # @param [String] name The name of the fixtures file
   # @return [String] The contents of the file
   def fixture(name)
-    File.read File.join(File.dirname(__FILE__), 'fixtures', name)
+    fixture_io(name).read
+  end
+
+  # Opens a file with fixtures from `./test/`
+  #
+  # @param [String] name The name of the fixtures file
+  # @return [File] The file handle
+  def fixture_io(name)
+    File.open File.join(File.dirname(__FILE__), 'fixtures', name)
   end
 
 end

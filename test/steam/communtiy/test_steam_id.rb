@@ -43,7 +43,7 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     should 'be able to fetch its data' do
-      url = mock :read => fixture('sonofthor.xml')
+      url = fixture_io 'sonofthor.xml'
       SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
       steam_id = SteamId.new 'Son_of_Thor'
@@ -86,7 +86,7 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'raise an exception when parsing invalid XML' do
       error = assert_raises SteamCondenserError do
-        url = mock :read => fixture('invalid.xml')
+        url = fixture_io 'invalid.xml'
         SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
         SteamId.new 'Son_of_Thor'

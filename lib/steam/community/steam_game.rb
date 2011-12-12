@@ -35,7 +35,7 @@ class SteamGame
   # @param [REXML::Element] game_data The XML data of the game
   # @see #initialize
   def self.new(game_data)
-    app_id = game_data.elements['appID'].text.to_i
+    app_id = game_data['appID'].to_i
     @@games.key?(app_id) ? @@games[app_id] : super(app_id, game_data)
   end
 
@@ -125,11 +125,9 @@ class SteamGame
   # @param [REXML::Element] game_data The XML data of the game
   def initialize(app_id, game_data)
     @app_id = app_id
-    @name   = game_data.elements['name'].text
-    if game_data.elements['globalStatsLink'].nil?
-      @short_name = nil
-    else
-      @short_name = game_data.elements['globalStatsLink'].text.match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
+    @name   = game_data['name']
+    if game_data.key? 'globalStatsLink'
+      @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
     end
 
     @@games[@app_id] = self

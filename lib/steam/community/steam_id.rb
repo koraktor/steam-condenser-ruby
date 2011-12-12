@@ -4,14 +4,13 @@
 # Copyright (c) 2008-2011, Sebastian Staudt
 
 require 'cgi'
-require 'open-uri'
-require 'rexml/document'
 
 require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
 require 'steam/community/game_stats'
 require 'steam/community/steam_game'
 require 'steam/community/steam_group'
+require 'steam/community/xml_data'
 
 # The SteamId class represents a Steam Community profile (also called Steam ID)
 #
@@ -20,6 +19,8 @@ class SteamId
 
   include Cacheable
   cacheable_with_ids :custom_url, :steam_id64
+
+  include XMLData
 
   # Returns the custom URL of this Steam ID
   #
@@ -202,17 +203,13 @@ class SteamId
   # @param [Boolean] fetch if `true` the Steam ID's data is loaded into the
   #        object
   def initialize(id, fetch = true)
-    begin
-      if id.is_a? Numeric
-        @steam_id64 = id
-      else
-        @custom_url = id.downcase
-      end
-
-      super(fetch)
-    rescue REXML::ParseException
-      raise SteamCondenserError, 'SteamID could not be loaded.'
+    if id.is_a? Numeric
+      @steam_id64 = id
+    else
+      @custom_url = id.downcase
     end
+
+    super fetch
   end
 
   # Returns whether the owner of this SteamID is VAC banned
@@ -243,69 +240,69 @@ class SteamId
   #        when it is private
   # @see Cacheable#fetch
   def fetch
-    profile_url = open(base_url + '?xml=1', {:proxy => true})
-    profile = REXML::Document.new(profile_url.read).root
-
-    unless REXML::XPath.first(profile, 'error').nil?
-      raise SteamCondenserError, profile.elements['error'].text
-    end
-
-    unless REXML::XPath.first(profile, 'privacyMessage').nil?
-      raise SteamCondenserError, profile.elements['privacyMessage'].text
-    end
-
     begin
-      @nickname         = CGI.unescapeHTML profile.elements['steamID'].text
-      @steam_id64       = profile.elements['steamID64'].text.to_i
-      @limited          = (profile.elements['isLimitedAccount'].text.to_i == 1)
-      @trade_ban_state  = profile.elements['tradeBanState'].text
-      @vac_banned       = (profile.elements['vacBanned'].text == 1)
+      profile = parse "#{base_url}?xml=1"
 
-      @image_url        = profile.elements['avatarIcon'].text[0..-5]
-      @online_state     = profile.elements['onlineState'].text
-      @privacy_state    = profile.elements['privacyState'].text
-      @state_message    = profile.elements['stateMessage'].text
-      @visibility_state = profile.elements['visibilityState'].text.to_i
+      if profile.key? 'error'
+        raise SteamCondenserError, profile['error']
+      end
+
+      if profile.key? 'privacyMessage'
+        raise SteamCondenserError, profile['privacyMessage']
+      end
+
+      @nickname         = CGI.unescapeHTML profile['steamID']
+      @steam_id64       = profile['steamID64'].to_i
+      @limited          = (profile['isLimitedAccount'].to_i == 1)
+      @trade_ban_state  = profile['tradeBanState']
+      @vac_banned       = (profile['vacBanned'].to_i == 1)
+
+      @image_url        = profile['avatarIcon'][0..-5]
+      @online_state     = profile['onlineState']
+      @privacy_state    = profile['privacyState']
+      @state_message    = profile['stateMessage']
+      @visibility_state = profile['visibilityState'].to_i
 
       if public?
-        @custom_url                       = profile.elements['customURL'].text.downcase
-        @custom_url                       = nil if @custom_url.empty?
+        @custom_url = profile['customURL'].downcase
+        @custom_url = nil if @custom_url.empty?
 
-        unless REXML::XPath.first(profile, 'favoriteGame').nil?
-          @favorite_game                  = profile.elements['favoriteGame/name'].text
-          @favorite_game_hours_played     = profile.elements['favoriteGame/hoursPlayed2wk'].text
+        if profile.key? 'favoriteGame'
+          @favorite_game              = profile['favoriteGame']['name']
+          @favorite_game_hours_played = profile['favoriteGame']['hoursPlayed2wk']
         end
 
-        @head_line    = CGI.unescapeHTML profile.elements['headline'].text
-        @hours_played = profile.elements['hoursPlayed2Wk'].text.to_f
-        @location     = profile.elements['location'].text
-        @member_since = Time.parse(profile.elements['memberSince'].text)
-        @real_name    = CGI.unescapeHTML profile.elements['realname'].text
-        @steam_rating = profile.elements['steamRating'].text.to_f
-        @summary      = CGI.unescapeHTML profile.elements['summary'].text
+        @head_line    = CGI.unescapeHTML profile['headline']
+        @hours_played = profile['hoursPlayed2Wk'].to_f
+        @location     = profile['location']
+        @member_since = Time.parse profile['memberSince']
+        @real_name    = CGI.unescapeHTML profile['realname']
+        @steam_rating = profile['steamRating'].to_f
+        @summary      = CGI.unescapeHTML profile['summary']
 
         @most_played_games = {}
-        unless REXML::XPath.first(profile, 'mostPlayedGames').nil?
-          profile.elements.each('mostPlayedGames/mostPlayedGame') do |most_played_game|
-            @most_played_games[most_played_game.elements['gameName'].text] = most_played_game.elements['hoursPlayed'].text.to_f
+        if profile.key? 'mostPlayedGames'
+          [profile['mostPlayedGames']['mostPlayedGame']].flatten.each do |most_played_game|
+            @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
           end
         end
 
         @groups = []
-        unless REXML::XPath.first(profile, 'groups').nil?
-          profile.elements.each('groups/group') do |group|
-            @groups << SteamGroup.new(group.elements['groupID64'].text.to_i, false)
+        if profile.key? 'groups'
+          [profile['groups']['group']].flatten.each do |group|
+            @groups << SteamGroup.new(group['groupID64'].to_i, false)
           end
         end
 
         @links = {}
-        unless REXML::XPath.first(profile, 'weblinks').nil?
-          profile.elements.each('weblinks/weblink') do |link|
-            @links[CGI.unescapeHTML link.elements['title'].text] = link.elements['link'].text
+        if profile.key? 'weblinks'
+          [profile['weblinks']['weblink']].flatten.each do |link|
+            @links[CGI.unescapeHTML link['title']] = link['link']
           end
         end
       end
     rescue
+      raise $! if $!.is_a? SteamCondenserError
       raise SteamCondenserError, 'XML data could not be parsed.'
     end
 
@@ -320,12 +317,10 @@ class SteamId
   # @see #friends
   # @see #initialize
   def fetch_friends
-    url = "#{base_url}/friends?xml=1"
-
     @friends = []
-    friends_data = REXML::Document.new(open(url, {:proxy => true}).read).root
-    friends_data.elements.each('friends/friend') do |friend|
-      @friends << SteamId.new(friend.text.to_i, false)
+    friends_data = parse "#{base_url}/friends?xml=1"
+    friends_data['friends']['friend'].each do |friend|
+      @friends << SteamId.new(friend.to_i, false)
     end
   end
 
@@ -337,20 +332,18 @@ class SteamId
   #
   # @see #games
   def fetch_games
-    url = "#{base_url}/games?xml=1"
-
     @games     = {}
     @playtimes = {}
-    games_data = REXML::Document.new(open(url, {:proxy => true}).read).root
-    games_data.elements.each('games/game') do |game_data|
-      game = SteamGame.new(game_data)
+    games_data = parse "#{base_url}/games?xml=1"
+    [games_data['games']['game']].flatten.each do |game_data|
+      game = SteamGame.new game_data
       @games[game.app_id] = game
       recent = total = 0
-      unless game_data.elements['hoursLast2Weeks'].nil?
-        recent = game_data.elements['hoursLast2Weeks'].text.to_f
+      if game_data.key? 'hoursLast2Weeks'
+        recent = game_data['hoursLast2Weeks'].to_f
       end
-      unless game_data.elements['hoursOnRecord'].nil?
-        total = game_data.elements['hoursOnRecord'].text.to_f
+      if game_data.key? 'hoursOnRecord'
+        total = game_data['hoursOnRecord'].to_f
       end
       @playtimes[game.app_id] = [(recent * 60).to_i, (total * 60).to_i]
     end
