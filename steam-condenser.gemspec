@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'bzip2-ruby', '~> 0.2.7'
   s.add_dependency 'multi_json', '~> 1.0.3'
+  s.add_dependency 'multi_xml', '~> 0.4.1'
 
   s.add_development_dependency 'mocha', '~> 0.10.0'
   s.add_development_dependency 'rake', '~> 0.9.2'
