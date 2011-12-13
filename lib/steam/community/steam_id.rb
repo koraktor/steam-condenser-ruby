@@ -279,7 +279,7 @@ class SteamId
         end
 
         @links = {}
-        unless REXML::XPath.first(profile, 'mostPlayedGames').nil?
+        unless REXML::XPath.first(profile, 'weblinks').nil?
           profile.elements.each('weblinks/weblink') do |link|
             @links[CGI.unescapeHTML link.elements['title'].text] = link.elements['link'].text
           end
