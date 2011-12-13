@@ -69,9 +69,7 @@ class GameLeaderboard
   # @param [String] game_name The name of the game
   # @return [Array<GameLeaderboard>] The leaderboards for this game
   def self.leaderboards(game_name)
-      unless @@leaderboards.key? game_name
-        self.load_game_leaderboards game_name
-      end
+    self.load_leaderboards game_name unless @@leaderboards.key? game_name
 
     @@leaderboards[game_name]
   end
@@ -184,11 +182,11 @@ class GameLeaderboard
   # @param [String] game_name The short name of the game
   # @raise [SteamCondenserException] if an error occurs while fetching the
   #         leaderboards
-  def self.load_leaderboards(game_ame)
+  def self.load_leaderboards(game_name)
     url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
     boards_data = REXML::Document.new(open(url, {:proxy => true}).read).root
 
-    error = @xml_data.elements['error']
+    error = boards_data.elements['error']
     raise SteamCondenserError, error.text unless error.nil?
 
     @@leaderboards[game_name] = []
