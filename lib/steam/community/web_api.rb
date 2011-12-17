@@ -39,6 +39,18 @@ module WebApi
     @@api_key = api_key
   end
 
+  # Returns a raw list of interfaces and their methods that are available in
+  # Steam's Web API
+  #
+  # This can be used for reference when accessing interfaces and methods that
+  # have not yet been implemented by Steam Condenser.
+  #
+  # @return [Array<Hash>] The list of interfaces and methods
+  def self.interfaces
+    data = json 'ISteamWebAPIUtil', 'GetSupportedAPIList'
+    MultiJson.decode(data, { :symbolize_keys => true })[:apilist][:interfaces]
+  end
+
   # Fetches JSON data from Steam Web API using the specified interface, method
   # and version. Additional parameters are supplied via HTTP GET.
   # Data is returned as a JSON-encoded string.
