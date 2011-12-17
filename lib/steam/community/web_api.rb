@@ -16,6 +16,8 @@ require 'errors/web_api_error'
 # @author Sebastian
 module WebApi
 
+  @@api_key = nil
+
   # Returns the Steam Web API key currently used by Steam Condenser
   #
   # @return [String] The currently active Steam Web API key
