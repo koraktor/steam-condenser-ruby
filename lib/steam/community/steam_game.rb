@@ -60,6 +60,13 @@ class SteamGame
     GameLeaderboard.leaderboards @short_name
   end
 
+  # Returns a link to this game's page in the Steam Store
+  #
+  # @return [String] This game's store page
+  def store_link
+    "http://store.steampowered.com/app/#{@app_id}"
+  end
+
   # Creates a stats object for the given user and this game
   #
   # @param [String, Fixnum] steam_id The custom URL or the 64bit Steam ID of
