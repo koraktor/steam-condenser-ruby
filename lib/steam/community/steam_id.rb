@@ -138,7 +138,7 @@ class SteamId
   #        Community
   # @raise [SteamCondenserError] if the community ID is to small
   # @return [String] The converted SteamID, like `STEAM_0:0:12345`
-  def self.convert_community_id_to_steam_id(community_id)
+  def self.community_id_to_steam_id(community_id)
     steam_id1 = community_id % 2
     steam_id2 = community_id - 76561197960265728
 
@@ -159,7 +159,7 @@ class SteamId
   # @raise [SteamCondenserError] if the SteamID doesn't have the correct
   #        format
   # @return [Fixnum] The converted 64bit numeric SteamID
-  def self.convert_steam_id_to_community_id(steam_id)
+  def self.steam_id_to_community_id(steam_id)
     if steam_id == 'STEAM_ID_LAN' || steam_id == 'BOT'
       raise SteamCondenserError, "Cannot convert SteamID \"#{steam_id}\" to a community ID."
     elsif steam_id.match(/^STEAM_[0-1]:[0-1]:[0-9]+$/).nil?
@@ -169,6 +169,11 @@ class SteamId
     steam_id = steam_id[6..-1].split(':').map!{|s| s.to_i}
 
     steam_id[1] + steam_id[2] * 2 + 76561197960265728
+  end
+
+  class << self
+    alias_method :convert_community_id_to_steam_id, :community_id_to_steam_id
+    alias_method :convert_steam_id_to_community_id, :steam_id_to_community_id
   end
 
   # Creates a new `SteamId` instance using a SteamID as used on servers
@@ -205,6 +210,14 @@ class SteamId
     end
   end
 
+  # Returns whether the owner of this SteamID is VAC banned
+  #
+  # @return [Boolean] `true` if the user has been banned by VAC
+  def banned?
+    @vac_banned
+  end
+  alias_method :is_banned?, :banned?
+
   # Returns the base URL for this Steam ID
   #
   # This URL is different for Steam IDs having a custom URL.
@@ -235,7 +248,7 @@ class SteamId
     unless REXML::XPath.first(profile, 'privacyMessage').nil?
       raise SteamCondenserError, profile.elements['privacyMessage'].text
     end
-    
+
     begin
       @nickname         = CGI.unescapeHTML profile.elements['steamID'].text
       @steam_id64       = profile.elements['steamID64'].text.to_i
@@ -396,26 +409,13 @@ class SteamId
     "#{@image_url}.jpg"
   end
 
-  # Returns whether the owner of this SteamID is VAC banned
-  #
-  # @return [Boolean] `true` if the user has been banned by VAC
-  def is_banned?
-    @vac_banned
-  end
-
   # Returns whether the owner of this SteamId is playing a game
   #
   # @return [Boolean] `true` if the user is in-game
-  def is_in_game?
+  def in_game?
     @online_state == 'in-game'
   end
-
-  # Returns whether the owner of this SteamID is currently logged into Steam
-  #
-  # @return [Boolean] `true` if the user is online
-  def is_online?
-    @online_state != 'offline'
-  end
+  alias_method :is_in_game?, :in_game?
 
   # Returns the URL of the medium-sized version of this user's avatar
   #
@@ -423,6 +423,14 @@ class SteamId
   def medium_avatar_url
     "#{@image_url}_medium.jpg"
   end
+
+  # Returns whether the owner of this SteamID is currently logged into Steam
+  #
+  # @return [Boolean] `true` if the user is online
+  def online?
+    @online_state != 'offline'
+  end
+  alias_method :is_online?, :online?
 
   # Returns the time in minutes this user has played this game in the last two
   # weeks
