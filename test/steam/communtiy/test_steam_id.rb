@@ -49,7 +49,25 @@ class TestSteamId < Test::Unit::TestCase
       steam_id = SteamId.new 'Son_of_Thor'
 
       assert_equal 76561197983311154, steam_id.steam_id64
+      assert_equal 'son_of_thor', steam_id.custom_url
+      assert_equal 'Bellevue, Washington, United States', steam_id.location
+      assert_equal 'Dad serious.', steam_id.head_line
+      assert_equal 'Son of Thor', steam_id.nickname
+      assert_equal 'Torsten Zabka', steam_id.real_name
+      assert_equal 'Last Online: 3 days ago', steam_id.state_message
+      assert_equal 'We jump that fence when we get to it.', steam_id.summary
+      assert_equal 'None', steam_id.trade_ban_state
+
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/b8/b8438d91481295b7cc8da9578004cd63a2c3b2e4_full.jpg', steam_id.full_avatar_url
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/b8/b8438d91481295b7cc8da9578004cd63a2c3b2e4.jpg', steam_id.icon_url
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/b8/b8438d91481295b7cc8da9578004cd63a2c3b2e4_medium.jpg', steam_id.medium_avatar_url
+
+      assert_not steam_id.banned?
+      assert_not steam_id.limited?
+      assert_not steam_id.online?
       assert steam_id.fetched?
+
+      assert steam_id.public?
     end
 
     should 'be found by the 64bit SteamID' do
