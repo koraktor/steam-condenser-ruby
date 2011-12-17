@@ -126,6 +126,11 @@ class SteamId
   # @return [String] This user's summary
   attr_reader :summary
 
+  # Returns this user's ban state in Steam's trading system
+  #
+  # @return [String] This user's trading ban state
+  attr_reader :trade_ban_state
+
   # Returns the visibility state of this Steam ID
   #
   # @return [Fixnum] This Steam ID's visibility State
@@ -252,6 +257,8 @@ class SteamId
     begin
       @nickname         = CGI.unescapeHTML profile.elements['steamID'].text
       @steam_id64       = profile.elements['steamID64'].text.to_i
+      @limited          = (profile.elements['isLimitedAccount'].text == 1)
+      @trade_ban_state  = profile.elements['tradeBanState'].text
       @vac_banned       = (profile.elements['vacBanned'].text == 1)
 
       @image_url        = profile.elements['avatarIcon'].text[0..-5]
@@ -416,6 +423,13 @@ class SteamId
     @online_state == 'in-game'
   end
   alias_method :is_in_game?, :in_game?
+
+  # Returns whether this Steam account is limited
+  #
+  # @return [Boolean] `true` if this account is limited
+  def limited?
+    @limited
+  end
 
   # Returns the URL of the medium-sized version of this user's avatar
   #
