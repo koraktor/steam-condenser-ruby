@@ -267,7 +267,7 @@ class SteamId
       @state_message    = profile.elements['stateMessage'].text
       @visibility_state = profile.elements['visibilityState'].text.to_i
 
-      if @privacy_state == 'public'
+      if public?
         @custom_url                       = profile.elements['customURL'].text.downcase
         @custom_url                       = nil if @custom_url.empty?
 
@@ -445,6 +445,13 @@ class SteamId
     @online_state != 'offline'
   end
   alias_method :is_online?, :online?
+
+  # Returns whether this Steam ID is publicly accessible
+  #
+  # @return [Boolean] `true` if this Steam ID is public
+  def public?
+    @privacy_state == 'public'
+  end
 
   # Returns the time in minutes this user has played this game in the last two
   # weeks
