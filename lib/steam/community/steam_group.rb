@@ -3,12 +3,10 @@
 #
 # Copyright (c) 2008-2011, Sebastian Staudt
 
-require 'open-uri'
-require 'rexml/document'
-
 require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
 require 'steam/community/steam_id'
+require 'steam/community/xml_data'
 
 # The SteamGroup class represents a group in the Steam Community
 #
@@ -17,6 +15,8 @@ class SteamGroup
 
   include Cacheable
   cacheable_with_ids :custom_url, :group_id64
+
+  include XMLData
 
   # Returns the custom URL of this group
   #
@@ -38,18 +38,14 @@ class SteamGroup
   # @param [Boolean] fetch if `true` the groups's data is loaded into the
   #        object
   def initialize(id, fetch = true)
-    begin
-      if id.is_a? Numeric
-        @group_id64 = id
-      else
-        @custom_url = id.downcase
-      end
-      @members = []
-
-      super(fetch)
-    rescue REXML::ParseException
-      raise SteamCondenserError, 'Group could not be loaded.'
+    if id.is_a? Numeric
+      @group_id64 = id
+    else
+      @custom_url = id.downcase
     end
+    @members = []
+
+    super fetch
   end
 
   # Returns the base URL for this group's page
@@ -115,16 +111,15 @@ class SteamGroup
   # @param [Fixnum] page The member page to fetch
   # @return [Fixnum] The total number of pages of this group's member listing
   def fetch_page(page)
-    url = open "#{base_url}/memberslistxml?p=#{page}", { :proxy => true }
-    member_data = REXML::Document.new(url.read).root
+    member_data = parse "#{base_url}/memberslistxml?p=#{page}"
 
     begin
-      @group_id64   = member_data.elements['groupID64'].text.to_i if page == 1
-      @member_count = member_data.elements['memberCount'].text.to_i
-      total_pages   = member_data.elements['totalPages'].text.to_i
+      @group_id64   = member_data['groupID64'].to_i if page == 1
+      @member_count = member_data['memberCount'].to_i
+      total_pages   = member_data['totalPages'].to_i
 
-      member_data.elements['members'].elements.each do |member|
-        @members << SteamId.new(member.text.to_i, false)
+      member_data['members']['steamID64'].each do |member|
+        @members << SteamId.new(member.to_i, false)
       end
     rescue
       raise SteamCondenserError, 'XML data could not be parsed.'

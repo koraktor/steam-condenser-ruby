@@ -29,7 +29,7 @@ class TestSteamGroup < Test::Unit::TestCase
     end
 
     should 'be able to fetch its members' do
-      url = mock :read => fixture('valve-members.xml')
+      url = fixture_io 'valve-members.xml'
       SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 
       group = SteamGroup.new 'valve'
@@ -58,7 +58,7 @@ class TestSteamGroup < Test::Unit::TestCase
 
     should 'raise an exception when parsing invalid XML' do
       error = assert_raises SteamCondenserError do
-        url = mock :read => fixture('invalid.xml')
+        url = fixture_io 'invalid.xml'
         SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 
         SteamGroup.new 'valve'
@@ -67,7 +67,7 @@ class TestSteamGroup < Test::Unit::TestCase
     end
 
     should 'be able to parse just the member count' do
-      url = mock :read => fixture('valve-members.xml')
+      url = fixture_io 'valve-members.xml'
       SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 
       group = SteamGroup.new 'valve', false
