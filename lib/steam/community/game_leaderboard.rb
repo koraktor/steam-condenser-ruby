@@ -3,8 +3,8 @@
 #
 # Copyright (c) 2011, Sebastian Staudt
 
-require 'steam/community/game_leaderboard_entry';
-require 'steam/community/steam_id';
+require 'steam/community/game_leaderboard_entry'
+require 'steam/community/steam_id'
 
 # The GameLeaderboard class represents a single leaderboard for a specific game
 #
