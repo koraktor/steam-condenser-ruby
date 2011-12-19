@@ -257,7 +257,7 @@ class SteamId
     begin
       @nickname         = CGI.unescapeHTML profile.elements['steamID'].text
       @steam_id64       = profile.elements['steamID64'].text.to_i
-      @limited          = (profile.elements['isLimitedAccount'].text == 1)
+      @limited          = (profile.elements['isLimitedAccount'].text.to_i == 1)
       @trade_ban_state  = profile.elements['tradeBanState'].text
       @vac_banned       = (profile.elements['vacBanned'].text == 1)
 
