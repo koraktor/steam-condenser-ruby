@@ -8,9 +8,7 @@ require 'steam/community/tf2/tf2_class'
 # Represents the stats for the Team Fortress 2 Medic class for a specific user
 #
 # @author Sebastian Staudt
-class TF2Medic
-
-  include TF2Class
+class TF2Medic < TF2Class
 
   # Returns the maximum health healed for teammates by the player in a
   # single life as a Medic

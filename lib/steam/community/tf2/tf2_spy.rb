@@ -8,9 +8,7 @@ require 'steam/community/tf2/tf2_class'
 # Represents the stats for the Team Fortress 2 Spy class for a specific user
 #
 # @author Sebastian Staudt
-class TF2Spy
-
-  include TF2Class
+class TF2Spy < TF2Class
 
   # Returns the maximum number enemies killed with a backstab by the player in
   # a single life as a Spy

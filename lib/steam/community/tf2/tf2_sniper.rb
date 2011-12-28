@@ -8,9 +8,7 @@ require 'steam/community/tf2/tf2_class'
 # Represents the stats for the Team Fortress 2 Sniper class for a specific user
 #
 # @author Sebastian Staudt
-class TF2Sniper
-
-  include TF2Class
+class TF2Sniper < TF2Class
 
   # Returns the maximum number enemies killed with a headshot by the player in
   # a single life as a Sniper

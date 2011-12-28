@@ -9,9 +9,7 @@ require 'steam/community/tf2/tf2_class'
 # user
 #
 # @author Sebastian Staudt
-class TF2Engineer
-
-  include TF2Class
+class TF2Engineer < TF2Class
 
   # Returns the maximum number of buildings built by the player in a single
   # life as an Engineer

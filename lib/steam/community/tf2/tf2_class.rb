@@ -8,7 +8,7 @@ require 'steam/community/game_class'
 # Represents the stats for a Team Fortress 2 class for a specific user
 #
 # @author Sebastian Staudt
-module TF2Class
+class TF2Class
 
   include GameClass
 
