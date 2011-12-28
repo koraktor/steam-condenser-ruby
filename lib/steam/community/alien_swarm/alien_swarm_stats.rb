@@ -17,7 +17,7 @@ class AlienSwarmStats < GameStats
   attr_reader :lifetime_stats
 
   # The base URL for all images referenced in the stats
-  BASE_URL = 'http://steamcommunity.com/public/images/gamestats/swarm/'
+  BASE_URL = 'http://cdn.steamcommunity.com/public/images/gamestats/swarm/'
 
   # The names of all weapons in Alien Swarm
   WEAPONS = [ 'Autogun', 'Cannon_Sentry', 'Chainsaw', 'Flamer',

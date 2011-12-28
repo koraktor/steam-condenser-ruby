@@ -45,7 +45,7 @@ class L4D2Map < L4DMap
   #
   # @param [REXML::Element] map_data The XML data for this map
   def initialize(map_data)
-    @id        = map_data.elements['img'].text.match(/http:\/\/steamcommunity\.com\/public\/images\/gamestats\/550\/(.*).jpg/)[1]
+    @id        = map_data.elements['img'].text.match(/http:\/\/cdn\.steamcommunity\.com\/public\/images\/gamestats\/550\/(.*).jpg/)[1]
     @name      = map_data.elements['name'].text
     @played    = (map_data.elements['hasPlayed'].text.to_i == 1)
 
