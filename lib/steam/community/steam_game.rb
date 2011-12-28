@@ -32,7 +32,7 @@ class SteamGame
   # Creates a new or cached instance of the game specified by the given XML
   # data
   #
-  # @param [REXML::Element] game_data The XML data of the game
+  # @param [Hash<String, Object>] game_data The XML data of the game
   # @see #initialize
   def self.new(game_data)
     app_id = game_data['appID'].to_i
@@ -122,7 +122,7 @@ class SteamGame
   # Creates a new instance of a game with the given data and caches it
   #
   # @param [Fixnum] app_id The application ID of the game
-  # @param [REXML::Element] game_data The XML data of the game
+  # @param [Hash<String, Object>] game_data The XML data of the game
   def initialize(app_id, game_data)
     @app_id = app_id
     @name   = game_data['name']
