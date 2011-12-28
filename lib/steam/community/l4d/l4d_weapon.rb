@@ -15,11 +15,12 @@ class L4DWeapon
 
   # Creates a new instance of a weapon based on the given XML data
   #
-  # @param [REXML::Element] weapon_data The XML data for this weapon
-  def initialize(weapon_data)
-    super weapon_data
+  # @param [String] weapon_name The name of this weapon
+  # @param [Hash<String, Object>] weapon_data The XML data of this weapon
+  def initialize(weapon_name, weapon_data)
+    super
 
-    @kill_percentage = weapon_data.elements['killpct'].text.to_f * 0.01
+    @kill_percentage = weapon_data['killpct'].to_f * 0.01
   end
 
 end

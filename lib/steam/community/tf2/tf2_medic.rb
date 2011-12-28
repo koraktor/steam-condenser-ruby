@@ -24,12 +24,12 @@ class TF2Medic < TF2Class
 
   # Creates a new instance of the Medic class based on the given XML data
   #
-  # @param [REXML::Element] class_data The XML data for this Medic
+  # @param [Hash<String, Object>] class_data The XML data for this Medic
   def initialize(class_data)
     super class_data
 
-    @max_health_healed = class_data.elements['ihealthpointshealed'].text.to_i
-    @max_ubercharges   = class_data.elements['inuminvulnerable'].text.to_i
+    @max_health_healed = class_data['ihealthpointshealed'].to_i
+    @max_ubercharges   = class_data['inuminvulnerable'].to_i
   end
 
 end

@@ -43,31 +43,31 @@ class L4D2Map < L4DMap
   # information than those for Left4Dead, e.g. the teammates and items are
   # listed.
   #
-  # @param [REXML::Element] map_data The XML data for this map
+  # @param [Hash<String, Object>] map_data The XML data for this map
   def initialize(map_data)
-    @id        = map_data.elements['img'].text.match(/http:\/\/cdn\.steamcommunity\.com\/public\/images\/gamestats\/550\/(.*).jpg/)[1]
-    @name      = map_data.elements['name'].text
-    @played    = (map_data.elements['hasPlayed'].text.to_i == 1)
+    @id        = map_data['img'].match(/http:\/\/cdn\.steamcommunity\.com\/public\/images\/gamestats\/550\/(.*).jpg/)[1]
+    @name      = map_data['name']
+    @played    = (map_data['hasPlayed'].to_i == 1)
 
     if @played
-      @best_time = map_data.elements['besttimemilliseconds'].text.to_f / 1000
+      @best_time = map_data['besttimemilliseconds'].to_f / 1000
 
       @teammates = []
-      map_data.elements.each('teammates/steamID64') do |teammate|
-        @teammates << SteamId.new(teammate.text, false)
+      map_data['teammates']['steamID64'].each do |teammate|
+        @teammates << SteamId.new(teammate, false)
       end
 
       @items = {}
       ITEMS.each do |item|
-        @items[item] = map_data.elements["items_#{item}"].text.to_i
+        @items[item] = map_data["items_#{item}"].to_i
       end
 
       @kills = {}
       INFECTED.each do |infected|
-        @kills[infected] = map_data.elements["kills_#{infected}"].text.to_i
+        @kills[infected] = map_data["kills_#{infected}"].to_i
       end
 
-      case map_data.elements['medal'].text
+      case map_data['medal']
         when 'gold'
           @medal = L4D2Map::GOLD
         when 'silver'

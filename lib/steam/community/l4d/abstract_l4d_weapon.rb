@@ -42,14 +42,15 @@ module AbstractL4DWeapon
   # Creates a new instance of weapon from the given XML data and parses common
   # data for both, `L4DWeapon` and `L4D2Weapon`
   #
-  # @param [REXML::Element] weapon_data The XML data for this weapon
-  def initialize(weapon_data)
+  # @param [String] weapon_name The name of this weapon
+  # @param [Hash<String, Object>] weapon_data The XML data for this weapon
+  def initialize(weapon_name, weapon_data)
     super weapon_data
 
-    @accuracy             = weapon_data.elements['accuracy'].text.to_f * 0.01
-    @headshots_percentage = weapon_data.elements['headshots'].text.to_f * 0.01
-    @id                   = weapon_data.name
-    @shots                = weapon_data.elements['shots'].text.to_i
+    @accuracy             = weapon_data['accuracy'].to_f * 0.01
+    @headshots_percentage = weapon_data['headshots'].to_f * 0.01
+    @id                   = weapon_name
+    @shots                = weapon_data['shots'].to_i
   end
 
 end

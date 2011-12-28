@@ -15,12 +15,13 @@ class L4DExplosive
 
   # Creates a new instance of an explosivve based on the given XML data
   #
-  # @param [REXML::Element] weapon_data The XML data of this explosive
-  def initialize(weapon_data)
+  # @param [String] weapon_name The name of this weapon
+  # @param [Hash<String, Object>] weapon_data The XML data of this weapon
+  def initialize(weapon_name, weapon_data)
     super weapon_data
 
-    @id    = weapon_data.name
-    @shots = weapon_data.elements['thrown'].text.to_i
+    @id    = weapon_name
+    @shots = weapon_data['thrown'].to_i
   end
 
   # Returns the average number of killed zombies for one shot of this explosive

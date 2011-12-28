@@ -26,9 +26,9 @@ module GameWeapon
 
   # Creates a new game weapon instance with the data provided
   #
-  # @param [REXML::Element] weapon_data The data representing this weapon
+  # @param [Hash<String, Object>] weapon_data The data representing this weapon
   def initialize(weapon_data)
-    @kills = weapon_data.elements['kills'].text.to_i
+    @kills = weapon_data['kills'].to_i
   end
 
   # Returns the average number of shots needed for a kill with this weapon

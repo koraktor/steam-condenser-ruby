@@ -3,11 +3,9 @@
 #
 # Copyright (c) 2008-2011, Sebastian Staudt
 
-require 'open-uri'
-require 'rexml/document'
-
 require 'steam/community/game_achievement'
 require 'steam/community/game_leaderboard'
+require 'steam/community/xml_data'
 
 # This class represents the game statistics for a single user and a specific
 # game
@@ -17,6 +15,8 @@ require 'steam/community/game_leaderboard'
 #
 # @author Sebastian Staudt
 class GameStats
+
+  include XMLData
 
   # Returns the Steam application ID of the game these stats belong to
   #
@@ -106,19 +106,18 @@ class GameStats
     end
     @game_friendly_name = game_name
 
-    url = base_url + '?xml=all'
-    @xml_data = REXML::Document.new(open(url, {:proxy => true}).read).root
+    @xml_data = parse "#{base_url}?xml=all"
 
-    error = @xml_data.elements['error']
-    raise SteamCondenserError, error.text unless error.nil?
+    error = @xml_data['error']
+    raise SteamCondenserError, error unless error.nil?
 
-    @privacy_state = @xml_data.elements['privacyState'].text
+    @privacy_state = @xml_data['privacyState']
     if public?
-      @app_id       = @xml_data.elements['game/gameLink'].text.match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
-      @custom_url   = @xml_data.elements['player/customURL'].text if @custom_url.nil?
-      @game_name    = @xml_data.elements['game/gameName'].text
-      @hours_played = @xml_data.elements['stats/hoursPlayed'].text unless @xml_data.elements['stats/hoursPlayed'].nil?
-      @steam_id64   = @xml_data.elements['player/steamID64'].text.to_i if @steam_id64.nil?
+      @app_id       = @xml_data['game']['gameLink'].match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
+      @custom_url   = @xml_data['player']['customURL'] if @custom_url.nil?
+      @game_name    = @xml_data['game']['gameName']
+      @hours_played = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
+      @steam_id64   = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
     end
   end
 
@@ -132,8 +131,8 @@ class GameStats
 
     if @achievements.nil?
       @achievements = Array.new
-      @xml_data.elements.each('achievements/achievement') do |achievement_data|
-        @achievements << GameAchievement.new(@steam_id64, @app_id, achievement_data)
+      @xml_data['achievements']['achievement'].each do |achievement|
+        @achievements << GameAchievement.new(@steam_id64, @app_id, achievement)
       end
 
       @achievements_done = @achievements.reject{ |a| !a.unlocked? }.size

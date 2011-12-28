@@ -28,8 +28,8 @@ class TF2Stats < GameStats
   def initialize(steam_id, beta = false)
     super steam_id, (beta ? '520' : 'tf2')
 
-    if public? && !@xml_data.elements['stats/accumulatedPoints'].nil?
-      @accumulated_points = @xml_data.elements['stats/accumulatedPoints'].text.to_i
+    if public? && !@xml_data['stats']['accumulatedPoints'].nil?
+      @accumulated_points = @xml_data['stats']['accumulatedPoints'].to_i
     end
   end
 
@@ -44,8 +44,8 @@ class TF2Stats < GameStats
 
     if @class_stats.nil?
       @class_stats = Hash.new
-      @xml_data.elements.each('stats/classData') do |class_data|
-        @class_stats[class_data.elements['className'].text] = TF2ClassFactory.tf2_class(class_data)
+      @xml_data['stats']['classData'].each do |class_data|
+        @class_stats[class_data['className']] = TF2ClassFactory.tf2_class(class_data)
       end
     end
 

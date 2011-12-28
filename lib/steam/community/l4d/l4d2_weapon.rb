@@ -25,13 +25,14 @@ class L4D2Weapon
 
   # Creates a new instance of a weapon based on the given XML data
   #
-  # @param [REXML::Element] weapon_data The XML data of this weapon
-  def initialize(weapon_data)
-    super weapon_data
+  # @param [String] weapon_name The name of this weapon
+  # @param [Hash<String, Object>] weapon_data The XML data of this weapon
+  def initialize(weapon_name, weapon_data)
+    super
 
-    @damage          = weapon_data.elements['damage'].text.to_i
-    @kill_percentage = weapon_data.elements['pctkills'].text.to_f * 0.01
-    @weapon_group    = weapon_data.attribute('group')
+    @damage          = weapon_data['damage'].to_i
+    @kill_percentage = weapon_data['pctkills'].to_f * 0.01
+    @weapon_group    = weapon_data['group']
   end
 
 end

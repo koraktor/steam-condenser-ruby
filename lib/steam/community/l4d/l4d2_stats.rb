@@ -33,10 +33,10 @@ class L4D2Stats < GameStats
     super steam_id, 'l4d2'
 
     @damage_percentages = {
-      :melee    => @xml_data.elements['stats/weapons/meleepctdmg'].text.to_f,
-      :pistols  => @xml_data.elements['stats/weapons/pistolspctdmg'].text.to_f,
-      :rifles   => @xml_data.elements['stats/weapons/bulletspctdmg'].text.to_f,
-      :shotguns => @xml_data.elements['stats/weapons/shellspctdmg'].text.to_f
+      :melee    => @xml_data['stats']['weapons']['meleepctdmg'].to_f,
+      :pistols  => @xml_data['stats']['weapons']['pistolspctdmg'].to_f,
+      :rifles   => @xml_data['stats']['weapons']['bulletspctdmg'].to_f,
+      :shotguns => @xml_data['stats']['weapons']['shellspctdmg'].to_f
     }
   end
 
@@ -56,9 +56,9 @@ class L4D2Stats < GameStats
 
     if @lifetime_stats.nil?
       super
-      @lifetime_stats[:avg_adrenaline_shared]   = @xml_data.elements['stats/lifetime/adrenalineshared'].text.to_f
-      @lifetime_stats[:avg_adrenaline_used]     = @xml_data.elements['stats/lifetime/adrenalineused'].text.to_f
-      @lifetime_stats[:avg_defibrillators_used] = @xml_data.elements['stats/lifetime/defibrillatorsused'].text.to_f
+      @lifetime_stats[:avg_adrenaline_shared]   = @xml_data['stats']['lifetime']['adrenalineshared'].to_f
+      @lifetime_stats[:avg_adrenaline_used]     = @xml_data['stats']['lifetime']['adrenalineused'].to_f
+      @lifetime_stats[:avg_defibrillators_used] = @xml_data['stats']['lifetime']['defibrillatorsused'].to_f
     end
 
     @lifetime_stats
@@ -76,32 +76,32 @@ class L4D2Stats < GameStats
 
     if @scavenge_stats.nil?
       @scavenge_stats = {}
-      @scavenge_stats[:avg_cans_per_round] = @xml_data.elements['stats/scavenge/avgcansperround'].text.to_f
-      @scavenge_stats[:perfect_rounds]     = @xml_data.elements['stats/scavenge/perfect16canrounds'].text.to_i
-      @scavenge_stats[:rounds_lost]        = @xml_data.elements['stats/scavenge/roundslost'].text.to_i
-      @scavenge_stats[:rounds_played]      = @xml_data.elements['stats/scavenge/roundsplayed'].text.to_i
-      @scavenge_stats[:rounds_won]         = @xml_data.elements['stats/scavenge/roundswon'].text.to_i
-      @scavenge_stats[:total_cans]         = @xml_data.elements['stats/scavenge/totalcans'].text.to_i
+      @scavenge_stats[:avg_cans_per_round] = @xml_data['stats']['scavenge']['avgcansperround'].to_f
+      @scavenge_stats[:perfect_rounds]     = @xml_data['stats']['scavenge']['perfect16canrounds'].to_i
+      @scavenge_stats[:rounds_lost]        = @xml_data['stats']['scavenge']['roundslost'].to_i
+      @scavenge_stats[:rounds_played]      = @xml_data['stats']['scavenge']['roundsplayed'].to_i
+      @scavenge_stats[:rounds_won]         = @xml_data['stats']['scavenge']['roundswon'].to_i
+      @scavenge_stats[:total_cans]         = @xml_data['stats']['scavenge']['totalcans'].to_i
 
       @scavenge_stats[:maps] = {}
-      @xml_data.elements.each('stats/scavenge/mapstats/map') do |map_data|
-        map_id = map_data.elements['name'].text
+      @xml_data['stats']['scavenge']['mapstats']['map'].each do |map_data|
+        map_id = map_data['name']
         @scavenge_stats[:maps][map_id] = {}
-        @scavenge_stats[:maps][map_id]['avg_round_score']     = map_data.elements['avgscoreperround'].text.to_i
-        @scavenge_stats[:maps][map_id]['highest_game_score']  = map_data.elements['highgamescore'].text.to_i
-        @scavenge_stats[:maps][map_id]['highest_round_score'] = map_data.elements['highroundscore'].text.to_i
-        @scavenge_stats[:maps][map_id]['name']                = map_data.elements['fullname'].text
-        @scavenge_stats[:maps][map_id]['rounds_played']       = map_data.elements['roundsplayed'].text.to_i
-        @scavenge_stats[:maps][map_id]['rounds_won']          = map_data.elements['roundswon'].text.to_i
+        @scavenge_stats[:maps][map_id]['avg_round_score']     = map_data['avgscoreperround'].to_i
+        @scavenge_stats[:maps][map_id]['highest_game_score']  = map_data['highgamescore'].to_i
+        @scavenge_stats[:maps][map_id]['highest_round_score'] = map_data['highroundscore'].to_i
+        @scavenge_stats[:maps][map_id]['name']                = map_data['fullname']
+        @scavenge_stats[:maps][map_id]['rounds_played']       = map_data['roundsplayed'].to_i
+        @scavenge_stats[:maps][map_id]['rounds_won']          = map_data['roundswon'].to_i
       end
 
       @scavenge_stats[:infected] = {}
-      @xml_data.elements.each('stats/scavenge/infectedstats/special') do |infected_data|
-        infected_id = infected_data.elements['name'].text
+      @xml_data['stats']['scavenge']['infectedstats']['special'].each do |infected_data|
+        infected_id = infected_data['name']
         @scavenge_stats[:infected][infected_id] = {}
-        @scavenge_stats[:infected][infected_id]['max_damage_per_life']   = infected_data.elements['maxdmg1life'].text.to_i
-        @scavenge_stats[:infected][infected_id]['max_pours_interrupted'] = infected_data.elements['maxpoursinterrupted'].text.to_i
-        @scavenge_stats[:infected][infected_id]['special_attacks']       = infected_data.elements['specialattacks'].text.to_i
+        @scavenge_stats[:infected][infected_id]['max_damage_per_life']   = infected_data['maxdmg1life'].to_i
+        @scavenge_stats[:infected][infected_id]['max_pours_interrupted'] = infected_data['maxpoursinterrupted'].to_i
+        @scavenge_stats[:infected][infected_id]['special_attacks']       = infected_data['specialattacks'].to_i
       end
     end
 
@@ -126,7 +126,7 @@ class L4D2Stats < GameStats
     if @survival_stats.nil?
       super
       @survival_stats[:maps] = {}
-      @xml_data.elements.each('stats/survival/maps/map') do |map_data|
+      @xml_data['stats']['survival']['maps']['map'].each do |map_data|
         map = L4D2Map.new(map_data)
         @survival_stats[:maps][map.id] = map
       end
@@ -146,16 +146,16 @@ class L4D2Stats < GameStats
 
     if @weapon_stats.nil?
       @weapon_stats = {}
-      @xml_data.elements.each('stats/weapons/*') do |weapon_data|
-        next unless weapon_data.has_elements?
+      @xml_data['stats']['weapons'].each do |weapon_data|
+        next if weapon_data.nil?
 
-        unless %w{bilejars molotov pipes}.include? weapon_data.name
-          weapon = L4D2Weapon.new(weapon_data)
+        unless %w{bilejars molotov pipes}.include? weapon_data[0]
+          weapon = L4D2Weapon.new *weapon_data
         else
-          weapon = L4DExplosive.new(weapon_data)
+          weapon = L4DExplosive.new *weapon_data
         end
 
-        @weapon_stats[weapon_data.name] = weapon
+        @weapon_stats[weapon_data[0]] = weapon
       end
     end
 

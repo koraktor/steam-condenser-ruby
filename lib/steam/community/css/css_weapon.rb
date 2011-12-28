@@ -32,16 +32,16 @@ class CSSWeapon
   # given XML data
   #
   # @param [String] weapon_name The name of the weapon
-  # @param [REXML::Element] weapons_data The XML data of all weapons
+  # @param [Hash<String, Object>] weapons_data The XML data of all weapons
   def initialize(weapon_name, weapons_data)
     @name     = weapon_name
 
-    @favorite = (weapons_data.elements['favorite'].text == @name)
-    @kills    = weapons_data.elements["#{@name}_kills"].text.to_i
+    @favorite = (weapons_data['favorite'] == @name)
+    @kills    = weapons_data["#{@name}_kills"].to_i
 
     if @name != 'grenade' && @name != 'knife'
-      @hits     = weapons_data.elements["#{@name}_hits"].text.to_i
-      @shots    = weapons_data.elements["#{@name}_shots"].text.to_i
+      @hits     = weapons_data["#{@name}_hits"].to_i
+      @shots    = weapons_data["#{@name}_shots"].to_i
     end
   end
 

@@ -42,14 +42,15 @@ class L4DMap
   # Creates a new instance of a Left4Dead Survival map based on the given
   # XML data
   #
-  # @param [REXML::Element] map_data The XML data for this map
-  def initialize(map_data)
-    @best_time    = map_data.elements['besttimeseconds'].text.to_f
-    @id           = map_data.name
-    @name         = map_data.elements['name'].text
-    @times_played = map_data.elements['timesplayed'].text.to_i
+  # @param [String] map_name The name of this map
+  # @param [Hash<String, Object>] map_data The XML data for this map
+  def initialize(map_name, map_data)
+    @best_time    = map_data['besttimeseconds'].to_f
+    @id           = map_name
+    @name         = map_data['name']
+    @times_played = map_data['timesplayed'].to_i
 
-    case map_data.elements['medal'].text
+    case map_data['medal']
       when 'gold'
         @medal = L4DMap::GOLD
       when 'silver'

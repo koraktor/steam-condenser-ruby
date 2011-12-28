@@ -77,18 +77,18 @@ class GameAchievement
   #        `440` for Team Fortress 2). See
   #        http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
   #        all application IDs
-  # @param [REXML::Element] achievement_data The achievement data extracted
-  #        from XML
+  # @param [Hash<String, Object>] achievement_data The achievement data
+  #        extracted from XML
   def initialize(steam_id64, app_id, achievement_data)
-    @api_name    = achievement_data.elements['apiname'].text
+    @api_name    = achievement_data['apiname']
     @app_id      = app_id
-    @description = achievement_data.elements['description'].text
-    @name        = achievement_data.elements['name'].text
+    @description = achievement_data['description']
+    @name        = achievement_data['name']
     @steam_id64  = steam_id64
-    @unlocked    = (achievement_data.attributes['closed'].to_i == 1)
+    @unlocked    = (achievement_data['closed'].to_i == 1)
 
-    if @unlocked && !achievement_data.elements['unlockTimestamp'].nil?
-      @timestamp  = Time.at(achievement_data.elements['unlockTimestamp'].text.to_i)
+    if @unlocked && !achievement_data['unlockTimestamp'].nil?
+      @timestamp  = Time.at(achievement_data['unlockTimestamp'].to_i)
     end
   end
 

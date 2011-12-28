@@ -88,30 +88,32 @@ class AlienSwarmMission
 
   # Creates a new mission instance of based on the given XML data
   #
-  # @param [REXML::Element] mission_data The data representing this mission
-  def initialize(mission_data)
-    @avg_damage_taken       = mission_data.elements['damagetakenavg'].text.to_f
-    @avg_friendly_fire      = mission_data.elements['friendlyfireavg'].text.to_f
-    @avg_kills              = mission_data.elements['killsavg'].text.to_f
-    @best_difficulty        = mission_data.elements['bestdifficulty'].text
-    @damage_taken           = mission_data.elements['damagetaken'].text.to_i
-    @friendly_fire          = mission_data.elements['friendlyfire'].text.to_i
-    @games_successful       = mission_data.elements['gamessuccess'].text.to_i
-    @img                    = AlienSwarmStats::BASE_URL + mission_data.elements['image'].text
-    @kills                  = mission_data.elements['kills'].text.to_i
-    @map_name               = mission_data.name
-    @name                   = mission_data.elements['name'].text
-    @total_games            = mission_data.elements['gamestotal'].text.to_i
-    @total_games_percentage = mission_data.elements['gamestotalpct'].text.to_f
+  # @param [String] map_name The name of the mission's map
+  # @param [Hash<String, Object>] mission_data The data representing this
+  #        mission
+  def initialize(map_name, mission_data)
+    @avg_damage_taken       = mission_data['damagetakenavg'].to_f
+    @avg_friendly_fire      = mission_data['friendlyfireavg'].to_f
+    @avg_kills              = mission_data['killsavg'].to_f
+    @best_difficulty        = mission_data['bestdifficulty']
+    @damage_taken           = mission_data['damagetaken'].to_i
+    @friendly_fire          = mission_data['friendlyfire'].to_i
+    @games_successful       = mission_data['gamessuccess'].to_i
+    @img                    = AlienSwarmStats::BASE_URL + mission_data['image']
+    @kills                  = mission_data['kills'].to_i
+    @map_name               = map_name
+    @name                   = mission_data['name']
+    @total_games            = mission_data['gamestotal'].to_i
+    @total_games_percentage = mission_data['gamestotalpct'].to_f
 
     @time = {}
-    @time[:average] = mission_data.elements['avgtime'].text
-    @time[:brutal]  = mission_data.elements['brutaltime'].text
-    @time[:easy]    = mission_data.elements['easytime'].text
-    @time[:hard]    = mission_data.elements['hardtime'].text
-    @time[:insane]  = mission_data.elements['insanetime'].text
-    @time[:normal]  = mission_data.elements['normaltime'].text
-    @time[:total]   = mission_data.elements['totaltime'].text
+    @time[:average] = mission_data['avgtime']
+    @time[:brutal]  = mission_data['brutaltime']
+    @time[:easy]    = mission_data['easytime']
+    @time[:hard]    = mission_data['hardtime']
+    @time[:insane]  = mission_data['insanetime']
+    @time[:normal]  = mission_data['normaltime']
+    @time[:total]   = mission_data['totaltime']
   end
 
 end

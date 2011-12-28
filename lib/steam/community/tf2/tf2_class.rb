@@ -73,20 +73,20 @@ class TF2Class
 
   # Creates a new TF2 class instance based on the assigned XML data
   #
-  # @param [REXML::Element] class_data The XML data for this class
+  # @param [Hash<String, Object>] class_data The XML data for this class
   def initialize(class_data)
-    @name                    = class_data.elements['className'].text
-    @max_buildings_destroyed = class_data.elements['ibuildingsdestroyed'].text.to_i
-    @max_captures            = class_data.elements['ipointcaptures'].text.to_i
-    @max_damage              = class_data.elements['idamagedealt'].text.to_i
-    @max_defenses            = class_data.elements['ipointdefenses'].text.to_i
-    @max_dominations         = class_data.elements['idominations'].text.to_i
-    @max_kill_assists        = class_data.elements['ikillassists'].text.to_i
-    @max_kills               = class_data.elements['inumberofkills'].text.to_i
-    @max_revenges            = class_data.elements['irevenge'].text.to_i
-    @max_score               = class_data.elements['ipointsscored'].text.to_i
-    @max_time_alive          = class_data.elements['iplaytime'].text.to_i
-    @play_time               = class_data.elements['playtimeSeconds'].text.to_i
+    @name                    = class_data['className']
+    @max_buildings_destroyed = class_data['ibuildingsdestroyed'].to_i
+    @max_captures            = class_data['ipointcaptures'].to_i
+    @max_damage              = class_data['idamagedealt'].to_i
+    @max_defenses            = class_data['ipointdefenses'].to_i
+    @max_dominations         = class_data['idominations'].to_i
+    @max_kill_assists        = class_data['ikillassists'].to_i
+    @max_kills               = class_data['inumberofkills'].to_i
+    @max_revenges            = class_data['irevenge'].to_i
+    @max_score               = class_data['ipointsscored'].to_i
+    @max_time_alive          = class_data['iplaytime'].to_i
+    @play_time               = class_data['playtimeSeconds'].to_i
   end
 
 end

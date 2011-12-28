@@ -35,8 +35,8 @@ class L4DStats < GameStats
     if @survival_stats.nil?
       super
       @survival_stats[:maps] = {}
-      @xml_data.elements.each('stats/survival/maps/*') do |map_data|
-        @survival_stats[:maps][map_data.name] = L4DMap.new(map_data)
+      @xml_data['stats']['survival']['maps'].each do |map_data|
+        @survival_stats[:maps][map_data[0]] = L4DMap.new *map_data
       end
     end
 
@@ -54,14 +54,14 @@ class L4DStats < GameStats
 
     if @weapon_stats.nil?
       @weapon_stats = {}
-      @xml_data.elements.each('stats/weapons/*') do |weapon_data|
-        unless %w{molotov pipes}.include? weapon_data.name
-          weapon = L4DWeapon.new(weapon_data)
+      @xml_data['stats']['weapons'].each do |weapon_data|
+        unless %w{molotov pipes}.include? weapon_data[0]
+          weapon = L4DWeapon.new *weapon_data
         else
-          weapon = L4DExplosive.new(weapon_data)
+          weapon = L4DExplosive.new *weapon_data
         end
 
-        @weapon_stats[weapon_data.name] = weapon
+        @weapon_stats[weapon_data[0]] = weapon
       end
     end
 

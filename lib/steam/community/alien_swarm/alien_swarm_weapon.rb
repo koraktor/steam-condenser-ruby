@@ -35,15 +35,15 @@ class AlienSwarmWeapon
 
   # Creates a new weapon instance based on the assigned weapon XML data
   #
-  # @param [REXML::Element] weapon_data The data representing this weapon
+  # @param [Hash<String, Object>] weapon_data The data representing this weapon
   def initialize(weapon_data)
     super
 
-    @accuracy      = weapon_data.elements['accuracy'].text.to_f
-    @damage        = weapon_data.elements['damage'].text.to_i
-    @friendly_fire = weapon_data.elements['friendlyfire'].text.to_i
-    @name          = weapon_data.elements['name'].text
-    @shots         = weapon_data.elements['shotsfired'].text.to_i
+    @accuracy      = weapon_data['accuracy'].to_f
+    @damage        = weapon_data['damage'].to_i
+    @friendly_fire = weapon_data['friendlyfire'].to_i
+    @name          = weapon_data['name']
+    @shots         = weapon_data['shotsfired'].to_i
   end
 
 end

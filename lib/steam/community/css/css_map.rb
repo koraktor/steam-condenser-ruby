@@ -32,13 +32,13 @@ class CSSMap
   # given XML data
   #
   # @param [String] map_name The name of the map
-  # @param [REXML::Element] maps_data The XML data of all maps
+  # @param [Hash<String, Object>] maps_data The XML data of all maps
   def initialize(map_name, maps_data)
     @name          = map_name
 
-    @favorite      = (maps_data.elements['favorite'].text == @name)
-    @rounds_played = maps_data.elements["#{@name}_rounds"].text.to_i
-    @rounds_won    = maps_data.elements["#{@name}_wins"].text.to_i
+    @favorite      = (maps_data['favorite'] == @name)
+    @rounds_played = maps_data["#{@name}_rounds"].to_i
+    @rounds_won    = maps_data["#{@name}_wins"].to_i
 
     @rounds_lost = @rounds_played - @rounds_won
     @rounds_won_percentage = (@rounds_played > 0) ? @rounds_won.to_f / @rounds_played : 0

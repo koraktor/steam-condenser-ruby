@@ -30,15 +30,15 @@ class DoDSWeapon
   # Creates a new instance of a Day of Defeat: Source weapon based on the
   # given XML data
   #
-  # @param [REXML::Element] weapon_data The XML data of the class
+  # @param [Hash<String, Object>] weapon_data The XML data of the class
   def initialize(weapon_data)
     super weapon_data
 
-    @headshots = weapon_data.elements['headshots'].text.to_i
-    @id        = weapon_data.attributes['key']
-    @name      = weapon_data.elements['name'].text
-    @shots     = weapon_data.elements['shotsfired'].text.to_i
-    @hits      = weapon_data.elements['shotshit'].text.to_i
+    @headshots = weapon_data['headshots'].to_i
+    @id        = weapon_data['key']
+    @name      = weapon_data['name']
+    @shots     = weapon_data['shotsfired'].to_i
+    @hits      = weapon_data['shotshit'].to_i
   end
 
   # Returns the average number of hits needed for a kill with this weapon

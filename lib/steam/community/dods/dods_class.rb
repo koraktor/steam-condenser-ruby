@@ -70,21 +70,21 @@ class DoDSClass
   # Creates a new instance of a Day of Defeat: Source class based on the given
   # XML data
   #
-  # @param [REXML::Element] class_data The XML data of the class
+  # @param [Hash<String, Object>] class_data The XML data of the class
   def initialize(class_data)
-    @blocks        = class_data.elements['blocks'].text.to_i
-    @bombs_defused = class_data.elements['bombsdefused'].text.to_i
-    @bombs_planted = class_data.elements['bombsplanted'].text.to_i
-    @captures      = class_data.elements['captures'].text.to_i
-    @deaths        = class_data.elements['deaths'].text.to_i
-    @dominations   = class_data.elements['dominations'].text.to_i
-    @key           = class_data.attributes['key']
-    @kills         = class_data.elements['kills'].text.to_i
-    @name          = class_data.elements['name'].text
-    @play_time     = class_data.elements['playtime'].text.to_i
-    @rounds_lost   = class_data.elements['roundslost'].text.to_i
-    @rounds_won    = class_data.elements['roundswon'].text.to_i
-    @revenges      = class_data.elements['revenges'].text.to_i
+    @blocks        = class_data['blocks'].to_i
+    @bombs_defused = class_data['bombsdefused'].to_i
+    @bombs_planted = class_data['bombsplanted'].to_i
+    @captures      = class_data['captures'].to_i
+    @deaths        = class_data['deaths'].to_i
+    @dominations   = class_data['dominations'].to_i
+    @key           = class_data['key']
+    @kills         = class_data['kills'].to_i
+    @name          = class_data['name']
+    @play_time     = class_data['playtime'].to_i
+    @rounds_lost   = class_data['roundslost'].to_i
+    @rounds_won    = class_data['roundswon'].to_i
+    @revenges      = class_data['revenges'].to_i
   end
 
 end

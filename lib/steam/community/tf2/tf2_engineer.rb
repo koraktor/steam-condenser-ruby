@@ -31,13 +31,13 @@ class TF2Engineer < TF2Class
 
   # Creates a new instance of the Engineer class based on the given XML data
   #
-  # @param [REXML::Element] class_data The XML data for this Engineer
+  # @param [Hash<String, Object>] class_data The XML data for this Engineer
   def initialize(class_data)
     super class_data
 
-    @max_buildings_built = class_data.elements['ibuildingsbuilt'].text.to_i
-    @max_teleports       = class_data.elements['inumteleports'].text.to_i
-    @max_sentry_kills    = class_data.elements['isentrykills'].text.to_i
+    @max_buildings_built = class_data['ibuildingsbuilt'].to_i
+    @max_teleports       = class_data['inumteleports'].to_i
+    @max_sentry_kills    = class_data['isentrykills'].to_i
   end
 
 end

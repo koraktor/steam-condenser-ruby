@@ -24,12 +24,12 @@ class TF2Spy < TF2Class
 
   # Creates a new instance of the Spy class based on the given XML data
   #
-  # @param [REXML::Element] class_data The XML data for this Spy
+  # @param [Hash<String, Object>] class_data The XML data for this Spy
   def initialize(class_data)
     super class_data
 
-    @max_backstabs      = class_data.elements['ibackstabs'].text.to_i
-    @max_health_leeched = class_data.elements['ihealthpointsleached'].text.to_i
+    @max_backstabs      = class_data['ibackstabs'].to_i
+    @max_health_leeched = class_data['ihealthpointsleached'].to_i
   end
 
 end

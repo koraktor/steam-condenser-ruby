@@ -18,11 +18,11 @@ class TF2Sniper < TF2Class
 
   # Creates a new instance of the Sniper class based on the given XML data
   #
-  # @param [REXML::Element] class_data The XML data for this Sniper
+  # @param [Hash<String, Object>] class_data The XML data for this Sniper
   def initialize(class_data)
     super class_data
 
-    @max_headshots = class_data.elements['iheadshots'].text.to_i
+    @max_headshots = class_data['iheadshots'].to_i
   end
 
 end

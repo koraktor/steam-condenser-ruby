@@ -20,10 +20,10 @@ module TF2ClassFactory
   # This returns an instance of `TF2Class` or its subclasses `TF2Engineer`,
   # `TF2Medic`, `TF2Sniper` or `TF2Spy` depending on the given XML data.
   #
-  # @param [REXML::Element] class_data The XML data for the class
+  # @param [Hash<String, Object>] class_data The XML data for the class
   # @return [TF2Class] The statistics for the given class data
   def self.tf2_class(class_data)
-    case class_data.elements['className'].text
+    case class_data['className']
       when 'Engineer' then
         return TF2Engineer.new(class_data)
       when 'Medic' then

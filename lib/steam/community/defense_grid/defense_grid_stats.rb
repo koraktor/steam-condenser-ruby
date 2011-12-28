@@ -130,30 +130,30 @@ class DefenseGridStats < GameStats
     super(steam_id, 'defensegrid:awakening')
 
     if public?
-      general_data = @xml_data.elements['stats/general']
+      general_data = @xml_data['stats']['general']
 
-      @bronze_medals           = general_data.elements['bronze_medals_won/value'].text.to_i
-      @silver_medals           = general_data.elements['silver_medals_won/value'].text.to_i
-      @gold_medals             = general_data.elements['gold_medals_won/value'].text.to_i
-      @levels_played           = general_data.elements['levels_played_total/value'].text.to_i
-      @levels_played_campaign  = general_data.elements['levels_played_campaign/value'].text.to_i
-      @levels_played_challenge = general_data.elements['levels_played_challenge/value'].text.to_i
-      @levels_won              = general_data.elements['levels_won_total/value'].text.to_i
-      @levels_won_campaign     = general_data.elements['levels_won_campaign/value'].text.to_i
-      @levels_won_challenge    = general_data.elements['levels_won_challenge/value'].text.to_i
-      @encountered             = general_data.elements['total_aliens_encountered/value'].text.to_i
-      @killed                  = general_data.elements['total_aliens_killed/value'].text.to_i
-      @killed_campaign         = general_data.elements['total_aliens_killed_campaign/value'].text.to_i
-      @killed_challenge        = general_data.elements['total_aliens_killed_challenge/value'].text.to_i
-      @resources               = general_data.elements['resources_recovered/value'].text.to_i
-      @heat_damage             = general_data.elements['heatdamage/value'].text.to_f
-      @time_played             = general_data.elements['time_played/value'].text.to_f
-      @interest                = general_data.elements['interest_gained/value'].text.to_f
-      @damage_done             = general_data.elements['tower_damage_total/value'].text.to_f
-      @damage_campaign         = general_data.elements['tower_damage_total_campaign/value'].text.to_f
-      @damage_challenge        = general_data.elements['tower_damage_total_challenge/value'].text.to_f
-      @orbital_laser_fired     = @xml_data.elements['stats/orbitallaser/fired/value'].text.to_i
-      @orbital_laser_damage    = @xml_data.elements['stats/orbitallaser/damage/value'].text.to_f
+      @bronze_medals           = general_data['bronze_medals_won']['value'].to_i
+      @silver_medals           = general_data['silver_medals_won']['value'].to_i
+      @gold_medals             = general_data['gold_medals_won']['value'].to_i
+      @levels_played           = general_data['levels_played_total']['value'].to_i
+      @levels_played_campaign  = general_data['levels_played_campaign']['value'].to_i
+      @levels_played_challenge = general_data['levels_played_challenge']['value'].to_i
+      @levels_won              = general_data['levels_won_total']['value'].to_i
+      @levels_won_campaign     = general_data['levels_won_campaign']['value'].to_i
+      @levels_won_challenge    = general_data['levels_won_challenge']['value'].to_i
+      @encountered             = general_data['total_aliens_encountered']['value'].to_i
+      @killed                  = general_data['total_aliens_killed']['value'].to_i
+      @killed_campaign         = general_data['total_aliens_killed_campaign']['value'].to_i
+      @killed_challenge        = general_data['total_aliens_killed_challenge']['value'].to_i
+      @resources               = general_data['resources_recovered']['value'].to_i
+      @heat_damage             = general_data['heatdamage']['value'].to_f
+      @time_played             = general_data['time_played']['value'].to_f
+      @interest                = general_data['interest_gained']['value'].to_f
+      @damage_done             = general_data['tower_damage_total']['value'].to_f
+      @damage_campaign         = general_data['tower_damage_total_campaign']['value'].to_f
+      @damage_challenge        = general_data['tower_damage_total_challenge']['value'].to_f
+      @orbital_laser_fired     = @xml_data['stats']['orbitallaser']['fired']['value'].to_i
+      @orbital_laser_damage    = @xml_data['stats']['orbitallaser']['damage']['value'].to_f
     end
   end
 
@@ -168,15 +168,15 @@ class DefenseGridStats < GameStats
     return unless public?
 
     if @alien_stats.nil?
-      alien_data = @xml_data.elements['stats/aliens']
+      alien_data = @xml_data['stats']['aliens']
       @alien_stats = {}
       aliens = %w{swarmer juggernaut crasher spire grunt bulwark drone manta dart
                   decoy rumbler seeker turtle walker racer stealth}
 
       aliens.each do |alien|
         @alien_stats[alien] = [
-          alien_data.elements["#{alien}/encountered/value"].text.to_i,
-          alien_data.elements["#{alien}/killed/value"].text.to_i
+          alien_data[alien]['encountered']['value'].to_i,
+          alien_data[alien]['killed']['value'].to_i
         ]
       end
     end
@@ -200,33 +200,34 @@ class DefenseGridStats < GameStats
     return unless public?
 
     if @tower_stats.nil?
-      tower_data = @xml_data.elements['stats/towers']
+      tower_data = @xml_data['stats']['towers']
       @tower_stats = {}
       towers = %w{cannon flak gun inferno laser meteor missile tesla}
 
       towers.each do |tower|
         @tower_stats[tower] = {}
         (1..3).each do |i|
+          tower_level = tower_data[tower].detect { |t| t['level'].to_i == i }
           @tower_stats[tower][i] = [
-            tower_data.elements["#{tower}[@level=#{i}]/built/value"].text.to_i,
-            tower_data.elements["#{tower}[@level=#{i}]/damage/value"].text.to_f
+            tower_level['built']['value'].to_i,
+            tower_level['damage']['value'].to_f
           ]
         end
       end
 
       @tower_stats['command'] = {}
       (1..3).each do |i|
+        tower_level = tower_data['command'].detect { |t| t['level'].to_i == i }
         @tower_stats['command'][i] = [
-          tower_data.elements["command[@level=#{i}]/built/value"].text.to_i,
-          tower_data.elements["command[@level=#{i}]/resource/value"].text.to_f
+          tower_level['built']['value'].to_i,
+          tower_level['resource']['value'].to_f
         ]
       end
 
       @tower_stats['temporal'] = {}
       (1..3).each do |i|
-        @tower_stats['temporal'][i] = [
-          tower_data.elements["temporal[@level=#{i}]/built/value"].text.to_i,
-        ]
+        tower_level = tower_data['temporal'].detect { |t| t['level'].to_i == i }
+        @tower_stats['temporal'][i] = [ tower_level['built']['value'].to_i ]
       end
     end
 
