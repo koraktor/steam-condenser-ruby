@@ -44,6 +44,7 @@ class SteamGroup
       else
         @custom_url = id.downcase
       end
+      @members = []
 
       super(fetch)
     rescue REXML::ParseException
@@ -71,24 +72,10 @@ class SteamGroup
   #
   # @see Cacheable#fetch
   def fetch
-    @members = []
     page = 0
 
     begin
-      page += 1
-      url = open("#{base_url}/memberslistxml?p=#{page}", {:proxy => true})
-      member_data = REXML::Document.new(url.read).root
-
-      begin
-        @group_id64 = member_data.elements['groupID64'].text.to_i if page == 1
-        total_pages = member_data.elements['totalPages'].text.to_i
-
-        member_data.elements['members'].elements.each do |member|
-          @members << SteamId.new(member.text.to_i, false)
-        end
-      rescue
-        raise SteamCondenserError, 'XML data could not be parsed.'
-      end
+      total_pages = fetch_page(page += 1)
     end while page < total_pages
 
     super
@@ -97,17 +84,17 @@ class SteamGroup
   # Returns the number of members this group has
   #
   # If the members have already been fetched the size of the member array is
-  # returned. Otherwise the group size is separately fetched without needing
-  # multiple requests for big groups.
+  # returned. Otherwise the group size is separately fetched from the first
+  # page of the member listing.
   #
   # @return [Fixnum] The number of this group's members
   def member_count
-    if @members.nil?
-      url = open("#{base_url}/memberslistxml", {:proxy => true})
-      REXML::Document.new(url.read).root.elements['memberCount'].text.to_i
-    else
-      @members.size
+    if @member_count.nil?
+      total_pages = fetch_page(1)
+      @fetch_time = Time.now if total_pages == 1
     end
+
+    @member_count
   end
 
   # Returns the members of this group
@@ -119,6 +106,30 @@ class SteamGroup
   def members
     fetch if @members.nil? || @members[0].nil?
     @members
+  end
+
+  private
+
+  # Fetches a specific page of the member listing of this group
+  #
+  # @return [Fixnum] The total number of pages of this group's member listing
+  def fetch_page(page)
+    url = open "#{base_url}/memberslistxml?p=#{page}", { :proxy => true }
+    member_data = REXML::Document.new(url.read).root
+
+    begin
+      @group_id64   = member_data.elements['groupID64'].text.to_i if page == 1
+      @member_count = member_data.elements['memberCount'].text.to_i
+      total_pages   = member_data.elements['totalPages'].text.to_i
+
+      member_data.elements['members'].elements.each do |member|
+        @members << SteamId.new(member.text.to_i, false)
+      end
+    rescue
+      raise SteamCondenserError, 'XML data could not be parsed.'
+    end
+
+    total_pages
   end
 
 end

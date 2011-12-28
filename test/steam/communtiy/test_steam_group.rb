@@ -68,7 +68,7 @@ class TestSteamGroup < Test::Unit::TestCase
 
     should 'be able to parse just the member count' do
       url = mock :read => fixture('valve-members.xml')
-      SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml', { :proxy => true }).returns url
+      SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 
       group = SteamGroup.new 'valve', false
       assert_equal 221, group.member_count
