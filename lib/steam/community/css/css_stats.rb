@@ -34,8 +34,8 @@ class CSSStats < GameStats
   # @return [Hash<Symbol, Object>] The overall statistics
   attr_reader :total_stats
 
-  # Creates a <var>CSSStats</var> instance by calling the super constructor
-  # with the game name <var>"cs:s"</var>
+  # Creates a `CSSStats` instance by calling the super constructor
+  # with the game name `'cs:s'`
   #
   # @param [String, Fixnum] steam_id The custom URL or 64bit Steam ID of the
   #        user
