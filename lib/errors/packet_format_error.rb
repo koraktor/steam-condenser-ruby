@@ -9,5 +9,7 @@ require 'errors/steam_condenser_error'
 # responses received from a game or master server
 #
 # @author Sebastian Staudt
-class PacketFormatError < SteamCondenserError
+module SteamCondenser
+  class PacketFormatError < SteamCondenserError
+  end
 end

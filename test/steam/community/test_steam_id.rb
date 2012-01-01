@@ -8,37 +8,37 @@ require 'steam/community/steam_id'
 
 class TestSteamId < Test::Unit::TestCase
 
-  context 'The SteamId class' do
+  context 'The SteamCondenser::SteamId class' do
 
     should 'be able to resolve vanity URLs' do
-      WebApi.expects(:json).
+      SteamCondenser::WebApi.expects(:json).
         with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'koraktor' }).
         returns '{ "response": { "success": 1, "steamid": "76561197961384956" } }'
 
-      steam_id64 = SteamId.resolve_vanity_url 'koraktor'
+      steam_id64 = SteamCondenser::SteamId.resolve_vanity_url 'koraktor'
       assert_equal 76561197961384956, steam_id64
     end
 
     should 'be return nil when not able to resolve a vanity URL' do
-      WebApi.expects(:json).
+      SteamCondenser::WebApi.expects(:json).
         with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'unknown' }).
         returns '{ "response": { "success": 42 } }'
 
-      assert_nil SteamId.resolve_vanity_url 'unknown'
+      assert_nil SteamCondenser::SteamId.resolve_vanity_url 'unknown'
     end
 
     should 'provide a conversion between 64bit Steam IDs and STEAM_IDs' do
-      steam_id = SteamId.community_id_to_steam_id 76561197960290418
+      steam_id = SteamCondenser::SteamId.community_id_to_steam_id 76561197960290418
       assert_equal 'STEAM_0:0:12345', steam_id
     end
 
     should 'provide a conversion between STEAM_IDs and 64bit Steam IDs' do
-      steam_id64 = SteamId.steam_id_to_community_id 'STEAM_0:0:12345'
+      steam_id64 = SteamCondenser::SteamId.steam_id_to_community_id 'STEAM_0:0:12345'
       assert_equal 76561197960290418, steam_id64
     end
 
     should 'provide a conversion between U_IDs and 64bit Steam IDs' do
-      steam_id64 = SteamId.steam_id_to_community_id '[U:1:12345]'
+      steam_id64 = SteamCondenser::SteamId.steam_id_to_community_id '[U:1:12345]'
       assert_equal 76561197960278073, steam_id64
     end
 
@@ -47,26 +47,26 @@ class TestSteamId < Test::Unit::TestCase
   context 'A Steam ID' do
 
     should 'be correctly cached' do
-      assert_not SteamId.cached? 76561197983311154
+      assert_not SteamCondenser::SteamId.cached? 76561197983311154
 
-      steam_id = SteamId.new 76561197983311154, false
+      steam_id = SteamCondenser::SteamId.new 76561197983311154, false
 
       assert steam_id.cache
-      assert SteamId.cached? 76561197983311154
+      assert SteamCondenser::SteamId.cached? 76561197983311154
     end
 
     should 'be correctly cached with its custom URL' do
-      assert_not SteamId.cached? 'Son_of_Thor'
+      assert_not SteamCondenser::SteamId.cached? 'Son_of_Thor'
 
-      steam_id = SteamId.new 'Son_of_Thor', false
+      steam_id = SteamCondenser::SteamId.new 'Son_of_Thor', false
 
       assert steam_id.cache
-      assert SteamId.cached? 'son_of_Thor'
+      assert SteamCondenser::SteamId.cached? 'son_of_Thor'
     end
 
     should 'have an ID' do
-      steam_id1 = SteamId.new 76561197983311154, false
-      steam_id2 = SteamId.new 'Son_of_Thor', false
+      steam_id1 = SteamCondenser::SteamId.new 76561197983311154, false
+      steam_id2 = SteamCondenser::SteamId.new 'Son_of_Thor', false
 
       assert_equal 76561197983311154, steam_id1.id
       assert_equal 'son_of_thor', steam_id2.id
@@ -74,9 +74,9 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'be able to fetch its data' do
       url = fixture_io 'sonofthor.xml'
-      SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
+      SteamCondenser::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
-      steam_id = SteamId.new 'Son_of_Thor'
+      steam_id = SteamCondenser::SteamId.new 'Son_of_Thor'
 
       assert_equal 76561197983311154, steam_id.steam_id64
       assert_equal 'son_of_thor', steam_id.custom_url
@@ -100,35 +100,35 @@ class TestSteamId < Test::Unit::TestCase
       assert steam_id.public?
     end
 
-    should 'be found by the 64bit SteamID' do
-      steam_id = SteamId.new 76561197983311154, false
+    should 'be found by the 64bit SteamCondenser::SteamId' do
+      steam_id = SteamCondenser::SteamId.new 76561197983311154, false
 
       assert_equal 76561197983311154, steam_id.steam_id64
       assert_equal 'http://steamcommunity.com/profiles/76561197983311154', steam_id.base_url
     end
 
-    should 'be found by the SteamID\'s custom URL' do
-      steam_id = SteamId.new 'Son_of_Thor', false
+    should 'be found by the SteamCondenser::SteamId\'s custom URL' do
+      steam_id = SteamCondenser::SteamId.new 'Son_of_Thor', false
 
       assert_equal 'son_of_thor', steam_id.custom_url
       assert_equal 'http://steamcommunity.com/id/son_of_thor', steam_id.base_url
     end
 
     should 'raise an exception when parsing invalid XML' do
-      error = assert_raises SteamCondenserError do
+      error = assert_raises SteamCondenser::SteamCondenserError do
         url = fixture_io 'invalid.xml'
-        SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
+        SteamCondenser::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
-        SteamId.new 'Son_of_Thor'
+        SteamCondenser::SteamId.new 'Son_of_Thor'
       end
       assert_equal 'XML data could not be parsed.', error.message
     end
 
     should 'not cache an empty hash when an error is encountered on steam' do
-      WebApi.expects(:json).raises WebApiError.new('tesst')
-      steam_id = SteamId.new 76561197983311154, false
+      SteamCondenser::WebApi.expects(:json).raises SteamCondenser::WebApiError.new('tesst')
+      steam_id = SteamCondenser::SteamId.new 76561197983311154, false
 
-      assert_raises WebApiError do
+      assert_raises SteamCondenser::WebApiError do
         steam_id.games
       end
 
@@ -136,7 +136,7 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     teardown do
-      SteamId.clear_cache
+      SteamCondenser::SteamId.clear_cache
     end
 
   end

@@ -11,15 +11,17 @@ require 'steam/packets/steam_packet'
 # @author Sebastian Staudt
 # @see S2A_INFO_DETAILED_Packet
 # @see S2A_INFO2_Packet
-module S2A_INFO_BasePacket
+module SteamCondenser
+  module S2A_INFO_BasePacket
 
-  include SteamPacket
+    include SteamPacket
 
-  # Returns the information provided by the server
-  #
-  # @return [Hash<String, Object>] The information provided by the server
-  def info
-    @info ||= {}
+    # Returns the information provided by the server
+    #
+    # @return [Hash<String, Object>] The information provided by the server
+    def info
+      @info ||= {}
+    end
+
   end
-
 end

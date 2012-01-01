@@ -9,7 +9,7 @@ require 'steam/community/cacheable'
 class TestCacheable < Test::Unit::TestCase
 
   class SingleCacheable
-    include Cacheable
+    include SteamCondenser::Cacheable
     cacheable_with_ids :first_id, :second_id
 
     def initialize
@@ -21,7 +21,7 @@ class TestCacheable < Test::Unit::TestCase
   end
 
   class CompoundCacheable
-    include Cacheable
+    include SteamCondenser::Cacheable
     cacheable_with_ids [:first_id, :second_id]
 
     def initialize

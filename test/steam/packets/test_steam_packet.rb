@@ -9,7 +9,7 @@ require 'steam/packets/steam_packet'
 class TestSteamPacket < Test::Unit::TestCase
 
   class GenericSteamPacket
-    include SteamPacket
+    include SteamCondenser::SteamPacket
   end
 
   context 'A packet' do

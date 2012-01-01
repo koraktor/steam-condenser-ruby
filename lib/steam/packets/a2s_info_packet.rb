@@ -12,13 +12,15 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GameServer#update_server_info
-class A2S_INFO_Packet
+module SteamCondenser
+  class A2S_INFO_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a new A2S_INFO request object
-  def initialize
-    super A2S_INFO_HEADER, "Source Engine Query\0"
+    # Creates a new A2S_INFO request object
+    def initialize
+      super A2S_INFO_HEADER, "Source Engine Query\0"
+    end
+
   end
-
 end

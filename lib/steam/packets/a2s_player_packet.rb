@@ -15,17 +15,19 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GameServer#update_player_info
-class A2S_PLAYER_Packet
+module SteamCondenser
+  class A2S_PLAYER_Packet
 
-  include SteamPacket
-  include RequestWithChallenge
+    include SteamPacket
+    include RequestWithChallenge
 
-  # Creates a new A2S_PLAYER request object including the challenge number
-  #
-  # @param [Numeric] challenge_number The challenge number received from the
-  #        server
-  def initialize(challenge_number = -1)
-    super A2S_PLAYER_HEADER, challenge_number
+    # Creates a new A2S_PLAYER request object including the challenge number
+    #
+    # @param [Numeric] challenge_number The challenge number received from the
+    #        server
+    def initialize(challenge_number = -1)
+      super A2S_PLAYER_HEADER, challenge_number
+    end
+
   end
-
 end

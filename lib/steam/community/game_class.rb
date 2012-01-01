@@ -7,16 +7,18 @@
 # classes
 #
 # @author Sebastian Staudt
-module GameClass
+module SteamCondenser
+  module GameClass
 
-  # Returns the name of this class
-  #
-  # @return [String] The name of this class
-  attr_reader :name
+    # Returns the name of this class
+    #
+    # @return [String] The name of this class
+    attr_reader :name
 
-  # Returns the time in minutes the player has played with this class
-  #
-  # @return [Fixnum] The time this class has been played
-  attr_reader :play_time
+    # Returns the time in minutes the player has played with this class
+    #
+    # @return [Fixnum] The time this class has been played
+    attr_reader :play_time
 
+  end
 end
