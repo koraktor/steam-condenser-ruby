@@ -9,26 +9,28 @@ require 'steam/sockets/steam_socket'
 # This class represents a socket used to communicate with master servers
 #
 # @author Sebastian Staudt
-class MasterServerSocket
+module SteamCondenser
+  class MasterServerSocket
 
-  include SteamSocket
+    include SteamSocket
 
-  # Reads a single packet from the socket
-  #
-  # @raise [PacketFormatError] if the packet has the wrong format
-  # @return [SteamPacket] The packet replied from the server
-  def reply
-    receive_packet 1500
+    # Reads a single packet from the socket
+    #
+    # @raise [PacketFormatError] if the packet has the wrong format
+    # @return [SteamPacket] The packet replied from the server
+    def reply
+      receive_packet 1500
 
-    unless @buffer.long == 0xFFFFFFFF
-      raise PacketFormatError, 'Master query response has wrong packet header.'
+      unless @buffer.long == 0xFFFFFFFF
+        raise PacketFormatError, 'Master query response has wrong packet header.'
+      end
+
+      packet = SteamPacketFactory.packet_from_data @buffer.get
+
+      puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
+
+      packet
     end
 
-    packet = SteamPacketFactory.packet_from_data @buffer.get
-
-    puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
-
-    packet
   end
-
 end

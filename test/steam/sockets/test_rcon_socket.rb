@@ -11,7 +11,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A new RCON socket' do
 
     should 'know its IP and port, but not open a connection' do
-      socket = RCONSocket.new '127.0.0.1', 27015
+      socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
 
       assert_equal IPAddr.new('127.0.0.1'), socket.instance_variable_get(:@ip)
       assert_equal 27015, socket.instance_variable_get(:@port)
@@ -23,7 +23,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A disconnected RCON socket' do
 
     setup do
-      @socket = RCONSocket.new '127.0.0.1', 27015
+      @socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
     end
 
     should 'establish the TCP connection when sending' do
@@ -71,7 +71,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A connected RCON socket' do
 
     setup do
-      @socket = RCONSocket.new '127.0.0.1', 27015
+      @socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
       @tcp_socket = mock
       @socket.instance_variable_set :@socket, @tcp_socket
     end

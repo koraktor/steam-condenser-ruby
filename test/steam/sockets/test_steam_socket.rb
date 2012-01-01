@@ -9,15 +9,15 @@ require 'steam/sockets/steam_socket'
 class TestSteamSocket < Test::Unit::TestCase
 
   class GenericSteamSocket
-    include SteamSocket
+    include SteamCondenser::SteamSocket
   end
 
   context 'The user timeout of a socket' do
 
     should 'be able to change the timeout of a socket' do
-      SteamSocket.timeout = 2000
+      SteamCondenser::SteamSocket.timeout = 2000
 
-      assert_equal 2000, SteamSocket.send(:class_variable_get, :@@timeout)
+      assert_equal 2000, SteamCondenser::SteamSocket.send(:class_variable_get, :@@timeout)
     end
 
   end

@@ -32,9 +32,9 @@ class TestSourceServer < Test::Unit::TestCase
 
     should 'create client sockets upon initialization' do
       socket = mock
-      SourceSocket.expects(:new).with('127.0.0.1', 27015).returns socket
+      SteamCondenser::SourceSocket.expects(:new).with('127.0.0.1', 27015).returns socket
       rcon_socket = mock
-      RCONSocket.expects(:new).with('127.0.0.1', 27015).returns rcon_socket
+      SteamCondenser::RCONSocket.expects(:new).with('127.0.0.1', 27015).returns rcon_socket
 
       @server.init_socket
 

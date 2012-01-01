@@ -11,7 +11,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
   context 'A master server socket' do
 
     setup do
-      @socket = MasterServerSocket.new '127.0.0.1'
+      @socket = SteamCondenser::MasterServerSocket.new '127.0.0.1'
       @socket.instance_variable_set :@buffer, mock
     end
 
