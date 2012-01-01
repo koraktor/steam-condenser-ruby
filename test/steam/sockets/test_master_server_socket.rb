@@ -11,7 +11,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
   context 'A master server socket' do
 
     setup do
-      @socket = MasterServerSocket.new '127.0.0.1'
+      @socket = SteamCondenser::MasterServerSocket.new '127.0.0.1'
     end
 
     should 'raise an error if the packet header is incorrect' do

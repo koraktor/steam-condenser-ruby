@@ -11,8 +11,8 @@ class TestGoldSrcSocket < Test::Unit::TestCase
   context 'A new GoldSrc socket' do
 
     should 'know if its endpoint is a HLTV server' do
-      socket1 = GoldSrcSocket.new '127.0.0.1', 27015
-      socket2 = GoldSrcSocket.new '127.0.0.1', 27015, true
+      socket1 = SteamCondenser::GoldSrcSocket.new '127.0.0.1', 27015
+      socket2 = SteamCondenser::GoldSrcSocket.new '127.0.0.1', 27015, true
 
       assert_not socket1.instance_variable_get(:@is_hltv)
       assert socket2.instance_variable_get(:@is_hltv)
@@ -23,7 +23,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
   context 'A GoldSrc socket' do
 
     setup do
-      @socket = GoldSrcSocket.new '127.0.0.1'
+      @socket = SteamCondenser::GoldSrcSocket.new '127.0.0.1'
     end
 
     should 'send wrapped up RCON requests' do

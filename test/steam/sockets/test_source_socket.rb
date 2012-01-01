@@ -11,7 +11,7 @@ class TestSourceSocket < Test::Unit::TestCase
   context 'A Source socket' do
 
     setup do
-      @socket = SourceSocket.new '127.0.0.1'
+      @socket = SteamCondenser::SourceSocket.new '127.0.0.1'
     end
 
     should 'be able to receive single packet replies' do
