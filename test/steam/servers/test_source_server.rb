@@ -12,10 +12,10 @@ class TestSourceServer < Test::Unit::TestCase
 
     should 'be able to get a master server for Source servers' do
       master = mock
-      MasterServer.expects(:new).with(*MasterServer::SOURCE_MASTER_SERVER).
+      SteamCondenser::MasterServer.expects(:new).with(*SteamCondenser::MasterServer::SOURCE_MASTER_SERVER).
         returns master
 
-      assert_equal master, SourceServer.master
+      assert_equal master, SteamCondenser::SourceServer.master
     end
 
   end
@@ -27,7 +27,7 @@ class TestSourceServer < Test::Unit::TestCase
         with('source', 27015, Socket::AF_INET, Socket::SOCK_DGRAM).
         returns [[nil, nil, 'source', '127.0.0.1']]
 
-      @server = SourceServer.new 'source', 27015
+      @server = SteamCondenser::SourceServer.new 'source', 27015
     end
 
     should 'create client sockets upon initialization' do

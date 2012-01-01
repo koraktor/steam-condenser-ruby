@@ -11,7 +11,7 @@ class TestGameServer < Test::Unit::TestCase
   context 'A generic game server' do
 
     class GenericGameServer
-      include GameServer
+      include SteamCondenser::GameServer
     end
 
     setup do
@@ -142,13 +142,13 @@ class TestGameServer < Test::Unit::TestCase
         somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :state => 'active' }
 
         attributes = mock
-        GameServer.expects(:player_status_attributes).
+        SteamCondenser::GameServer.expects(:player_status_attributes).
           with('userid name           uniqueid            score connected ping loss state').
           returns attributes
-        GameServer.expects(:split_player_status).
+        SteamCondenser::GameServer.expects(:split_player_status).
           with(attributes, '1 "someone"      STEAM_0:0:123456    10    3:52      12   0    active').
           returns somebody_data
-        GameServer.expects(:split_player_status).
+        SteamCondenser::GameServer.expects(:split_player_status).
           with(attributes, '2 "somebody"     STEAM_0:0:123457    3     2:42      34   0    active').
           returns someone_data
 
@@ -185,13 +185,13 @@ class TestGameServer < Test::Unit::TestCase
       somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :adr => '0' }
 
       attributes = mock
-      GameServer.expects(:player_status_attributes).
+      SteamCondenser::GameServer.expects(:player_status_attributes).
         with('name userid uniqueid frag time ping loss adr').
         returns attributes
-      GameServer.expects(:split_player_status).
+      SteamCondenser::GameServer.expects(:split_player_status).
         with(attributes, '1   "someone" 1 STEAM_0:0:123456 10 3:52 12 0 0').
         returns somebody_data
-      GameServer.expects(:split_player_status).
+      SteamCondenser::GameServer.expects(:split_player_status).
         with(attributes, '2   "somebody" 2 STEAM_0:0:123457 3 2:42 34 0 0').
         returns someone_data
 
