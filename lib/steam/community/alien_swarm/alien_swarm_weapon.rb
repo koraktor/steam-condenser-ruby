@@ -9,41 +9,43 @@ require 'steam/community/game_weapon'
 # in Alien Swarm
 #
 # @author Sebastian Staudt
-class AlienSwarmWeapon
+module SteamCondenser
+  class AlienSwarmWeapon
 
-  include GameWeapon
+    include GameWeapon
 
-  # Returns the accuracy of the player with this weapon
-  #
-  # @return [Float] The accuracy of the player with this weapon
-  attr_reader :accuracy
+    # Returns the accuracy of the player with this weapon
+    #
+    # @return [Float] The accuracy of the player with this weapon
+    attr_reader :accuracy
 
-  # Returns the damage achieved with this weapon
-  #
-  # @return [Fixnum] The damage achieved with this weapon
-  attr_reader :damage
+    # Returns the damage achieved with this weapon
+    #
+    # @return [Fixnum] The damage achieved with this weapon
+    attr_reader :damage
 
-  # Returns the damage dealt to team mates with this weapon
-  #
-  # @return [Fixnum] The damage dealt to team mates with this weapon
-  attr_reader :friendly_fire
+    # Returns the damage dealt to team mates with this weapon
+    #
+    # @return [Fixnum] The damage dealt to team mates with this weapon
+    attr_reader :friendly_fire
 
-  # Returns the name of this weapon
-  #
-  # @return [String] The name of this weapon
-  attr_reader :name
+    # Returns the name of this weapon
+    #
+    # @return [String] The name of this weapon
+    attr_reader :name
 
-  # Creates a new weapon instance based on the assigned weapon XML data
-  #
-  # @param [REXML::Element] weapon_data The data representing this weapon
-  def initialize(weapon_data)
-    super
+    # Creates a new weapon instance based on the assigned weapon XML data
+    #
+    # @param [REXML::Element] weapon_data The data representing this weapon
+    def initialize(weapon_data)
+      super
 
-    @accuracy      = weapon_data.elements['accuracy'].text.to_f
-    @damage        = weapon_data.elements['damage'].text.to_i
-    @friendly_fire = weapon_data.elements['friendlyfire'].text.to_i
-    @name          = weapon_data.elements['name'].text
-    @shots         = weapon_data.elements['shotsfired'].text.to_i
+      @accuracy      = weapon_data.elements['accuracy'].text.to_f
+      @damage        = weapon_data.elements['damage'].text.to_i
+      @friendly_fire = weapon_data.elements['friendlyfire'].text.to_i
+      @name          = weapon_data.elements['name'].text
+      @shots         = weapon_data.elements['shotsfired'].text.to_i
+    end
+
   end
-
 end

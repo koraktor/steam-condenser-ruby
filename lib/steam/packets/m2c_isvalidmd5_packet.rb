@@ -12,23 +12,25 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see MasterServer#challenge
-class M2C_ISVALIDMD5_Packet
+module SteamCondenser
+  class M2C_ISVALIDMD5_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Returns the challenge number to use for master server communication
-  #
-  # @return [Fixnum] The challenge number
-  attr_reader :challenge
+    # Returns the challenge number to use for master server communication
+    #
+    # @return [Fixnum] The challenge number
+    attr_reader :challenge
 
-  # Creates a new M2S_ISVALIDMD5 response object based on the given data
-  #
-  # @param [String] data The raw packet data replied from the server
-  def initialize(data)
-    super M2C_ISVALIDMD5_HEADER, data
+    # Creates a new M2S_ISVALIDMD5 response object based on the given data
+    #
+    # @param [String] data The raw packet data replied from the server
+    def initialize(data)
+      super M2C_ISVALIDMD5_HEADER, data
 
-    @content_data.byte
-    @challenge = @content_data.long
+      @content_data.byte
+      @challenge = @content_data.long
+    end
+
   end
-
 end

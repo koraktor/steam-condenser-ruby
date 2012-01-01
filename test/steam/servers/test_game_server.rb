@@ -40,7 +40,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'be able to calculate the latency of the server' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_INFO_Packet
+        packet.is_a? SteamCondenser::A2S_INFO_Packet
       end
       @server.expects(:reply).with { || sleep 0.05 }
 
@@ -217,14 +217,14 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle challenge requests' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_SERVERQUERY_GETCHALLENGE_Packet
+        packet.is_a? SteamCondenser::A2S_SERVERQUERY_GETCHALLENGE_Packet
       end
 
       packet = mock
-      packet.expects(:kind_of?).with(S2A_INFO_BasePacket).returns false
-      packet.expects(:kind_of?).with(S2A_PLAYER_Packet).returns false
-      packet.expects(:kind_of?).with(S2A_RULES_Packet).returns false
-      packet.expects(:kind_of?).with(S2C_CHALLENGE_Packet).twice.returns true
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_PLAYER_Packet).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_RULES_Packet).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2C_CHALLENGE_Packet).twice.returns true
 
       packet.expects(:challenge_number).returns 1234
       @server.expects(:reply).returns packet
@@ -236,11 +236,11 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle info requests' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_INFO_Packet
+        packet.is_a? SteamCondenser::A2S_INFO_Packet
       end
 
       packet = mock
-      packet.expects(:kind_of?).with(S2A_INFO_BasePacket).twice.returns true
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).twice.returns true
       packet.expects(:info_hash).returns({ :test => 'test' })
       @server.expects(:reply).returns packet
 
@@ -251,13 +251,13 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'server rule requests' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_RULES_Packet
+        packet.is_a? SteamCondenser::A2S_RULES_Packet
       end
 
       packet = mock
-      packet.expects(:kind_of?).with(S2A_INFO_BasePacket).returns false
-      packet.expects(:kind_of?).with(S2A_PLAYER_Packet).returns false
-      packet.expects(:kind_of?).with(S2A_RULES_Packet).twice.returns true
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_PLAYER_Packet).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_RULES_Packet).twice.returns true
       packet.expects(:rules_hash).returns({ :test => 'test' })
       @server.expects(:reply).returns packet
 
@@ -268,12 +268,12 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'player requests' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_PLAYER_Packet
+        packet.is_a? SteamCondenser::A2S_PLAYER_Packet
       end
 
       packet = mock
-      packet.expects(:kind_of?).with(S2A_INFO_BasePacket).returns false
-      packet.expects(:kind_of?).with(S2A_PLAYER_Packet).twice.returns true
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).returns false
+      packet.expects(:kind_of?).with(SteamCondenser::S2A_PLAYER_Packet).twice.returns true
       packet.expects(:player_hash).returns({ :test => 'test' })
       @server.expects(:reply).returns packet
 
@@ -284,16 +284,16 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle unexpected answers and retry' do
       @server.expects(:send_request).twice.with do |packet|
-        packet.is_a? A2S_PLAYER_Packet
+        packet.is_a? SteamCondenser::A2S_PLAYER_Packet
       end
 
       packet1 = mock
-      packet1.expects(:kind_of?).with(S2A_INFO_BasePacket).returns true
-      packet1.expects(:kind_of?).with(S2A_PLAYER_Packet).returns false
+      packet1.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).returns true
+      packet1.expects(:kind_of?).with(SteamCondenser::S2A_PLAYER_Packet).returns false
       packet1.expects(:info_hash).returns({ :test => 'test1' })
       packet2 = mock
-      packet2.expects(:kind_of?).with(S2A_INFO_BasePacket).returns false
-      packet2.expects(:kind_of?).with(S2A_PLAYER_Packet).twice.returns true
+      packet2.expects(:kind_of?).with(SteamCondenser::S2A_INFO_BasePacket).returns false
+      packet2.expects(:kind_of?).with(SteamCondenser::S2A_PLAYER_Packet).twice.returns true
       packet2.expects(:player_hash).returns({ :test => 'test2' })
       @server.expects(:reply).twice.returns(packet1).returns packet2
 

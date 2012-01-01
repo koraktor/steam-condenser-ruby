@@ -28,7 +28,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
 
     should 'send wrapped up RCON requests' do
       packet = mock
-      RCONGoldSrcRequest.expects(:new).with('test').returns packet
+      SteamCondenser::RCONGoldSrcRequest.expects(:new).with('test').returns packet
       @socket.expects(:send).with packet
 
       @socket.rcon_send 'test'
@@ -51,7 +51,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       reply = mock :response => 'You have been banned from this server.'
       @socket.expects(:reply).returns reply
 
-      assert_raises RCONBanError do
+      assert_raises SteamCondenser::RCONBanError do
         @socket.rcon_challenge
       end
     end
@@ -65,7 +65,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       buffer.expects(:long).returns 0xFFFFFFFF
       buffer.expects(:get).returns data
       packet = mock
-      SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
+      SteamCondenser::SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
 
       assert_equal packet, @socket.reply
     end
@@ -84,7 +84,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
-      SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
+      SteamCondenser::SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
         returns packet
 
       assert_equal packet, @socket.reply

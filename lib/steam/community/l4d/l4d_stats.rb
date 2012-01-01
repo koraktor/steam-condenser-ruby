@@ -11,61 +11,63 @@ require 'steam/community/l4d/l4d_weapon'
 # This class represents the game statistics for a single user in Left4Dead
 #
 # @author Sebastian Staudt
-class L4DStats < GameStats
+module SteamCondenser
+  class L4DStats < GameStats
 
-  include AbstractL4DStats
+    include AbstractL4DStats
 
-  # Creates a `L4DStats` object by calling the super constructor
-  # with the game name `'l4d'`
-  #
-  # @param [String] steam_id The custom URL or 64bit Steam ID of the user
-  def initialize(steam_id)
-    super steam_id, 'l4d'
-  end
-
-  # Returns a hash of Survival statistics for this user like revived teammates
-  #
-  # If the Survival statistics haven't been parsed already, parsing is done
-  # now.
-  #
-  # @return [Hash<String, Object>] The stats for the Survival mode
-  def survival_stats
-    return unless public?
-
-    if @survival_stats.nil?
-      super
-      @survival_stats[:maps] = {}
-      @xml_data.elements.each('stats/survival/maps/*') do |map_data|
-        @survival_stats[:maps][map_data.name] = L4DMap.new(map_data)
-      end
+    # Creates a `L4DStats` object by calling the super constructor
+    # with the game name `'l4d'`
+    #
+    # @param [String] steam_id The custom URL or 64bit Steam ID of the user
+    def initialize(steam_id)
+      super steam_id, 'l4d'
     end
 
-    @survival_stats
-  end
+    # Returns a hash of Survival statistics for this user like revived teammates
+    #
+    # If the Survival statistics haven't been parsed already, parsing is done
+    # now.
+    #
+    # @return [Hash<String, Object>] The stats for the Survival mode
+    def survival_stats
+      return unless public?
 
-  # Returns a hash of `L4DWeapon` for this user containing all Left4Dead
-  # weapons
-  #
-  # If the weapons haven't been parsed already, parsing is done now.
-  #
-  # @return [Hash<String, Object>] The weapon statistics
-  def weapon_stats
-    return unless public?
-
-    if @weapon_stats.nil?
-      @weapon_stats = {}
-      @xml_data.elements.each('stats/weapons/*') do |weapon_data|
-        unless %w{molotov pipes}.include? weapon_data.name
-          weapon = L4DWeapon.new(weapon_data)
-        else
-          weapon = L4DExplosive.new(weapon_data)
+      if @survival_stats.nil?
+        super
+        @survival_stats[:maps] = {}
+        @xml_data.elements.each('stats/survival/maps/*') do |map_data|
+          @survival_stats[:maps][map_data.name] = L4DMap.new(map_data)
         end
-
-        @weapon_stats[weapon_data.name] = weapon
       end
+
+      @survival_stats
     end
 
-    @weapon_stats
-  end
+    # Returns a hash of `L4DWeapon` for this user containing all Left4Dead
+    # weapons
+    #
+    # If the weapons haven't been parsed already, parsing is done now.
+    #
+    # @return [Hash<String, Object>] The weapon statistics
+    def weapon_stats
+      return unless public?
 
+      if @weapon_stats.nil?
+        @weapon_stats = {}
+        @xml_data.elements.each('stats/weapons/*') do |weapon_data|
+          unless %w{molotov pipes}.include? weapon_data.name
+            weapon = L4DWeapon.new(weapon_data)
+          else
+            weapon = L4DExplosive.new(weapon_data)
+          end
+
+          @weapon_stats[weapon_data.name] = weapon
+        end
+      end
+
+      @weapon_stats
+    end
+
+  end
 end

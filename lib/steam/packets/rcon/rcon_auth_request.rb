@@ -12,17 +12,19 @@ require 'steam/packets/rcon/rcon_packet'
 #
 # @author Sebastian Staudt
 # @see SourceServer#rcon_auth
-class RCONAuthRequest
+module SteamCondenser
+  class RCONAuthRequest
 
-  include RCONPacket
+    include RCONPacket
 
-  # Creates a RCON authentication request for the given request ID and RCON
-  # password
-  #
-  # @param [Fixnum] request_id The request ID of the RCON connection
-  # @param [String] rcon_password The RCON password of the server
-  def initialize(request_id, rcon_password)
-    super request_id, SERVERDATA_AUTH, rcon_password
+    # Creates a RCON authentication request for the given request ID and RCON
+    # password
+    #
+    # @param [Fixnum] request_id The request ID of the RCON connection
+    # @param [String] rcon_password The RCON password of the server
+    def initialize(request_id, rcon_password)
+      super request_id, SERVERDATA_AUTH, rcon_password
+    end
+
   end
-
 end

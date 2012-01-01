@@ -41,7 +41,7 @@ class TestMasterServer < Test::Unit::TestCase
       reply = mock :challenge => 1234
 
       socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with { |packet| packet.is_a? C2M_CHECKMD5_Packet }
+      socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::C2M_CHECKMD5_Packet }
       socket.expects(:reply).returns reply
 
       assert_equal 1234, @server.challenge
@@ -53,13 +53,13 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|
-        packet.is_a?(A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
       socket.expects(:send).with do |packet|
-        packet.is_a?(A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '127.0.0.3:27015'
@@ -75,7 +75,7 @@ class TestMasterServer < Test::Unit::TestCase
       reply2 = mock
 
       socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with { |packet| packet.is_a? S2M_HEARTBEAT2_Packet }
+      socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::S2M_HEARTBEAT2_Packet }
       socket.expects(:reply).times(3).returns(reply1).returns(reply2).then.
         raises SteamCondenser::TimeoutError
 
@@ -90,13 +90,13 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|
-        packet.is_a?(A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
       socket.expects(:send).with do |packet|
-        packet.is_a?(A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '127.0.0.3:27015'
@@ -114,7 +114,7 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).times(retries).with do |packet|
-        packet.is_a? A2M_GET_SERVERS_BATCH2_Packet
+        packet.is_a? SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet
         packet.instance_variable_get(:@filter) == ''
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_ALL
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'

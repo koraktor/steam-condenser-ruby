@@ -12,17 +12,19 @@ require 'steam/packets/rcon/rcon_packet'
 #
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
-class RCONExecRequest
+module SteamCondenser
+  class RCONExecRequest
 
-  include RCONPacket
+    include RCONPacket
 
-  # Creates a RCON command execution request for the given request ID and
-  # command
-  #
-  # @param [Fixnum] request_id The request ID of the RCON connection
-  # @param [String] rcon_command The command to execute on the server
-  def initialize(request_id, rcon_command)
-    super request_id, SERVERDATA_EXECCOMMAND, rcon_command
+    # Creates a RCON command execution request for the given request ID and
+    # command
+    #
+    # @param [Fixnum] request_id The request ID of the RCON connection
+    # @param [String] rcon_command The command to execute on the server
+    def initialize(request_id, rcon_command)
+      super request_id, SERVERDATA_EXECCOMMAND, rcon_command
+    end
+
   end
-
 end

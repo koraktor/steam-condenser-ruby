@@ -11,25 +11,27 @@ require 'steam/packets/steam_packet'
 # @author Sebastian Staudt
 # @see S2A_INFO_DETAILED_Packet
 # @see S2A_INFO2_Packet
-module S2A_INFO_BasePacket
+module SteamCondenser
+  module S2A_INFO_BasePacket
 
-  include SteamPacket
+    include SteamPacket
 
-  # Returns the information provided by the server
-  #
-  # @return [Hash<String, Object>] The information provided by the server
-  attr_reader :info_hash
+    # Returns the information provided by the server
+    #
+    # @return [Hash<String, Object>] The information provided by the server
+    attr_reader :info_hash
 
-  protected
+    protected
 
-  # Generates a hash of server properties from the instance variables of the
-  # including packet object
-  def generate_info_hash
-    @info_hash = Hash[
-      *instance_variables.map { |var|
-        [var[1..-1].to_sym, instance_variable_get(var)] if var != '@content_data' && var != '@header_data'
-      }.compact.flatten
-    ]
+    # Generates a hash of server properties from the instance variables of the
+    # including packet object
+    def generate_info_hash
+      @info_hash = Hash[
+        *instance_variables.map { |var|
+          [var[1..-1].to_sym, instance_variable_get(var)] if var != '@content_data' && var != '@header_data'
+        }.compact.flatten
+      ]
+    end
+
   end
-
 end
