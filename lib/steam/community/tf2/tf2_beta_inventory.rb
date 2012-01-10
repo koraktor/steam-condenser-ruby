@@ -8,15 +8,17 @@ require 'steam/community/tf2/tf2_item'
 
 # Represents the inventory (aka. Backpack) of a player of the public Team
 # Fortress 2 beta
-class TF2BetaInventory
+module SteamCondenser
+  class TF2BetaInventory
 
-  include Cacheable
-  cacheable_with_ids :steam_id64
+    include Cacheable
+    cacheable_with_ids :steam_id64
 
-  include GameInventory
+    include GameInventory
 
-  @@app_id = 520
+    @@app_id = 520
 
-  @@item_class = TF2Item
+    @@item_class = TF2Item
 
+  end
 end

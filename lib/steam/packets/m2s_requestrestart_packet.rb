@@ -13,22 +13,24 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see MasterServer#send_heartbeat
-class M2S_REQUESTRESTART_Packet
+module SteamCondenser
+  class M2S_REQUESTRESTART_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Returns the challenge number used for master server communication
-  #
-  # @return [Fixnum] The challenge number
-  attr_reader :challenge
+    # Returns the challenge number used for master server communication
+    #
+    # @return [Fixnum] The challenge number
+    attr_reader :challenge
 
-  # Creates a new M2S_REQUESTRESTART response object based on the given data
-  #
-  # @param [String] data The raw packet data replied from the server
-  def initialize(data)
-    super M2S_REQUESTRESTART_HEADER, data
+    # Creates a new M2S_REQUESTRESTART response object based on the given data
+    #
+    # @param [String] data The raw packet data replied from the server
+    def initialize(data)
+      super M2S_REQUESTRESTART_HEADER, data
 
-    @challenge = @content_data.long
+      @challenge = @content_data.long
+    end
+
   end
-
 end

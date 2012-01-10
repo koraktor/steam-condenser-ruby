@@ -12,10 +12,10 @@ class TestSourceServer < Test::Unit::TestCase
 
     should 'be able to get a master server for Source servers' do
       master = mock
-      MasterServer.expects(:new).with(*MasterServer::SOURCE_MASTER_SERVER).
+      SteamCondenser::MasterServer.expects(:new).with(*SteamCondenser::MasterServer::SOURCE_MASTER_SERVER).
         returns master
 
-      assert_equal master, SourceServer.master
+      assert_equal master, SteamCondenser::SourceServer.master
     end
 
   end
@@ -27,14 +27,14 @@ class TestSourceServer < Test::Unit::TestCase
         with('source', 27015, Socket::AF_INET, Socket::SOCK_DGRAM).
         returns [[nil, nil, 'source', '127.0.0.1']]
 
-      @server = SourceServer.new 'source', 27015
+      @server = SteamCondenser::SourceServer.new 'source', 27015
     end
 
     should 'create client sockets upon initialization' do
       socket = mock
-      SourceSocket.expects(:new).with('127.0.0.1', 27015).returns socket
+      SteamCondenser::SourceSocket.expects(:new).with('127.0.0.1', 27015).returns socket
       rcon_socket = mock
-      RCONSocket.expects(:new).with('127.0.0.1', 27015).returns rcon_socket
+      SteamCondenser::RCONSocket.expects(:new).with('127.0.0.1', 27015).returns rcon_socket
 
       @server.init_socket
 
@@ -49,7 +49,7 @@ class TestSourceServer < Test::Unit::TestCase
       rcon_socket.expects(:send).with do |packet|
         reply.expects(:request_id).twice.returns packet.request_id
 
-        packet.is_a? RCONAuthRequest
+        packet.is_a? SteamCondenser::RCONAuthRequest
       end
       rcon_socket.expects(:reply).twice.returns(nil).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
@@ -63,7 +63,7 @@ class TestSourceServer < Test::Unit::TestCase
       reply.expects(:request_id).twice.returns -2
 
       rcon_socket = mock
-      rcon_socket.expects(:send).with { |packet| packet.is_a? RCONAuthRequest }
+      rcon_socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::RCONAuthRequest }
       rcon_socket.expects(:reply).twice.returns(nil).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
 
@@ -76,17 +76,17 @@ class TestSourceServer < Test::Unit::TestCase
       reply.expects(:request_id).returns -1
 
       rcon_socket = mock
-      rcon_socket.expects(:send).with { |packet| packet.is_a? RCONAuthRequest }
+      rcon_socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::RCONAuthRequest }
       rcon_socket.expects(:reply).twice.returns(nil).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
 
-      assert_raises RCONNoAuthError do
+      assert_raises SteamCondenser::RCONNoAuthError do
         @server.rcon_auth 'password'
       end
     end
 
     should 'raise an error if the RCON connection is not authenticated' do
-      assert_raises RCONNoAuthError do
+      assert_raises SteamCondenser::RCONNoAuthError do
         @server.rcon_exec 'command'
       end
     end
@@ -96,12 +96,12 @@ class TestSourceServer < Test::Unit::TestCase
       setup do
         @rcon_socket = mock
         @rcon_socket.expects(:send).with do |packet|
-          packet.is_a?(RCONExecRequest) &&
+          packet.is_a?(SteamCondenser::RCONExecRequest) &&
           packet.instance_variable_get(:@content_data).string == "command\0\0" &&
           packet.instance_variable_get(:@request_id) == 1234
         end
         @rcon_socket.expects(:send).with do |packet|
-          packet.is_a?(RCONTerminator) &&
+          packet.is_a?(SteamCondenser::RCONTerminator) &&
           packet.instance_variable_get(:@request_id) == 1234
         end
 
@@ -112,10 +112,10 @@ class TestSourceServer < Test::Unit::TestCase
 
       should 'reset the connection if the server indicates so' do
         reply = mock
-        reply.expects(:is_a?).with(RCONAuthResponse).returns true
+        reply.expects(:is_a?).with(SteamCondenser::RCONAuthResponse).returns true
         @rcon_socket.expects(:reply).returns(reply)
 
-        assert_raises RCONNoAuthError do
+        assert_raises SteamCondenser::RCONNoAuthError do
           @server.rcon_exec 'command'
         end
         assert_not @server.instance_variable_get(:@rcon_authenticated)

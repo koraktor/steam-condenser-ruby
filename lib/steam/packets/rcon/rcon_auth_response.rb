@@ -13,18 +13,20 @@ require 'steam/packets/rcon/rcon_packet'
 #
 # @author Sebastian Staudt
 # @see SourceServer#rcon_auth
-class RCONAuthResponse
+module SteamCondenser
+  class RCONAuthResponse
 
-  include RCONPacket
+    include RCONPacket
 
-  # Creates a RCON authentication response for the given request ID
-  #
-  # The request ID of the packet will match the client's request if
-  # authentication was successful
-  #
-  # @param [Fixnum] request_id The request ID of the RCON connection
-  def initialize(request_id)
-    super request_id, SERVERDATA_AUTH_RESPONSE, ''
+    # Creates a RCON authentication response for the given request ID
+    #
+    # The request ID of the packet will match the client's request if
+    # authentication was successful
+    #
+    # @param [Fixnum] request_id The request ID of the RCON connection
+    def initialize(request_id)
+      super request_id, SERVERDATA_AUTH_RESPONSE, ''
+    end
+
   end
-
 end

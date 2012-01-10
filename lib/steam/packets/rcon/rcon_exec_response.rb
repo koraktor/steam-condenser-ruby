@@ -13,25 +13,27 @@ require 'steam/packets/rcon/rcon_packet'
 #
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
-class RCONExecResponse
+module SteamCondenser
+  class RCONExecResponse
 
-  include RCONPacket
+    include RCONPacket
 
-  # Creates a RCON command response for the given request ID and command
-  # output
-  #
-  # @param [Fixnum] request_id The request ID of the RCON connection
-  # @param [String] command_response The output of the command executed on the
-  #        server
-  def initialize(request_id, command_response)
-    super request_id, SERVERDATA_RESPONSE_VALUE, command_response
+    # Creates a RCON command response for the given request ID and command
+    # output
+    #
+    # @param [Fixnum] request_id The request ID of the RCON connection
+    # @param [String] command_response The output of the command executed on the
+    #        server
+    def initialize(request_id, command_response)
+      super request_id, SERVERDATA_RESPONSE_VALUE, command_response
+    end
+
+    # Returns the output of the command execution
+    #
+    # @return [String] The output of the command
+    def response
+      @content_data.string[0..-3]
+    end
+
   end
-
-  # Returns the output of the command execution
-  #
-  # @return [String] The output of the command
-  def response
-    @content_data.string[0..-3]
-  end
-
 end

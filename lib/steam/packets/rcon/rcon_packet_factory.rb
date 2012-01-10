@@ -16,28 +16,30 @@ require 'steam/packets/rcon/rcon_exec_response'
 #
 # @author Sebastian Staudt
 # @see RCONPacket
-module RCONPacketFactory
+module SteamCondenser
+  module RCONPacketFactory
 
-  # Creates a new packet object based on the header byte of the given raw data
-  #
-  # @param [String] raw_data The raw data of the packet
-  # @raise [PacketFormatError] if the packet header is not recognized
-  # @return [RCONPacket] The packet object generated from the packet data
-  def self.packet_from_data(raw_data)
-    byte_buffer = StringIO.new raw_data
+    # Creates a new packet object based on the header byte of the given raw data
+    #
+    # @param [String] raw_data The raw data of the packet
+    # @raise [PacketFormatError] if the packet header is not recognized
+    # @return [RCONPacket] The packet object generated from the packet data
+    def self.packet_from_data(raw_data)
+      byte_buffer = StringIO.new raw_data
 
-    request_id = byte_buffer.long
-    header = byte_buffer.long
-    data = byte_buffer.cstring
+      request_id = byte_buffer.long
+      header = byte_buffer.long
+      data = byte_buffer.cstring
 
-    case header
-      when RCONPacket::SERVERDATA_AUTH_RESPONSE then
-        return RCONAuthResponse.new(request_id)
-      when RCONPacket::SERVERDATA_RESPONSE_VALUE then
-        return RCONExecResponse.new(request_id, data)
-      else
-        raise PacketFormatError, "Unknown packet with header #{header.to_s(16)} received."
+      case header
+        when RCONPacket::SERVERDATA_AUTH_RESPONSE then
+          return RCONAuthResponse.new(request_id)
+        when RCONPacket::SERVERDATA_RESPONSE_VALUE then
+          return RCONExecResponse.new(request_id, data)
+        else
+          raise PacketFormatError, "Unknown packet with header #{header.to_s(16)} received."
+      end
     end
-  end
 
+  end
 end

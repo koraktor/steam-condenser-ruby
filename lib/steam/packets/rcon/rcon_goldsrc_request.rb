@@ -11,25 +11,27 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GoldSrcServer#rcon_exec
-class RCONGoldSrcRequest
+module SteamCondenser
+  class RCONGoldSrcRequest
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a request for the given request string
-  #
-  # The request string has the form `rcon {challenge number} {RCON password}
-  # {command}`.
-  #
-  # @param [String] request The request string to send to the server
-  def initialize(request)
-    super 0x00, request
+    # Creates a request for the given request string
+    #
+    # The request string has the form `rcon {challenge number} {RCON password}
+    # {command}`.
+    #
+    # @param [String] request The request string to send to the server
+    def initialize(request)
+      super 0x00, request
+    end
+
+    # Returns the raw data representing this packet
+    #
+    # @return [String] A string containing the raw data of this request packet
+    def to_s
+      [0xFFFFFFFF, @content_data.string].pack('Va*')
+    end
+
   end
-
-  # Returns the raw data representing this packet
-  #
-  # @return [String] A string containing the raw data of this request packet
-  def to_s
-    [0xFFFFFFFF, @content_data.string].pack('Va*')
-  end
-
 end

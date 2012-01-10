@@ -14,16 +14,18 @@ require 'steam/packets/rcon/rcon_packet'
 #
 # @author Sebastian Staudt
 # @see SourceServer#rcon_exec
-class RCONTerminator
+module SteamCondenser
+  class RCONTerminator
 
-  include RCONPacket
+    include RCONPacket
 
-  # Creates a new RCON terminator packet instance for the given request ID
-  #
-  # @param [Fixnum] request_id The request ID for the current RCON
-  #        communication
-  def initialize(request_id)
-    super request_id, SERVERDATA_RESPONSE_VALUE, nil
+    # Creates a new RCON terminator packet instance for the given request ID
+    #
+    # @param [Fixnum] request_id The request ID for the current RCON
+    #        communication
+    def initialize(request_id)
+      super request_id, SERVERDATA_RESPONSE_VALUE, nil
+    end
+
   end
-
 end

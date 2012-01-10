@@ -9,17 +9,19 @@ require 'steam/community/portal2/portal2_item'
 # Represents the inventory (a.k.a. Robot Enrichment) of a Portal 2 player
 #
 # @author Sebastian Staudt
-class Portal2Inventory
+module SteamCondenser
+  class Portal2Inventory
 
-  include Cacheable
-  cacheable_with_ids :steam_id64
+    include Cacheable
+    cacheable_with_ids :steam_id64
 
-  include GameInventory
+    include GameInventory
 
-  # The Steam Application ID of Portal 2
-  @@app_id = 620
+    # The Steam Application ID of Portal 2
+    @@app_id = 620
 
-  # The class representing Portal 2 items
-  @@item_class = Portal2Item
+    # The class representing Portal 2 items
+    @@item_class = Portal2Item
 
+  end
 end

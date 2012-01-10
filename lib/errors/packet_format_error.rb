@@ -9,13 +9,15 @@ require 'errors/steam_condenser_error'
 # responses received from a game or master server
 #
 # @author Sebastian Staudt
-class PacketFormatError < SteamCondenserError
+module SteamCondenser
+  class PacketFormatError < SteamCondenserError
 
-  # Creates a new `PacketFormatError` instance
-  #
-  # @param [String] message The message to attach to the error
-  def initialize(message)
-    super message
+    # Creates a new `PacketFormatError` instance
+    #
+    # @param [String] message The message to attach to the error
+    def initialize(message)
+      super message
+    end
+
   end
-
 end

@@ -11,14 +11,14 @@ class TestMasterServerSocket < Test::Unit::TestCase
   context 'A master server socket' do
 
     setup do
-      @socket = MasterServerSocket.new '127.0.0.1'
+      @socket = SteamCondenser::MasterServerSocket.new '127.0.0.1'
     end
 
     should 'raise an error if the packet header is incorrect' do
       @socket.stubs :receive_packet
       @socket.instance_variable_get(:@buffer).expects(:long).returns 1
 
-      error = assert_raises PacketFormatError do
+      error = assert_raises SteamCondenser::PacketFormatError do
         @socket.reply
       end
       assert_equal 'Master query response has wrong packet header.', error.message
@@ -31,7 +31,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
       buffer.expects(:get).returns 'test'
 
       packet = mock
-      SteamPacketFactory.expects(:packet_from_data).with('test').returns packet
+      SteamCondenser::SteamPacketFactory.expects(:packet_from_data).with('test').returns packet
 
       assert_equal packet, @socket.reply
     end

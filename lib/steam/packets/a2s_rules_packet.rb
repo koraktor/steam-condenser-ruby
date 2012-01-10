@@ -16,17 +16,19 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GameServer#update_rules_info
-class A2S_RULES_Packet
+module SteamCondenser
+  class A2S_RULES_Packet
 
-  include SteamPacket
-  include RequestWithChallenge
+    include SteamPacket
+    include RequestWithChallenge
 
-  # Creates a new A2S_RULES request object including the challenge number
-  #
-  # @param [Numeric] challenge_number The challenge number received from the
-  #        server
-  def initialize(challenge_number = -1)
-    super A2S_RULES_HEADER, challenge_number
+    # Creates a new A2S_RULES request object including the challenge number
+    #
+    # @param [Numeric] challenge_number The challenge number received from the
+    #        server
+    def initialize(challenge_number = -1)
+      super A2S_RULES_HEADER, challenge_number
+    end
+
   end
-
 end
