@@ -84,8 +84,8 @@ class SteamGroup
   # Returns the number of members this group has
   #
   # If the members have already been fetched the size of the member array is
-  # returned. Otherwise the group size is separately fetched from the first
-  # page of the member listing.
+  # returned. Otherwise the the first page of the member listing is fetched and
+  # the member count and the first batch of members is stored.
   #
   # @return [Fixnum] The number of this group's members
   def member_count
@@ -112,6 +112,7 @@ class SteamGroup
 
   # Fetches a specific page of the member listing of this group
   #
+  # @param [Fixnum] page The member page to fetch
   # @return [Fixnum] The total number of pages of this group's member listing
   def fetch_page(page)
     url = open "#{base_url}/memberslistxml?p=#{page}", { :proxy => true }
