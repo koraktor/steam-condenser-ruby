@@ -104,7 +104,7 @@ class SteamGroup
   # @return [Array<SteamId>] The Steam ID's of the members of this group
   # @see #fetch
   def members
-    fetch if @members.nil? || @members[0].nil?
+    fetch if @members.size != @member_count
     @members
   end
 
