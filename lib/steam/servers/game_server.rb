@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'errors/steam_condenser_error'
 require 'errors/timeout_error'
@@ -203,7 +203,7 @@ module GameServer
   def handle_response_for_request(request_type, repeat_on_failure = true)
     case request_type
       when :challenge then
-        request_packet = A2S_SERVERQUERY_GETCHALLENGE_Packet.new
+        request_packet = A2S_PLAYER_Packet.new
         expected_response = S2C_CHALLENGE_Packet
       when :info then
         request_packet = A2S_INFO_Packet.new
