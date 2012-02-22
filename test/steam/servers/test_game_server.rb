@@ -217,7 +217,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'handle challenge requests' do
       @server.expects(:send_request).with do |packet|
-        packet.is_a? A2S_SERVERQUERY_GETCHALLENGE_Packet
+        packet.is_a? A2S_PLAYER_Packet
       end
 
       packet = mock
