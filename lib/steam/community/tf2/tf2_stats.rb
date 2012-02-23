@@ -19,6 +19,11 @@ class TF2Stats < GameStats
   # @return [Fixnum] This player's accumulated points
   attr_reader :accumulated_points
 
+  # Returns the accumulated number of seconds this player has spent playing as a TF2 class
+  #
+  # @return [Fixnum] total seconds played as a TF2 class
+  attr_reader :total_playtime
+
   # Creates a `TF2Stats` instance by calling the super constructor with the
   # game name `'tf2'`
   #
@@ -30,6 +35,9 @@ class TF2Stats < GameStats
 
     if public? && !@xml_data['stats']['accumulatedPoints'].nil?
       @accumulated_points = @xml_data['stats']['accumulatedPoints'].to_i
+    end
+    if public? && !@xml_data['stats']['secondsPlayedAllClassesLifetime'].nil?
+      @total_playtime = @xml_data['stats']['secondsPlayedAllClassesLifetime']
     end
   end
 

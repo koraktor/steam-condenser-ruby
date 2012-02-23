@@ -28,6 +28,11 @@ class GameStats
   # @return [String] The custom URL of the player
   attr_reader :custom_url
 
+  # Returns the URL for the icon of this game
+  #
+  # @return [String] URL for game icon
+  attr_reader :game_icon_url
+
   # Returns the friendly name of the game these stats belong to
   #
   # @return [String ]The frienldy name of the game
@@ -113,11 +118,13 @@ class GameStats
 
     @privacy_state = @xml_data['privacyState']
     if public?
-      @app_id       = @xml_data['game']['gameLink'].match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
-      @custom_url   = @xml_data['player']['customURL'] if @custom_url.nil?
-      @game_name    = @xml_data['game']['gameName']
-      @hours_played = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
-      @steam_id64   = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
+      @app_id        = @xml_data['game']['gameLink'].match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
+      @custom_url    = @xml_data['player']['customURL'] if @custom_url.nil?
+      @game_icon_url = @xml_data['game']['gameIcon']
+      @game_logo_url = @xml_data['game']['gameLogo'][0..-5]
+      @game_name     = @xml_data['game']['gameName']
+      @hours_played  = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
+      @steam_id64    = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
     end
   end
 
@@ -173,6 +180,20 @@ class GameStats
     else
       "http://steamcommunity.com/id/#{@custom_url}/stats/#{@game_friendly_name}"
     end
+  end
+
+  # Returns the URL for the logo image of this game
+  #
+  # @return [String] The URL for the game logo
+  def game_logo_url
+    "#{@game_logo_url}.jpg"
+  end
+
+  # Returns the URL for the logo thumbnail image of this game
+  #
+  # @return [String] The URL for the game logo thumbnail
+  def game_logo_thumbnail_url
+    "#{@game_logo_url}_thumb.jpg"
   end
 
   # Returns the leaderboard for this game and the given leaderboard ID or name

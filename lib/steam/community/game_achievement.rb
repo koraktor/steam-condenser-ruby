@@ -83,6 +83,7 @@ class GameAchievement
     @api_name    = achievement_data['apiname']
     @app_id      = app_id
     @description = achievement_data['description']
+    @icon_url    = achievement_data['iconClosed'][0..-5]
     @name        = achievement_data['name']
     @steam_id64  = steam_id64
     @unlocked    = (achievement_data['closed'].to_i == 1)
@@ -90,6 +91,20 @@ class GameAchievement
     if @unlocked && !achievement_data['unlockTimestamp'].nil?
       @timestamp  = Time.at(achievement_data['unlockTimestamp'].to_i)
     end
+  end
+
+  # Returns the url for the closed icon of this achievement
+  #
+  # @return [String] The url of the closed achievement icon
+  def icon_closed_url
+    "#{@icon_url}.jpg"
+  end
+
+  # Returns the url for the open icon of this achievement
+  #
+  # @return [String] The url of the open achievement icon
+  def icon_open_url
+    "#{@icon_url}_bw.jpg"
   end
 
   # Returns whether this achievement has been unlocked by its owner

@@ -16,6 +16,11 @@ class TF2Spy < TF2Class
   # @return [Fixnum] Maximum number of buildings built
   attr_reader :max_backstabs
 
+  # Returns the head shots by the player in a single life as a Spy
+  #
+  # @return [Fixnum] Maximum number of head shots
+  attr_reader :max_head_shots
+
   # Returns the maximum health leeched from enemies by the player in a single
   # life as a Spy
   #
@@ -29,6 +34,7 @@ class TF2Spy < TF2Class
     super class_data
 
     @max_backstabs      = class_data['ibackstabs'].to_i
+    @max_head_shots     = class_data['iheadshots'].to_i
     @max_health_leeched = class_data['ihealthpointsleached'].to_i
   end
 
