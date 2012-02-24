@@ -29,9 +29,10 @@ included LICENSE file.
 
 ## Credits
 
-* Sebastian Staudt -- koraktor(at)gmail.com
-* DeFirence -- defirence(at)defirence.za.net
-* Mike Połtyn -- mike(at)railslove.com
+* Sebastian Staudt – koraktor(at)gmail.com
+* DeFirence – defirence(at)defirence.za.net
+* Mike Połtyn – mike(at)railslove.com
+* Sam Kinard – snkinard(at)gmail.com
 
 ## See Also
 
