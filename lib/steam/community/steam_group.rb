@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
@@ -122,7 +122,7 @@ class SteamGroup
         @members << SteamId.new(member.to_i, false)
       end
     rescue
-      raise SteamCondenserError, 'XML data could not be parsed.'
+      raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
     end
 
     total_pages

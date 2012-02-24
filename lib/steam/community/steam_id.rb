@@ -303,7 +303,7 @@ class SteamId
       end
     rescue
       raise $! if $!.is_a? SteamCondenserError
-      raise SteamCondenserError, 'XML data could not be parsed.'
+      raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
     end
 
     super
