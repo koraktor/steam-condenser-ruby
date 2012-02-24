@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'cgi'
 
@@ -336,8 +336,9 @@ class SteamId
     @playtimes = {}
     games_data = parse "#{base_url}/games?xml=1"
     [games_data['games']['game']].flatten.each do |game_data|
-      game = SteamGame.new game_data
-      @games[game.app_id] = game
+      app_id = game_data['appID'].to_i
+      game = SteamGame.new app_id, game_data
+      @games[app_id] = game
       recent = total = 0
       if game_data.key? 'hoursLast2Weeks'
         recent = game_data['hoursLast2Weeks'].to_f
@@ -345,7 +346,7 @@ class SteamId
       if game_data.key? 'hoursOnRecord'
         total = game_data['hoursOnRecord'].to_f
       end
-      @playtimes[game.app_id] = [(recent * 60).to_i, (total * 60).to_i]
+      @playtimes[app_id] = [(recent * 60).to_i, (total * 60).to_i]
     end
 
     true

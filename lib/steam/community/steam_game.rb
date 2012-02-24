@@ -1,8 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
+require 'steam/community/cacheable'
 require 'steam/community/game_leaderboard'
 require 'steam/community/game_stats'
 require 'steam/community/web_api'
@@ -12,7 +13,8 @@ require 'steam/community/web_api'
 # @author Sebastian Staudt
 class SteamGame
 
-  @@games = {}
+  include Cacheable
+  cacheable_with_ids :app_id
 
   # Returns the Steam application ID of this game
   #
@@ -39,16 +41,6 @@ class SteamGame
   # @return [String] The short name of this game
   attr_reader :short_name
 
-  # Creates a new or cached instance of the game specified by the given XML
-  # data
-  #
-  # @param [Hash<String, Object>] game_data The XML data of the game
-  # @see #initialize
-  def self.new(game_data)
-    app_id = game_data['appID'].to_i
-    @@games.key?(app_id) ? @@games[app_id] : super(app_id, game_data)
-  end
-
   # Checks if a game is up-to-date by reading information from a `steam.inf`
   # file and comparing it using the Web API
   #
@@ -63,6 +55,20 @@ class SteamGame
       raise SteamCondenserError, "The steam.inf file at \"#{path}\" is invalid."
     end
     uptodate? app_id, version
+  end
+
+  # Creates a new instance of a game with the given data and caches it
+  #
+  # @param [Fixnum] app_id The application ID of the game
+  # @param [Hash<String, Object>] game_data The XML data of the game
+  def self.new(app_id, game_data = nil)
+    if cached? app_id
+      class_variable_get(:@@cache)[app_id]
+    else
+      game = SteamGame.allocate
+      game.send :initialize, app_id, game_data
+      game
+    end
   end
 
   # Returns whether the given version of the game with the given application ID
@@ -131,6 +137,7 @@ class SteamGame
 
   # Creates a new instance of a game with the given data and caches it
   #
+  # @note The real constructor of `SteamGame` is {.new}
   # @param [Fixnum] app_id The application ID of the game
   # @param [Hash<String, Object>] game_data The XML data of the game
   def initialize(app_id, game_data)
@@ -140,7 +147,7 @@ class SteamGame
       @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
     end
 
-    @@games[@app_id] = self
+    super()
   end
 
 end
