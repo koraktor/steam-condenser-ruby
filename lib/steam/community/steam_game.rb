@@ -19,6 +19,16 @@ class SteamGame
   # @return [Fixnum] The Steam application ID of this game
   attr_reader :app_id
 
+  # Returns the URL for the logo image of this game
+  #
+  # @return [String] The URL for the game logo
+  attr_reader :logo_url
+
+  # Returns the URL for the store page of this game
+  #
+  # @return [String] The URL for the store page
+  attr_reader :store_url
+
   # Returns the full name of this game
   #
   # @return [String] The full name of this game
