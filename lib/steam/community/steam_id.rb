@@ -272,13 +272,13 @@ class SteamId
           @favorite_game_hours_played = profile['favoriteGame']['hoursPlayed2wk']
         end
 
-        @head_line    = CGI.unescapeHTML profile['headline']
+        @head_line    = CGI.unescapeHTML profile['headline'] || ''
         @hours_played = profile['hoursPlayed2Wk'].to_f
         @location     = profile['location']
         @member_since = Time.parse profile['memberSince']
-        @real_name    = CGI.unescapeHTML profile['realname']
+        @real_name    = CGI.unescapeHTML profile['realname'] || ''
         @steam_rating = profile['steamRating'].to_f
-        @summary      = CGI.unescapeHTML profile['summary']
+        @summary      = CGI.unescapeHTML profile['summary'] || ''
 
         @most_played_games = {}
         if profile.key? 'mostPlayedGames'
