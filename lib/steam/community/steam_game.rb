@@ -141,8 +141,11 @@ class SteamGame
   # @param [Fixnum] app_id The application ID of the game
   # @param [Hash<String, Object>] game_data The XML data of the game
   def initialize(app_id, game_data)
-    @app_id = app_id
-    @name   = game_data['name']
+    @app_id    = app_id
+    @logo_url  = game_data['logo']
+    @name      = game_data['name']
+    @store_url = game_data['storeLink']
+
     if game_data.key? 'globalStatsLink'
       @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
     end
