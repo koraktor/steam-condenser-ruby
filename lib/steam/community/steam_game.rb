@@ -26,11 +26,6 @@ class SteamGame
   # @return [String] The URL for the game logo
   attr_reader :logo_url
 
-  # Returns the URL for the store page of this game
-  #
-  # @return [String] The URL for the store page
-  attr_reader :store_url
-
   # Returns the full name of this game
   #
   # @return [String] The full name of this game
@@ -107,10 +102,10 @@ class SteamGame
     GameLeaderboard.leaderboards @short_name
   end
 
-  # Returns a link to this game's page in the Steam Store
+  # Returns the URL of this game's page in the Steam Store
   #
   # @return [String] This game's store page
-  def store_link
+  def store_url
     "http://store.steampowered.com/app/#{@app_id}"
   end
 
@@ -144,7 +139,6 @@ class SteamGame
     @app_id    = app_id
     @logo_url  = game_data['logo']
     @name      = game_data['name']
-    @store_url = game_data['storeLink']
 
     if game_data.key? 'globalStatsLink'
       @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
