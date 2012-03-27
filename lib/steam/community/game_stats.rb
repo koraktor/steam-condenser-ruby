@@ -101,15 +101,15 @@ class GameStats
   #
   # @param [String, Fixnum] id The custom URL or the 64bit Steam ID of the
   #        user
-  # @param [String] game_name The friendly name of the game
+  # @param [String] game_id The application ID or friendly name of the game
   # @raise [SteamCondenserError] if the stats cannot be fetched
-  def initialize(id, game_name)
+  def initialize(id, game_id)
     if id.is_a? Numeric
       @steam_id64 = id
     else
       @custom_url = id.downcase
     end
-    @game_friendly_name = game_name
+    @game_id = game_id
 
     @xml_data = parse "#{base_url}?xml=all"
 
@@ -175,10 +175,12 @@ class GameStats
   #
   # @return [String] The base URL used for queries on these stats
   def base_url
+    game_url = @game_id.is_a?(Fixnum) ? "appid/#{game_id}" : @game_id
+
     if @custom_url.nil?
-      "http://steamcommunity.com/profiles/#{@steam_id64}/stats/#{@game_friendly_name}"
+      "http://steamcommunity.com/profiles/#{@steam_id64}/stats/#{game_url}"
     else
-      "http://steamcommunity.com/id/#{@custom_url}/stats/#{@game_friendly_name}"
+      "http://steamcommunity.com/id/#{@custom_url}/stats/#{game_url}"
     end
   end
 
@@ -201,14 +203,14 @@ class GameStats
   # @param [Fixnum, String] id The ID or name of the leaderboard to return
   # @return [GameLeaderboard] The matching leaderboard if available
   def leaderboard(id)
-    GameLeaderboard.leaderboard @game_friendly_name, id
+    GameLeaderboard.leaderboard @game_id, id
   end
 
   # Returns an array containing all of this game's leaderboards
   #
   # @return [Array<GameLeaderboard>] The leaderboards for this game
   def leaderboards
-    GameLeaderboard.leaderboards @game_friendly_name
+    GameLeaderboard.leaderboards @game_id
   end
 
   # Returns whether this Steam ID is publicly accessible
