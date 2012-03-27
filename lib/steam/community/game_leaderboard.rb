@@ -1,7 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
+
+require 'multi_xml'
 
 require 'steam/community/game_leaderboard_entry'
 require 'steam/community/steam_id'
@@ -85,13 +87,13 @@ class GameLeaderboard
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
     url = "#{@url}&steamid=#{steam_id}"
-    xml = REXML::Document.new(open(url, {:proxy => true}).read).root
+    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
-    error = @xml_data.elements['error']
-    raise SteamCondenserError, error.text unless error.nil?
+    error = xml_data['error']
+    raise SteamCondenserError, error unless error.nil?
 
-    boards_data.elements.each('entries/entry') do |entry_data|
-      if entry_data.elements['steamid'].text.to_i == steam_id
+    xml_data['entries']['entry'].each do |entry_data|
+      if entry_data['steamid'].to_i == steam_id
         return GameLeaderboardEntry.new entry_data, self
       end
     end
@@ -112,14 +114,14 @@ class GameLeaderboard
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
     url = "#{@url}&steamid=#{steam_id}"
-    xml = REXML::Document.new(open(url, {:proxy => true}).read).root
+    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
-    error = @xml_data.elements['error']
-    raise SteamCondenserError, error.text unless error.nil?
+    error = xml_data['error']
+    raise SteamCondenserError, error unless error.nil?
 
     entries = []
-    boards_data.elements.each('entries/entry') do |entry_data|
-      rank = entry_data.elements['rank'].text.to_i
+    xml_data['entries']['entry'].each do |entry_data|
+      rank = entry_data['rank'].to_i
       entries[rank] = GameLeaderboardEntry.new entry_data, self
     end
 
@@ -149,14 +151,14 @@ class GameLeaderboard
     end
 
     url = "#{@url}&start=#{first}&end=#{last}"
-    xml = REXML::Document.new(open(url, {:proxy => true}).read).root
+    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
-    error = @xml_data.elements['error']
-    raise SteamCondenserError, error.text unless error.nil?
+    error = xml_data['error']
+    raise SteamCondenserError, error unless error.nil?
 
     entries = []
-    boards_data.elements.each('entries/entry') do |entry_data|
-      rank = entry_data.elements['rank'].text.to_i
+    xml_data['entries']['entry'].each do |entry_data|
+      rank = entry_data['rank'].to_i
       entries[rank] = GameLeaderboardEntry.new entry_data, self
     end
 
@@ -167,14 +169,14 @@ class GameLeaderboard
 
   # Creates a new leaderboard instance with the given XML data
   #
-  # @param [REXML::Element] board_data The XML data of the leaderboard
+  # @param [Hash<String, Object>] board_data The XML data of the leaderboard
   def initialize(board_data)
-    @url          = board_data.elements['url'].text
-    @id           = board_data.elements['lbid'].text.to_i
-    @name         = board_data.elements['name'].text
-    @entry_count  = board_data.elements['entries'].text.to_i
-    @sort_method  = board_data.elements['sortmethod'].text.to_i
-    @display_type = board_data.elements['displaytype'].text.to_i
+    @url          = board_data['url']
+    @id           = board_data['lbid'].to_i
+    @name         = board_data['name']
+    @entry_count  = board_data['entries'].to_i
+    @sort_method  = board_data['sortmethod'].to_i
+    @display_type = board_data['displaytype'].to_i
   end
 
   # Loads the leaderboards of the specified games into the cache
@@ -184,13 +186,13 @@ class GameLeaderboard
   #         leaderboards
   def self.load_leaderboards(game_name)
     url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
-    boards_data = REXML::Document.new(open(url, {:proxy => true}).read).root
+    boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
-    error = boards_data.elements['error']
-    raise SteamCondenserError, error.text unless error.nil?
+    error = boards_data['error']
+    raise SteamCondenserError, error unless error.nil?
 
     @@leaderboards[game_name] = []
-    boards_data.elements.each('leaderboard') do |board_data|
+    boards_data['leaderboard'].each do |board_data|
       leaderboard = GameLeaderboard.new board_data
       @@leaderboards[game_name][leaderboard.id] = leaderboard
     end
