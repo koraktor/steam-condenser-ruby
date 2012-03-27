@@ -68,7 +68,11 @@ class SteamGroup
   #
   # @see Cacheable#fetch
   def fetch
-    page = 0
+    if @member_count.nil? || @member_count == @members.size
+      page = 0
+    else
+      page = 1
+    end
 
     begin
       total_pages = fetch_page(page += 1)
