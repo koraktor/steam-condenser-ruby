@@ -21,10 +21,10 @@ class SteamGame
   # @return [Fixnum] The Steam application ID of this game
   attr_reader :app_id
 
-  # Returns the URL for the logo image of this game
+  # Returns the URL for the icon image of this game
   #
-  # @return [String] The URL for the game logo
-  attr_reader :logo_url
+  # @return [String] The URL for the game icon
+  attr_reader :icon_url
 
   # Returns the full name of this game
   #
@@ -102,6 +102,20 @@ class SteamGame
     GameLeaderboard.leaderboards @short_name
   end
 
+  # Returns the URL for the logo image of this game
+  #
+  # @return [String] The URL for the game logo
+  def logo_url
+    "http://media.steampowered.com/steamcommunity/public/images/apps/#{@app_id}/#{@logo_hash}.jpg"
+  end
+
+  # Returns the URL for the logo thumbnail image of this game
+  #
+  # @return [String] The URL for the game logo thumbnail
+  def logo_thumbnail_url
+    "http://media.steampowered.com/steamcommunity/public/images/apps/#{@app_id}/#{@logo_hash}_thumb.jpg"
+  end
+
   # Returns the URL of this game's page in the Steam Store
   #
   # @return [String] This game's store page
@@ -136,12 +150,21 @@ class SteamGame
   # @param [Fixnum] app_id The application ID of the game
   # @param [Hash<String, Object>] game_data The XML data of the game
   def initialize(app_id, game_data)
-    @app_id    = app_id
-    @logo_url  = game_data['logo']
-    @name      = game_data['name']
+    @app_id   = app_id
 
-    if game_data.key? 'globalStatsLink'
-      @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
+    if game_data.key? 'name'
+      @logo_hash = game_data['logo'].match(/\/#{app_id}\/([0-9a-f]+).jpg/)[1]
+      @name      = game_data['name']
+
+      if game_data.key? 'globalStatsLink'
+        @short_name = game_data['globalStatsLink'].match(/http:\/\/steamcommunity.com\/stats\/([^?\/]+)\/achievements\//)[1].downcase
+      end
+    else
+      @icon_url   = game_data['gameIcon']
+      @logo_hash  = game_data['gameLogo'].match(/\/#{app_id}\/([0-9a-f]+).jpg/)[1]
+      @name       = game_data['gameName']
+      @short_name = game_data['gameFriendlyName']
+      @short_name = @app_id if @short_name == @app_id.to_s
     end
 
     super()
