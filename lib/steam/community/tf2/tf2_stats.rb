@@ -66,7 +66,7 @@ class TF2Stats < GameStats
   # @return [TF2Inventory] This player's TF2 backpack
   def inventory
     if @inventory.nil?
-      inventory_class = (game_friendly_name == 'tf2') ? TF2Inventory : TF2BetaInventory
+      inventory_class = (game.short_name == 'tf2') ? TF2Inventory : TF2BetaInventory
       @inventory = inventory_class.new(steam_id64) if @inventory.nil?
     end
 

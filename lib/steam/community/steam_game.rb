@@ -87,6 +87,15 @@ class SteamGame
     !@short_name.nil?
   end
 
+  # Returns a unique identifier for this game
+  #
+  # This is either the numeric application ID or the unique short name
+  #
+  # @return [Fixnum, String] The application ID or short name of the game
+  def id
+    @short_name == @app_id.to_s ? @app_id : @short_name
+  end
+
   # Returns the leaderboard for this game and the given leaderboard ID or name
   #
   # @param [Fixnum, String] id The ID or name of the leaderboard to return

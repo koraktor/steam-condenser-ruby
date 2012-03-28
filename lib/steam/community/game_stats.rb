@@ -18,11 +18,6 @@ class GameStats
 
   include XMLData
 
-  # Returns the Steam application ID of the game these stats belong to
-  #
-  # @return [Fixnum] The Steam application ID of the game
-  attr_reader :app_id
-
   # Returns the custom URL of the player these stats belong to
   #
   # @return [String] The custom URL of the player
@@ -32,21 +27,6 @@ class GameStats
   #
   # @return [SteamGame] The game object
   attr_reader :game
-
-  # Returns the URL for the icon of this game
-  #
-  # @return [String] URL for game icon
-  attr_reader :game_icon_url
-
-  # Returns the friendly name of the game these stats belong to
-  #
-  # @return [String ]The frienldy name of the game
-  attr_reader :game_friendly_name
-
-  # Returns the full name of the game these stats belong to
-  #
-  # @return [String] The name of the game
-  attr_reader :game_name
 
   # Returns the number of hours this game has been played by the player
   #
@@ -114,7 +94,6 @@ class GameStats
     else
       @custom_url = id.downcase
     end
-    @game_id = game_id
 
     @xml_data = parse "#{base_url}?xml=all"
 
@@ -143,7 +122,7 @@ class GameStats
     if @achievements.nil?
       @achievements = Array.new
       @xml_data['achievements']['achievement'].each do |achievement|
-        @achievements << GameAchievement.new(@steam_id64, @app_id, achievement)
+        @achievements << GameAchievement.new(@steam_id64, @game.app_id, achievement)
       end
 
       @achievements_done = @achievements.reject{ |a| !a.unlocked? }.size
@@ -179,7 +158,7 @@ class GameStats
   #
   # @return [String] The base URL used for queries on these stats
   def base_url
-    game_url = @game_id.is_a?(Fixnum) ? "appid/#{game_id}" : @game_id
+    game_url = @game.id.is_a?(Fixnum) ? "appid/#{@game.id}" : @game.id
 
     if @custom_url.nil?
       "http://steamcommunity.com/profiles/#{@steam_id64}/stats/#{game_url}"
