@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/game_achievement'
 require 'steam/community/game_leaderboard'
@@ -42,6 +42,22 @@ class GameStats
   #
   # @return [Fixnum] The 64bit numeric SteamID of the player
   attr_reader :steam_id64
+
+  # Returns the base Steam Communtiy URL for the given player and game IDs
+  #
+  # @param [Fixnum, String] user_id The 64bit SteamID or custom URL of the user
+  # @param [Fixnum, String] game_id The application ID or short name of the
+  #        game
+  # @return The base URL used for the given stats IDs
+  def self.base_url(user_id, game_id)
+    game_url = game_id.is_a?(Fixnum) ? "appid/#{game_id}" : game_id
+
+    if user_id.is_a? Fixnum
+      "http://steamcommunity.com/profiles/#{user_id}/stats/#{game_url}"
+    else
+      "http://steamcommunity.com/id/#{user_id}/stats/#{game_url}"
+    end
+  end
 
   # Creates a `GameStats` (or one of its subclasses) instance for the given
   # user and game
@@ -95,7 +111,7 @@ class GameStats
       @custom_url = id.downcase
     end
 
-    @xml_data = parse "#{base_url}?xml=all"
+    @xml_data = parse "#{self.class.base_url(id, game_id)}?xml=all"
 
     error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
@@ -158,13 +174,7 @@ class GameStats
   #
   # @return [String] The base URL used for queries on these stats
   def base_url
-    game_url = @game.id.is_a?(Fixnum) ? "appid/#{@game.id}" : @game.id
-
-    if @custom_url.nil?
-      "http://steamcommunity.com/profiles/#{@steam_id64}/stats/#{game_url}"
-    else
-      "http://steamcommunity.com/id/#{@custom_url}/stats/#{game_url}"
-    end
+    self.class.base_url @custom_url || @steam_id64
   end
 
   # Returns whether this Steam ID is publicly accessible
