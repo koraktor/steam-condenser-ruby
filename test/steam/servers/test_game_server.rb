@@ -237,7 +237,7 @@ class TestGameServer < Test::Unit::TestCase
       assert_equal({ :test => 'test' }, @server.instance_variable_get(:@info_hash))
     end
 
-    should 'server rule requests' do
+    should 'handle rule requests' do
       @server.expects(:send_request).with do |packet|
         packet.is_a? A2S_RULES_Packet
       end
@@ -254,7 +254,7 @@ class TestGameServer < Test::Unit::TestCase
       assert_equal({ :test => 'test' }, @server.instance_variable_get(:@rules_hash))
     end
 
-    should 'player requests' do
+    should 'handle player requests' do
       @server.expects(:send_request).with do |packet|
         packet.is_a? A2S_PLAYER_Packet
       end
