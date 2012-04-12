@@ -170,49 +170,37 @@ class TestGameServer < Test::Unit::TestCase
 
     end
 
-    context 'be able to get additional information about the players on a GoldSrc server' do
+    should 'be able to get additional information about the players on a GoldSrc server with the RCON password' do
+      status = fixture 'status_goldsrc'
 
-      setup do
-        status = fixture 'status_goldsrc'
+      @someone = mock
+      @somebody = mock
+      player_hash = { 'someone' => @someone, 'somebody' => @somebody }
+      @server.instance_variable_set :@player_hash, player_hash
 
-        @someone = mock
-        @somebody = mock
-        player_hash = { 'someone' => @someone, 'somebody' => @somebody }
-        @server.instance_variable_set :@player_hash, player_hash
+      @server.expects(:handle_response_for_request).with :players
+      @server.expects(:rcon_exec).with('status').returns status
 
-        @server.expects(:handle_response_for_request).with :players
-        @server.expects(:rcon_exec).with('status').returns status
+      someone_data = { :name => 'someone', :userid => '1', :uniqueid => 'STEAM_0:0:123456', :score => '10', :time => '3:52', :ping => '12', :loss => '0', :adr => '0' }
+      somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :adr => '0' }
 
-        someone_data = { :name => 'someone', :userid => '1', :uniqueid => 'STEAM_0:0:123456', :score => '10', :time => '3:52', :ping => '12', :loss => '0', :adr => '0' }
-        somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :adr => '0' }
+      attributes = mock
+      GameServer.expects(:player_status_attributes).
+        with('name userid uniqueid frag time ping loss adr').
+        returns attributes
+      GameServer.expects(:split_player_status).
+        with(attributes, '1   "someone" 1 STEAM_0:0:123456 10 3:52 12 0 0').
+        returns somebody_data
+      GameServer.expects(:split_player_status).
+        with(attributes, '2   "somebody" 2 STEAM_0:0:123457 3 2:42 34 0 0').
+        returns someone_data
 
-        attributes = mock
-        GameServer.expects(:player_status_attributes).
-          with('name userid uniqueid frag time ping loss adr').
-          returns attributes
-        GameServer.expects(:split_player_status).
-          with(attributes, '1   "someone" 1 STEAM_0:0:123456 10 3:52 12 0 0').
-          returns somebody_data
-        GameServer.expects(:split_player_status).
-          with(attributes, '2   "somebody" 2 STEAM_0:0:123457 3 2:42 34 0 0').
-          returns someone_data
+      @somebody.expects(:add_info).with somebody_data
+      @someone.expects(:add_info).with someone_data
 
-        @somebody.expects(:add_info).with somebody_data
-        @someone.expects(:add_info).with someone_data
-      end
+      @server.expects(:rcon_auth).with 'password'
 
-      should 'with the RCON password' do
-        @server.expects(:rcon_auth).with 'password'
-
-        @server.update_players 'password'
-      end
-
-      should 'if the RCON connection is authenticated' do
-        @server.instance_variable_set :@rcon_authenticated, true
-
-        @server.update_players
-      end
-
+      @server.update_players 'password'
     end
 
     should 'handle challenge requests' do
