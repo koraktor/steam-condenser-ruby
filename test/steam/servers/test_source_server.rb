@@ -60,7 +60,7 @@ class TestSourceServer < Test::Unit::TestCase
 
     should 'fail to authenticate if the wrong request ID is returned' do
       reply = mock
-      reply.expects(:request_id).twice.returns -2
+      reply.expects(:request_id).twice.returns -1
 
       rcon_socket = mock
       rcon_socket.expects(:send).with { |packet| packet.is_a? RCONAuthRequest }
@@ -69,20 +69,6 @@ class TestSourceServer < Test::Unit::TestCase
 
       assert_not @server.rcon_auth 'password'
       assert_not @server.instance_variable_get(:@rcon_authenticated)
-    end
-
-    should 'raise an error if authentication fails' do
-      reply = mock
-      reply.expects(:request_id).returns -1
-
-      rcon_socket = mock
-      rcon_socket.expects(:send).with { |packet| packet.is_a? RCONAuthRequest }
-      rcon_socket.expects(:reply).twice.returns(nil).returns(reply)
-      @server.instance_variable_set :@rcon_socket, rcon_socket
-
-      assert_raises RCONNoAuthError do
-        @server.rcon_auth 'password'
-      end
     end
 
     should 'raise an error if the RCON connection is not authenticated' do

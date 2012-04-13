@@ -68,8 +68,6 @@ class SourceServer
     @rcon_socket.reply
     reply = @rcon_socket.reply
 
-    raise RCONNoAuthError if reply.request_id == -1
-
     @rcon_authenticated = reply.request_id == @rcon_request_id
   end
 
