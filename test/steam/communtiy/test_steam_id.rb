@@ -42,6 +42,14 @@ class TestSteamId < Test::Unit::TestCase
       assert SteamId.cached? 'son_of_Thor'
     end
 
+    should 'have an ID' do
+      steam_id1 = SteamId.new 76561197983311154, false
+      steam_id2 = SteamId.new 'Son_of_Thor', false
+
+      assert_equal 76561197983311154, steam_id1.id
+      assert_equal 'son_of_thor', steam_id2.id
+    end
+
     should 'be able to fetch its data' do
       url = fixture_io 'sonofthor.xml'
       SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url

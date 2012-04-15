@@ -410,6 +410,15 @@ class SteamId
     "#{@image_url}.jpg"
   end
 
+  # Returns a unique identifier for this Steam ID
+  #
+  # This is either the 64bit numeric SteamID or custom URL
+  #
+  # @return [Fixnum, String] The 64bit numeric SteamID or the custom URL
+  def id
+    @custom_url.nil? ? @steam_id64 : @custom_url
+  end
+
   # Returns whether the owner of this SteamId is playing a game
   #
   # @return [Boolean] `true` if the user is in-game
