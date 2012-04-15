@@ -119,11 +119,10 @@ class GameStats
     @privacy_state = @xml_data['privacyState']
     if public?
       app_id        = @xml_data['game']['gameLink'].match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
-      @game          = SteamGame.new app_id, @xml_data['game']
-
-      @custom_url    = @xml_data['player']['customURL'] if @custom_url.nil?
-      @hours_played  = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
-      @steam_id64    = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
+      @game         = SteamGame.new app_id, @xml_data['game']
+      @custom_url   = @xml_data['player']['customURL'] if @custom_url.nil?
+      @hours_played = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
+      @steam_id64   = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
     end
   end
 
