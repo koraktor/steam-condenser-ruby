@@ -174,7 +174,7 @@ class GameStats
   #
   # @return [String] The base URL used for queries on these stats
   def base_url
-    self.class.base_url @custom_url || @steam_id64
+    self.class.base_url @custom_url || @steam_id64, @game.short_name || @game.app_id
   end
 
   # Returns whether this Steam ID is publicly accessible
