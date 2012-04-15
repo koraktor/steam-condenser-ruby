@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'steam/community/cacheable'
 require 'steam/community/game_item'
@@ -17,10 +17,10 @@ module GameInventory
   # @return [Array<GameItem>] All items in the backpack
   attr_reader :items
 
-  # Returns the 64bit SteamID of the player owning this inventory
+  # Returns the Steam ID of the player owning this inventory
   #
-  # @return [String] The 64bit SteamID
-  attr_reader :steam_id64
+  # @return [SteamId] The Steam ID of the owner of this inventory
+  attr_reader :user
 
   @@attribute_schema = {}
 
@@ -45,7 +45,7 @@ module GameInventory
   #        inventory for
   # @param [Boolean] fetch_now if `true` the data will be fetched immediately
   def initialize(steam_id64, fetch_now = true)
-    @steam_id64 = steam_id64
+    @user = SteamId.new steam_id64, false
 
     super fetch_now
   end
@@ -80,7 +80,7 @@ module GameInventory
 
   # Updates the contents of the inventory using Steam Web API
   def fetch
-    result = WebApi.json!("IEconItems_#{app_id}", 'GetPlayerItems', 1, { :SteamID => @steam_id64 })
+    result = WebApi.json!("IEconItems_#{app_id}", 'GetPlayerItems', 1, { :SteamID => @user.steam_id64 })
     item_class = self.class.send :class_variable_get, :@@item_class
 
     @items = []

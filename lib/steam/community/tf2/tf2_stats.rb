@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/game_stats'
 require 'steam/community/tf2/tf2_beta_inventory'
@@ -67,7 +67,7 @@ class TF2Stats < GameStats
   def inventory
     if @inventory.nil?
       inventory_class = (game.short_name == 'tf2') ? TF2Inventory : TF2BetaInventory
-      @inventory = inventory_class.new(steam_id64) if @inventory.nil?
+      @inventory = inventory_class.new(user.steam_id64) if @inventory.nil?
     end
 
     @inventory

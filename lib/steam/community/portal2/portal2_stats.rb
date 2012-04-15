@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'steam/community/game_stats'
 require 'steam/community/portal2/portal2_inventory'
@@ -25,7 +25,7 @@ class Portal2Stats < GameStats
   #
   # @return [TF2Inventory] This player's Portal 2 inventory
   def inventory
-    @inventory = Portal2Inventory.new(steam_id64) if @inventory.nil?
+    @inventory = Portal2Inventory.new(user.steam_id64) if @inventory.nil?
     @inventory
   end
 
