@@ -90,8 +90,8 @@ class GoldSrcSocket
   def rcon_exec(password, command)
     rcon_challenge if @rcon_challenge.nil? || @is_hltv
 
-    rcon_send "rcon #{@rcon_challenge} #{password} #{command}"
-    rcon_send "rcon #{@rcon_challenge} #{password}"
+    rcon_send "rcon #@rcon_challenge #{password} #{command}"
+    rcon_send "rcon #@rcon_challenge #{password}"
     if @is_hltv
       begin
         response = reply.response

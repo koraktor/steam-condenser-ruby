@@ -92,7 +92,7 @@ class GameAchievement
   #
   # @return [String] The url of the closed achievement icon
   def icon_closed_url
-    "#{@icon_url}.jpg"
+    "#@icon_url.jpg"
   end
 
   # Returns the url for the open icon of this achievement

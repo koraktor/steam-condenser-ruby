@@ -115,21 +115,21 @@ class SteamGame
   #
   # @return [String] The URL for the game logo
   def logo_url
-    "http://media.steampowered.com/steamcommunity/public/images/apps/#{@app_id}/#{@logo_hash}.jpg"
+    "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#@logo_hash.jpg"
   end
 
   # Returns the URL for the logo thumbnail image of this game
   #
   # @return [String] The URL for the game logo thumbnail
   def logo_thumbnail_url
-    "http://media.steampowered.com/steamcommunity/public/images/apps/#{@app_id}/#{@logo_hash}_thumb.jpg"
+    "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#@logo_hash_thumb.jpg"
   end
 
   # Returns the URL of this game's page in the Steam Store
   #
   # @return [String] This game's store page
   def store_url
-    "http://store.steampowered.com/app/#{@app_id}"
+    "http://store.steampowered.com/app/#@app_id"
   end
 
   # Returns whether the given version of this game is up-to-date

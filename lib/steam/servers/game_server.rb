@@ -346,8 +346,8 @@ module GameServer
   def to_s
     return_string = ''
 
-    return_string << "Ping: #{@ping}\n"
-    return_string << "Challenge number: #{@challenge_number}\n"
+    return_string << "Ping: #@ping\n"
+    return_string << "Challenge number: #@challenge_number\n"
 
     unless @info_hash.nil?
       return_string << "Info:\n"

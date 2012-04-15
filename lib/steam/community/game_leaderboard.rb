@@ -86,7 +86,7 @@ class GameLeaderboard
   def entry_for_steam_id(steam_id)
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
-    url = "#{@url}&steamid=#{steam_id}"
+    url = "#@url&steamid=#{steam_id}"
     xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
     error = xml_data['error']
@@ -113,7 +113,7 @@ class GameLeaderboard
   def entry_for_steam_id_friends(steam_id)
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
-    url = "#{@url}&steamid=#{steam_id}"
+    url = "#@url&steamid=#{steam_id}"
     xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
     error = xml_data['error']
@@ -150,7 +150,7 @@ class GameLeaderboard
         'Leaderboard entry lookup is currently limited to a maximum of 5001 entries per request.'
     end
 
-    url = "#{@url}&start=#{first}&end=#{last}"
+    url = "#@url&start=#{first}&end=#{last}"
     xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
 
     error = xml_data['error']

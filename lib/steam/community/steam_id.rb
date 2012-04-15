@@ -227,9 +227,9 @@ class SteamId
   # @return [String] The base URL for this SteamID
   def base_url
     if @custom_url.nil?
-      "http://steamcommunity.com/profiles/#{@steam_id64}"
+      "http://steamcommunity.com/profiles/#@steam_id64"
     else
-      "http://steamcommunity.com/id/#{@custom_url}"
+      "http://steamcommunity.com/id/#@custom_url"
     end
   end
 
@@ -407,7 +407,7 @@ class SteamId
   #
   # @return [String] The URL of the icon-sized avatar
   def icon_url
-    "#{@image_url}.jpg"
+    "#@image_url.jpg"
   end
 
   # Returns a unique identifier for this Steam ID

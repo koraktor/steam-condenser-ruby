@@ -55,9 +55,9 @@ class SteamGroup
   # @return [String] The base URL for this group
   def base_url
     if @custom_url.nil?
-      "http://steamcommunity.com/gid/#{@group_id64}"
+      "http://steamcommunity.com/gid/#@group_id64"
     else
-      "http://steamcommunity.com/groups/#{@custom_url}"
+      "http://steamcommunity.com/groups/#@custom_url"
     end
   end
 

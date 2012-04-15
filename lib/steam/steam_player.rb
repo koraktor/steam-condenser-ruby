@@ -134,9 +134,9 @@ class SteamPlayer
   # @return [String] A string representing this player
   def to_s
     if @extended
-      "\##{@real_id} \"#{@name}\", SteamID: #{@steam_id}, Score: #{@score}, Time: #{@connect_time}"
+      "\##@real_id \"#@name\", SteamID: #@steam_id, Score: #@score, Time: #@connect_time"
     else
-      "\##{@id} \"#{@name}\", Score: #{@score}, Time: #{@connect_time}"
+      "\##@id \"#@name\", Score: #@score, Time: #@connect_time"
     end
   end
 

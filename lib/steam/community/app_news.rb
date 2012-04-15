@@ -105,7 +105,7 @@ class AppNews
   #
   # @return [String] A simple text representing this news
   def to_s
-    "#{@feed_label}: #{@title}"
+    "#@feed_label: #@title"
   end
 
   private
