@@ -111,9 +111,7 @@ class GameStats
     if public?
       app_id        = @xml_data['game']['gameLink'].match(/http:\/\/store.steampowered.com\/app\/([1-9][0-9]+)/)[1].to_i
       @game         = SteamGame.new app_id, @xml_data['game']
-      @custom_url   = @xml_data['player']['customURL'] if @custom_url.nil?
       @hours_played = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
-      @steam_id64   = @xml_data['player']['steamID64'].to_i if @steam_id64.nil?
     end
   end
 
@@ -128,7 +126,7 @@ class GameStats
     if @achievements.nil?
       @achievements = Array.new
       @xml_data['achievements']['achievement'].each do |achievement|
-        @achievements << GameAchievement.new(@steam_id64, @game.app_id, achievement)
+        @achievements << GameAchievement.new(@user, @game, achievement)
       end
 
       @achievements_done = @achievements.reject{ |a| !a.unlocked? }.size
@@ -164,7 +162,7 @@ class GameStats
   #
   # @return [String] The base URL used for queries on these stats
   def base_url
-    self.class.base_url @custom_url || @steam_id64, @game.short_name || @game.app_id
+    self.class.base_url @user.id, @game.id
   end
 
   # Returns whether this Steam ID is publicly accessible

@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'multi_json'
 
@@ -21,11 +21,10 @@ class GameAchievement
   # @return [String] The API name of this achievement
   attr_reader :api_name
 
-  # Return the unique Steam Application ID of the  game this achievement
-  # belongs to
+  # Return the game this achievement belongs to
   #
-  # @return [Fixnum] The Steam Application ID of this achievement's game
-  attr_reader :app_id
+  # @return [Steam] The game this achievement belongs to
+  attr_reader :game
 
   # Returns the description of this achievement
   #
@@ -37,15 +36,15 @@ class GameAchievement
   # @return [String] The name of this achievement
   attr_reader :name
 
-  # Returns the 64bit SteamID of the user who owns this achievement
-  #
-  # @return [Fixnum] The 64bit SteamID of this achievement's owner
-  attr_reader :steam_id64
-
   # Returns the time this achievement has been unlocked by its owner
   #
   # @return [Time] The time this achievement has been unlocked
   attr_reader :timestamp
+
+  # Returns the SteamID of the user who owns this achievement
+  #
+  # @return [Fixnum] The SteamID of this achievement's owner
+  attr_reader :user
 
   # Loads the global unlock percentages of all achievements for the game with
   # the given Steam Application ID
@@ -71,22 +70,18 @@ class GameAchievement
   # Creates the achievement with the given name for the given user and game
   # and achievement data
   #
-  # @param [Fixnum] steam_id64 The 64bit SteamID of the player this achievement
-  #        belongs to
-  # @param [Fixnum] app_id The unique Steam Application ID of the game (e.g.
-  #        `440` for Team Fortress 2). See
-  #        http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
-  #        all application IDs
+  # @param [SteamId] user The SteamID of the player this achievement belongs to
+  # @param [SteamGame] game The game this achievement belongs to
   # @param [Hash<String, Object>] achievement_data The achievement data
   #        extracted from XML
-  def initialize(steam_id64, app_id, achievement_data)
+  def initialize(user, game, achievement_data)
     @api_name    = achievement_data['apiname']
-    @app_id      = app_id
     @description = achievement_data['description']
+    @game        = game
     @icon_url    = achievement_data['iconClosed'][0..-5]
     @name        = achievement_data['name']
-    @steam_id64  = steam_id64
     @unlocked    = (achievement_data['closed'].to_i == 1)
+    @user        = user
 
     if @unlocked && !achievement_data['unlockTimestamp'].nil?
       @timestamp  = Time.at(achievement_data['unlockTimestamp'].to_i)
