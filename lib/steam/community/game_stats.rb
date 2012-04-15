@@ -18,11 +18,6 @@ class GameStats
 
   include XMLData
 
-  # Returns the custom URL of the player these stats belong to
-  #
-  # @return [String] The custom URL of the player
-  attr_reader :custom_url
-
   # Returns the game these stats belong to
   #
   # @return [SteamGame] The game object
@@ -38,10 +33,10 @@ class GameStats
   # @return [String] The privacy setting of the Steam ID
   attr_reader :privacy_state
 
-  # Returns the 64bit numeric SteamID of the player these stats belong to
+  # Returns the Steam ID of the player these stats belong to
   #
-  # @return [Fixnum] The 64bit numeric SteamID of the player
-  attr_reader :steam_id64
+  # @return [SteamId] The Steam ID instance of the player
+  attr_reader :user
 
   # Returns the base Steam Communtiy URL for the given player and game IDs
   #
@@ -100,18 +95,14 @@ class GameStats
   # Creates a `GameStats` object and fetches data from the Steam Community for
   # the given user and game
   #
-  # @param [String, Fixnum] id The custom URL or the 64bit Steam ID of the
+  # @param [String, Fixnum] user_id The custom URL or the 64bit Steam ID of the
   #        user
   # @param [String] game_id The application ID or friendly name of the game
   # @raise [SteamCondenserError] if the stats cannot be fetched
-  def initialize(id, game_id)
-    if id.is_a? Numeric
-      @steam_id64 = id
-    else
-      @custom_url = id.downcase
-    end
+  def initialize(user_id, game_id)
+    @xml_data = parse "#{self.class.base_url(user_id, game_id)}?xml=all"
 
-    @xml_data = parse "#{self.class.base_url(id, game_id)}?xml=all"
+    @user = SteamId.new user_id, false
 
     error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
