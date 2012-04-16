@@ -21,15 +21,25 @@ class GameAchievement
   # @return [String] The API name of this achievement
   attr_reader :api_name
 
+  # Returns the description of this achievement
+  #
+  # @return [String] The description of this achievement
+  attr_reader :description
+
   # Return the game this achievement belongs to
   #
   # @return [Steam] The game this achievement belongs to
   attr_reader :game
 
-  # Returns the description of this achievement
+  # Returns the url for the closed icon of this achievement
   #
-  # @return [String] The description of this achievement
-  attr_reader :description
+  # @return [String] The url of the closed achievement icon
+  attr_reader :icon_closed_url
+
+  # Returns the url for the open icon of this achievement
+  #
+  # @return [String] The url of the open achievement icon
+  attr_reader :icon_open_url
 
   # Returns the name of this achievement
   #
@@ -75,31 +85,18 @@ class GameAchievement
   # @param [Hash<String, Object>] achievement_data The achievement data
   #        extracted from XML
   def initialize(user, game, achievement_data)
-    @api_name    = achievement_data['apiname']
-    @description = achievement_data['description']
-    @game        = game
-    @icon_url    = achievement_data['iconClosed'][0..-5]
-    @name        = achievement_data['name']
-    @unlocked    = (achievement_data['closed'].to_i == 1)
-    @user        = user
+    @api_name        = achievement_data['apiname']
+    @description     = achievement_data['description']
+    @game            = game
+    @icon_closed_url = achievement_data['iconClosed']
+    @icon_open_url   = achievement_data['iconOpen']
+    @name            = achievement_data['name']
+    @unlocked        = (achievement_data['closed'].to_i == 1)
+    @user            = user
 
     if @unlocked && !achievement_data['unlockTimestamp'].nil?
       @timestamp  = Time.at(achievement_data['unlockTimestamp'].to_i)
     end
-  end
-
-  # Returns the url for the closed icon of this achievement
-  #
-  # @return [String] The url of the closed achievement icon
-  def icon_closed_url
-    "#@icon_url.jpg"
-  end
-
-  # Returns the url for the open icon of this achievement
-  #
-  # @return [String] The url of the open achievement icon
-  def icon_open_url
-    "#{@icon_url}_bw.jpg"
   end
 
   # Returns whether this achievement has been unlocked by its owner
