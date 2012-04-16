@@ -75,7 +75,7 @@ class SteamGame
   def self.uptodate?(app_id, version)
     params = { :appid => app_id, :version => version }
     result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
-    result = MultiJson.decode(result, { :symbolize_keys => true})[:response]
+    result = MultiJson.load(result, { :symbolize_keys => true})[:response]
     raise SteamCondenserError, result[:error] unless result[:success]
     result[:up_to_date]
   end

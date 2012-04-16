@@ -46,7 +46,7 @@ class TF2GoldenWrench
     if @@golden_wrenches.nil?
       @@golden_wrenches = []
 
-      data = MultiJson.decode(WebApi.json('ITFItems_440', 'GetGoldenWrenches', 2), { :symbolize_keys => true })
+      data = MultiJson.load(WebApi.json('ITFItems_440', 'GetGoldenWrenches', 2), { :symbolize_keys => true })
       data[:results][:wrenches].each do |wrench_data|
         @@golden_wrenches << TF2GoldenWrench.new(wrench_data)
       end

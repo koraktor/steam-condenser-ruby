@@ -48,7 +48,7 @@ module WebApi
   # @return [Array<Hash>] The list of interfaces and methods
   def self.interfaces
     data = json 'ISteamWebAPIUtil', 'GetSupportedAPIList'
-    MultiJson.decode(data, { :symbolize_keys => true })[:apilist][:interfaces]
+    MultiJson.load(data, { :symbolize_keys => true })[:apilist][:interfaces]
   end
 
   # Fetches JSON data from Steam Web API using the specified interface, method
@@ -81,7 +81,7 @@ module WebApi
   # @return [Hash<Symbol, Object>] The JSON data replied to the request
   def self.json!(interface, method, version = 1, params = nil)
     data = json(interface, method, version, params)
-    result = MultiJson.decode(data, { :symbolize_keys => true })[:result]
+    result = MultiJson.load(data, { :symbolize_keys => true })[:result]
 
     status = result[:status]
     if status != 1

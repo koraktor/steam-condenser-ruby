@@ -41,7 +41,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock
       WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
         returns data
-      MultiJson.expects(:decode).with(data, { :symbolize_keys => true }).
+      MultiJson.expects(:load).with(data, { :symbolize_keys => true }).
         returns({ :result => { :status => 1 }})
 
       assert_equal({ :status => 1 }, WebApi.json!('interface', 'method', 2, { :test => 'param' }))
@@ -51,7 +51,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock
       WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
         returns data
-      MultiJson.expects(:decode).with(data, { :symbolize_keys => true }).
+      MultiJson.expects(:load).with(data, { :symbolize_keys => true }).
         returns({ :result => { :status => 2, :statusDetail => 'error' } })
 
       error = assert_raises WebApiError do
