@@ -172,7 +172,7 @@ class SteamGame
       @icon_url   = game_data['gameIcon']
       @logo_hash  = game_data['gameLogo'].match(/\/#{app_id}\/([0-9a-f]+).jpg/)[1]
       @name       = game_data['gameName']
-      @short_name = game_data['gameFriendlyName']
+      @short_name = game_data['gameFriendlyName'].downcase
       @short_name = @app_id if @short_name == @app_id.to_s
     end
 
