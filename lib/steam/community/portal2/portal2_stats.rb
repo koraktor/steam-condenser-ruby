@@ -23,7 +23,7 @@ class Portal2Stats < GameStats
   # Returns the current Portal 2 inventory (a.k.a Robot Enrichment) of this
   # player
   #
-  # @return [TF2Inventory] This player's Portal 2 inventory
+  # @return [Portal2Inventory] This player's Portal 2 inventory
   def inventory
     @inventory = Portal2Inventory.new(user.steam_id64) if @inventory.nil?
     @inventory
