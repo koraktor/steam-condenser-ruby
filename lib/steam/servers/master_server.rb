@@ -103,7 +103,7 @@ class MasterServer
   # * `\map\[mapname]`: Request only servers running a specific map
   # * `\linux\1`: Request only linux servers
   # * `\emtpy\1`: Request only **non**-empty servers
-  # * `\full\`: Request only servers **not** full
+  # * `\full\1`: Request only servers **not** full
   # * `\proxy\1`: Request only spectator proxy servers
   #
   # @note Receiving all servers from the master server is taking quite some
