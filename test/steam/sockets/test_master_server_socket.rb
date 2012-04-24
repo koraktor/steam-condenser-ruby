@@ -12,6 +12,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
 
     setup do
       @socket = MasterServerSocket.new '127.0.0.1'
+      @socket.instance_variable_set :@buffer, mock
     end
 
     should 'raise an error if the packet header is incorrect' do
