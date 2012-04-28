@@ -114,9 +114,9 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).times(retries).with do |packet|
-        packet.is_a? A2M_GET_SERVERS_BATCH2_Packet
-        packet.instance_variable_get(:@filter) == ''
-        packet.instance_variable_get(:@region_code) == MasterServer::REGION_ALL
+        packet.is_a?(A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.instance_variable_get(:@filter) == '' &&
+        packet.instance_variable_get(:@region_code) == MasterServer::REGION_ALL &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
       socket.expects(:reply).times(retries).raises SteamCondenser::TimeoutError
