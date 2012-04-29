@@ -72,7 +72,7 @@ class TestSourceServer < Test::Unit::TestCase
     end
 
     should 'raise an error if the RCON connection is not authenticated' do
-      assert_raises SteamCondenser::RCONNoAuthError do
+      assert_raises SteamCondenser::Error::RCONNoAuth do
         @server.rcon_exec 'command'
       end
     end
@@ -109,7 +109,7 @@ class TestSourceServer < Test::Unit::TestCase
         reply.expects(:is_a?).with(SteamCondenser::RCONAuthResponse).returns true
         @rcon_socket.expects(:reply).returns(reply)
 
-        assert_raises SteamCondenser::RCONNoAuthError do
+        assert_raises SteamCondenser::Error::RCONNoAuth do
           @server.rcon_exec 'command'
         end
         assert_not @server.instance_variable_get(:@rcon_authenticated)

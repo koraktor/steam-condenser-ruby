@@ -3,8 +3,8 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/packet_format_error'
 require 'steam/packets/steam_packet'
+require 'steam-condenser/error/packet_format'
 
 module SteamCondenser
 
@@ -26,10 +26,10 @@ module SteamCondenser
     # Creates a new S2A_PLAYER response object based on the given data
     #
     # @param [String] content_data The raw packet data sent by the server
-    # @raise [PacketFormatError] if the packet data is not well formatted
+    # @raise [Error::PacketFormat] if the packet data is not well formatted
     def initialize(content_data)
       if content_data.nil?
-        raise PacketFormatError, 'Wrong formatted S2A_PLAYER packet.'
+        raise Error::PacketFormat, 'Wrong formatted S2A_PLAYER packet.'
       end
 
       super S2A_PLAYER_HEADER, content_data

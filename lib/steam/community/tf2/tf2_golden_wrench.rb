@@ -41,8 +41,8 @@ module SteamCondenser
 
     # Returns all Golden Wrenches
     #
-    # @raise [SteamCondenserError] if an error occurs querying the Web API or
-    #        the Steam Community
+    # @raise [Error] if an error occurs querying the Web API or the Steam
+    #        Community
     # @return [Array<GoldenWrench>] All Golden Wrenches
     def self.golden_wrenches
       if @@golden_wrenches.nil?

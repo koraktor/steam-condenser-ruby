@@ -79,7 +79,7 @@ class TestMasterServer < Test::Unit::TestCase
         packet.instance_variable_get(:@start_ip) == '127.0.0.3:27015'
       end
       socket.expects(:reply).times(2).returns(reply).then.
-        raises(SteamCondenser::TimeoutError)
+        raises(SteamCondenser::Error::Timeout)
 
       servers = [['127.0.0.1', '27015'], ['127.0.0.2', '27015'], ['127.0.0.3', '27015']]
       assert_equal servers, @server.servers(SteamCondenser::MasterServer::REGION_EUROPE, 'filter', true)
@@ -96,9 +96,9 @@ class TestMasterServer < Test::Unit::TestCase
         packet.instance_variable_get(:@region_code) == SteamCondenser::MasterServer::REGION_ALL &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
-      socket.expects(:reply).times(retries).raises SteamCondenser::TimeoutError
+      socket.expects(:reply).times(retries).raises SteamCondenser::Error::Timeout
 
-      assert_raises SteamCondenser::TimeoutError do
+      assert_raises SteamCondenser::Error::Timeout do
         @server.servers
       end
     end

@@ -61,7 +61,7 @@ class TestSteamSocket < Test::Unit::TestCase
     should 'raise a timeout if no reply is received' do
       @socket.expects(:select).with([@udp_socket], nil, nil, 1).returns nil
 
-      assert_raises SteamCondenser::TimeoutError do
+      assert_raises SteamCondenser::Error::Timeout do
         @socket.receive_packet
       end
     end

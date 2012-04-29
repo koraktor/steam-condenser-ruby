@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/steam_condenser_error'
+require 'steam-condenser/error'
 
 module SteamCondenser
 
@@ -11,6 +11,6 @@ module SteamCondenser
   # responses received from a game or master server
   #
   # @author Sebastian Staudt
-  class PacketFormatError < SteamCondenserError
+  class Error::PacketFormat < Error
   end
 end

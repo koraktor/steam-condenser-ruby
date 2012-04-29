@@ -6,7 +6,7 @@
 require 'multi_json'
 require 'open-uri'
 
-require 'errors/web_api_error'
+require 'steam-condenser/error/web_api'
 
 module SteamCondenser
 
@@ -35,7 +35,7 @@ module SteamCondenser
     #        hexadecimal string
     def self.api_key=(api_key)
       unless api_key.nil? || api_key.match(/^[0-9A-F]{32}$/)
-        raise WebApiError, :invalid_key
+        raise Error::WebApi, :invalid_key
       end
 
       @@api_key = api_key
@@ -88,7 +88,7 @@ module SteamCondenser
 
       status = result[:status]
       if status != 1
-        raise WebApiError.new :status_bad, status, result[:statusDetail]
+        raise Error::WebApi.new :status_bad, status, result[:statusDetail]
       end
 
       result
@@ -121,8 +121,8 @@ module SteamCondenser
       rescue OpenURI::HTTPError
         status = $!.io.status[0]
         status = [status, ''] unless status.is_a? Array
-        raise WebApiError, :unauthorized if status[0].to_i == 401
-        raise WebApiError.new :http_error, status[0].to_i, status[1]
+        raise Error::WebApi, :unauthorized if status[0].to_i == 401
+        raise Error::WebApi.new :http_error, status[0].to_i, status[1]
       end
     end
 

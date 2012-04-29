@@ -9,7 +9,7 @@ module SteamCondenser
   # Condenser's operation
   #
   # @author Sebastian Staudt
-  class SteamCondenserError < StandardError
+  class Error < StandardError
 
     # Returns the exception that caused this error
     #

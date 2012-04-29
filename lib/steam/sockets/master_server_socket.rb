@@ -3,8 +3,8 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/packet_format_error'
 require 'steam/sockets/steam_socket'
+require 'steam-condenser/error/packet_format'
 
 module SteamCondenser
 
@@ -17,13 +17,13 @@ module SteamCondenser
 
     # Reads a single packet from the socket
     #
-    # @raise [PacketFormatError] if the packet has the wrong format
+    # @raise [Error::PacketFormat] if the packet has the wrong format
     # @return [SteamPacket] The packet replied from the server
     def reply
       receive_packet 1500
 
       unless @buffer.long == 0xFFFFFFFF
-        raise PacketFormatError, 'Master query response has wrong packet header.'
+        raise Error::PacketFormat, 'Master query response has wrong packet header.'
       end
 
       packet = SteamPacketFactory.packet_from_data @buffer.get

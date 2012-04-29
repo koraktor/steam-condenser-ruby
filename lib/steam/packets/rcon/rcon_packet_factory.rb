@@ -4,10 +4,10 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
-require 'errors/packet_format_error'
 require 'steam/packets/steam_packet_factory'
 require 'steam/packets/rcon/rcon_auth_response'
 require 'steam/packets/rcon/rcon_exec_response'
+require 'steam-condenser/error/packet_format'
 
 module SteamCondenser
 
@@ -25,7 +25,7 @@ module SteamCondenser
     # data
     #
     # @param [String] raw_data The raw data of the packet
-    # @raise [PacketFormatError] if the packet header is not recognized
+    # @raise [Error::PacketFormat] if the packet header is not recognized
     # @return [RCONPacket] The packet object generated from the packet data
     def self.packet_from_data(raw_data)
       byte_buffer = StringIO.new raw_data
@@ -40,7 +40,7 @@ module SteamCondenser
         when RCONPacket::SERVERDATA_RESPONSE_VALUE then
           return RCONExecResponse.new(request_id, data)
         else
-          raise PacketFormatError, "Unknown packet with header #{header.to_s(16)} received."
+          raise Error::PacketFormat, "Unknown packet with header #{header.to_s(16)} received."
       end
     end
 

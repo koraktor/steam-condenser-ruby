@@ -51,7 +51,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       reply = mock :response => 'You have been banned from this server.'
       @socket.expects(:reply).returns reply
 
-      assert_raises SteamCondenser::RCONBanError do
+      assert_raises SteamCondenser::Error::RCONBan do
         @socket.rcon_challenge
       end
     end
@@ -116,7 +116,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       packet1 = mock :response => 'test '
       packet2 = mock :response => 'test'
       packet3 = mock :response => ''
-      @socket.expects(:reply).times(4).raises(SteamCondenser::TimeoutError).
+      @socket.expects(:reply).times(4).raises(SteamCondenser::Error::Timeout).
         returns(packet1).returns(packet2).returns packet3
 
       assert_equal 'test test', @socket.rcon_exec('password', 'command')

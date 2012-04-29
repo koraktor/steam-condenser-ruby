@@ -4,12 +4,12 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
-require 'errors/rcon_ban_error'
-require 'errors/rcon_no_auth_error'
-require 'errors/timeout_error'
 require 'steam/packets/steam_packet_factory'
 require 'steam/packets/rcon/rcon_goldsrc_request'
 require 'steam/sockets/steam_socket'
+require 'steam-condenser/error/rcon_ban'
+require 'steam-condenser/error/rcon_no_auth'
+require 'steam-condenser/error/timeout'
 
 module SteamCondenser
 
@@ -61,7 +61,7 @@ module SteamCondenser
           if split_packets.size < packet_count
             begin
               bytes_read = receive_packet
-            rescue SteamCondenser::TimeoutError
+            rescue Error::Timeout
               bytes_read = 0
             end
           else
@@ -83,9 +83,9 @@ module SteamCondenser
     #
     # @param [String] password The password to authenticate with the server
     # @param [String] command The command to execute on the server
-    # @raise [RCONBanError] if the IP of the local machine has been banned on
+    # @raise [Error::RCONBan] if the IP of the local machine has been banned on
     #        the game server
-    # @raise [RCONNoAuthError] if the password is incorrect
+    # @raise [Error::RCONNoAuth] if the password is incorrect
     # @return [RCONGoldSrcResponse] The response replied by the server
     # @see #rcon_challenge
     # @see #rcon_send
@@ -97,7 +97,7 @@ module SteamCondenser
       if @is_hltv
         begin
           response = reply.response
-        rescue SteamCondenser::TimeoutError
+        rescue Error::Timeout
           response = ''
         end
       else
@@ -105,9 +105,9 @@ module SteamCondenser
       end
 
       if response.strip == 'Bad rcon_password.'
-        raise RCONNoAuthError
+        raise Error::RCONNoAuth
       elsif response.strip == 'You have been banned from this server.'
-        raise RCONBanError
+        raise Error::RCONBan
       end
 
       begin
@@ -121,7 +121,7 @@ module SteamCondenser
     # Requests a challenge number from the server to be used for further
     # requests
     #
-    # @raise [RCONBanError] if the IP of the local machine has been banned on
+    # @raise [Error::RCONBan] if the IP of the local machine has been banned on
     #        the game server
     # @see #rcon_send
     def rcon_challenge
@@ -129,7 +129,7 @@ module SteamCondenser
       response = reply.response.strip
 
       if response.strip == 'You have been banned from this server.'
-        raise RCONBanError
+        raise Error::RCONBan
       end
 
       @rcon_challenge = response[14..-1]

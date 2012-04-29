@@ -3,8 +3,8 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/packet_format_error'
 require 'steam/packets/steam_packet'
+require 'steam-condenser/error/packet_format'
 
 module SteamCondenser
 
@@ -29,12 +29,12 @@ module SteamCondenser
     # Creates a new M2A_SERVER_BATCH response object based on the given data
     #
     # @param [String] data The raw packet data replied from the server
-    # @raise [PacketFormatError] if the packet data is not well formatted
+    # @raise [Error::PacketFormat] if the packet data is not well formatted
     def initialize(data)
       super M2A_SERVER_BATCH_HEADER, data
 
       unless @content_data.getbyte == 0x0A
-        raise PacketFormatError, 'Master query response is missing additional 0x0A byte.'
+        raise Error::PacketFormat, 'Master query response is missing additional 0x0A byte.'
       end
 
       @servers = []

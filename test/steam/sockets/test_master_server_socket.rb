@@ -19,7 +19,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
       @socket.stubs :receive_packet
       @socket.instance_variable_get(:@buffer).expects(:long).returns 1
 
-      error = assert_raises SteamCondenser::PacketFormatError do
+      error = assert_raises SteamCondenser::Error::PacketFormat do
         @socket.reply
       end
       assert_equal 'Master query response has wrong packet header.', error.message

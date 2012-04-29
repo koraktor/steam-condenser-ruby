@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2009-2012, Sebastian Staudt
 
-require 'errors/steam_condenser_error'
+require 'steam-condenser/error'
 
 module SteamCondenser
 
@@ -15,9 +15,9 @@ module SteamCondenser
   #
   # @author Sebastian Staudt
   # @see GameServer#rcon_auth
-  class RCONBanError < SteamCondenserError
+  class Error::RCONBan < Error
 
-    # Creates a new `RCONBanError` instance
+    # Creates a new `Error::RCONBan` instance
     def initialize
       super 'You have been banned from this server.'
     end

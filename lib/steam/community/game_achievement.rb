@@ -65,7 +65,7 @@ module SteamCondenser
     #        `440` for Team Fortress 2). See
     #         http://developer.valvesoftware.com/wiki/Steam_Application_IDs for
     #         all application IDs
-    # @raise [WebApiError] if the request to Steam's Web API fails
+    # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Float>] The symbolic achievement names with their
     #         corresponding unlock percentages
     def self.global_percentages(app_id)

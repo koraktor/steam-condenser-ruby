@@ -3,10 +3,10 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/timeout_error'
 require 'steam/packets/a2m_get_servers_batch2_packet'
 require 'steam/servers/server'
 require 'steam/sockets/master_server_socket'
+require 'steam-condenser/error/timeout'
 
 module SteamCondenser
 
@@ -98,8 +98,8 @@ module SteamCondenser
     # @param [String] filters The filters that game servers should match
     # @param [Boolean] force Return a list of servers even if an error occured
     #        while fetching them from the master server
-    # @raise [SteamCondenser::TimeoutError] if too many timeouts occur while
-    #        querying the master server
+    # @raise [Error::Timeout] if too many timeouts occur while querying the
+    #        master server
     # @return [Array<Array<String>>] A list of game servers matching the given
     #         region and filters
     # @see A2M_GET_SERVERS_BATCH2_Packet
@@ -125,7 +125,7 @@ module SteamCondenser
                 end
               end
               fail_count = 0
-            rescue SteamCondenser::TimeoutError
+            rescue Error::Timeout
               raise $! if (fail_count += 1) == @@retries
               if $DEBUG
                 puts "Request to master server #@ip_address timed out, retrying..."
@@ -133,7 +133,7 @@ module SteamCondenser
             end
           end while !finished
         end
-      rescue SteamCondenser::TimeoutError
+      rescue Error::Timeout
         raise $! unless force
       end
 

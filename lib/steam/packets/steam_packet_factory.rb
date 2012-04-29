@@ -6,7 +6,6 @@
 require 'bzip2-ruby'
 require 'zlib'
 
-require 'errors/packet_format_error'
 require 'steam/packets/s2a_info_detailed_packet'
 require 'steam/packets/a2s_info_packet'
 require 'steam/packets/s2a_info2_packet'
@@ -20,6 +19,7 @@ require 'steam/packets/a2m_get_servers_batch2_packet'
 require 'steam/packets/m2a_server_batch_packet'
 require 'steam/packets/s2a_logstring_packet'
 require 'steam/packets/rcon/rcon_goldsrc_response'
+require 'steam-condenser/error/packet_format'
 
 module SteamCondenser
 
@@ -35,7 +35,7 @@ module SteamCondenser
     # data
     #
     # @param [String] raw_data The raw data of the packet
-    # @raise [SteamCondenserError] if the packet header is not recognized
+    # @raise [Error::PacketFormat] if the packet header is not recognized
     # @return [SteamPacket] The packet object generated from the packet data
     def self.packet_from_data(raw_data)
       header = raw_data[0].ord
@@ -69,7 +69,7 @@ module SteamCondenser
              SteamPacket::RCON_GOLDSRC_RESPONSE_HEADER
           return RCONGoldSrcResponse.new(data)
         else
-          raise PacketFormatError, "Unknown packet with header 0x#{header.to_s(16)} received."
+          raise Error::PacketFormat, "Unknown packet with header 0x#{header.to_s(16)} received."
       end
     end
 
@@ -81,8 +81,7 @@ module SteamCondenser
     #        compressed
     # @param [Fixnum] packet_checksum The CRC32 checksum of the decompressed
     #        packet data
-    # @raise [SteamCondenserError] if the bz2 gem is not installed
-    # @raise [PacketFormatError] if the calculated CRC32 checksum does not
+    # @raise [Error::PacketFormat] if the calculated CRC32 checksum does not
     #        match the expected value
     # @return [SteamPacket] The reassembled packet
     # @see packet_from_data
@@ -93,7 +92,7 @@ module SteamCondenser
         packet_data = Bzip2.decompress packet_data
 
         unless Zlib.crc32(packet_data) == packet_checksum
-          raise PacketFormatError, 'CRC32 checksum mismatch of uncompressed packet data.'
+          raise Error::PacketFormat, 'CRC32 checksum mismatch of uncompressed packet data.'
         end
       end
 

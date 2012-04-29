@@ -7,7 +7,7 @@ require 'ipaddr'
 require 'socket'
 
 require 'core_ext/stringio'
-require 'errors/timeout_error'
+require 'steam-condenser/error/timeout'
 
 module SteamCondenser
 
@@ -23,7 +23,7 @@ module SteamCondenser
     # Sets the timeout for socket operations
     #
     # Any request that takes longer than this time will cause a
-    # {SteamCondenser::TimeoutError}.
+    # {Error::Timeout}.
     #
     # @param [Fixnum] timeout The amount of milliseconds before a request times
     #        out
@@ -51,12 +51,12 @@ module SteamCondenser
     # buffer
     #
     # @param [Fixnum] buffer_length The data length to read from the socket
-    # @raise [SteamCondenser::TimeoutError] if no packet is received on time
+    # @raise [Error::Timeout] if no packet is received on time
     # @return [Fixnum] The number of bytes that have been read from the socket
     # @see StringIO
     def receive_packet(buffer_length = 0)
       if select([@socket], nil, nil, @@timeout / 1000.0).nil?
-        raise SteamCondenser::TimeoutError
+        raise Error::Timeout
       end
 
       if buffer_length == 0

@@ -1,9 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'errors/steam_condenser_error'
+require 'steam-condenser/error'
 
 module SteamCondenser
 
@@ -16,9 +16,9 @@ module SteamCondenser
   # @author Sebastian Staudt
   # @note {SteamSocket.timeout=} allows to set a custom timeout for socket
   #       operations
-  class TimeoutError < SteamCondenserError
+  class Error::Timeout < Error
 
-    # Creates a new `TimeoutError` instance
+    # Creates a new `Error::Timeout` instance
     def initialize
       super 'The operation timed out.'
     end

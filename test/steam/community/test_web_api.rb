@@ -25,7 +25,7 @@ class TestWebApi < Test::Unit::TestCase
     end
 
     should 'fail to set an invalid API key' do
-      error = assert_raises SteamCondenser::WebApiError do
+      error = assert_raises SteamCondenser::Error::WebApi do
         SteamCondenser::WebApi.api_key = 'test'
       end
       assert_equal 'This is not a valid Steam Web API key.', error.message
@@ -52,7 +52,7 @@ class TestWebApi < Test::Unit::TestCase
       SteamCondenser::WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
         returns({ :result => { :status => 2, :statusDetail => 'error' } })
 
-      error = assert_raises SteamCondenser::WebApiError do
+      error = assert_raises SteamCondenser::Error::WebApi do
         SteamCondenser::WebApi.json! 'interface', 'method', 2, { :test => 'param' }
       end
       assert_equal 'The Web API request failed with the following error: error (status code: 2).', error.message
@@ -74,7 +74,7 @@ class TestWebApi < Test::Unit::TestCase
       http_error = OpenURI::HTTPError.new '', io
       SteamCondenser::WebApi.expects(:open).raises http_error
 
-      error = assert_raises SteamCondenser::WebApiError do
+      error = assert_raises SteamCondenser::Error::WebApi do
         SteamCondenser::WebApi.get :json, 'interface', 'method', 2, { :test => 'param' }
       end
       assert_equal 'Your Web API request has been rejected. You most likely did not specify a valid Web API key.', error.message
@@ -85,7 +85,7 @@ class TestWebApi < Test::Unit::TestCase
       http_error = OpenURI::HTTPError.new '', io
       SteamCondenser::WebApi.expects(:open).raises http_error
 
-      error = assert_raises SteamCondenser::WebApiError do
+      error = assert_raises SteamCondenser::Error::WebApi do
         SteamCondenser::WebApi.get :json, 'interface', 'method', 2, { :test => 'param' }
       end
       assert_equal 'The Web API request has failed due to an HTTP error: Not found (status code: 404).', error.message

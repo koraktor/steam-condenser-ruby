@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2011-2012, Sebastian Staudt
 
-require 'errors/steam_condenser_error'
+require 'steam-condenser/error'
 
 module SteamCondenser
 
@@ -13,12 +13,12 @@ module SteamCondenser
   #
   # @author Sebastian Staudt
   # @see WebApi
-  class WebApiError < SteamCondenserError
+  class Error::WebApi < Error
 
-    # Creates a new `WebApiError` with an error message according to the given
-    # `cause`. If this cause is `:status_bad` (which will origin from the Web
-    # API itself) or `:http_error` the details about this failed request will
-    # be taken from `status_code` and `status_message`.
+    # Creates a new `Error::WebApi` with an error message according to the
+    # given `cause`. If this cause is `:status_bad` (which will origin from the
+    # Web API itself) or `:http_error` the details about this failed request
+    # will be taken from `status_code` and `status_message`.
     #
     # @param [:http_error, :invalid_key, :status_bad, :unauthorized] cause A
     #        symbolic name for the problem which caused this error:

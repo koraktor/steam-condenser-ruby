@@ -61,7 +61,7 @@ class TestRCONSocket < Test::Unit::TestCase
     should 'raise a timeout if the connection cannot be established' do
       @socket.expects(:timeout).raises Timeout::Error
 
-      assert_raises SteamCondenser::TimeoutError do
+      assert_raises SteamCondenser::Error::Timeout do
         @socket.connect
       end
     end
@@ -104,11 +104,11 @@ class TestRCONSocket < Test::Unit::TestCase
       end
     end
 
-    should 'raise an RCONNoAuthError if the connection has been dropped' do
+    should 'raise an RCONBanError if the connection has been dropped' do
       @socket.expects(:receive_packet).with(4).returns 0
       @tcp_socket.expects :close
 
-      assert_raise SteamCondenser::RCONBanError do
+      assert_raise SteamCondenser::Error::RCONBan do
         assert_nil @socket.reply
       end
     end

@@ -101,14 +101,14 @@ module SteamCondenser
     # @param [String, Fixnum] user_id The custom URL or the 64bit Steam ID of
     #        the user
     # @param [String] game_id The application ID or friendly name of the game
-    # @raise [SteamCondenserError] if the stats cannot be fetched
+    # @raise [Error] if the stats cannot be fetched
     def initialize(user_id, game_id)
       parse "#{self.class.base_url(user_id, game_id)}?xml=all"
 
       @user = SteamId.new user_id, false
 
       error = @xml_data['error']
-      raise SteamCondenserError, error unless error.nil?
+      raise Error, error unless error.nil?
 
       @privacy_state = @xml_data['privacyState']
       if public?

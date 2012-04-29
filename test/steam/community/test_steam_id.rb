@@ -115,7 +115,7 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     should 'raise an exception when parsing invalid XML' do
-      error = assert_raises SteamCondenser::SteamCondenserError do
+      error = assert_raises SteamCondenser::Error do
         url = fixture_io 'invalid.xml'
         SteamCondenser::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
@@ -125,10 +125,10 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     should 'not cache an empty hash when an error is encountered on steam' do
-      SteamCondenser::WebApi.expects(:json).raises SteamCondenser::WebApiError.new('tesst')
+      SteamCondenser::WebApi.expects(:json).raises SteamCondenser::Error::WebApi.new('tesst')
       steam_id = SteamCondenser::SteamId.new 76561197983311154, false
 
-      assert_raises SteamCondenser::WebApiError do
+      assert_raises SteamCondenser::Error::WebApi do
         steam_id.games
       end
 

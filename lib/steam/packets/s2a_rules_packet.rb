@@ -28,7 +28,7 @@ module SteamCondenser
     # @param [String] content_data The raw packet data sent by the server
     def initialize(content_data)
       if content_data.nil?
-        raise PacketFormatError, 'Wrong formatted S2A_RULES response packet.'
+        raise Error::PacketFormat, 'Wrong formatted S2A_RULES response packet.'
       end
 
       super SteamPacket::S2A_RULES_HEADER, content_data
