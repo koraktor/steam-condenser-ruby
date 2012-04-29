@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'errors/steam_condenser_error'
 
-# The SteamPlayer class represents a player connected to a server
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The SteamPlayer class represents a player connected to a server
+  #
+  # @author Sebastian Staudt
   class SteamPlayer
 
     # Returns the client port of this player
@@ -76,7 +77,8 @@ module SteamCondenser
     # @param [Fixnum] id The ID of the player on the server
     # @param [String] name The name of the player
     # @param [Fixnum] score The score of the player
-    # @param [Float] connect_time The time the player is connected to the server
+    # @param [Float] connect_time The time the player is connected to the
+    #        server
     def initialize(id, name, score, connect_time)
       @connect_time = connect_time
       @id = id

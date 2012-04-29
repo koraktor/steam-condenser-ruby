@@ -5,12 +5,13 @@
 
 require 'steam/community/game_stats'
 
-# This module is a base for statistics for Left4Dead and Left4Dead 2. As both
-# games have more or less the same statistics available in the Steam Community
-# the code for both is pretty much the same.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module is a base for statistics for Left4Dead and Left4Dead 2. As both
+  # games have more or less the same statistics available in the Steam
+  # Community the code for both is pretty much the same.
+  #
+  # @author Sebastian Staudt
   module AbstractL4DStats
 
     # The names of the special infected in Left4Dead
@@ -96,7 +97,8 @@ module SteamCondenser
       @lifetime_stats
     end
 
-    # Returns a hash of Survival statistics for this user like revived teammates
+    # Returns a hash of Survival statistics for this user like revived
+    # teammates
     #
     # If the Survival statistics haven't been parsed already, parsing is done
     # now.
@@ -120,7 +122,8 @@ module SteamCondenser
       @survival_stats
     end
 
-    # Returns a hash of teamplay statistics for this user like revived teammates
+    # Returns a hash of teamplay statistics for this user like revived
+    # teammates
     #
     # If the teamplay statistics haven't been parsed already, parsing is done
     # now.
@@ -150,10 +153,11 @@ module SteamCondenser
       @teamplay_stats
     end
 
-    # Returns a hash of Versus statistics for this user like percentage of rounds
-    # won
+    # Returns a hash of Versus statistics for this user like percentage of
+    # rounds won
     #
-    # If the Versus statistics haven't been parsed already, parsing is done now.
+    # If the Versus statistics haven't been parsed already, parsing is done
+    # now.
     #
     # @return [Hash<String, Object>] The Versus statistics for this user
     def versus_stats

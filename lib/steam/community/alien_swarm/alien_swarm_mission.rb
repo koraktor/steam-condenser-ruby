@@ -3,11 +3,12 @@
 #
 # Copyright (c) 2010-2013, Sebastian Staudt
 
-# This class holds statistical information about missions played by a player in
-# Alien Swarm
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class holds statistical information about missions played by a player
+  # in Alien Swarm
+  #
+  # @author Sebastian Staudt
   class AlienSwarmMission
 
     # Returns the avarage damage taken by the player while playing a round in
@@ -16,8 +17,8 @@ module SteamCondenser
     # @return [Float] The average damage taken by the player
     attr_reader :avg_damage_taken
 
-    # Returns the avarage damage dealt by the player to team mates while playing
-    # a round in this mission
+    # Returns the avarage damage dealt by the player to team mates while
+    # playing a round in this mission
     #
     # @return [Float] The average damage dealt by the player to team mates
     attr_reader :avg_friendly_fire
@@ -30,7 +31,8 @@ module SteamCondenser
 
     # Returns the highest difficulty the player has beat this mission in
     #
-    # @return [String] The highest difficulty the player has beat this mission in
+    # @return [String] The highest difficulty the player has beat this mission
+    #         in
     attr_reader :best_difficulty
 
     # Returns the total damage taken by the player in this mission
@@ -38,7 +40,8 @@ module SteamCondenser
     # @return [Fixnum] The total damage taken by the player
     attr_reader :damage_taken
 
-    # Returns the total damage dealt by the player to team mates in this mission
+    # Returns the total damage dealt by the player to team mates in this
+    # mission
     #
     # @return [Fixnum] The total damage dealt by the player to team mates
     attr_reader :friendly_fire
@@ -71,8 +74,8 @@ module SteamCondenser
     # Returns various statistics about the times needed to accomplish this
     # mission
     #
-    # This includes the best times for each difficulty, the average time and the
-    # total time spent in this mission.
+    # This includes the best times for each difficulty, the average time and
+    # the total time spent in this mission.
     #
     # @return [Hash<Symbol, String>] Various time statistics about this mission
     attr_reader :time

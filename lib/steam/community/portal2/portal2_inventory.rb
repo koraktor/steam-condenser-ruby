@@ -6,10 +6,11 @@
 require 'steam/community/game_inventory'
 require 'steam/community/portal2/portal2_item'
 
-# Represents the inventory (a.k.a. Robot Enrichment) of a Portal 2 player
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the inventory (a.k.a. Robot Enrichment) of a Portal 2 player
+  #
+  # @author Sebastian Staudt
   class Portal2Inventory < GameInventory
 
     # The Steam application ID of Portal 2

@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/tf2/tf2_class'
 
-# Represents the stats for the Team Fortress 2 Engineer class for a specific
-# user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for the Team Fortress 2 Engineer class for a specific
+  # user
+  #
+  # @author Sebastian Staudt
   class TF2Engineer < TF2Class
 
     # Returns the maximum number of buildings built by the player in a single
@@ -24,8 +25,8 @@ module SteamCondenser
     # @return [Fixnum] Maximum number of sentry kills
     attr_reader :max_sentry_kills
 
-    # Returns the maximum number of teammates teleported by teleporters built by
-    # the player in a single life as an Engineer
+    # Returns the maximum number of teammates teleported by teleporters built
+    # by the player in a single life as an Engineer
     #
     # @return [Fixnum] Maximum number of teleports
     attr_reader :max_teleports

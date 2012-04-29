@@ -1,21 +1,22 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/packets/request_with_challenge'
 require 'steam/packets/steam_packet'
 
-# This packet class represents a A2S_PLAYER request send to a game server
-#
-# It is used to request the list of players currently playing on the server.
-#
-# This packet type requires the client to challenge the server in advance,
-# which is done automatically if required.
-#
-# @author Sebastian Staudt
-# @see GameServer#update_player_info
 module SteamCondenser
+
+  # This packet class represents a A2S_PLAYER request send to a game server
+  #
+  # It is used to request the list of players currently playing on the server.
+  #
+  # This packet type requires the client to challenge the server in advance,
+  # which is done automatically if required.
+  #
+  # @author Sebastian Staudt
+  # @see GameServer#update_player_info
   class A2S_PLAYER_Packet
 
     include SteamPacket

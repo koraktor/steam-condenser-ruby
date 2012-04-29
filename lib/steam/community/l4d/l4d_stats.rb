@@ -1,17 +1,18 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/l4d/abstract_l4d_stats'
 require 'steam/community/l4d/l4d_explosive'
 require 'steam/community/l4d/l4d_map'
 require 'steam/community/l4d/l4d_weapon'
 
-# This class represents the game statistics for a single user in Left4Dead
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user in Left4Dead
+  #
+  # @author Sebastian Staudt
   class L4DStats < GameStats
 
     include AbstractL4DStats
@@ -26,7 +27,8 @@ module SteamCondenser
       super steam_id, 'l4d'
     end
 
-    # Returns a hash of Survival statistics for this user like revived teammates
+    # Returns a hash of Survival statistics for this user like revived
+    # teammates
     #
     # If the Survival statistics haven't been parsed already, parsing is done
     # now.

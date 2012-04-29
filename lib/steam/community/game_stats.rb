@@ -7,14 +7,15 @@ require 'steam/community/game_achievement'
 require 'steam/community/game_leaderboard'
 require 'steam/community/xml_data'
 
-# This class represents the game statistics for a single user and a specific
-# game
-#
-# It is subclassed for individual games if the games provide special statistics
-# that are unique to this game.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user and a specific
+  # game
+  #
+  # It is subclassed for individual games if the games provide special
+  # statistics that are unique to this game.
+  #
+  # @author Sebastian Staudt
   class GameStats
 
     include XMLData
@@ -41,7 +42,8 @@ module SteamCondenser
 
     # Returns the base Steam Communtiy URL for the given player and game IDs
     #
-    # @param [Fixnum, String] user_id The 64bit SteamID or custom URL of the user
+    # @param [Fixnum, String] user_id The 64bit SteamID or custom URL of the
+    #        user
     # @param [Fixnum, String] game_id The application ID or short name of the
     #        game
     # @return The base URL used for the given stats IDs
@@ -93,11 +95,11 @@ module SteamCondenser
       end
     end
 
-    # Creates a `GameStats` object and fetches data from the Steam Community for
-    # the given user and game
+    # Creates a `GameStats` object and fetches data from the Steam Community
+    # for the given user and game
     #
-    # @param [String, Fixnum] user_id The custom URL or the 64bit Steam ID of the
-    #        user
+    # @param [String, Fixnum] user_id The custom URL or the 64bit Steam ID of
+    #        the user
     # @param [String] game_id The application ID or friendly name of the game
     # @raise [SteamCondenserError] if the stats cannot be fetched
     def initialize(user_id, game_id)
@@ -159,7 +161,8 @@ module SteamCondenser
       achievements_done.to_f / @achievements.size
     end
 
-    # Returns the base Steam Communtiy URL for the stats contained in this object
+    # Returns the base Steam Communtiy URL for the stats contained in this
+    # object
     #
     # @return [String] The base URL used for queries on these stats
     def base_url

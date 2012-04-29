@@ -13,10 +13,12 @@ require 'steam/community/steam_group'
 require 'steam/community/web_api'
 require 'steam/community/xml_data'
 
-# The SteamId class represents a Steam Community profile (also called Steam ID)
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The SteamId class represents a Steam Community profile (also called Steam
+  # ID)
+  #
+  # @author Sebastian Staudt
   class SteamId
 
     include Cacheable
@@ -184,8 +186,9 @@ module SteamCondenser
 
     # Creates a new `SteamId` instance using a SteamID as used on servers
     #
-    # The SteamID from the server is converted into a 64bit numeric SteamID first
-    # before this is used to retrieve the corresponding Steam Community profile.
+    # The SteamID from the server is converted into a 64bit numeric SteamID
+    # first before this is used to retrieve the corresponding Steam Community
+    # profile.
     #
     # @param [String] steam_id The SteamID string as used on servers, like
     #        `STEAM_0:0:12345`
@@ -350,8 +353,8 @@ module SteamCondenser
 
     # Returns the stats for the given game for the owner of this SteamID
     #
-    # @param [Fixnum, String] id The full or short name or the application ID of
-    #        the game stats should be fetched for
+    # @param [Fixnum, String] id The full or short name or the application ID
+    #        of the game stats should be fetched for
     # @return [GameStats] The statistics for the game with the given name
     # @raise [SteamCondenserError] if the user does not own this game or it
     #        does not have any stats
@@ -441,11 +444,11 @@ module SteamCondenser
       @privacy_state == 'public'
     end
 
-    # Returns the time in minutes this user has played this game in the last two
-    # weeks
+    # Returns the time in minutes this user has played this game in the last
+    # two weeks
     #
-    # @param [Fixnum, String] id The full or short name or the application ID of
-    #        the game
+    # @param [Fixnum, String] id The full or short name or the application ID
+    #        of the game
     # @return [Fixnum] The number of minutes this user played the given game in
     #         the last two weeks
     def recent_playtime(id)
@@ -454,8 +457,8 @@ module SteamCondenser
 
     # Returns the total time in minutes this user has played this game
     #
-    # @param [Fixnum, String] id The full or short name or the application ID of
-    #        the game
+    # @param [Fixnum, String] id The full or short name or the application ID
+    #        of the game
     # @return [Fixnum] The total number of minutes this user played the given
     #         game
     def total_playtime(id)
@@ -464,11 +467,11 @@ module SteamCondenser
 
     private
 
-    # Tries to find a game instance with the given application ID or full name or
-    # short name
+    # Tries to find a game instance with the given application ID or full name
+    # or short name
     #
-    # @param [Fixnum, String] id The full or short name or the application ID of
-    #        the game
+    # @param [Fixnum, String] id The full or short name or the application ID
+    #        of the game
     # @raise [SteamCondenserError] if the user does not own the game or no
     #        game with the given ID exists
     # @return [SteamGame] The game found with the given ID

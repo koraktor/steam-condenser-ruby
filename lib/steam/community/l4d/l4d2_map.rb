@@ -1,18 +1,19 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/steam_id'
 require 'steam/community/l4d/l4d_map'
 
-# L4D2Map holds statistical information about maps played by a player in
-# Survival mode of Left4Dead 2. The basic information provided is more or less
-# the same for Left4Dead and Left4Dead 2, but parsing has to be done
-# differently.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # L4D2Map holds statistical information about maps played by a player in
+  # Survival mode of Left4Dead 2. The basic information provided is more or
+  # less the same for Left4Dead and Left4Dead 2, but parsing has to be done
+  # differently.
+  #
+  # @author Sebastian Staudt
   class L4D2Map < L4DMap
 
     # Returns statistics about the items used by the player on this map

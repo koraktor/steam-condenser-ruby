@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/game_stats'
 
-# This class represents the game statistics for a single user in Defense Grid:
-# The Awakening
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user in Defense
+  # Grid: The Awakening
+  #
+  # @author Sebastian Staudt
   class DefenseGridStats < GameStats
 
     # Returns the bronze medals won by this player
@@ -102,7 +103,8 @@ module SteamCondenser
     # @return [Float] Damage dealt by the orbital laser
     attr_reader :orbital_laser_fired
 
-    # Returns the number of times the orbital lasers has been fired by the player
+    # Returns the number of times the orbital lasers has been fired by the
+    # player
     #
     # @return [Fixnum] Number of times the orbital laser has been fired
     attr_reader :orbital_laser_damage
@@ -122,8 +124,8 @@ module SteamCondenser
     # @return [Float] Time played
     attr_reader :time_played
 
-    # Creates a `DefenseGridStats` instance by calling the super constructor with
-    # the game name `'defensegrid:awakening'`
+    # Creates a `DefenseGridStats` instance by calling the super constructor
+    # with the game name `'defensegrid:awakening'`
     #
     # @param [String, Fixnum] steam_id The custom URL or the 64bit Steam ID of
     #        the user
@@ -161,9 +163,9 @@ module SteamCondenser
 
     # Returns stats about the aliens encountered by the player
     #
-    # The Hash returned uses the names of the aliens as keys. Every value of the
-    # Hash is an Array containing the number of aliens encountered as the first
-    # element and the number of aliens killed as the second element.
+    # The Hash returned uses the names of the aliens as keys. Every value of
+    # the Hash is an Array containing the number of aliens encountered as the
+    # first element and the number of aliens killed as the second element.
     #
     # @return [Hash<String, Array<Fixnum>>] Stats about the aliens encountered
     def alien_stats
@@ -172,8 +174,8 @@ module SteamCondenser
       if @alien_stats.nil?
         alien_data = @xml_data['stats']['aliens']
         @alien_stats = {}
-        aliens = %w{swarmer juggernaut crasher spire grunt bulwark drone manta dart
-                    decoy rumbler seeker turtle walker racer stealth}
+        aliens = %w{swarmer juggernaut crasher spire grunt bulwark drone manta
+                    dart decoy rumbler seeker turtle walker racer stealth}
 
         aliens.each do |alien|
           @alien_stats[alien] = [
@@ -190,9 +192,9 @@ module SteamCondenser
     #
     # The Hash returned uses the names of the towers as keys. Every value of
     # the Hash is another Hash using the keys 1 to 3 for different tower levels.
-    # The values of these Hash is an Array containing the number of towers built
-    # as the first element and the damage dealt by this specific tower type as the
-    # second element.
+    # The values of these Hash is an Array containing the number of towers
+    # built as the first element and the damage dealt by this specific tower
+    # type as the second element.
     #
     # The Command tower uses the resources gained as second element.
     # The Temporal tower doesn't have a second element.

@@ -9,10 +9,12 @@ require 'steam/community/game_leaderboard_entry'
 require 'steam/community/steam_id'
 require 'steam/community/xml_data'
 
-# The GameLeaderboard class represents a single leaderboard for a specific game
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The GameLeaderboard class represents a single leaderboard for a specific
+  # game
+  #
+  # @author Sebastian Staudt
   class GameLeaderboard
 
     include XMLData
@@ -82,8 +84,8 @@ module SteamCondenser
 
     # Returns the entry on this leaderboard for the user with the given SteamID
     #
-    # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId` object
-    #        of the user
+    # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId`
+    #        object of the user
     # @return [GameLeaderboardEntry] The entry of the user if available
     # raise [SteamCondenserException] if an error occurs while fetching the
     #         leaderboard
@@ -104,11 +106,11 @@ module SteamCondenser
       nil
     end
 
-    # Returns an array of entries on this leaderboard for the user with the given
-    # SteamID and his/her friends
+    # Returns an array of entries on this leaderboard for the user with the
+    # given SteamID and his/her friends
     #
-    # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId` object
-    #        of the user
+    # @param [Fixnum, SteamId] steam_id The 64bit SteamID or the `SteamId`
+    #        object of the user
     # @return [Array<GameLeaderboardEntry>] The entries of the user and his/her
     #         friends
     # raise [SteamCondenserException] if an error occurs while fetching the
@@ -131,8 +133,8 @@ module SteamCondenser
     #
     # @param [Fixnum] first The first entry to return from the leaderboard
     # @param [Fixnum] last The last entry to return from the leaderboard
-    # @return [Array<GameLeaderboardEntry>] The entries that match the given rank
-    #         range
+    # @return [Array<GameLeaderboardEntry>] The entries that match the given
+    #         rank range
     # raise [SteamCondenserException] if an error occurs while fetching the
     #         leaderboard
     def entry_range(first, last)

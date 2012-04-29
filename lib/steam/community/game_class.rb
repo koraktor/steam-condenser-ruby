@@ -1,13 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
-# A module implementing basic functionality for classes representing player
-# classes
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # A module implementing basic functionality for classes representing player
+  # classes
+  #
+  # @author Sebastian Staudt
   module GameClass
 
     # Returns the name of this class

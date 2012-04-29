@@ -7,11 +7,12 @@ require 'core_ext/stringio'
 require 'errors/timeout_error'
 require 'steam/sockets/steam_socket'
 
-# This class represents a socket used to communicate with game servers based on
-# the Source engine (e.g. Team Fortress 2, Counter-Strike: Source)
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a socket used to communicate with game servers based
+  # on the Source engine (e.g. Team Fortress 2, Counter-Strike: Source)
+  #
+  # @author Sebastian Staudt
   class SourceSocket
 
     include SteamSocket

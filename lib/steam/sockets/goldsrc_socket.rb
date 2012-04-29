@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
 require 'errors/rcon_ban_error'
@@ -11,17 +11,18 @@ require 'steam/packets/steam_packet_factory'
 require 'steam/packets/rcon/rcon_goldsrc_request'
 require 'steam/sockets/steam_socket'
 
-# This class represents a socket used to communicate with game servers based on
-# the GoldSrc engine (e.g. Half-Life, Counter-Strike)
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a socket used to communicate with game servers based
+  # on the GoldSrc engine (e.g. Half-Life, Counter-Strike)
+  #
+  # @author Sebastian Staudt
   class GoldSrcSocket
 
     include SteamSocket
 
-    # Creates a new socket to communicate with the server on the given IP address
-    # and port
+    # Creates a new socket to communicate with the server on the given IP
+    # address and port
     #
     # @param [String] ipaddress Either the IP address or the DNS name of the
     #        server
@@ -82,8 +83,8 @@ module SteamCondenser
     #
     # @param [String] password The password to authenticate with the server
     # @param [String] command The command to execute on the server
-    # @raise [RCONBanError] if the IP of the local machine has been banned on the
-    #        game server
+    # @raise [RCONBanError] if the IP of the local machine has been banned on
+    #        the game server
     # @raise [RCONNoAuthError] if the password is incorrect
     # @return [RCONGoldSrcResponse] The response replied by the server
     # @see #rcon_challenge
@@ -117,10 +118,11 @@ module SteamCondenser
       response
     end
 
-    # Requests a challenge number from the server to be used for further requests
+    # Requests a challenge number from the server to be used for further
+    # requests
     #
-    # @raise [RCONBanError] if the IP of the local machine has been banned on the
-    #        game server
+    # @raise [RCONBanError] if the IP of the local machine has been banned on
+    #        the game server
     # @see #rcon_send
     def rcon_challenge
       rcon_send 'challenge rcon'
@@ -133,7 +135,8 @@ module SteamCondenser
       @rcon_challenge = response[14..-1]
     end
 
-    # Wraps the given command in a RCON request packet and send it to the server
+    # Wraps the given command in a RCON request packet and send it to the
+    # server
     #
     # @param [String] command The RCON command to send to the server
     def rcon_send(command)

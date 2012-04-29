@@ -1,17 +1,18 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
 
 require 'multi_json'
 
 require 'steam/community/web_api'
 
-# This class represents Steam news and can be used to load a list of current
-# news about specific games
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents Steam news and can be used to load a list of current
+  # news about specific games
+  #
+  # @author Sebastian Staudt
   class AppNews
 
     # Returns the Steam Application ID of the game this news belongs to
@@ -77,8 +78,8 @@ module SteamCondenser
     # @param [Fixnum] max_length The maximum content length of the news. If a
     #        maximum length is defined, the content of the news will only be at
     #        most `max_length` characters long plus an ellipsis.
-    # @return [Array<AppNews>] An array of news items for the specified game with
-    #         the given options
+    # @return [Array<AppNews>] An array of news items for the specified game
+    #         with the given options
     def self.news_for_app(app_id, count = 5, max_length = nil)
       params = { :appid => app_id, :count => count, :maxlength => max_length }
       data = WebApi.json('ISteamNews', 'GetNewsForApp', 2, params)
@@ -101,8 +102,8 @@ module SteamCondenser
 
     # Returns a simple textual representation of this news item
     #
-    # Will consist of the name of the feed this news belongs to and the title of
-    # the news.
+    # Will consist of the name of the feed this news belongs to and the title
+    # of the news.
     #
     # @return [String] A simple text representing this news
     def to_s

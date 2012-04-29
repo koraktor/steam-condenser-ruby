@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/game_class'
 
-# Represents the stats for a Team Fortress 2 class for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for a Team Fortress 2 class for a specific user
+  #
+  # @author Sebastian Staudt
   class TF2Class
 
     include GameClass
@@ -31,8 +32,8 @@ module SteamCondenser
     # @return [Fixnum] Maximum damage dealt
     attr_reader :max_damage
 
-    # Returns the maximum number of defenses by the player in a single life with
-    # this class
+    # Returns the maximum number of defenses by the player in a single life
+    # with this class
     #
     # @return [Fixnum] Maximum number of defenses
     attr_reader :max_defenses
@@ -43,20 +44,20 @@ module SteamCondenser
     # @return [Fixnum] Maximum number of dominations
     attr_reader :max_dominations
 
-    # Returns the maximum number of times the the player assisted a teammate with
-    # killing an enemy in a single life with this class
+    # Returns the maximum number of times the the player assisted a teammate
+    # with killing an enemy in a single life with this class
     #
     # @return [Fixnum] Maximum number of kill assists
     attr_reader :max_kill_assists
 
-    # Returns the maximum number of enemies killed by the player in a single life
-    # with this class
+    # Returns the maximum number of enemies killed by the player in a single
+    # life with this class
     #
     # @return [Fixnum] Maximum number of kills
     attr_reader :max_kills
 
-    # Returns the maximum number of revenges by the player in a single life with
-    # this class
+    # Returns the maximum number of revenges by the player in a single life
+    # with this class
     #
     # @return [Fixnum] Maximum number of revenges
     attr_reader :max_revenges
@@ -67,7 +68,8 @@ module SteamCondenser
     # @return [Fixnum] Maximum score
     attr_reader :max_score
 
-    # Returns the maximum lifetime by the player in a single life with this class
+    # Returns the maximum lifetime by the player in a single life with this
+    # class
     #
     # @return [Fixnum] Maximum lifetime
     attr_reader :max_time_alive

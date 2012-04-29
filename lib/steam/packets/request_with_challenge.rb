@@ -1,13 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
-# This module implements a method to generate raw packet data used by request
-# packets which send a challenge number
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module implements a method to generate raw packet data used by request
+  # packets which send a challenge number
+  #
+  # @author Sebastian Staudt
   module RequestWithChallenge
 
     # Returns the raw data representing this packet

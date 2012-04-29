@@ -1,20 +1,21 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'errors/packet_format_error'
 require 'steam/packets/steam_packet'
 
-# This packet class represents a M2A_SERVER_BATCH response replied by a master
-# server
-#
-# It contains a list of IP addresses and ports of game servers matching the
-# requested criteria.
-#
-# @author Sebastian Staudt
-# @see MasterServer#servers
 module SteamCondenser
+
+  # This packet class represents a M2A_SERVER_BATCH response replied by a master
+  # server
+  #
+  # It contains a list of IP addresses and ports of game servers matching the
+  # requested criteria.
+  #
+  # @author Sebastian Staudt
+  # @see MasterServer#servers
   class M2A_SERVER_BATCH_Packet
 
     include SteamPacket

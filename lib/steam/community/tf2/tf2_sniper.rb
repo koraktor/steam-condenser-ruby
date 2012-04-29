@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/tf2/tf2_class'
 
-# Represents the stats for the Team Fortress 2 Sniper class for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for the Team Fortress 2 Sniper class for a specific user
+  #
+  # @author Sebastian Staudt
   class TF2Sniper < TF2Class
 
     # Returns the maximum number enemies killed with a headshot by the player in

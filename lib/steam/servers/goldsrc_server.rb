@@ -1,22 +1,23 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/servers/game_server'
 require 'steam/servers/master_server'
 require 'steam/sockets/goldsrc_socket'
 
-# This class represents a GoldSrc game server and can be used to query
-# information about and remotely execute commands via RCON on the server
-#
-# A GoldSrc game server is an instance of the Half-Life Dedicated Server (HLDS)
-# running games using Valve's GoldSrc engine, like Half-Life Deathmatch,
-# Counter-Strike 1.6 or Team Fortress Classic.
-#
-# @author Sebastian Staudt
-# @see SourceServer
 module SteamCondenser
+
+  # This class represents a GoldSrc game server and can be used to query
+  # information about and remotely execute commands via RCON on the server
+  #
+  # A GoldSrc game server is an instance of the Half-Life Dedicated Server (HLDS)
+  # running games using Valve's GoldSrc engine, like Half-Life Deathmatch,
+  # Counter-Strike 1.6 or Team Fortress Classic.
+  #
+  # @author Sebastian Staudt
+  # @see SourceServer
   class GoldSrcServer
 
     include GameServer

@@ -9,11 +9,12 @@ require 'socket'
 require 'core_ext/stringio'
 require 'errors/timeout_error'
 
-# This module implements common functionality for sockets used to connect to
-# game and master servers
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module implements common functionality for sockets used to connect to
+  # game and master servers
+  #
+  # @author Sebastian Staudt
   module SteamSocket
 
     # The default socket timeout
@@ -46,7 +47,8 @@ module SteamCondenser
       @socket.close
     end
 
-    # Reads the given amount of data from the socket and wraps it into the buffer
+    # Reads the given amount of data from the socket and wraps it into the
+    # buffer
     #
     # @param [Fixnum] buffer_length The data length to read from the socket
     # @raise [SteamCondenser::TimeoutError] if no packet is received on time
@@ -78,8 +80,8 @@ module SteamCondenser
 
     # Sends the given packet to the server
     #
-    # This converts the packet into a byte stream first before writing it to the
-    # socket.
+    # This converts the packet into a byte stream first before writing it to
+    # the socket.
     #
     # @param [SteamPacket] data_packet The packet to send to the server
     # @see SteamPacket#to_s

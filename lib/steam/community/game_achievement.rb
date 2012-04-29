@@ -7,14 +7,15 @@ require 'multi_json'
 
 require 'steam/community/web_api'
 
-# The GameAchievement class represents a specific achievement for a single game
-# and for a single user
-#
-# It also provides the ability to load the global unlock percentages of all
-# achievements of a specific game.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The GameAchievement class represents a specific achievement for a single
+  # game and for a single user
+  #
+  # It also provides the ability to load the global unlock percentages of all
+  # achievements of a specific game.
+  #
+  # @author Sebastian Staudt
   class GameAchievement
 
     # Returns the symbolic API name of this achievement
@@ -81,7 +82,8 @@ module SteamCondenser
     # Creates the achievement with the given name for the given user and game
     # and achievement data
     #
-    # @param [SteamId] user The SteamID of the player this achievement belongs to
+    # @param [SteamId] user The SteamID of the player this achievement belongs
+    #        to
     # @param [SteamGame] game The game this achievement belongs to
     # @param [Hash<String, Object>] achievement_data The achievement data
     #        extracted from XML

@@ -20,10 +20,11 @@ require 'steam/community/portal2/portal2_inventory'
 require 'steam/community/tf2/tf2_beta_inventory'
 require 'steam/community/tf2/tf2_inventory'
 
-# Provides basic functionality to represent an inventory of player in a game
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Provides basic functionality to represent an inventory of player in a game
+  #
+  # @author Sebastian Staudt
   class GameInventory
 
     include Cacheable

@@ -6,10 +6,11 @@
 require 'steam/community/game_inventory'
 require 'steam/community/tf2/tf2_item'
 
-# Represents the inventory (aka. Backpack) of a Team Fortress 2 player
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the inventory (aka. Backpack) of a Team Fortress 2 player
+  #
+  # @author Sebastian Staudt
   class TF2Inventory < GameInventory
 
     # The Steam application ID of Team Fortress 2

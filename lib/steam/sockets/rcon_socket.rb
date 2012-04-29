@@ -14,14 +14,16 @@ require 'steam/packets/rcon/rcon_packet'
 require 'steam/packets/rcon/rcon_packet_factory'
 require 'steam/sockets/steam_socket'
 
-# This class represents a socket used for RCON communication with game servers
-# based on the Source engine (e.g. Team Fortress 2, Counter-Strike: Source)
-#
-# The Source engine uses a stateful TCP connection for RCON communication and
-# uses an additional socket of this type to handle RCON requests.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a socket used for RCON communication with game
+  # servers based on the Source engine (e.g. Team Fortress 2, Counter-Strike:
+  # Source)
+  #
+  # The Source engine uses a stateful TCP connection for RCON communication and
+  # uses an additional socket of this type to handle RCON requests.
+  #
+  # @author Sebastian Staudt
   class RCONSocket
 
     include SteamSocket
@@ -71,11 +73,11 @@ module SteamCondenser
     # Reads a packet from the socket
     #
     # The Source RCON protocol allows packets of an arbitrary sice transmitted
-    # using multiple TCP packets. The data is received in chunks and concatenated
-    # into a single response packet.
+    # using multiple TCP packets. The data is received in chunks and
+    # concatenated into a single response packet.
     #
-    # @raise [RCONBanError] if the IP of the local machine has been banned on the
-    #        game server
+    # @raise [RCONBanError] if the IP of the local machine has been banned on
+    #        the game server
     # @raise [RCONNoAuthException] if an authenticated connection has been
     #        dropped by the server
     # @return [RCONPacket] The packet replied from the server

@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'steam/packets/steam_packet'
 
-# This class represents a S2A_LOGSTRING packet used to transfer log messages
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a S2A_LOGSTRING packet used to transfer log messages
+  #
+  # @author Sebastian Staudt
   class S2A_LOGSTRING_Packet
 
     include SteamPacket

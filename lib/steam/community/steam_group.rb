@@ -8,10 +8,11 @@ require 'steam/community/cacheable'
 require 'steam/community/steam_id'
 require 'steam/community/xml_data'
 
-# The SteamGroup class represents a group in the Steam Community
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The SteamGroup class represents a group in the Steam Community
+  #
+  # @author Sebastian Staudt
   class SteamGroup
 
     include Cacheable
@@ -21,8 +22,8 @@ module SteamCondenser
 
     # Returns the custom URL of this group
     #
-    # The custom URL is a admin specified unique string that can be used instead
-    # of the 64bit SteamID as an identifier for a group.
+    # The custom URL is a admin specified unique string that can be used
+    # instead of the 64bit SteamID as an identifier for a group.
     #
     # @return [String] The custom URL of this group
     attr_reader :custom_url
@@ -80,8 +81,8 @@ module SteamCondenser
     # Returns the number of members this group has
     #
     # If the members have already been fetched the size of the member array is
-    # returned. Otherwise the the first page of the member listing is fetched and
-    # the member count and the first batch of members is stored.
+    # returned. Otherwise the the first page of the member listing is fetched
+    # and the member count and the first batch of members is stored.
     #
     # @return [Fixnum] The number of this group's members
     def member_count

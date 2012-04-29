@@ -3,10 +3,11 @@
 #
 # Copyright (c) 2011-2012, Sebastian Staudt
 
-# The GameLeaderboard class represents a single entry in a leaderboard
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The GameLeaderboard class represents a single entry in a leaderboard
+  #
+  # @author Sebastian Staudt
   class GameLeaderboardEntry
 
     # Returns the Steam ID of this entry's player
@@ -31,9 +32,10 @@ module SteamCondenser
 
     # Creates new entry instance for the given XML data and leaderboard
     #
-    # @param [Hash<String, Object>] entry_data The XML data of the leaderboard of
-    #        the leaderboard entry
-    # @param [GameLeaderboard] leaderboard The leaderboard this entry belongs to
+    # @param [Hash<String, Object>] entry_data The XML data of the leaderboard
+    #        of the leaderboard entry
+    # @param [GameLeaderboard] leaderboard The leaderboard this entry belongs
+    #        to
     def initialize(entry_data, leaderboard)
       @steam_id    = SteamId.new entry_data['steamid'].to_i, false
       @score       = entry_data['score'].to_i

@@ -5,13 +5,14 @@
 
 require 'socket'
 
-# This module is included by all classes implementing server functionality
-#
-# It provides basic name resolution features and the ability to rotate between
-# different IP addresses belonging to a single DNS name.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module is included by all classes implementing server functionality
+  #
+  # It provides basic name resolution features and the ability to rotate between
+  # different IP addresses belonging to a single DNS name.
+  #
+  # @author Sebastian Staudt
   module Server
 
     # Returns a list of host names associated with this server

@@ -1,19 +1,20 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
 
 require 'multi_json'
 
 require 'steam/community/steam_id'
 require 'steam/community/web_api'
 
-# Represents the special Team Fortress 2 item Golden Wrench. It includes the
-# ID of the item, the serial number of the wrench, a reference to the SteamID
-# of the owner and the date this player crafted the wrench
-#
-# @author     Sebastian Staudt
 module SteamCondenser
+
+  # Represents the special Team Fortress 2 item Golden Wrench. It includes the
+  # ID of the item, the serial number of the wrench, a reference to the SteamID
+  # of the owner and the date this player crafted the wrench
+  #
+  # @author Sebastian Staudt
   class TF2GoldenWrench
 
     # Returns the date this Golden Wrench has been crafted

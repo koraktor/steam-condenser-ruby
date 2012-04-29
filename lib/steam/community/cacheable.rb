@@ -10,16 +10,17 @@
 #   @param [Boolean] bypass_cache if `true` the object's data is fetched again
 #          even if it has been cached already
 
-# This module implements caching functionality to be used in any object class
-# having one or more unique object identifier (i.e. ID) and using a `fetch`
-# method to fetch data, e.g. using a HTTP download.
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module implements caching functionality to be used in any object class
+  # having one or more unique object identifier (i.e. ID) and using a `fetch`
+  # method to fetch data, e.g. using a HTTP download.
+  #
+  # @author Sebastian Staudt
   module Cacheable
 
-    # When this module is included in another class it is initialized to make use
-    # of caching
+    # When this module is included in another class it is initialized to make
+    # use of caching
     #
     # The original `initialize` method of the including class will be wrapped,
     # relaying all instantiations to the `new` method defined in {ClassMethods}.
@@ -55,15 +56,13 @@ module SteamCondenser
     # @author Sebastian Staudt
     module ClassMethods
 
-      # Defines wich instance variables which should be used to index the cached
-      # objects
+      # Defines wich instance variables which should be used to index the
+      # cached objects
       #
-      # @note A call to this method is needed if you want a class including this
-      #       module to really use the cache.
-      # @param [Array<Symbol, Array<Symbol>>] ids The symbolic names of the
-      #        instance variables representing a unique identifier for this
-      #        object class. Arrays of symbols are also allowed and are used as
-      #        compound IDs.
+      # @note A call to this method is needed if you want a class including
+      #       this module to really use the cache.
+      # @param [Array<Symbol>] ids The symbolic names of the instance variables
+      #        representing a unique identifier for this object class
       def cacheable_with_ids(*ids)
         class_variable_set :@@cache_ids, ids
       end

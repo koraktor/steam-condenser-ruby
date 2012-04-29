@@ -1,13 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
-# This class holds statistical information about a map played by a player in
-# Survival mode of Left4Dead
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class holds statistical information about a map played by a player in
+  # Survival mode of Left4Dead
+  #
+  # @author Sebastian Staudt
   class L4DMap
 
     # Returns the best survival time of this player on this map

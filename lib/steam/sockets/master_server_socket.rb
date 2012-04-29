@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'errors/packet_format_error'
 require 'steam/sockets/steam_socket'
 
-# This class represents a socket used to communicate with master servers
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a socket used to communicate with master servers
+  #
+  # @author Sebastian Staudt
   class MasterServerSocket
 
     include SteamSocket

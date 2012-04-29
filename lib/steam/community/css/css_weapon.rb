@@ -3,10 +3,12 @@
 #
 # Copyright (c) 2010-2013, Sebastian Staudt
 
-# Represents the stats for a Counter-Strike: Source weapon for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for a Counter-Strike: Source weapon for a specific
+  # user
+  #
+  # @author Sebastian Staudt
   class CSSWeapon
 
     # Returns the number of hits achieved with this weapon

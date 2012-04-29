@@ -16,12 +16,13 @@ require 'steam/packets/s2a_rules_packet'
 require 'steam/packets/s2c_challenge_packet'
 require 'steam/servers/server'
 
-# This module is included by classes representing different game server
-# implementations and provides the basic functionality to communicate with
-# them using the common query protocol
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This module is included by classes representing different game server
+  # implementations and provides the basic functionality to communicate with
+  # them using the common query protocol
+  #
+  # @author Sebastian Staudt
   module GameServer
 
     include Server

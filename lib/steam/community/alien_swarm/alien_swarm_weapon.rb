@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
 
 require 'steam/community/game_weapon'
 
-# This class holds statistical information about weapons used by a player
-# in Alien Swarm
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class holds statistical information about weapons used by a player
+  # in Alien Swarm
+  #
+  # @author Sebastian Staudt
   class AlienSwarmWeapon
 
     include GameWeapon
@@ -36,7 +37,8 @@ module SteamCondenser
 
     # Creates a new weapon instance based on the assigned weapon XML data
     #
-    # @param [Hash<String, Object>] weapon_data The data representing this weapon
+    # @param [Hash<String, Object>] weapon_data The data representing this
+    #        weapon
     def initialize(weapon_data)
       super
 

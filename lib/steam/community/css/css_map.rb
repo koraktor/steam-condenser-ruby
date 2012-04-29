@@ -3,10 +3,11 @@
 #
 # Copyright (c) 2010-2013, Sebastian Staudt
 
-# Represents the stats for a Counter-Strike: Source map for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for a Counter-Strike: Source map for a specific user
+  #
+  # @author Sebastian Staudt
   class CSSMap
 
     # Returns the name of this map

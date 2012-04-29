@@ -5,11 +5,12 @@
 
 require 'steam/community/web_api'
 
-# A module implementing basic functionality for classes representing an item in
-# a game
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # A module implementing basic functionality for classes representing an item
+  # in a game
+  #
+  # @author Sebastian Staudt
   module GameItem
 
     # Return the attributes of this item

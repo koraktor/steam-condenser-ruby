@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/game_weapon'
 
-# Represents the stats for a Day of Defeat: Source weapon for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for a Day of Defeat: Source weapon for a specific user
+  #
+  # @author Sebastian Staudt
   class DoDSWeapon
 
     include GameWeapon

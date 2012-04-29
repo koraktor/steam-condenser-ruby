@@ -8,13 +8,14 @@ require 'open-uri'
 
 require 'errors/web_api_error'
 
-# This module provides functionality for accessing Steam's Web API
-#
-# The Web API requires you to register a domain with your Steam account to
-# acquire an API key. See http://steamcommunity.com/dev for further details.
-#
-# @author Sebastian
 module SteamCondenser
+
+  # This module provides functionality for accessing Steam's Web API
+  #
+  # The Web API requires you to register a domain with your Steam account to
+  # acquire an API key. See http://steamcommunity.com/dev for further details.
+  #
+  # @author Sebastian Staudt
   module WebApi
 
     @@api_key = nil
@@ -28,10 +29,10 @@ module SteamCondenser
 
     # Sets the Steam Web API key
     #
-    # @param [String] api_key The 128bit API key as a hexadecimal string that has
-    #        to be requested from http://steamcommunity.com/dev
-    # @raise [WebApiError] if the given API key is not a valid 128bit hexadecimal
-    #        string
+    # @param [String] api_key The 128bit API key as a hexadecimal string that
+    #        has to be requested from http://steamcommunity.com/dev
+    # @raise [WebApiError] if the given API key is not a valid 128bit
+    #        hexadecimal string
     def self.api_key=(api_key)
       unless api_key.nil? || api_key.match(/^[0-9A-F]{32}$/)
         raise WebApiError, :invalid_key
@@ -51,11 +52,12 @@ module SteamCondenser
       json('ISteamWebAPIUtil', 'GetSupportedAPIList')[:apilist][:interfaces]
     end
 
-    # Fetches JSON data from Steam Web API using the specified interface, method
-    # and version. Additional parameters are supplied via HTTP GET.
+    # Fetches JSON data from Steam Web API using the specified interface,
+    # method and version. Additional parameters are supplied via HTTP GET.
     # Data is returned as a Hash containing the JSON data.
     #
-    # @param [String] interface The Web API interface to call, e.g. `ISteamUser`
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
     # @param [String] method The Web API method to call, e.g.
     #        `GetPlayerSummaries`
     # @param [Fixnum] version The API method version to use
@@ -68,11 +70,12 @@ module SteamCondenser
       MultiJson.load(data, { :symbolize_keys => true })
     end
 
-    # Fetches JSON data from Steam Web API using the specified interface, method
-    # and version. Additional parameters are supplied via HTTP GET.
+    # Fetches JSON data from Steam Web API using the specified interface,
+    # method and version. Additional parameters are supplied via HTTP GET.
     # Data is returned as a Hash containing the JSON data.
     #
-    # @param [String] interface The Web API interface to call, e.g. `ISteamUser`
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
     # @param [String] method The Web API method to call, e.g.
     #        `GetPlayerSummaries`
     # @param [Fixnum] version The API method version to use
@@ -92,12 +95,13 @@ module SteamCondenser
     end
 
     # Fetches data from Steam Web API using the specified interface, method and
-    # version. Additional parameters are supplied via HTTP GET. Data is returned
-    # as a string in the given format.
+    # version. Additional parameters are supplied via HTTP GET. Data is
+    # returned as a string in the given format.
     #
-    # @param [Symbol] format The format to load from the API (`:json`, `:vdf`, or
-    #        `:xml`)
-    # @param [String] interface The Web API interface to call, e.g. `ISteamUser`
+    # @param [Symbol] format The format to load from the API (`:json`, `:vdf`,
+    #        or `:xml`)
+    # @param [String] interface The Web API interface to call, e.g.
+    #        `ISteamUser`
     # @param [String] method The Web API method to call, e.g.
     #        `GetPlayerSummaries`
     # @param [Fixnum] version The API method version to use

@@ -6,10 +6,11 @@
 require 'steam/community/game_stats'
 require 'steam/community/portal2/portal2_inventory'
 
-# This class represents the game statistics for a single user in Portal 2
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user in Portal 2
+  #
+  # @author Sebastian Staudt
   class Portal2Stats < GameStats
 
     # Creates a `Portal2Stats` object by calling the super constructor with the

@@ -1,19 +1,20 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/packets/steam_packet'
 
-# This packet class represents a S2C_CHALLENGE response replied by a game
-# server
-#
-# It is used to provide a challenge number to a client requesting information
-# from the game server.
-#
-# @author Sebastian Staudt
-# @see GameServer#update_challenge_number
 module SteamCondenser
+
+  # This packet class represents a S2C_CHALLENGE response replied by a game
+  # server
+  #
+  # It is used to provide a challenge number to a client requesting information
+  # from the game server.
+  #
+  # @author Sebastian Staudt
+  # @see GameServer#update_challenge_number
   class S2C_CHALLENGE_Packet
 
     include SteamPacket

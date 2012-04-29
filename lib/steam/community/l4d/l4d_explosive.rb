@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/game_weapon'
 
-# This class represents the statistics of a single explosive weapon for a user
-# in Left4Dead
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the statistics of a single explosive weapon for a
+  # user in Left4Dead
+  #
+  # @author Sebastian Staudt
   class L4DExplosive
 
     include GameWeapon
@@ -25,7 +26,8 @@ module SteamCondenser
       @shots = weapon_data['thrown'].to_i
     end
 
-    # Returns the average number of killed zombies for one shot of this explosive
+    # Returns the average number of killed zombies for one shot of this
+    # explosive
     #
     # @return [Float] The average number of kills per shot
     def avg_kills_per_shot

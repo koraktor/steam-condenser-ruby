@@ -7,10 +7,11 @@ require 'steam/community/l4d/abstract_l4d_stats'
 require 'steam/community/l4d/l4d2_map'
 require 'steam/community/l4d/l4d2_weapon'
 
-# This class represents the game statistics for a single user in Left4Dead 2
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user in Left4Dead 2
+  #
+  # @author Sebastian Staudt
   class L4D2Stats < GameStats
 
     include AbstractL4DStats
@@ -18,16 +19,18 @@ module SteamCondenser
     # The names of the special infected in Left4Dead 2
     SPECIAL_INFECTED = SPECIAL_INFECTED + %w{charger jockey spitter}
 
-    # Returns the percentage of damage done by this player with each weapon type
+    # Returns the percentage of damage done by this player with each weapon
+    # type
     #
-    # Available weapon types are `:melee`, `:pistols`, `:rifles` and `:shotguns`.
+    # Available weapon types are `:melee`, `:pistols`, `:rifles` and
+    # `:shotguns`.
     #
     # @return [Hash<Symbol, Float>] The percentages of damage done with each
     #         weapon type
     attr_reader :damage_percentages
 
-    # Creates a `L4D2Stats` object by calling the super constructor with the game
-    # name `'l4d2'`
+    # Creates a `L4D2Stats` object by calling the super constructor with the
+    # game name `'l4d2'`
     #
     # @param [String, Fixnum] steam_id The custom URL or 64bit Steam ID of the
     #        user
@@ -123,7 +126,8 @@ module SteamCondenser
       @scavenge_stats
     end
 
-    # Returns a hash of Survival statistics for this user like revived teammates
+    # Returns a hash of Survival statistics for this user like revived
+    # teammates
     #
     # If the Survival statistics haven't been parsed already, parsing is done
     # now.

@@ -3,11 +3,12 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-# This error class is used as a base class for all errors related to Steam
-# Condenser's operation
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This error class is used as a base class for all errors related to Steam
+  # Condenser's operation
+  #
+  # @author Sebastian Staudt
   class SteamCondenserError < StandardError
 
     # Returns the exception that caused this error

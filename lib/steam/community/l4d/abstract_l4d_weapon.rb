@@ -1,15 +1,16 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/game_weapon'
 
-# This abstract class is a base class for weapons in Left4Dead and Left4Dead 2
-# as the weapon stats for both games are very similar
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This abstract class is a base class for weapons in Left4Dead and Left4Dead
+  # 2 as the weapon stats for both games are very similar
+  #
+  # @author Sebastian Staudt
   module AbstractL4DWeapon
 
     include GameWeapon
@@ -40,8 +41,8 @@ module SteamCondenser
     # @return [Fixnum] The number of shots with this weapon
     attr_reader :shots
 
-    # Creates a new instance of weapon from the given XML data and parses common
-    # data for both, `L4DWeapon` and `L4D2Weapon`
+    # Creates a new instance of weapon from the given XML data and parses
+    # common data for both, `L4DWeapon` and `L4D2Weapon`
     #
     # @param [String] weapon_name The name of this weapon
     # @param [Hash<String, Object>] weapon_data The XML data for this weapon

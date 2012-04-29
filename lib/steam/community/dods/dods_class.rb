@@ -1,14 +1,15 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 require 'steam/community/game_class'
 
-# Represents the stats for a Day of Defeat: Source class for a specific user
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # Represents the stats for a Day of Defeat: Source class for a specific user
+  #
+  # @author Sebastian Staudt
   class DoDSClass
 
     include GameClass
@@ -68,8 +69,8 @@ module SteamCondenser
     # @return [Fixnum] The number of rounds won with this class
     attr_reader :rounds_won
 
-    # Creates a new instance of a Day of Defeat: Source class based on the given
-    # XML data
+    # Creates a new instance of a Day of Defeat: Source class based on the
+    # given XML data
     #
     # @param [Hash<String, Object>] class_data The XML data of the class
     def initialize(class_data)

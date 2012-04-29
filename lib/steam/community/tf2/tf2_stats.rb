@@ -8,11 +8,12 @@ require 'steam/community/tf2/tf2_beta_inventory'
 require 'steam/community/tf2/tf2_class_factory'
 require 'steam/community/tf2/tf2_inventory'
 
-# This class represents the game statistics for a single user in Team Fortress
-# 2
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents the game statistics for a single user in Team Fortress
+  # 2
+  #
+  # @author Sebastian Staudt
   class TF2Stats < GameStats
 
     # Returns the total points this player has achieved in his career

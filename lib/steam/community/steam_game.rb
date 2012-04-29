@@ -8,10 +8,11 @@ require 'steam/community/game_leaderboard'
 require 'steam/community/game_stats'
 require 'steam/community/web_api'
 
-# This class represents a game available on Steam
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # This class represents a game available on Steam
+  #
+  # @author Sebastian Staudt
   class SteamGame
 
     include Cacheable
@@ -100,7 +101,8 @@ module SteamCondenser
       @short_name == @app_id.to_s ? @app_id : @short_name
     end
 
-    # Returns the leaderboard for this game and the given leaderboard ID or name
+    # Returns the leaderboard for this game and the given leaderboard ID or
+    # name
     #
     # @param [Fixnum, String] id The ID or name of the leaderboard to return
     # @return [GameLeaderboard] The matching leaderboard if available

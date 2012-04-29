@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/community/tf2/tf2_class'
 require 'steam/community/tf2/tf2_engineer'
@@ -9,11 +9,12 @@ require 'steam/community/tf2/tf2_medic'
 require 'steam/community/tf2/tf2_sniper'
 require 'steam/community/tf2/tf2_spy'
 
-# The `TF2ClassFactory` is used to created instances of `TF2Class` based on the
-# XML input data
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The `TF2ClassFactory` is used to created instances of `TF2Class` based on the
+  # XML input data
+  #
+  # @author Sebastian Staudt
   module TF2ClassFactory
 
     # Creates a new instance of a TF2 class instance based on the given XML data

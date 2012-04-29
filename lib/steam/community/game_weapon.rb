@@ -1,13 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
-# A module implementing basic functionality for classes representing game
-# weapons
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # A module implementing basic functionality for classes representing game
+  # weapons
+  #
+  # @author Sebastian Staudt
   module GameWeapon
 
     # Returns the number of kills achieved with this weapon
@@ -27,7 +28,8 @@ module SteamCondenser
 
     # Creates a new game weapon instance with the data provided
     #
-    # @param [Hash<String, Object>] weapon_data The data representing this weapon
+    # @param [Hash<String, Object>] weapon_data The data representing this
+    #        weapon
     def initialize(weapon_data)
       @kills = weapon_data['kills'].to_i
     end

@@ -6,11 +6,12 @@
 require 'steam/community/css/css_map'
 require 'steam/community/css/css_weapon'
 
-# The is class represents the game statistics for a single user in
-# Counter-Strike: Source
-#
-# @author Sebastian Staudt
 module SteamCondenser
+
+  # The is class represents the game statistics for a single user in
+  # Counter-Strike: Source
+  #
+  # @author Sebastian Staudt
   class CSSStats < GameStats
 
     # The names of the maps in Counter-Strike: Source
