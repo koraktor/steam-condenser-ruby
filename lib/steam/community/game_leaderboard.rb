@@ -141,12 +141,12 @@ class GameLeaderboard
   #         leaderboard
   def entry_range(first, last)
     if last < first
-      raise SteamCondenserException,
+      raise SteamCondenserError,
         'First entry must be prior to last entry for leaderboard entry lookup.'
     end
 
     if (last - first) > 5000
-      raise SteamCondenserException,
+      raise SteamCondenserError,
         'Leaderboard entry lookup is currently limited to a maximum of 5001 entries per request.'
     end
 
