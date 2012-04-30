@@ -8,18 +8,25 @@ Currently it is implemented in Java, PHP and Ruby.
 ## Requirements
 
 * Linux, MacOS X or Windows
-* Ruby 1.8.6 or newer
+* Ruby 1.8.7 or newer
 
 The following gems are required:
 
 * `bzip2-ruby` (for Source servers sending compressed responses)
-* `json` (for the Web API features)
+* `multi_json` (for the Web API features)
+* `multi_xml` (for the Steam Community features)
 
 ## Installation
 
 To install Steam Condenser as a Ruby gem use the following command:
 
     gem install steam-condenser
+
+## Usage
+
+To start using Steam Condenser requiring the base file is usually enough:
+
+    require 'steam-condenser'
 
 ## License
 
