@@ -80,6 +80,16 @@ class SteamGame
     result[:up_to_date]
   end
 
+  # Returns the overall number of players currently playing this game
+  #
+  # @return [Fixnum] The number of players playing this game
+  def player_count
+    params = { :appid => @app_id }
+    result = WebApi.json 'ISteamUserStats', 'GetNumberOfCurrentPlayers', 1, params
+    result = MultiJson.load(result, { :symbolize_keys => true})[:response]
+    result[:player_count]
+  end
+
   # Returns whether this game has statistics available
   #
   # @return [Boolean] `true` if this game has stats
