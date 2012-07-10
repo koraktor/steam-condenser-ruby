@@ -61,7 +61,7 @@ class MasterServer
   # Sets the number of consecutive requests that may fail, before getting
   # the server list is cancelled (default: 3)
   #
-  # @param [Fixnum] The number of allowed retries
+  # @param [Fixnum] retries The number of allowed retries
   def self.retries=(retries)
     @@retries = retries
   end
@@ -156,7 +156,8 @@ class MasterServer
   #
   # This can be used to check server versions externally.
   #
-  # @param [Hash<Symbol, Object>] The data to send with the heartbeat request
+  # @param [Hash<Symbol, Object>] data The data to send with the heartbeat
+  #        request
   # @raise [SteamCondenserError] if heartbeat data is missing the
   #        challenge number or the reply cannot be parsed
   # @return [Array<SteamPacket>] Zero or more reply packets from the server.

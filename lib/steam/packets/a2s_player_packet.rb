@@ -22,7 +22,7 @@ class A2S_PLAYER_Packet
 
   # Creates a new A2S_PLAYER request object including the challenge number
   #
-  # @param [Numeric] challenge_number The challenge number received from the
+  # @param [Numeric] challenge_number The challenge number received from the
   #        server
   def initialize(challenge_number = -1)
     super A2S_PLAYER_HEADER, challenge_number
