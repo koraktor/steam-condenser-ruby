@@ -9,15 +9,17 @@ require 'steam/community/game_inventory'
 # Represents the inventory of a DotA 2 player
 #
 # @author Sebastian Staudt
-class Dota2Inventory
+class Dota2Inventory < GameInventory
 
-  include Cacheable
-  cacheable_with_ids :steam_id64
-
-  include GameInventory
-
-  # The Steam Application ID of DotA 2
-  @@app_id = 570
+  # Creates a new inventory object for the given SteamID64 in DotA 2
+  # (App ID 570)
+  #
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
+  def initialize(steam_id64)
+    super 570, steam_id64
+  end
 
   # The class representing DotA 2 items
   @@item_class = Dota2Item

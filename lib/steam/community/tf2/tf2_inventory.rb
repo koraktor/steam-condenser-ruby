@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
 
 require 'steam/community/game_inventory'
 require 'steam/community/tf2/tf2_item'
@@ -9,15 +9,17 @@ require 'steam/community/tf2/tf2_item'
 # Represents the inventory (aka. Backpack) of a Team Fortress 2 player
 #
 # @author Sebastian Staudt
-class TF2Inventory
+class TF2Inventory < GameInventory
 
-  include Cacheable
-  cacheable_with_ids :steam_id64
-
-  include GameInventory
-
-  # The Steam Application ID of Team Fortress 2
-  @@app_id = 440
+  # Creates a new inventory object for the given SteamID64 in Team Fortress 2
+  # (App ID 440)
+  #
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  #        inventory for
+  # @macro cacheable
+  def initialize(steam_id64)
+    super 440, steam_id64
+  end
 
   # The class representing Team Fortress 2 items
   @@item_class = TF2Item

@@ -10,7 +10,15 @@ require 'steam/community/web_api'
 # Provides basic functionality to represent an inventory of player in a game
 #
 # @author Sebastian Staudt
-module GameInventory
+class GameInventory
+
+  include Cacheable
+  cacheable_with_ids [:app_id, :steam_id64]
+
+  # Returns the application ID of the game this inventory class belongs to
+  #
+  # @return [Fixnum] The application ID of the game
+  attr_reader :app_id
 
   # Returns an array of all items in this players inventory.
   #
@@ -41,11 +49,14 @@ module GameInventory
   # calls update to fetch the data and create the item instances contained in
   # this players backpack
   #
+  # @param [Fixnum] app_id The application ID of the game
   # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
   #        inventory for
   # @macro cacheable
-  def initialize(steam_id64)
-    @user = SteamId.new steam_id64, false
+  def initialize(app_id, steam_id64)
+    @app_id     = app_id
+    @steam_id64 = steam_id64
+    @user       = SteamId.new steam_id64, false
   end
 
   # Returns the item at the given position in the inventory. The positions
@@ -54,13 +65,6 @@ module GameInventory
   # @return [GameItem] The item at the given position in the inventory
   def [](index)
     @items[index - 1]
-  end
-
-  # Returns the application ID of the game this inventory class belongs to
-  #
-  # @return [Fixnum] The application ID of the game
-  def app_id
-    self.class.send :class_variable_get, :@@app_id
   end
 
   # Returns the attribute schema
@@ -78,7 +82,7 @@ module GameInventory
 
   # Updates the contents of the inventory using Steam Web API
   def fetch
-    result = WebApi.json!("IEconItems_#{app_id}", 'GetPlayerItems', 1, { :SteamID => @user.steam_id64 })
+    result = WebApi.json!("IEconItems_#@app_id", 'GetPlayerItems', 1, { :SteamID => @user.steam_id64 })
     item_class = self.class.send :class_variable_get, :@@item_class
 
     @items = []
