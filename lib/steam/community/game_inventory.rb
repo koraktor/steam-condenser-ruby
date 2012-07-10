@@ -32,7 +32,7 @@ module GameInventory
 
   # Sets the language the schema should be fetched in (default is: `'en'`)
   #
-  # @param [String] The ISO 639-1 code of the schema language
+  # @param [String] language The ISO 639-1 code of the schema language
   def self.schema_language=(language)
     @@schema_language = language
   end
@@ -41,13 +41,11 @@ module GameInventory
   # calls update to fetch the data and create the item instances contained in
   # this players backpack
   #
-  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
+  # @param [Fixnum] steam_id64 The 64bit SteamID of the player to get the
   #        inventory for
-  # @param [Boolean] fetch_now if `true` the data will be fetched immediately
-  def initialize(steam_id64, fetch_now = true)
+  # @macro cacheable
+  def initialize(steam_id64)
     @user = SteamId.new steam_id64, false
-
-    super fetch_now
   end
 
   # Returns the item at the given position in the inventory. The positions

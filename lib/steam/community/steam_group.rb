@@ -35,17 +35,14 @@ class SteamGroup
   #
   # @param [String, Fixnum] id The custom URL of the group specified by the
   #        group admin or the 64bit group ID
-  # @param [Boolean] fetch if `true` the groups's data is loaded into the
-  #        object
-  def initialize(id, fetch = true)
+  # @macro cacheable
+  def initialize(id)
     if id.is_a? Numeric
       @group_id64 = id
     else
       @custom_url = id.downcase
     end
     @members = []
-
-    super fetch
   end
 
   # Returns the base URL for this group's page
@@ -77,8 +74,6 @@ class SteamGroup
     begin
       total_pages = fetch_page(page += 1)
     end while page < total_pages
-
-    super
   end
 
   # Returns the number of members this group has

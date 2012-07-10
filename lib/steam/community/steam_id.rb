@@ -200,16 +200,13 @@ class SteamId
   #
   # @param [String, Fixnum] id The custom URL of the Steam ID specified by the
   #        user or the 64bit SteamID
-  # @param [Boolean] fetch if `true` the Steam ID's data is loaded into the
-  #        object
-  def initialize(id, fetch = true)
+  # @macro cacheable
+  def initialize(id)
     if id.is_a? Numeric
       @steam_id64 = id
     else
       @custom_url = id.downcase
     end
-
-    super fetch
   end
 
   # Returns whether the owner of this SteamID is VAC banned
@@ -305,8 +302,6 @@ class SteamId
       raise $! if $!.is_a? SteamCondenserError
       raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
     end
-
-    super
   end
 
   # Fetches the friends of this user

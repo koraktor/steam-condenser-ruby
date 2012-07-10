@@ -175,8 +175,6 @@ class SteamGame
       @short_name = game_data['gameFriendlyName'].downcase
       @short_name = @app_id if @short_name == @app_id.to_s
     end
-
-    super()
   end
 
 end

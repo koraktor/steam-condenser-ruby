@@ -1,7 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
+
+# @macro [new] cacheable
+#   @overload $0(${1--1}, fetch = true, bypass_cache = false)
+#   @param [Boolean] fetch if `true` the object's data is fetched after
+#          creation
+#   @param [Boolean] bypass_cache if `true` the object's data is fetched again
+#          even if it has been cached already
 
 # This module implements caching functionality to be used in any object class
 # having one or more unique object identifier (i.e. ID) and using a `fetch`
@@ -13,10 +20,10 @@ module Cacheable
   # When this module is included in another class it is initialized to make use
   # of caching
   #
-  # The original `new` method of the including class will be aliased with
-  # `create`, relaying all instantiations to the `new` method defined in
-  # {ClassMethods}. Additionally the class variable to save the attributes to
-  # cache (i.e. cache IDs) and the cache class variable itself are initialized.
+  # The original `initialize` method of the including class will be wrapped,
+  # relaying all instantiations to the `new` method defined in {ClassMethods}.
+  # Additionally the class variable to save the attributes to cache (i.e. cache
+  # IDs) and the cache class variable itself are initialized.
   #
   # @param [Class] base The class to extend with caching functionality
   # @see ClassMethods
@@ -26,7 +33,18 @@ module Cacheable
     base.send :class_variable_set, :@@cache_ids, []
 
     class << base
-      alias_method :create, :new
+      def method_added(name)
+        if name == :fetch && !(@@in_method_added ||= false)
+          @@in_method_added = true
+          alias_method :original_fetch, :fetch
+
+          define_method :fetch do
+            original_fetch
+            @fetch_time = Time.now
+          end
+          @@in_method_added = false
+        end
+      end
     end
   end
 
@@ -66,19 +84,25 @@ module Cacheable
     # returned, otherwise a new object is created.
     # Overrides the default `new` method of the cacheable object class.
     #
-    # @param [Object] id The ID of the object that should be loaded
-    # @param [Boolean] fetch whether the object's data should be retrieved
-    # @param [Boolean] bypass_cache whether the object should be loaded again
-    #        even if it is already cached
+    # @param [Array<Object>] args The parameters of the object that should be
+    #        created and if possible loaded from cache
     # @see #cached?
     # @see #fetch
-    def new(id, fetch = true, bypass_cache = false)
-      if cached?(id) && !bypass_cache
-        object = class_variable_get(:@@cache)[id]
+    def new(*args)
+      arity = self.instance_method(:initialize).arity.abs
+      args += [nil] * (arity - args.size) if args.size < arity
+      bypass_cache = args.size > arity + 1 ? !!args.pop : false
+      fetch = args.size > arity ? !!args.pop : true
+
+      if cached?(args) && !bypass_cache
+        object = class_variable_get(:@@cache)[args]
         object.fetch if fetch && !object.fetched?
         object
       else
-        super(id, fetch)
+        object = super *args
+        object.fetch if fetch
+        object.cache
+        object
       end
     end
 
@@ -89,17 +113,6 @@ module Cacheable
   # @return [Time] The time the object has been updated the last time
   attr_reader :fetch_time
 
-  # Creates a new object and fetches the associated data of the object if
-  # desired
-  #
-  # @note The real constructor of cacheable classes is {ClassMethods#new}.
-  # @param [Boolean] fetch_now If `true`, the object's {#fetch} method is
-  #        called to retrieve its data
-  def initialize(fetch_now = true) #:notnew:
-    fetch if fetch_now
-    cache
-  end
-
   # Saves this object in the cache
   #
   # This will use the ID attributes selected for caching
@@ -108,8 +121,14 @@ module Cacheable
     cache_ids = self.class.send :class_variable_get, :@@cache_ids
 
     cache_ids.each do |cache_id|
-      cache_id_value = instance_variable_get('@' + cache_id.to_s)
-      unless cache_id_value.nil? or cache.key?(cache_id_value)
+      if cache_id.is_a? Array
+        cache_id_value = cache_id.map do |id|
+          instance_variable_get('@' + id.to_s)
+        end
+      else
+        cache_id_value = instance_variable_get('@' + cache_id.to_s)
+      end
+      unless cache_id_value.nil? || cache.key?(cache_id_value)
         cache[cache_id_value] = self
       end
     end
@@ -117,14 +136,13 @@ module Cacheable
     true
   end
 
-  # Sets the time this object has been fetched the last time
+  # Fetches the object from some data source
   #
   # @note This method should be overridden in cacheable object classes and
-  #       should implement the logic to retrieve the object's data. The
-  #       overriding method should always call `super` to have the fetch time
-  #       up-to-date.
+  #       should implement the logic to retrieve the object's data. Updating
+  #       the time is handled dynamically and does not need to be implemented
+  #       separately.
   def fetch
-    @fetch_time = Time.now
   end
 
   # Returns whether the data for this object has already been fetched
