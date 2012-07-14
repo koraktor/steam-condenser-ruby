@@ -59,10 +59,12 @@ module Cacheable
     #
     # @note A call to this method is needed if you want a class including this
     #       module to really use the cache.
-    # @param [Array<Symbol>] ids The symbolic names of the instance variables
-    #        representing a unique identifier for this object class
+    # @param [Array<Symbol, Array<Symbol>>] ids The symbolic names of the
+    #        instance variables representing a unique identifier for this
+    #        object class. Arrays of symbols are also allowed and are used as
+    #        compound IDs.
     def cacheable_with_ids(*ids)
-      class_variable_set(:@@cache_ids, ids)
+      class_variable_set :@@cache_ids, ids
     end
 
     # Returns whether an object with the given ID is already cached
@@ -72,7 +74,7 @@ module Cacheable
     #         cached
     def cached?(id)
       id.downcase! if id.is_a? String
-      class_variable_get(:@@cache).key?(id)
+      cache.key?(id)
     end
 
     # Clears the object cache for the class this method is called on
@@ -94,16 +96,32 @@ module Cacheable
       bypass_cache = args.size > arity + 1 ? !!args.pop : false
       fetch = args.size > arity ? !!args.pop : true
 
-      if cached?(args) && !bypass_cache
-        object = class_variable_get(:@@cache)[args]
-        object.fetch if fetch && !object.fetched?
-        object
-      else
-        object = super *args
-        object.fetch if fetch
+      object = super *args
+      cached_object = object.send :cached_instance
+      object = cached_object unless cached_object.nil? || bypass_cache
+
+      if fetch && (bypass_cache || !object.fetched?)
+        object.fetch
         object.cache
-        object
       end
+
+      object
+    end
+
+    private
+
+    # Returns the current cache for the cacheable class
+    #
+    # @return [Hash<Object, Cacheable>] The cache for cacheable class
+    def cache
+      class_variable_get :@@cache
+    end
+
+    # Returns the list of IDs used for caching objects
+    #
+    # @return [Array<Symbol, Array<Symbol>>] The IDs used for caching objects
+    def cache_ids
+      class_variable_get :@@cache_ids
     end
 
   end
@@ -117,20 +135,9 @@ module Cacheable
   #
   # This will use the ID attributes selected for caching
   def cache
-    cache     = self.class.send :class_variable_get, :@@cache
-    cache_ids = self.class.send :class_variable_get, :@@cache_ids
-
+    cache     = self.class.send :cache
     cache_ids.each do |cache_id|
-      if cache_id.is_a? Array
-        cache_id_value = cache_id.map do |id|
-          instance_variable_get('@' + id.to_s)
-        end
-      else
-        cache_id_value = instance_variable_get('@' + cache_id.to_s)
-      end
-      unless cache_id_value.nil? || cache.key?(cache_id_value)
-        cache[cache_id_value] = self
-      end
+      cache[cache_id] = self
     end
 
     true
@@ -150,6 +157,42 @@ module Cacheable
   # @return [Boolean] `true` if this object's data is available
   def fetched?
     !@fetch_time.nil?
+  end
+
+  private
+
+  # If available, returns the cached instance for the object it is called on
+  #
+  # This may be used to either replace an initial object with a completely
+  # cached instance of the same ID or to compare a modified object with the
+  # copy that was cached before.
+  #
+  # @see #cache_ids
+  def cached_instance
+    ids = cache_ids
+    cached = self.class.send(:cache).find { |id, object| ids.include? id}
+    cached.nil? ? nil : cached.last
+  end
+
+  # Returns a complete list of all values for the cache IDs of the cachable
+  # object
+  #
+  # @return [Array<Object, Array<Object>>] The values for the cache IDs
+  # @see #cache_id_value
+  def cache_ids
+    values = lambda do |id|
+      id.is_a?(Array) ? id.map(&values) : cache_id_value(id)
+    end
+
+    self.class.send(:cache_ids).map &values
+  end
+
+  # Returns the value for the ID
+  #
+  # @param [Symbol] id The name of an instance variable
+  # @return [Object] The value of the given instance variable
+  def cache_id_value(id)
+    instance_variable_get "@#{id}".to_sym
   end
 
 end
