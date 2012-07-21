@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'ipaddr'
 require 'socket'
@@ -35,7 +35,6 @@ class RCONSocket
 
     @ip     = ip
     @port   = port
-    @socket = nil
   end
 
   # Closes the underlying TCP socket if it exists
