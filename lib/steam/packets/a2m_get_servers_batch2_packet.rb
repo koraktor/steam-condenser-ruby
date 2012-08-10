@@ -4,7 +4,7 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam/packets/steam_packet'
-require 'steam/servers/master_server'
+require 'steam-condenser/servers/master_server'
 
 module SteamCondenser
 
@@ -44,7 +44,7 @@ module SteamCondenser
     #        master server or 0.0.0.0
     # @param [String] filter The filters to apply in the form
     #        "\filtername\value..."
-    def initialize(region_code = MasterServer::REGION_ALL, start_ip = '0.0.0.0:0', filter = '')
+    def initialize(region_code = Servers::MasterServer::REGION_ALL, start_ip = '0.0.0.0:0', filter = '')
       super A2M_GET_SERVERS_BATCH2_HEADER
 
       @filter = filter

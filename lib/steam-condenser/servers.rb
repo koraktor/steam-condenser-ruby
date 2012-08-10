@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
 
 module SteamCondenser
 
@@ -15,9 +15,9 @@ module SteamCondenser
   # @author Sebastian Staudt
   module Servers
 
-    require 'steam/servers/goldsrc_server'
-    require 'steam/servers/master_server'
-    require 'steam/servers/source_server'
+    require 'steam-condenser/servers/goldsrc_server'
+    require 'steam-condenser/servers/master_server'
+    require 'steam-condenser/servers/source_server'
 
   end
 

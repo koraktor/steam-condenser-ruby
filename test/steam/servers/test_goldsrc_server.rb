@@ -1,10 +1,10 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/servers/goldsrc_server'
+require 'steam-condenser/servers/goldsrc_server'
 
 class TestGoldSrcServer < Test::Unit::TestCase
 
@@ -12,10 +12,11 @@ class TestGoldSrcServer < Test::Unit::TestCase
 
     should 'be able to get a master server for GoldSrc servers' do
       master = mock
-      SteamCondenser::MasterServer.expects(:new).with(*SteamCondenser::MasterServer::GOLDSRC_MASTER_SERVER).
+      SteamCondenser::Servers::MasterServer.expects(:new).
+        with(*SteamCondenser::Servers::MasterServer::GOLDSRC_MASTER_SERVER).
         returns master
 
-      assert_equal master, SteamCondenser::GoldSrcServer.master
+      assert_equal master, SteamCondenser::Servers::GoldSrcServer.master
     end
 
   end
@@ -27,7 +28,7 @@ class TestGoldSrcServer < Test::Unit::TestCase
         with('goldsrc', 27015, Socket::AF_INET, Socket::SOCK_DGRAM).
         returns [[nil, nil, 'goldsrc', '127.0.0.1']]
 
-      @server = SteamCondenser::GoldSrcServer.new 'goldsrc', 27015
+      @server = SteamCondenser::Servers::GoldSrcServer.new 'goldsrc', 27015
     end
 
     should 'create a client socket upon initialization' do

@@ -1,17 +1,17 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/servers/server'
+require 'steam-condenser/servers/base_server'
 
-class TestServer < Test::Unit::TestCase
+class TestBaseServer < Test::Unit::TestCase
 
   context 'A generic server' do
 
     class GenericServer
-      include SteamCondenser::Server
+      include SteamCondenser::Servers::BaseServer
     end
 
     should 'split IP and port combinations' do

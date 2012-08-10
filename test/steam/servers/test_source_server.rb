@@ -1,10 +1,10 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/servers/source_server'
+require 'steam-condenser/servers/source_server'
 
 class TestSourceServer < Test::Unit::TestCase
 
@@ -12,10 +12,11 @@ class TestSourceServer < Test::Unit::TestCase
 
     should 'be able to get a master server for Source servers' do
       master = mock
-      SteamCondenser::MasterServer.expects(:new).with(*SteamCondenser::MasterServer::SOURCE_MASTER_SERVER).
+      SteamCondenser::Servers::MasterServer.expects(:new).
+        with(*SteamCondenser::Servers::MasterServer::SOURCE_MASTER_SERVER).
         returns master
 
-      assert_equal master, SteamCondenser::SourceServer.master
+      assert_equal master, SteamCondenser::Servers::SourceServer.master
     end
 
   end
@@ -27,7 +28,7 @@ class TestSourceServer < Test::Unit::TestCase
         with('source', 27015, Socket::AF_INET, Socket::SOCK_DGRAM).
         returns [[nil, nil, 'source', '127.0.0.1']]
 
-      @server = SteamCondenser::SourceServer.new 'source', 27015
+      @server = SteamCondenser::Servers::SourceServer.new 'source', 27015
     end
 
     should 'create client sockets upon initialization' do
