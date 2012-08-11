@@ -334,13 +334,9 @@ class SteamId
       app_id = game_data['appID'].to_i
       game = SteamGame.new app_id, game_data
       @games[app_id] = game
-      recent = total = 0
-      if game_data.key? 'hoursLast2Weeks'
-        recent = game_data['hoursLast2Weeks'].to_f
-      end
-      if game_data.key? 'hoursOnRecord'
-        total = game_data['hoursOnRecord'].to_f
-      end
+
+      recent = game_data['hoursLast2Weeks'].to_f
+      total = game_data['hoursOnRecord'].to_f
       @playtimes[app_id] = [(recent * 60).to_i, (total * 60).to_i]
     end
 
