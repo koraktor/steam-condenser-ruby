@@ -261,7 +261,7 @@ class SteamId
       @visibility_state = profile['visibilityState'].to_i
 
       if public?
-        @custom_url = profile['customURL'].downcase
+        @custom_url = profile['customURL'].downcase rescue ''
         @custom_url = nil if @custom_url.empty?
 
         if profile.key? 'favoriteGame'
