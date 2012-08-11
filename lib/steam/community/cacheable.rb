@@ -137,7 +137,7 @@ module Cacheable
   def cache
     cache     = self.class.send :cache
     cache_ids.each do |cache_id|
-      cache[cache_id] = self
+      cache[cache_id] = self if cache_id
     end
 
     true
