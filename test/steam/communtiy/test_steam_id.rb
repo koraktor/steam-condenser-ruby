@@ -20,6 +20,11 @@ class TestSteamId < Test::Unit::TestCase
       assert_equal 76561197960290418, steam_id64
     end
 
+    should 'provide a conversion between U_IDs and 64bit Steam IDs' do
+      steam_id64 = SteamId.convert_steam_id_to_community_id '[U:1:12345]'
+      assert_equal 76561197960278073, steam_id64
+    end
+
   end
 
   context 'A Steam ID' do

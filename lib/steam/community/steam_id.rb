@@ -168,13 +168,15 @@ class SteamId
   def self.steam_id_to_community_id(steam_id)
     if steam_id == 'STEAM_ID_LAN' || steam_id == 'BOT'
       raise SteamCondenserError, "Cannot convert SteamID \"#{steam_id}\" to a community ID."
-    elsif steam_id.match(/^STEAM_[0-1]:[0-1]:[0-9]+$/).nil?
+    elsif steam_id =~ /^STEAM_[0-1]:[0-1]:[0-9]+$/
+      steam_id = steam_id[8..-1].split(':').map! { |s| s.to_i }
+      steam_id[0] + steam_id[1] * 2 + 76561197960265728
+    elsif steam_id =~ /\[U:[0-1]:[0-9]+\]/
+      steam_id = steam_id[3..-2].split(':').map! { |s| s.to_i }
+      steam_id[0] + steam_id[1] + 76561197960265727
+    else
       raise SteamCondenserError, "SteamID \"#{steam_id}\" doesn't have the correct format."
     end
-
-    steam_id = steam_id[6..-1].split(':').map!{|s| s.to_i}
-
-    steam_id[1] + steam_id[2] * 2 + 76561197960265728
   end
 
   class << self
@@ -205,7 +207,11 @@ class SteamId
     if id.is_a? Numeric
       @steam_id64 = id
     else
-      @custom_url = id.downcase
+      if id =~ /^STEAM_[0-1]:[0-1]:[0-9]+$/ || id =~ /\[U:[0-1]:[0-9]+\]/
+        @steam_id64 = self.steam_id_to_community_id id
+      else
+        @custom_url = id.downcase
+      end
     end
   end
 
