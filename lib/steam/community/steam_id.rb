@@ -264,11 +264,6 @@ class SteamId
         @custom_url = profile['customURL'].downcase rescue ''
         @custom_url = nil if @custom_url.empty?
 
-        if profile.key? 'favoriteGame'
-          @favorite_game              = profile['favoriteGame']['name']
-          @favorite_game_hours_played = profile['favoriteGame']['hoursPlayed2wk']
-        end
-
         @head_line    = CGI.unescapeHTML profile['headline'] || ''
         @hours_played = profile['hoursPlayed2Wk'].to_f
         @location     = profile['location']
