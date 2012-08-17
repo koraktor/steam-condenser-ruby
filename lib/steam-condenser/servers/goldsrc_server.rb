@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/sockets/goldsrc_socket'
 require 'steam-condenser/servers/game_server'
 require 'steam-condenser/servers/master_server'
+require 'steam-condenser/servers/sockets/goldsrc_socket'
 
 module SteamCondenser
 
@@ -51,7 +51,7 @@ module SteamCondenser
       #
       # @see GoldSrcSocket
       def init_socket
-        @socket = GoldSrcSocket.new @ip_address, @port, @is_hltv
+        @socket = Sockets::GoldSrcSocket.new @ip_address, @port, @is_hltv
       end
 
       # Saves the password for authenticating the RCON communication with the

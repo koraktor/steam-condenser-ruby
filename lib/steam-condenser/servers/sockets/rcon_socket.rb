@@ -9,12 +9,12 @@ require 'timeout'
 
 require 'steam/packets/rcon/rcon_packet'
 require 'steam/packets/rcon/rcon_packet_factory'
-require 'steam/sockets/steam_socket'
 require 'steam-condenser/error/rcon_no_auth'
 require 'steam-condenser/error/rcon_ban'
 require 'steam-condenser/error/timeout'
+require 'steam-condenser/servers/sockets/base_socket'
 
-module SteamCondenser
+module SteamCondenser::Servers::Sockets
 
   # This class represents a socket used for RCON communication with game
   # servers based on the Source engine (e.g. Team Fortress 2, Counter-Strike:
@@ -26,7 +26,7 @@ module SteamCondenser
   # @author Sebastian Staudt
   class RCONSocket
 
-    include SteamSocket
+    include BaseSocket
 
     # Creates a new TCP socket to communicate with the server on the given IP
     # address and port
@@ -55,8 +55,8 @@ module SteamCondenser
     def connect
       begin
         timeout(@@timeout / 1000.0) { @socket = TCPSocket.new @ip, @port }
-      rescue Timeout::Error
-        raise Error::Timeout
+      rescue ::Timeout::Error
+        raise SteamCondenser::Error::Timeout
       end
     end
 
@@ -96,7 +96,7 @@ module SteamCondenser
         packet_data << @buffer.get
       end while remaining_bytes > 0
 
-      packet = RCONPacketFactory.packet_from_data(packet_data)
+      packet = SteamCondenser::RCONPacketFactory.packet_from_data(packet_data)
 
       puts "Received packet of type \"#{packet.class}\"." if $DEBUG
 

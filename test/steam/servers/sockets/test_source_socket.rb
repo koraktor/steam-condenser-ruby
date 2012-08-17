@@ -1,17 +1,17 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/sockets/source_socket'
+require 'steam-condenser/servers/sockets/source_socket'
 
 class TestSourceSocket < Test::Unit::TestCase
 
   context 'A Source socket' do
 
     setup do
-      @socket = SteamCondenser::SourceSocket.new '127.0.0.1'
+      @socket = SteamCondenser::Servers::Sockets::SourceSocket.new '127.0.0.1'
     end
 
     should 'be able to receive single packet replies' do

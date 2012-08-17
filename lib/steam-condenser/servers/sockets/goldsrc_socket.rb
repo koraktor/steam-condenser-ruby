@@ -6,12 +6,12 @@
 require 'core_ext/stringio'
 require 'steam/packets/steam_packet_factory'
 require 'steam/packets/rcon/rcon_goldsrc_request'
-require 'steam/sockets/steam_socket'
 require 'steam-condenser/error/rcon_ban'
 require 'steam-condenser/error/rcon_no_auth'
 require 'steam-condenser/error/timeout'
+require 'steam-condenser/servers/sockets/base_socket'
 
-module SteamCondenser
+module SteamCondenser::Servers::Sockets
 
   # This class represents a socket used to communicate with game servers based
   # on the GoldSrc engine (e.g. Half-Life, Counter-Strike)
@@ -19,7 +19,7 @@ module SteamCondenser
   # @author Sebastian Staudt
   class GoldSrcSocket
 
-    include SteamSocket
+    include BaseSocket
 
     # Creates a new socket to communicate with the server on the given IP
     # address and port
@@ -69,9 +69,9 @@ module SteamCondenser
           end
         end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 
-        packet = SteamPacketFactory.reassemble_packet(split_packets)
+        packet = SteamCondenser::SteamPacketFactory.reassemble_packet(split_packets)
       else
-        packet = SteamPacketFactory.packet_from_data(@buffer.get)
+        packet = SteamCondenser::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
       puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
@@ -97,7 +97,7 @@ module SteamCondenser
       if @is_hltv
         begin
           response = reply.response
-        rescue Error::Timeout
+        rescue SteamCondenser::Error::Timeout
           response = ''
         end
       else
@@ -105,9 +105,9 @@ module SteamCondenser
       end
 
       if response.strip == 'Bad rcon_password.'
-        raise Error::RCONNoAuth
+        raise SteamCondenser::Error::RCONNoAuth
       elsif response.strip == 'You have been banned from this server.'
-        raise Error::RCONBan
+        raise SteamCondenser::Error::RCONBan
       end
 
       begin
@@ -129,7 +129,7 @@ module SteamCondenser
       response = reply.response.strip
 
       if response.strip == 'You have been banned from this server.'
-        raise Error::RCONBan
+        raise SteamCondenser::Error::RCONBan
       end
 
       @rcon_challenge = response[14..-1]
@@ -140,7 +140,7 @@ module SteamCondenser
     #
     # @param [String] command The RCON command to send to the server
     def rcon_send(command)
-      send RCONGoldSrcRequest.new(command)
+      send SteamCondenser::RCONGoldSrcRequest.new(command)
     end
 
   end

@@ -7,12 +7,12 @@ require 'steam/packets/rcon/rcon_auth_request'
 require 'steam/packets/rcon/rcon_auth_response'
 require 'steam/packets/rcon/rcon_exec_request'
 require 'steam/packets/rcon/rcon_terminator'
-require 'steam/sockets/rcon_socket'
-require 'steam/sockets/source_socket'
 require 'steam-condenser/error/rcon_ban'
 require 'steam-condenser/error/rcon_no_auth'
 require 'steam-condenser/servers/game_server'
 require 'steam-condenser/servers/master_server'
+require 'steam-condenser/servers/sockets/rcon_socket'
+require 'steam-condenser/servers/sockets/source_socket'
 
 module SteamCondenser
 
@@ -63,8 +63,8 @@ module SteamCondenser
       # @see RCONSocket
       # @see SourceSocket
       def init_socket
-        @rcon_socket = RCONSocket.new @ip_address, @port
-        @socket      = SourceSocket.new @ip_address, @port
+        @rcon_socket = Sockets::RCONSocket.new @ip_address, @port
+        @socket      = Sockets::SourceSocket.new @ip_address, @port
       end
 
       # Authenticates the connection for RCON communication with the server
@@ -118,7 +118,7 @@ module SteamCondenser
 
         response.join('').strip
       end
-  
+
     end
   end
 end

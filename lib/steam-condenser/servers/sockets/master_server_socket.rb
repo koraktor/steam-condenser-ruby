@@ -3,17 +3,17 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/sockets/steam_socket'
 require 'steam-condenser/error/packet_format'
+require 'steam-condenser/servers/sockets/base_socket'
 
-module SteamCondenser
+module SteamCondenser::Servers::Sockets
 
   # This class represents a socket used to communicate with master servers
   #
   # @author Sebastian Staudt
   class MasterServerSocket
 
-    include SteamSocket
+    include BaseSocket
 
     # Reads a single packet from the socket
     #
@@ -23,7 +23,7 @@ module SteamCondenser
       receive_packet 1500
 
       unless @buffer.long == 0xFFFFFFFF
-        raise Error::PacketFormat, 'Master query response has wrong packet header.'
+        raise SteamCondenser::Error::PacketFormat, 'Master query response has wrong packet header.'
       end
 
       packet = SteamPacketFactory.packet_from_data @buffer.get

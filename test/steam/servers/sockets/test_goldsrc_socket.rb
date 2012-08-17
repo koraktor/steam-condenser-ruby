@@ -1,18 +1,18 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/sockets/goldsrc_socket'
+require 'steam-condenser/servers/sockets/goldsrc_socket'
 
 class TestGoldSrcSocket < Test::Unit::TestCase
 
   context 'A new GoldSrc socket' do
 
     should 'know if its endpoint is a HLTV server' do
-      socket1 = SteamCondenser::GoldSrcSocket.new '127.0.0.1', 27015
-      socket2 = SteamCondenser::GoldSrcSocket.new '127.0.0.1', 27015, true
+      socket1 = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015
+      socket2 = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015, true
 
       assert_not socket1.instance_variable_get(:@is_hltv)
       assert socket2.instance_variable_get(:@is_hltv)
@@ -23,7 +23,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
   context 'A GoldSrc socket' do
 
     setup do
-      @socket = SteamCondenser::GoldSrcSocket.new '127.0.0.1'
+      @socket = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1'
     end
 
     should 'send wrapped up RCON requests' do

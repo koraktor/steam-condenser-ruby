@@ -30,7 +30,7 @@ class TestMasterServer < Test::Unit::TestCase
 
     should 'create a client socket upon initialization' do
       socket = mock
-      SteamCondenser::MasterServerSocket.expects(:new).with('127.0.0.1', 27015).returns socket
+      SteamCondenser::Servers::Sockets::MasterServerSocket.expects(:new).with('127.0.0.1', 27015).returns socket
 
       @server.init_socket
 

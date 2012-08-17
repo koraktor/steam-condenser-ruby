@@ -1,17 +1,17 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/sockets/master_server_socket'
+require 'steam-condenser/servers/sockets/master_server_socket'
 
 class TestMasterServerSocket < Test::Unit::TestCase
 
   context 'A master server socket' do
 
     setup do
-      @socket = SteamCondenser::MasterServerSocket.new '127.0.0.1'
+      @socket = SteamCondenser::Servers::Sockets::MasterServerSocket.new '127.0.0.1'
       @socket.instance_variable_set :@buffer, mock
     end
 

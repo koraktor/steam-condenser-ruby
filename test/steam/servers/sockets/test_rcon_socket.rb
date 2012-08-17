@@ -1,17 +1,17 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/sockets/rcon_socket'
+require 'steam-condenser/servers/sockets/rcon_socket'
 
 class TestRCONSocket < Test::Unit::TestCase
 
   context 'A new RCON socket' do
 
     should 'know its IP and port, but not open a connection' do
-      socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
+      socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
 
       assert_equal IPAddr.new('127.0.0.1'), socket.instance_variable_get(:@ip)
       assert_equal 27015, socket.instance_variable_get(:@port)
@@ -23,7 +23,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A disconnected RCON socket' do
 
     setup do
-      @socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
+      @socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
     end
 
     should 'establish the TCP connection when sending' do
@@ -71,7 +71,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A connected RCON socket' do
 
     setup do
-      @socket = SteamCondenser::RCONSocket.new '127.0.0.1', 27015
+      @socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
       @tcp_socket = mock
       @socket.instance_variable_set :@socket, @tcp_socket
     end

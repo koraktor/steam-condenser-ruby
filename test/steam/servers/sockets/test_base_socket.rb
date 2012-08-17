@@ -1,23 +1,23 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/sockets/steam_socket'
+require 'steam-condenser/servers/sockets/base_socket'
 
-class TestSteamSocket < Test::Unit::TestCase
+class TestBaseSocket < Test::Unit::TestCase
 
-  class GenericSteamSocket
-    include SteamCondenser::SteamSocket
+  class GenericSocket
+    include SteamCondenser::Servers::Sockets::BaseSocket
   end
 
   context 'The user timeout of a socket' do
 
     should 'be able to change the timeout of a socket' do
-      SteamCondenser::SteamSocket.timeout = 2000
+      SteamCondenser::Servers::Sockets::BaseSocket.timeout = 2000
 
-      assert_equal 2000, SteamCondenser::SteamSocket.send(:class_variable_get, :@@timeout)
+      assert_equal 2000, SteamCondenser::Servers::Sockets::BaseSocket.send(:class_variable_get, :@@timeout)
     end
 
   end
@@ -29,7 +29,7 @@ class TestSteamSocket < Test::Unit::TestCase
       socket.expects(:connect).with '127.0.0.1', 27015
       UDPSocket.expects(:new).returns socket
 
-      GenericSteamSocket.new '127.0.0.1'
+      GenericSocket.new '127.0.0.1'
     end
 
   end
@@ -41,7 +41,7 @@ class TestSteamSocket < Test::Unit::TestCase
       @udp_socket.stubs(:connect).with '127.0.0.1', 27015
       UDPSocket.stubs(:new).returns @udp_socket
 
-      @socket = GenericSteamSocket.new '127.0.0.1'
+      @socket = GenericSocket.new '127.0.0.1'
     end
 
     should 'close the UDP socket if it is closed' do

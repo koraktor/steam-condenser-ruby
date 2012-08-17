@@ -33,7 +33,7 @@ class TestGoldSrcServer < Test::Unit::TestCase
 
     should 'create a client socket upon initialization' do
       socket = mock
-      SteamCondenser::GoldSrcSocket.expects(:new).with('127.0.0.1', 27015, false).returns socket
+      SteamCondenser::Servers::Sockets::GoldSrcSocket.expects(:new).with('127.0.0.1', 27015, false).returns socket
 
       @server.init_socket
 
