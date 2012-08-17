@@ -293,7 +293,7 @@ class SteamId
         end
 
         @links = {}
-        if profile.key? 'weblinks'
+        if profile.key? 'weblinks' && profile['weblinks'] != nil
           [profile['weblinks']['weblink']].flatten.each do |link|
             @links[CGI.unescapeHTML link['title']] = link['link']
           end
