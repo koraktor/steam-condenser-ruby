@@ -4,8 +4,8 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
-require 'steam/packets/steam_packet_factory'
-require 'steam/packets/rcon/rcon_goldsrc_request'
+require 'steam-condenser/servers/packets/rcon/rcon_goldsrc_request'
+require 'steam-condenser/servers/packets/steam_packet_factory'
 require 'steam-condenser/error/rcon_ban'
 require 'steam-condenser/error/rcon_no_auth'
 require 'steam-condenser/error/timeout'
@@ -69,9 +69,9 @@ module SteamCondenser::Servers::Sockets
           end
         end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 
-        packet = SteamCondenser::SteamPacketFactory.reassemble_packet(split_packets)
+        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.reassemble_packet(split_packets)
       else
-        packet = SteamCondenser::SteamPacketFactory.packet_from_data(@buffer.get)
+        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
       puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
@@ -140,7 +140,7 @@ module SteamCondenser::Servers::Sockets
     #
     # @param [String] command The RCON command to send to the server
     def rcon_send(command)
-      send SteamCondenser::RCONGoldSrcRequest.new(command)
+      send SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest.new(command)
     end
 
   end

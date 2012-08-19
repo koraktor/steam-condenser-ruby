@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This module implements methods to generate and access server information
   # from S2A_INFO_DETAILED and S2A_INFO2 response packets
@@ -15,7 +15,7 @@ module SteamCondenser
   # @see S2A_INFO2_Packet
   module S2A_INFO_BasePacket
 
-    include SteamPacket
+    include BasePacket
 
     # Returns the information provided by the server
     #

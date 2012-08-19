@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class represents a A2S_SERVERQUERY_GETCHALLENGE request send to
   # a game server
@@ -17,7 +17,7 @@ module SteamCondenser
   # @see GameServer#update_challenge_number
   class A2S_SERVERQUERY_GETCHALLENGE_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
     def initialize

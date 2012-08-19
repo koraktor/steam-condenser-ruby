@@ -55,9 +55,9 @@ module SteamCondenser::Servers::Sockets
           end
         end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 
-        packet = SteamPacketFactory.reassemble_packet(split_packets, is_compressed, packet_checksum)
+        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.reassemble_packet(split_packets, is_compressed, packet_checksum)
       else
-        packet = SteamCondenser::SteamPacketFactory.packet_from_data(@buffer.get)
+        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
       if is_compressed

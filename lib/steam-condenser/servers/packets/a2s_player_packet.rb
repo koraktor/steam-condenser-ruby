@@ -3,10 +3,10 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/request_with_challenge'
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
+require 'steam-condenser/servers/packets/request_with_challenge'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class represents a A2S_PLAYER request send to a game server
   #
@@ -19,7 +19,7 @@ module SteamCondenser
   # @see GameServer#update_player_info
   class A2S_PLAYER_Packet
 
-    include SteamPacket
+    include BasePacket
     include RequestWithChallenge
 
     # Creates a new A2S_PLAYER request object including the challenge number

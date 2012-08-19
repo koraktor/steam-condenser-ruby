@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class class represents a A2S_INFO request send to a game server
   #
@@ -16,7 +16,7 @@ module SteamCondenser
   # @see GameServer#update_server_info
   class A2S_INFO_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Creates a new A2S_INFO request object
     def initialize

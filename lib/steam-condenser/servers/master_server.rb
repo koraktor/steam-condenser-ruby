@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/a2m_get_servers_batch2_packet'
 require 'steam-condenser/error/timeout'
 require 'steam-condenser/servers/base_server'
+require 'steam-condenser/servers/packets/a2m_get_servers_batch2_packet'
 require 'steam-condenser/servers/sockets/master_server_socket'
 
 module SteamCondenser
@@ -115,7 +115,7 @@ module SteamCondenser
           failsafe do
             fail_count = 0
             begin
-              @socket.send A2M_GET_SERVERS_BATCH2_Packet.new(region_code, current_server, filters)
+              @socket.send Packets::A2M_GET_SERVERS_BATCH2_Packet.new(region_code, current_server, filters)
               begin
                 servers = @socket.reply.servers
                 servers.each do |server|

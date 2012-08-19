@@ -91,7 +91,7 @@ class TestRCONSocket < Test::Unit::TestCase
       @socket.expects(:receive_packet).with(4).returns 1
       @socket.expects(:receive_packet).with(1234).returns 1000
       @socket.expects(:receive_packet).with(234).returns 234
-      SteamCondenser::RCONPacketFactory.expects(:packet_from_data).with 'test test'
+      SteamCondenser::Servers::Packets::RCON::RCONPacketFactory.expects(:packet_from_data).with 'test test'
 
       @socket.reply
     end

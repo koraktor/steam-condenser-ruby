@@ -4,12 +4,12 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
-require 'steam/packets/steam_packet_factory'
-require 'steam/packets/rcon/rcon_auth_response'
-require 'steam/packets/rcon/rcon_exec_response'
+require 'steam-condenser/servers//packets/steam_packet_factory'
+require 'steam-condenser/servers//packets/rcon/rcon_auth_response'
+require 'steam-condenser/servers/packets/rcon/rcon_exec_response'
 require 'steam-condenser/error/packet_format'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets::RCON
 
   # This module provides functionality to handle raw packet data for Source
   # RCON
@@ -40,7 +40,7 @@ module SteamCondenser
         when RCONPacket::SERVERDATA_RESPONSE_VALUE then
           return RCONExecResponse.new(request_id, data)
         else
-          raise Error::PacketFormat, "Unknown packet with header #{header.to_s(16)} received."
+          raise SteamCondenser::Error::PacketFormat, "Unknown packet with header #{header.to_s(16)} received."
       end
     end
 

@@ -23,7 +23,7 @@ class TestSourceSocket < Test::Unit::TestCase
       buffer.expects(:long).returns 0xFFFFFFFF
       buffer.expects(:get).returns data
       packet = mock
-      SteamCondenser::SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
+      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
 
       assert_equal packet, @socket.reply
     end
@@ -44,7 +44,7 @@ class TestSourceSocket < Test::Unit::TestCase
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
-      SteamCondenser::SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
+      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
         returns packet
 
       assert_equal packet, @socket.reply
@@ -66,7 +66,7 @@ class TestSourceSocket < Test::Unit::TestCase
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
-      SteamCondenser::SteamPacketFactory.expects(:reassemble_packet).
+      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:reassemble_packet).
         with([data1, data2], true, 1337).returns packet
 
       assert_equal packet, @socket.reply

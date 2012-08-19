@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class represents a S2C_CHALLENGE response replied by a game
   # server
@@ -17,7 +17,7 @@ module SteamCondenser
   # @see GameServer#update_challenge_number
   class S2C_CHALLENGE_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Creates a new S2C_CHALLENGE response object based on the given data
     #

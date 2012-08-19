@@ -3,16 +3,16 @@
 #
 # Copyright (c) 2011-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This class represents a S2A_LOGSTRING packet used to transfer log messages
   #
   # @author Sebastian Staudt
   class S2A_LOGSTRING_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Returns the log message contained in this packet
     #

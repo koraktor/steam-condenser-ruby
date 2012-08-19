@@ -3,18 +3,18 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'steam/packets/a2s_info_packet'
-require 'steam/packets/a2s_player_packet'
-require 'steam/packets/a2s_rules_packet'
-require 'steam/packets/a2s_serverquery_getchallenge_packet'
-require 'steam/packets/s2a_info_base_packet'
-require 'steam/packets/s2a_player_packet'
-require 'steam/packets/s2a_rules_packet'
-require 'steam/packets/s2c_challenge_packet'
 require 'steam-condenser/error'
 require 'steam-condenser/error/timeout'
 require 'steam-condenser/servers/base_server'
 require 'steam-condenser/servers/steam_player'
+require 'steam-condenser/servers/packets/a2s_info_packet'
+require 'steam-condenser/servers/packets/a2s_player_packet'
+require 'steam-condenser/servers/packets/a2s_rules_packet'
+require 'steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet'
+require 'steam-condenser/servers/packets/s2a_info_base_packet'
+require 'steam-condenser/servers/packets/s2a_player_packet'
+require 'steam-condenser/servers/packets/s2a_rules_packet'
+require 'steam-condenser/servers/packets/s2c_challenge_packet'
 
 module SteamCondenser
 
@@ -207,17 +207,17 @@ module SteamCondenser
       def handle_response_for_request(request_type, repeat_on_failure = true)
         case request_type
           when :challenge then
-            request_packet = A2S_PLAYER_Packet.new
-            expected_response = S2C_CHALLENGE_Packet
+            request_packet = Packets::A2S_PLAYER_Packet.new
+            expected_response = Packets::S2C_CHALLENGE_Packet
           when :info then
-            request_packet = A2S_INFO_Packet.new
-            expected_response = S2A_INFO_BasePacket
+            request_packet = Packets::A2S_INFO_Packet.new
+            expected_response = Packets::S2A_INFO_BasePacket
           when :players then
-            request_packet = A2S_PLAYER_Packet.new(@challenge_number)
-            expected_response = S2A_PLAYER_Packet
+            request_packet = Packets::A2S_PLAYER_Packet.new(@challenge_number)
+            expected_response = Packets::S2A_PLAYER_Packet
           when :rules then
-            request_packet = A2S_RULES_Packet.new(@challenge_number)
-            expected_response = S2A_RULES_Packet
+            request_packet = Packets::A2S_RULES_Packet.new(@challenge_number)
+            expected_response = Packets::S2A_RULES_Packet
           else
             raise Error, 'Called with wrong request type.'
         end
@@ -225,13 +225,13 @@ module SteamCondenser
         send_request request_packet
         response_packet = reply
 
-        if response_packet.kind_of? S2A_INFO_BasePacket
+        if response_packet.kind_of? Packets::S2A_INFO_BasePacket
           @info_hash = response_packet.info
-        elsif response_packet.kind_of? S2A_PLAYER_Packet
+        elsif response_packet.kind_of? Packets::S2A_PLAYER_Packet
           @player_hash = response_packet.player_hash
-        elsif response_packet.kind_of? S2A_RULES_Packet
+        elsif response_packet.kind_of? Packets::S2A_RULES_Packet
           @rules_hash = response_packet.rules_hash
-        elsif response_packet.kind_of? S2C_CHALLENGE_Packet
+        elsif response_packet.kind_of? Packets::S2C_CHALLENGE_Packet
           @challenge_number = response_packet.challenge_number
         else
           raise Error, "Response of type #{response_packet.class} cannot be handled by this method."
@@ -337,7 +337,7 @@ module SteamCondenser
       # @return [Fixnum] The latency of this server in milliseconds
       # @see #ping
       def update_ping
-        send_request A2S_INFO_Packet.new
+        send_request Packets::A2S_INFO_Packet.new
         start_time = Time.now
         reply
         end_time = Time.now

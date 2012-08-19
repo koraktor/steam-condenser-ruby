@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This class represents a S2A_RULES response sent by a game server
   #
@@ -16,7 +16,7 @@ module SteamCondenser
   # @see GameServer#update_rules_info
   class S2A_RULES_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Returns the list of server rules (a.k.a. CVars) with the current values
     #
@@ -28,10 +28,10 @@ module SteamCondenser
     # @param [String] content_data The raw packet data sent by the server
     def initialize(content_data)
       if content_data.nil?
-        raise Error::PacketFormat, 'Wrong formatted S2A_RULES response packet.'
+        raise SteamCondenser::Error::PacketFormat, 'Wrong formatted S2A_RULES response packet.'
       end
 
-      super SteamPacket::S2A_RULES_HEADER, content_data
+      super BasePacket::S2A_RULES_HEADER, content_data
 
       rules_count = @content_data.short
 

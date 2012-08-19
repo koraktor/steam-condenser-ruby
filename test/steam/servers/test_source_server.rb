@@ -50,7 +50,7 @@ class TestSourceServer < Test::Unit::TestCase
       rcon_socket.expects(:send).with do |packet|
         reply.expects(:request_id).returns packet.request_id
 
-        packet.is_a? SteamCondenser::RCONAuthRequest
+        packet.is_a? SteamCondenser::Servers::Packets::RCON::RCONAuthRequest
       end
       rcon_socket.expects(:reply).twice.returns(mock).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
@@ -64,7 +64,7 @@ class TestSourceServer < Test::Unit::TestCase
       reply.expects(:request_id).returns -1
 
       rcon_socket = mock
-      rcon_socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::RCONAuthRequest }
+      rcon_socket.expects(:send).with { |packet| packet.is_a? SteamCondenser::Servers::Packets::RCON::RCONAuthRequest }
       rcon_socket.expects(:reply).twice.returns(mock).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
 
@@ -91,12 +91,12 @@ class TestSourceServer < Test::Unit::TestCase
       setup do
         @rcon_socket = mock
         @rcon_socket.expects(:send).with do |packet|
-          packet.is_a?(SteamCondenser::RCONExecRequest) &&
+          packet.is_a?(SteamCondenser::Servers::Packets::RCON::RCONExecRequest) &&
           packet.instance_variable_get(:@content_data).string == "command\0\0" &&
           packet.instance_variable_get(:@request_id) == 1234
         end
         @rcon_socket.expects(:send).with do |packet|
-          packet.is_a?(SteamCondenser::RCONTerminator) &&
+          packet.is_a?(SteamCondenser::Servers::Packets::RCON::RCONTerminator) &&
           packet.instance_variable_get(:@request_id) == 1234
         end
 
@@ -107,7 +107,7 @@ class TestSourceServer < Test::Unit::TestCase
 
       should 'reset the connection if the server indicates so' do
         reply = mock
-        reply.expects(:is_a?).with(SteamCondenser::RCONAuthResponse).returns true
+        reply.expects(:is_a?).with(SteamCondenser::Servers::Packets::RCON::RCONAuthResponse).returns true
         @rcon_socket.expects(:reply).returns(reply)
 
         assert_raises SteamCondenser::Error::RCONNoAuth do

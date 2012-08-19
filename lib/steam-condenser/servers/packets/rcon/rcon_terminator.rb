@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2011-2012, Sebastian Staudt
 
-require 'steam/packets/rcon/rcon_packet'
+require 'steam-condenser/servers/packets/rcon/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets::RCON
 
   # This packet class represents a special SERVERDATA_RESPONSE_VALUE packet
   # which is sent to the server
@@ -18,7 +18,7 @@ module SteamCondenser
   # @see SourceServer#rcon_exec
   class RCONTerminator
 
-    include RCONPacket
+    include BasePacket
 
     # Creates a new RCON terminator packet instance for the given request ID
     #

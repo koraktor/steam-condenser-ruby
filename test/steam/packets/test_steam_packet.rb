@@ -4,18 +4,18 @@
 # Copyright (c) 2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-class TestSteamPacket < Test::Unit::TestCase
+class TestBasePacket < Test::Unit::TestCase
 
-  class GenericSteamPacket
-    include SteamCondenser::SteamPacket
+  class GenericPacket
+    include SteamCondenser::Servers::Packets::BasePacket
   end
 
   context 'A packet' do
 
     setup do
-      @packet = GenericSteamPacket.new 0x61, 'test'
+      @packet = GenericPacket.new 0x61, 'test'
     end
 
     should 'have a data buffer' do

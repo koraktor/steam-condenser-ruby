@@ -43,13 +43,13 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|
-        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
       socket.expects(:send).with do |packet|
-        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '127.0.0.3:27015'
@@ -67,13 +67,13 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|
-        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
       socket.expects(:send).with do |packet|
-        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '127.0.0.3:27015'
@@ -91,7 +91,7 @@ class TestMasterServer < Test::Unit::TestCase
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).times(retries).with do |packet|
-        packet.is_a?(SteamCondenser::A2M_GET_SERVERS_BATCH2_Packet) &&
+        packet.is_a?(SteamCondenser::Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == '' &&
         packet.instance_variable_get(:@region_code) == SteamCondenser::Servers::MasterServer::REGION_ALL &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'

@@ -32,7 +32,7 @@ class TestMasterServerSocket < Test::Unit::TestCase
       buffer.expects(:get).returns 'test'
 
       packet = mock
-      SteamCondenser::SteamPacketFactory.expects(:packet_from_data).with('test').returns packet
+      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:packet_from_data).with('test').returns packet
 
       assert_equal packet, @socket.reply
     end

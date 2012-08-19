@@ -3,10 +3,10 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
 require 'steam-condenser/servers/master_server'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class represents a A2M_GET_SERVERS_BATCH2 request sent to a
   # master server
@@ -35,7 +35,7 @@ module SteamCondenser
   # @see MasterServer#servers
   class A2M_GET_SERVERS_BATCH2_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Creates a master server request, filtering by the given paramters
     #

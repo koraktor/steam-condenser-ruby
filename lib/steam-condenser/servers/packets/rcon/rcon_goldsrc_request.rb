@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets::RCON
 
   # This packet class represents a RCON request packet sent to a GoldSrc server
   #
@@ -15,7 +15,7 @@ module SteamCondenser
   # @see GoldSrcServer#rcon_exec
   class RCONGoldSrcRequest
 
-    include SteamPacket
+    include SteamCondenser::Servers::Packets::BasePacket
 
     # Creates a request for the given request string
     #

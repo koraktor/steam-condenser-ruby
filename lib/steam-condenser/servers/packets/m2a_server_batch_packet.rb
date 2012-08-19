@@ -3,10 +3,10 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
 require 'steam-condenser/error/packet_format'
+require 'steam-condenser/servers/packets/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This packet class represents a M2A_SERVER_BATCH response replied by a master
   # server
@@ -18,7 +18,7 @@ module SteamCondenser
   # @see MasterServer#servers
   class M2A_SERVER_BATCH_Packet
 
-    include SteamPacket
+    include BasePacket
 
     # Returns the list of servers returned from the server in this packet
     #
@@ -34,7 +34,7 @@ module SteamCondenser
       super M2A_SERVER_BATCH_HEADER, data
 
       unless @content_data.getbyte == 0x0A
-        raise Error::PacketFormat, 'Master query response is missing additional 0x0A byte.'
+        raise SteamCondenser::Error::PacketFormat, 'Master query response is missing additional 0x0A byte.'
       end
 
       @servers = []

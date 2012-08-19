@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'steam/packets/s2a_info_base_packet'
+require 'steam-condenser/servers/packets/s2a_info_base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This class represents a S2A_INFO_DETAILED response packet sent by a GoldSrc
   # server

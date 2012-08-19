@@ -7,11 +7,10 @@ require 'ipaddr'
 require 'socket'
 require 'timeout'
 
-require 'steam/packets/rcon/rcon_packet'
-require 'steam/packets/rcon/rcon_packet_factory'
 require 'steam-condenser/error/rcon_no_auth'
 require 'steam-condenser/error/rcon_ban'
 require 'steam-condenser/error/timeout'
+require 'steam-condenser/servers/packets/rcon/rcon_packet_factory'
 require 'steam-condenser/servers/sockets/base_socket'
 
 module SteamCondenser::Servers::Sockets
@@ -96,7 +95,7 @@ module SteamCondenser::Servers::Sockets
         packet_data << @buffer.get
       end while remaining_bytes > 0
 
-      packet = SteamCondenser::RCONPacketFactory.packet_from_data(packet_data)
+      packet = SteamCondenser::Servers::Packets::RCON::RCONPacketFactory.packet_from_data(packet_data)
 
       puts "Received packet of type \"#{packet.class}\"." if $DEBUG
 

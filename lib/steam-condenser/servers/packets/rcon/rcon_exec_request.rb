@@ -3,9 +3,9 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-require 'steam/packets/rcon/rcon_packet'
+require 'steam-condenser/servers/packets/rcon/base_packet'
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets::RCON
 
   # This packet class represents a SERVERDATA_EXECCOMMAND packet sent to a
   # Source server
@@ -16,7 +16,7 @@ module SteamCondenser
   # @see SourceServer#rcon_exec
   class RCONExecRequest
 
-    include RCONPacket
+    include BasePacket
 
     # Creates a RCON command execution request for the given request ID and
     # command

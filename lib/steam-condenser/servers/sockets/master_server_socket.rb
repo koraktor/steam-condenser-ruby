@@ -26,7 +26,7 @@ module SteamCondenser::Servers::Sockets
         raise SteamCondenser::Error::PacketFormat, 'Master query response has wrong packet header.'
       end
 
-      packet = SteamPacketFactory.packet_from_data @buffer.get
+      packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data @buffer.get
 
       puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
 

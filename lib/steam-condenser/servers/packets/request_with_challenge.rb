@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2008-2012, Sebastian Staudt
 
-module SteamCondenser
+module SteamCondenser::Servers::Packets
 
   # This module implements a method to generate raw packet data used by request
   # packets which send a challenge number
