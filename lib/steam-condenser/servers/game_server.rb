@@ -3,7 +3,6 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'steam/steam_player'
 require 'steam/packets/a2s_info_packet'
 require 'steam/packets/a2s_player_packet'
 require 'steam/packets/a2s_rules_packet'
@@ -15,6 +14,7 @@ require 'steam/packets/s2c_challenge_packet'
 require 'steam-condenser/error'
 require 'steam-condenser/error/timeout'
 require 'steam-condenser/servers/base_server'
+require 'steam-condenser/servers/steam_player'
 
 module SteamCondenser
 

@@ -5,7 +5,7 @@
 
 require 'steam-condenser/error'
 
-module SteamCondenser
+module SteamCondenser::Servers
 
   # The SteamPlayer class represents a player connected to a server
   #
