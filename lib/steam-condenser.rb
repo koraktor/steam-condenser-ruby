@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2012, Sebastian Staudt
 
 # This module is used as a wrapper around Steam Condenser's classes
 #
@@ -10,9 +10,6 @@
 #
 # @author Sebastian Staudt
 module SteamCondenser
-
-  require 'steam-condenser/community'
-  require 'steam-condenser/servers'
-  require 'steam-condenser/version'
-
 end
+
+require 'steam-condenser/version'

@@ -3,27 +3,26 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-module SteamCondenser
+require 'steam-condenser'
 
-  # This error class is used as a base class for all errors related to Steam
-  # Condenser's operation
+# This error class is used as a base class for all errors related to Steam
+# Condenser's operation
+#
+# @author Sebastian Staudt
+class SteamCondenser::Error < StandardError
+
+  # Returns the exception that caused this error
   #
-  # @author Sebastian Staudt
-  class Error < StandardError
+  # @return [Exception] The exception that caused this error
+  attr_reader :cause
 
-    # Returns the exception that caused this error
-    #
-    # @return [Exception] The exception that caused this error
-    attr_reader :cause
-
-    # Creates a new `SteamCondenserError` instance
-    #
-    # @param [String] message The message to attach to the error
-    # @param [Exception] cause The exception that caused this error
-    def initialize(message, cause = nil)
-      super message
-      @cause = cause
-    end
-
+  # Creates a new `SteamCondenserError` instance
+  #
+  # @param [String] message The message to attach to the error
+  # @param [Exception] cause The exception that caused this error
+  def initialize(message, cause = nil)
+    super message
+    @cause = cause
   end
+
 end
