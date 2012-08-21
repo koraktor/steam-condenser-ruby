@@ -4,12 +4,12 @@
 # Copyright (c) 2012, Sebastian Staudt
 
 require 'helper'
-require 'steam/community/cacheable'
+require 'steam-condenser/community/cacheable'
 
 class TestCacheable < Test::Unit::TestCase
 
   class SingleCacheable
-    include SteamCondenser::Cacheable
+    include SteamCondenser::Community::Cacheable
     cacheable_with_ids :first_id, :second_id
 
     def initialize
@@ -21,7 +21,7 @@ class TestCacheable < Test::Unit::TestCase
   end
 
   class CompoundCacheable
-    include SteamCondenser::Cacheable
+    include SteamCondenser::Community::Cacheable
     cacheable_with_ids [:first_id, :second_id]
 
     def initialize

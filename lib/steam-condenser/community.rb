@@ -1,11 +1,17 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2012, Sebastian Staudt
+
+require 'steam-condenser/version'
+require 'steam-condenser/community/app_news'
+require 'steam-condenser/community/game_leaderboard'
+require 'steam-condenser/community/steam_group'
+require 'steam-condenser/community/steam_id'
+require 'steam-condenser/community/web_api'
 
 module SteamCondenser
 
-  require 'steam-condenser/version'
 
   # This module is used as a wrapper around Steam Condenser's Steam Community
   # classes
@@ -15,10 +21,6 @@ module SteamCondenser
   #
   # @author Sebastian Staudt
   module Community
-
-    require 'steam/community/steam_id'
-    require 'steam/community/web_api'
-
   end
 
 end
