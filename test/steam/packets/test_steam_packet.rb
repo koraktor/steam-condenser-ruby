@@ -4,7 +4,6 @@
 # Copyright (c) 2012, Sebastian Staudt
 
 require 'helper'
-require 'steam-condenser/servers/packets/base_packet'
 
 class TestBasePacket < Test::Unit::TestCase
 

@@ -4,7 +4,6 @@
 # Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'helper'
-require 'steam-condenser/servers/source_server'
 
 class TestSourceServer < Test::Unit::TestCase
 

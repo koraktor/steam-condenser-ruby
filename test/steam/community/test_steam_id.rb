@@ -4,7 +4,6 @@
 # Copyright (c) 2011, Sebastian Staudt
 
 require 'helper'
-require 'steam-condenser/community/steam_id'
 
 class TestSteamId < Test::Unit::TestCase
 
