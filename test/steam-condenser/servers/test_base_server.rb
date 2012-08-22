@@ -10,7 +10,7 @@ class TestBaseServer < Test::Unit::TestCase
   context 'A generic server' do
 
     class GenericServer
-      include SteamCondenser::Servers::BaseServer
+      include Servers::BaseServer
     end
 
     should 'split IP and port combinations' do

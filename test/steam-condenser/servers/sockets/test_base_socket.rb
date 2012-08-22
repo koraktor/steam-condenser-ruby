@@ -8,15 +8,15 @@ require 'helper'
 class TestBaseSocket < Test::Unit::TestCase
 
   class GenericSocket
-    include SteamCondenser::Servers::Sockets::BaseSocket
+    include Servers::Sockets::BaseSocket
   end
 
   context 'The user timeout of a socket' do
 
     should 'be able to change the timeout of a socket' do
-      SteamCondenser::Servers::Sockets::BaseSocket.timeout = 2000
+      Servers::Sockets::BaseSocket.timeout = 2000
 
-      assert_equal 2000, SteamCondenser::Servers::Sockets::BaseSocket.send(:class_variable_get, :@@timeout)
+      assert_equal 2000, Servers::Sockets::BaseSocket.send(:class_variable_get, :@@timeout)
     end
 
   end
@@ -60,7 +60,7 @@ class TestBaseSocket < Test::Unit::TestCase
     should 'raise a timeout if no reply is received' do
       @socket.expects(:select).with([@udp_socket], nil, nil, 1).returns nil
 
-      assert_raises SteamCondenser::Error::Timeout do
+      assert_raises Error::Timeout do
         @socket.receive_packet
       end
     end

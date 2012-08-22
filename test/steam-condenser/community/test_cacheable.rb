@@ -8,7 +8,7 @@ require 'helper'
 class TestCacheable < Test::Unit::TestCase
 
   class SingleCacheable
-    include SteamCondenser::Community::Cacheable
+    include Community::Cacheable
     cacheable_with_ids :first_id, :second_id
 
     def initialize
@@ -20,7 +20,7 @@ class TestCacheable < Test::Unit::TestCase
   end
 
   class CompoundCacheable
-    include SteamCondenser::Community::Cacheable
+    include Community::Cacheable
     cacheable_with_ids [:first_id, :second_id]
 
     def initialize

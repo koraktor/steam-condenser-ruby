@@ -10,7 +10,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A new RCON socket' do
 
     should 'know its IP and port, but not open a connection' do
-      socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
+      socket = Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
 
       assert_equal IPAddr.new('127.0.0.1'), socket.instance_variable_get(:@ip)
       assert_equal 27015, socket.instance_variable_get(:@port)
@@ -22,7 +22,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A disconnected RCON socket' do
 
     setup do
-      @socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
+      @socket = Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
     end
 
     should 'establish the TCP connection when sending' do
@@ -60,7 +60,7 @@ class TestRCONSocket < Test::Unit::TestCase
     should 'raise a timeout if the connection cannot be established' do
       @socket.expects(:timeout).raises Timeout::Error
 
-      assert_raises SteamCondenser::Error::Timeout do
+      assert_raises Error::Timeout do
         @socket.connect
       end
     end
@@ -70,7 +70,7 @@ class TestRCONSocket < Test::Unit::TestCase
   context 'A connected RCON socket' do
 
     setup do
-      @socket = SteamCondenser::Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
+      @socket = Servers::Sockets::RCONSocket.new '127.0.0.1', 27015
       @tcp_socket = mock
       @socket.instance_variable_set :@socket, @tcp_socket
     end
@@ -90,7 +90,7 @@ class TestRCONSocket < Test::Unit::TestCase
       @socket.expects(:receive_packet).with(4).returns 1
       @socket.expects(:receive_packet).with(1234).returns 1000
       @socket.expects(:receive_packet).with(234).returns 234
-      SteamCondenser::Servers::Packets::RCON::RCONPacketFactory.expects(:packet_from_data).with 'test test'
+      Servers::Packets::RCON::RCONPacketFactory.expects(:packet_from_data).with 'test test'
 
       @socket.reply
     end
@@ -107,7 +107,7 @@ class TestRCONSocket < Test::Unit::TestCase
       @socket.expects(:receive_packet).with(4).returns 0
       @tcp_socket.expects :close
 
-      assert_raise SteamCondenser::Error::RCONBan do
+      assert_raise Error::RCONBan do
         assert_nil @socket.reply
       end
     end

@@ -8,7 +8,7 @@ require 'helper'
 class TestBasePacket < Test::Unit::TestCase
 
   class GenericPacket
-    include SteamCondenser::Servers::Packets::BasePacket
+    include Servers::Packets::BasePacket
   end
 
   context 'A packet' do

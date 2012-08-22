@@ -10,8 +10,8 @@ class TestGoldSrcSocket < Test::Unit::TestCase
   context 'A new GoldSrc socket' do
 
     should 'know if its endpoint is a HLTV server' do
-      socket1 = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015
-      socket2 = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015, true
+      socket1 = Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015
+      socket2 = Servers::Sockets::GoldSrcSocket.new '127.0.0.1', 27015, true
 
       assert_not socket1.instance_variable_get(:@is_hltv)
       assert socket2.instance_variable_get(:@is_hltv)
@@ -22,12 +22,12 @@ class TestGoldSrcSocket < Test::Unit::TestCase
   context 'A GoldSrc socket' do
 
     setup do
-      @socket = SteamCondenser::Servers::Sockets::GoldSrcSocket.new '127.0.0.1'
+      @socket = Servers::Sockets::GoldSrcSocket.new '127.0.0.1'
     end
 
     should 'send wrapped up RCON requests' do
       packet = mock
-      SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest.expects(:new).with('test').returns packet
+      Servers::Packets::RCON::RCONGoldSrcRequest.expects(:new).with('test').returns packet
       @socket.expects(:send).with packet
 
       @socket.rcon_send 'test'
@@ -50,7 +50,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       reply = mock :response => 'You have been banned from this server.'
       @socket.expects(:reply).returns reply
 
-      assert_raises SteamCondenser::Error::RCONBan do
+      assert_raises Error::RCONBan do
         @socket.rcon_challenge
       end
     end
@@ -64,7 +64,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       buffer.expects(:long).returns 0xFFFFFFFF
       buffer.expects(:get).returns data
       packet = mock
-      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
+      Servers::Packets::SteamPacketFactory.expects(:packet_from_data).with(data).returns packet
 
       assert_equal packet, @socket.reply
     end
@@ -83,7 +83,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
-      SteamCondenser::Servers::Packets::SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
+      Servers::Packets::SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
         returns packet
 
       assert_equal packet, @socket.reply
@@ -115,7 +115,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       packet1 = mock :response => 'test '
       packet2 = mock :response => 'test'
       packet3 = mock :response => ''
-      @socket.expects(:reply).times(4).raises(SteamCondenser::Error::Timeout).
+      @socket.expects(:reply).times(4).raises(Error::Timeout).
         returns(packet1).returns(packet2).returns packet3
 
       assert_equal 'test test', @socket.rcon_exec('password', 'command')
