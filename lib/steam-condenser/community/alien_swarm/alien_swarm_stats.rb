@@ -3,6 +3,7 @@
 #
 # Copyright (c) 2010-2013, Sebastian Staudt
 
+require 'steam-condenser/community/game_stats'
 require 'steam-condenser/community/alien_swarm/alien_swarm_mission'
 require 'steam-condenser/community/alien_swarm/alien_swarm_weapon'
 
