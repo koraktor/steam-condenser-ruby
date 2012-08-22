@@ -246,11 +246,9 @@ class SteamId
     begin
       profile = parse "#{base_url}?xml=1"
 
-      if profile.key? 'error'
-        raise SteamCondenserError, profile['error']
-      end
+      raise SteamCondenserError, profile['error'] unless profile['error'].nil?
 
-      if profile.key? 'privacyMessage'
+      unless profile['privacyMessage'].nil?
         raise SteamCondenserError, profile['privacyMessage']
       end
 
@@ -279,21 +277,21 @@ class SteamId
         @summary      = CGI.unescapeHTML profile['summary'] || ''
 
         @most_played_games = {}
-        if profile.key? 'mostPlayedGames'
+        if profile['mostPlayedGames'].to_s.strip.empty?
           [profile['mostPlayedGames']['mostPlayedGame']].flatten.each do |most_played_game|
             @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
           end
         end
 
         @groups = []
-        if profile.key? 'groups'
+        unless profile['groups'].to_s.strip.empty?
           [profile['groups']['group']].flatten.each do |group|
             @groups << SteamGroup.new(group['groupID64'].to_i, false)
           end
         end
 
         @links = {}
-        if profile.key? 'weblinks' && profile['weblinks'] != nil
+        unless profile['weblinks'].to_s.strip.empty?
           [profile['weblinks']['weblink']].flatten.each do |link|
             @links[CGI.unescapeHTML link['title']] = link['link']
           end
