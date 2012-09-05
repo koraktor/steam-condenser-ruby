@@ -109,7 +109,7 @@ class GameStats
 
     @privacy_state = @xml_data['privacyState']
     if public?
-      app_id        = @xml_data['game']['gameLink'].match(/http:\/\/+store\.steampowered\.com\/+app\/+([1-9][0-9]*)/)[1].to_i
+      app_id        = @xml_data['game']['gameLink'].match(/http:\/\/steamcommunity\.com\/+app\/+([1-9][0-9]*)/)[1].to_i
       @game         = SteamGame.new app_id, @xml_data['game']
       @hours_played = @xml_data['stats']['hoursPlayed'] unless @xml_data['stats']['hoursPlayed'].nil?
     end
