@@ -132,7 +132,7 @@ class SteamGame
   #
   # @return [String] The URL for the game logo thumbnail
   def logo_thumbnail_url
-    "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#@logo_hash_thumb.jpg"
+    "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#{@logo_hash}_thumb.jpg"
   end
 
   # Returns the URL of this game's page in the Steam Store
