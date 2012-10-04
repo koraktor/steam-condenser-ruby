@@ -90,6 +90,9 @@ module Server
       proc.call
     rescue
       raise $! if rotate_ip
+      if $DEBUG
+        puts "Request failed, retrying for #@ip_address..."
+      end
       failsafe &proc
     end
   end

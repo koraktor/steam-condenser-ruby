@@ -121,13 +121,13 @@ class MasterServer
   # @see A2M_GET_SERVERS_BATCH2_Packet
   # @see MasterServer.retries=
   def servers(region_code = MasterServer::REGION_ALL, filters = '', force = false)
-    fail_count     = 0
     finished       = false
     current_server = '0.0.0.0:0'
     server_array   = []
 
     begin
       failsafe do
+        fail_count = 0
         begin
           @socket.send A2M_GET_SERVERS_BATCH2_Packet.new(region_code, current_server, filters)
           begin
@@ -143,6 +143,9 @@ class MasterServer
             fail_count = 0
           rescue SteamCondenser::TimeoutError
             raise $! if (fail_count += 1) == @@retries
+            if $DEBUG
+              puts "Request to master server #@ip_address timed out, retrying..."
+            end
           end
         end while !finished
       end

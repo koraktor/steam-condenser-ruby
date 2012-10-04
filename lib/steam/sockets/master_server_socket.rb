@@ -24,7 +24,11 @@ class MasterServerSocket
       raise PacketFormatError, 'Master query response has wrong packet header.'
     end
 
-    SteamPacketFactory.packet_from_data(@buffer.get)
+    packet = SteamPacketFactory.packet_from_data @buffer.get
+
+    puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
+
+    packet
   end
 
 end
