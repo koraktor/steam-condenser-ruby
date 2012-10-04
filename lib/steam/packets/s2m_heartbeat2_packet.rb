@@ -12,6 +12,7 @@ require 'steam/packets/steam_packet'
 # servers.
 #
 # @author Sebastian Staudt
+# @deprecated
 # @see MasterServer#send_heartbeat
 class S2M_HEARTBEAT2_Packet
 

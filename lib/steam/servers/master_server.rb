@@ -70,6 +70,7 @@ class MasterServer
   #
   # This is used for further communication with the master server.
   #
+  # @deprecated
   # @note Please note that this is **not** needed for finding servers using
   #       {#servers}.
   # @return [Fixnum] The challenge number from the master server
@@ -156,6 +157,7 @@ class MasterServer
   #
   # This can be used to check server versions externally.
   #
+  # @deprecated
   # @param [Hash<Symbol, Object>] data The data to send with the heartbeat
   #        request
   # @raise [SteamCondenserError] if heartbeat data is missing the

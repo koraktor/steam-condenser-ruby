@@ -10,6 +10,7 @@ require 'steam/packets/steam_packet'
 # It is used to initialize (challenge) master server communication.
 #
 # @author Sebastian Staudt
+# @deprecated
 # @see MasterServer#challenge
 class C2M_CHECKMD5_Packet
 
