@@ -77,6 +77,14 @@ class TestSourceServer < Test::Unit::TestCase
       end
     end
 
+    should 'close the RCON socket on disconnect' do
+      rcon_socket = mock
+      rcon_socket.expects(:close)
+      @server.instance_variable_set :@rcon_socket, rcon_socket
+
+      @server.disconnect
+    end
+
     context 'with an authenticated RCON connection' do
 
       setup do

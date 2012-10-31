@@ -46,6 +46,13 @@ class SourceServer
     super
   end
 
+  # Disconnects the TCP-based channel used for RCON commands
+  #
+  # @see RCONSocket#close
+  def disconnect
+    @rcon_socket.close
+  end
+
   # Initializes the sockets to communicate with the Source server
   #
   # @see RCONSocket
