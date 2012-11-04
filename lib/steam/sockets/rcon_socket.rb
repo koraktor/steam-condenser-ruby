@@ -76,7 +76,10 @@ class RCONSocket
   #        game server
   # @return [RCONPacket] The packet replied from the server
   def reply
-    raise RCONBanError if receive_packet(4) == 0
+    if receive_packet(4) == 0
+      @socket.close
+      return nil
+    end
 
     remaining_bytes = @buffer.long
 
