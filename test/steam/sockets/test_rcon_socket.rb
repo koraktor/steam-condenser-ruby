@@ -98,10 +98,10 @@ class TestRCONSocket < Test::Unit::TestCase
 
     should 'raise an error if the client has been banned' do
       @socket.expects(:receive_packet).with(4).returns 0
+      @tcp_socket.expects :close
 
-      assert_raises RCONBanError do
-        @socket.reply
-      end
+      assert_nil @socket.reply
+      assert_nil @socket.instance_variable_get(:@tcp_socket)
     end
 
   end
