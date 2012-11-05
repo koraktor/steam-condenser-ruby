@@ -31,20 +31,6 @@ class SteamId
   # @return [String] The custom URL of this Steam ID
   attr_reader :custom_url
 
-  # Returns the favorite game of this user
-  #
-  # @deprecated The favorite game is no longer listed for new users
-  # @return [String] The favorite game of this user
-  attr_reader :favorite_game
-
-  # Returns the number of hours that this user played his/her favorite game in
-  # the last two weeks
-  #
-  # @deprecated The favorite game is no longer listed for new users
-  # @return [String] The number of hours the favorite game has been played
-  #         recently
-  attr_reader :favorite_game_hours_played
-
   # Returns the groups this user is a member of
   #
   # @return [Array<SteamGroup>] The groups this user is a member of
