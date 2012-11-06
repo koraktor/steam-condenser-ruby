@@ -40,6 +40,7 @@ included LICENSE file.
 * DeFirence – defirence(at)defirence.za.net
 * Mike Połtyn – mike(at)railslove.com
 * Sam Kinard – snkinard(at)gmail.com
+* "withgod" – noname(at)withgod.jp
 
 ## See Also
 
