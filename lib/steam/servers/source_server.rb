@@ -92,11 +92,7 @@ class SourceServer
     response = []
     begin
       response_packet = @rcon_socket.reply
-      if response_packet.nil?
-        @rcon_authenticated = nil
-        return ''
-      end
-      if response_packet.is_a? RCONAuthResponse
+      if response_packet.nil? || response_packet.is_a?(RCONAuthResponse)
         @rcon_authenticated = false
         raise RCONNoAuthError
       end
