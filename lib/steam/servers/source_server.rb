@@ -72,7 +72,7 @@ class SourceServer
     @rcon_request_id = rand 2**16
 
     @rcon_socket.send RCONAuthRequest.new(@rcon_request_id, password)
-    @rcon_socket.reply
+    return rcon_auth(password) if @rcon_socket.reply.nil?
     reply = @rcon_socket.reply
 
     @rcon_authenticated = reply.request_id == @rcon_request_id
