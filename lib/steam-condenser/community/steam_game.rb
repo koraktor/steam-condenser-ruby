@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_leaderboard'
@@ -28,11 +28,6 @@ module SteamCondenser::Community
     #
     # @return [String] The full name of this game
     attr_reader :name
-
-    # Returns the short name of this game (also known as "friendly name")
-    #
-    # @return [String] The short name of this game
-    attr_reader :short_name
 
     # Checks if a game is up-to-date by reading information from a `steam.inf`
     # file and comparing it using the Web API
@@ -78,28 +73,11 @@ module SteamCondenser::Community
       result[:up_to_date]
     end
 
-    # Returns whether this game has statistics available
-    #
-    # @return [Boolean] `true` if this game has stats
-    def has_stats?
-      !@short_name.nil?
-    end
-
     # Returns the URL for the icon image of this game
     #
     # @return [String] The URL for the game icon
     def icon_url
-      return nil if @icon_hash.nil?
       "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#@icon_hash.jpg"
-    end
-
-    # Returns a unique identifier for this game
-    #
-    # This is either the numeric application ID or the unique short name
-    #
-    # @return [Fixnum, String] The application ID or short name of the game
-    def id
-      @short_name == @app_id.to_s ? @app_id : @short_name
     end
 
     # Returns the leaderboard for this game and the given leaderboard ID or
@@ -122,7 +100,6 @@ module SteamCondenser::Community
     #
     # @return [String] The URL for the game logo
     def logo_url
-      return nil if @logo_hash.nil?
       "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/#@logo_hash.jpg"
     end
 
@@ -130,7 +107,6 @@ module SteamCondenser::Community
     #
     # @return [String] The URL for the game logo thumbnail
     def logo_thumbnail_url
-      return nil if @logo_hash.nil?
       "http://media.steampowered.com/steamcommunity/public/images/apps/#@app_id/##{@logo_hash}_thumb.jpg"
     end
 
@@ -164,9 +140,7 @@ module SteamCondenser::Community
     #        the user
     # @return [GameStats] The stats of this game for the given user
     def user_stats(steam_id)
-      return unless has_stats?
-
-      GameStats.create_game_stats steam_id, @short_name
+      GameStats.new steam_id, @app_id
     end
 
     private
@@ -175,23 +149,13 @@ module SteamCondenser::Community
     #
     # @note The real constructor of `SteamGame` is {.new}
     # @param [Fixnum] app_id The application ID of the game
-    # @param [Hash<Symbol, Object>, Hash<String, Object>] game_data The JSON or
-    #        XML data of the game
+    # @param [Hash<Symbol, Object>, Hash<String, Object>] game_data The JSON
+    #        data of the game
     def initialize(app_id, game_data)
-      @app_id   = app_id
-
-      if game_data.key? :name
-        @icon_hash = game_data[:img_icon_url]
-        @logo_hash = game_data[:img_logo_url]
-        @name      = game_data[:name]
-      else
-        url_regex   = /\/#{app_id}\/([0-9a-f]+).jpg/
-        @icon_hash  = game_data['gameIcon'].match(url_regex)[1]
-        @logo_hash  = game_data['gameLogo'].match(url_regex)[1]
-        @name       = game_data['gameName']
-        @short_name = game_data['gameFriendlyName'].downcase
-        @short_name = nil if @short_name == @app_id.to_s
-      end
+      @app_id    = app_id
+      @icon_hash = game_data[:img_icon_url]
+      @logo_hash = game_data[:img_logo_url]
+      @name      = game_data[:name]
     end
 
   end

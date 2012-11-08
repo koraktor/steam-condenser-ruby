@@ -349,21 +349,13 @@ module SteamCondenser::Community
 
     # Returns the stats for the given game for the owner of this SteamID
     #
-    # @param [Fixnum, String] id The full or short name or the application ID
-    #        of the game stats should be fetched for
+    # @param [Fixnum] app_id The application ID of the game stats should be
+    #        fetched for
     # @return [GameStats] The statistics for the game with the given name
     # @raise [Error] if the user does not own this game or it does not have any
     #        stats
-    # @see find_game
-    # @see SteamGame#has_stats?
-    def game_stats(id)
-      game = find_game id
-
-      unless game.has_stats?
-        raise SteamCondenser::Error, "\"#{game.name}\" does not have stats."
-      end
-
-      GameStats.create_game_stats(@custom_url || @steam_id64, game.short_name)
+    def game_stats(app_id)
+      GameStats.new @custom_url || @steam_id64, app_id
     end
 
     # Returns the Steam Community friends of this user
@@ -443,12 +435,11 @@ module SteamCondenser::Community
     # Returns the time in minutes this user has played this game in the last
     # two weeks
     #
-    # @param [Fixnum, String] id The full or short name or the application ID
-    #        of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @return [Fixnum] The number of minutes this user played the given game in
     #         the last two weeks
-    def recent_playtime(id)
-      @recent_playtimes[find_game(id).app_id]
+    def recent_playtime(app_id)
+      @recent_playtimes[app_id]
     end
 
     # Returns the current Steam level of this user
@@ -463,12 +454,11 @@ module SteamCondenser::Community
 
     # Returns the total time in minutes this user has played this game
     #
-    # @param [Fixnum, String] id The full or short name or the application ID
-    #        of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @return [Fixnum] The total number of minutes this user played the given
     #         game
-    def total_playtime(id)
-      @total_playtimes[find_game(id).app_id]
+    def total_playtime(app_id)
+      @total_playtimes[app_id]
     end
 
     # Updates the Steam level of this user using the Web API
@@ -478,37 +468,6 @@ module SteamCondenser::Community
     def update_steam_level
       data = WebApi.json 'IPlayerService', 'GetSteamLevel', 1, { :steamid => @steam_id64 }
       @steam_level = data[:response][:player_level]
-    end
-
-    private
-
-    # Tries to find a game instance with the given application ID or full name
-    # or short name
-    #
-    # @param [Fixnum, String] id The full or short name or the application ID
-    #        of the game
-    # @raise [Error] if the user does not own the game or no game with the
-    #        given ID exists
-    # @return [SteamGame] The game found with the given ID
-    def find_game(id)
-      if id.is_a? Numeric
-        game = games[id]
-      else
-        game = games.values.find do |game|
-          game.short_name == id || game.name == id
-        end
-      end
-
-      if game.nil?
-        if id.is_a? Numeric
-          message = "This SteamID does not own a game with application ID #{id}."
-        else
-          message = "This SteamID does not own the game \"#{id}\"."
-        end
-        raise SteamCondenser::Error, message
-      end
-
-      game
     end
 
   end

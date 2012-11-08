@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'multi_json'
 
@@ -23,15 +23,7 @@ module SteamCondenser::Community
     # @return [String] The API name of this achievement
     attr_reader :api_name
 
-    # Returns the description of this achievement
-    #
-    # @return [String] The description of this achievement
-    attr_reader :description
-
-    # Return the game this achievement belongs to
-    #
-    # @return [Steam] The game this achievement belongs to
-    attr_reader :game
+    attr_reader :hidden
 
     # Returns the url for the closed icon of this achievement
     #
@@ -43,20 +35,11 @@ module SteamCondenser::Community
     # @return [String] The url of the open achievement icon
     attr_reader :icon_open_url
 
-    # Returns the name of this achievement
+    # Return the stats schema of the game this achievement belongs to
     #
-    # @return [String] The name of this achievement
-    attr_reader :name
-
-    # Returns the time this achievement has been unlocked by its owner
-    #
-    # @return [Time] The time this achievement has been unlocked
-    attr_reader :timestamp
-
-    # Returns the SteamID of the user who owns this achievement
-    #
-    # @return [Fixnum] The SteamID of this achievement's owner
-    attr_reader :user
+    # @return [GameStatsSchema] The stats schema of game this achievement
+    #         belongs to
+    attr_reader :schema
 
     # Loads the global unlock percentages of all achievements for the game with
     # the given Steam Application ID
@@ -82,31 +65,65 @@ module SteamCondenser::Community
     # Creates the achievement with the given name for the given user and game
     # and achievement data
     #
-    # @param [SteamId] user The SteamID of the player this achievement belongs
-    #        to
-    # @param [SteamGame] game The game this achievement belongs to
-    # @param [Hash<String, Object>] achievement_data The achievement data
-    #        extracted from XML
-    def initialize(user, game, achievement_data)
-      @api_name        = achievement_data['apiname']
-      @description     = achievement_data['description']
-      @game            = game
-      @icon_closed_url = achievement_data['iconClosed']
-      @icon_open_url   = achievement_data['iconOpen']
-      @name            = achievement_data['name']
-      @unlocked        = (achievement_data['closed'].to_i == 1)
-      @user            = user
-
-      if @unlocked && !achievement_data['unlockTimestamp'].nil?
-        @timestamp  = Time.at(achievement_data['unlockTimestamp'].to_i)
-      end
+    # @param [GameStatsSchema] schema The game this achievement belongs to
+    # @param [Hash<String, Object>] data The achievement data extracted from
+    #        the game schema
+    def initialize(schema, data)
+      @api_name        = data[:name]
+      @schema          = schema
+      @hidden          = data[:hidden] == 1
+      @icon_closed_url = data[:icon]
+      @icon_open_url   = data[:icongray]
     end
 
-    # Returns whether this achievement has been unlocked by its owner
+    # Returns the description of this achievement
     #
-    # @return [Boolean] `true` if the achievement has been unlocked by the user
-    def unlocked?
-      @unlocked
+    # @param [Symbol] language
+    # @return [String] The description of this achievement
+    def description(language = GameStatsSchema.default_language)
+      @schema.achievement_translations(language)[@api_name][:description]
+    end
+
+    def inspect
+      "#<#{self.class}:#@api_name>"
+    end
+
+    def instance(user, unlocked)
+      Instance.new self, user, unlocked
+    end
+
+    # Returns the name of this achievement
+    #
+    # @param [Symbol] language
+    # @return [String] The name of this achievement
+    def name(language = GameStatsSchema.default_language)
+      @schema.achievement_translations(language)[@api_name][:name]
+    end
+
+    class Instance
+
+      attr_reader :achievement
+
+      attr_reader :user
+
+      def initialize(achievement, user, unlocked)
+        @achievement = achievement
+        @unlocked    = unlocked
+        @user        = user
+      end
+
+      def inspect
+        "#<#{self.class}: #{@achievement.api_name} unlocked=#@unlocked>"
+      end
+
+      # Returns whether this achievement has been unlocked by its owner
+      #
+      # @return [Boolean] `true` if the achievement has been unlocked by the
+      #         user
+      def unlocked?
+        @unlocked
+      end
+
     end
 
   end

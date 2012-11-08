@@ -1,5 +1,6 @@
 ## Version 2.0.0 / Unreleased
 
+ * [FEATURE] Support for game statistics via Web API
  * [FEATURE] Provide an API to get users' Steam levels
  * [FEATURE] Use the Web API to get games
  * [ENHANCEMENT] Use proper namespacing throughout the library
