@@ -15,6 +15,12 @@ class Portal2Item
   # The names of the bots available in Portal 2
   BOTS = [ :pbody, :atlas ]
 
+  # Returns the slot where this item can be equipped in or `nil` if this item
+  # cannot be equipped
+  #
+  # @return [String] The slot where this item can be equipped in
+  attr_reader :slot
+
   # Creates a new instance of a Portal 2 item with the given data
   #
   # @param [Portal2Inventory] inventory The inventory this item is contained in
@@ -22,6 +28,8 @@ class Portal2Item
   # @raise [WebApiError] on Web API errors
   def initialize(inventory, item_data)
     super
+
+    @slot = item_schema.items[@defindex][:item_slot]
 
     @equipped = {}
     BOTS.each_index do |class_id|

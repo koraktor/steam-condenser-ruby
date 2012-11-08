@@ -56,12 +56,6 @@ module GameItem
   # @return [String] The quality of this item
   attr_reader :quality
 
-  # Returns the slot where this item can be equipped in or `nil` if this item
-  # cannot be equipped
-  #
-  # @return [String] The slot where this item can be equipped in
-  attr_reader :slot
-
   # Returns the type of this item
   #
   # @return [String] The type of this item
@@ -80,7 +74,6 @@ module GameItem
     @level             = item_data[:level]
     @name              = inventory.item_schema[@defindex][:item_name]
     @quality           = inventory.qualities[item_data[:quality]]
-    @slot              = inventory.item_schema[@defindex][:item_slot]
     @tradeable         = !(item_data[:flag_cannot_trade] == true)
     @type              = inventory.item_schema[@defindex][:item_type_name]
 

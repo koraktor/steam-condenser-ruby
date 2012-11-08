@@ -15,6 +15,12 @@ class TF2Item
   # The names of the classes available in Team Fortress 2
   CLASSES = [ :scout, :sniper, :soldier, :demoman, :medic, :heavy, :pyro, :spy ]
 
+  # Returns the slot where this item can be equipped in or `nil` if this item
+  # cannot be equipped
+  #
+  # @return [String] The slot where this item can be equipped in
+  attr_reader :slot
+
   # Creates a new instance of a TF2 item with the given data
   #
   # @param [TF2Inventory] inventory The inventory this item is contained in
@@ -22,6 +28,8 @@ class TF2Item
   # @raise [WebApiError] on Web API errors
   def initialize(inventory, item_data)
     super
+
+    @slot = item_schema.items[@defindex][:item_slot]
 
     @equipped = {}
     CLASSES.each_index do |class_id|
