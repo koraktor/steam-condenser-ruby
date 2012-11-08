@@ -90,7 +90,11 @@ class RCONSocket
       packet_data << @buffer.get
     end while remaining_bytes > 0
 
-    RCONPacketFactory.packet_from_data(packet_data)
+    packet = RCONPacketFactory.packet_from_data(packet_data)
+
+    puts "Received packet of type \"#{packet.class}\"." if $DEBUG
+
+    packet
   end
 
 end
