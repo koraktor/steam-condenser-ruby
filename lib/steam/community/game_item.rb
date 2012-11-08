@@ -21,11 +21,6 @@ module GameItem
   # @return [Fixnum] The position of this item in the player's inventory
   attr_reader :backpack_position
 
-  # Returns the class of this item
-  #
-  # @return [String] The class of this item
-  attr_reader :class
-
   # Returns the number of items the player owns of this item
   #
   # @return [Fixnum] The quanitity of this item
@@ -45,6 +40,11 @@ module GameItem
   #
   # @return [GameInventory] The inventory this item belongs to
   attr_reader :inventory
+
+  # Returns the class of this item
+  #
+  # @return [String] The class of this item
+  attr_reader :item_class
 
   # Returns the level of this item
   #
@@ -75,9 +75,9 @@ module GameItem
 
     @defindex          = item_data[:defindex]
     @backpack_position = item_data[:inventory] & 0xffff
-    @class             = inventory.item_schema[@defindex][:item_class]
     @count             = item_data[:quantity]
     @id                = item_data[:id]
+    @item_class        = schema_data[:item_class]
     @level             = item_data[:level]
     @name              = inventory.item_schema[@defindex][:item_name]
     @quality           = inventory.qualities[item_data[:quality]]
