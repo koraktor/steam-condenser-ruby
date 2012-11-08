@@ -5,6 +5,7 @@
 
 require 'steam/community/cacheable'
 require 'steam/community/game_item'
+require 'steam/community/steam_id'
 require 'steam/community/web_api'
 
 # Provides basic functionality to represent an inventory of player in a game
