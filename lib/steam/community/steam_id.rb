@@ -143,6 +143,21 @@ class SteamId
     "STEAM_0:#{steam_id1}:#{steam_id2}"
   end
 
+  # Resolves a vanity URL of a Steam Community profile to a 64bit numeric
+  # SteamID
+  #
+  # @param [String] vanity_url The vanity URL of a Steam Community profile
+  # @return [Fixnum] The 64bit numeric SteamID
+  def self.resolve_vanity_url(vanity_url)
+    params = { :vanityurl => vanity_url }
+    json = WebApi.json 'ISteamUser', 'ResolveVanityURL', 1, params
+    result = MultiJson.load(json, :symbolize_keys => true)[:response]
+
+    return nil if result[:success] != 1
+
+    result[:steamid].to_i
+  end
+
   # Converts a SteamID as reported by game servers to a 64bit numeric SteamID
   # as used by the Steam Community
   #
