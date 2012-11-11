@@ -13,7 +13,7 @@ module GameItem
 
   # Return the attributes of this item
   #
-  # @return [Hash<Symbol, Object>] The attributes of this item
+  # @return [Hash<Symbol, Object>, nil] The attributes of this item
   attr_reader :attributes
 
   # Returns the position of this item in the player's inventory
@@ -46,6 +46,11 @@ module GameItem
   # @return [String] The class of this item
   attr_reader :item_class
 
+  # Returns the item set this item belongs to
+  #
+  # @return [Hash<Symbol, Object>, nil] The set this item belongs to
+  attr_reader :item_set
+
   # Returns the level of this item
   #
   # @return [Fixnum] The level of this item
@@ -55,6 +60,16 @@ module GameItem
   #
   # @return [String] The level of this item
   attr_reader :name
+
+  # Returns the origin of this item
+  #
+  # @return [String] The origin of this item
+  attr_reader :origin
+
+  # Returns the original ID of this item
+  #
+  # @return [Fixnum] The original ID of this item
+  attr_reader :original_id
 
   # Returns the quality of this item
   #
@@ -76,17 +91,45 @@ module GameItem
     @defindex          = item_data[:defindex]
     @backpack_position = item_data[:inventory] & 0xffff
     @count             = item_data[:quantity]
+    @craftable         = !!item_data[:flag_cannot_craft]
     @id                = item_data[:id]
     @item_class        = schema_data[:item_class]
+    @item_set          = inventory.item_schema.item_sets[schema_data[:item_set]]
     @level             = item_data[:level]
-    @name              = inventory.item_schema[@defindex][:item_name]
-    @quality           = inventory.qualities[item_data[:quality]]
-    @tradeable         = !(item_data[:flag_cannot_trade] == true)
-    @type              = inventory.item_schema[@defindex][:item_type_name]
+    @name              = schema_data[:item_name]
+    @origin            = inventory.item_schema.origins[item_data[:origin]]
+    @original_id       = item_data[:original_id]
+    @quality           = inventory.item_schema.qualities[item_data[:quality]]
+    @tradeable         = !!item_data[:flag_cannot_trade]
+    @type              = schema_data[:item_type_name]
 
-    unless inventory.item_schema[@defindex][:attributes].nil?
-      @attributes = inventory.item_schema[@defindex][:attributes]
+    attributes_data = schema_data[:attributes] || []
+    attributes_data += item_data[:attributes] if item_data.key? :attributes
+
+    @attributes = []
+    attributes_data.each do |attribute_data|
+      attribute_key = attribute_data[:defindex]
+      attribute_key = attribute_data[:name] if attribute_key.nil?
+
+      unless attribute_key.nil?
+        schema_attribute_data = inventory.item_schema.attributes[attribute_key]
+        @attributes << attribute_data.merge(schema_attribute_data)
+      end
     end
+  end
+
+  # Returns whether this item is craftable
+  #
+  # @return [Boolean] `true` if this item is craftable
+  def craftable?
+    @craftable
+  end
+
+  # Returns the data for this item that's defined in the item schema
+  #
+  # @return [Hash<Symbol, Object>] The schema data for this item
+  def schema_data
+    inventory.item_schema.items[@defindex]
   end
 
   # Returns whether this item is tradeable

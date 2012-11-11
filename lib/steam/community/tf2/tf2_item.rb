@@ -18,7 +18,7 @@ class TF2Item
   # Returns the slot where this item can be equipped in or `nil` if this item
   # cannot be equipped
   #
-  # @return [String] The slot where this item can be equipped in
+  # @return [String, nil] The slot where this item can be equipped in
   attr_reader :slot
 
   # Creates a new instance of a TF2 item with the given data
@@ -29,7 +29,7 @@ class TF2Item
   def initialize(inventory, item_data)
     super
 
-    @slot = item_schema.items[@defindex][:item_slot]
+    @slot = schema_data[:item_slot]
 
     @equipped = {}
     CLASSES.each_index do |class_id|
