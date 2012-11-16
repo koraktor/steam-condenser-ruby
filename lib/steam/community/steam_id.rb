@@ -482,7 +482,7 @@ class SteamId
   #        game with the given ID exists
   # @return [SteamGame] The game found with the given ID
   def find_game(id)
-    if id.is_a? Integer
+    if id.is_a? Numeric
       game = games[id]
     else
       game = games.values.find do |game|
