@@ -1,13 +1,13 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2012, Sebastian Staudt
 
 require 'test/unit'
 
 require 'rubygems'
 
-require 'mocha'
+require 'mocha/setup'
 require 'shoulda-context'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
