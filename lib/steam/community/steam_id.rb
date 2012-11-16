@@ -278,7 +278,7 @@ class SteamId
         @summary      = CGI.unescapeHTML profile['summary'] || ''
 
         @most_played_games = {}
-        if profile['mostPlayedGames'].to_s.strip.empty?
+        unless profile['mostPlayedGames'].to_s.strip.empty?
           [profile['mostPlayedGames']['mostPlayedGame']].flatten.each do |most_played_game|
             @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
           end
