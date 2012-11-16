@@ -330,7 +330,7 @@ class SteamId
     @games     = {}
     @playtimes = {}
     games_data = parse "#{base_url}/games?xml=1"
-    [games_data['games']['game']].flatten.each do |game_data|
+    games_data['games']['game'].each do |game_data|
       app_id = game_data['appID'].to_i
       game = SteamGame.new app_id, game_data
       @games[app_id] = game
