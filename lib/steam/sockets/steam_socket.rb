@@ -62,7 +62,11 @@ module SteamSocket
       @buffer = StringIO.alloc buffer_length
     end
 
-    data = @socket.recv @buffer.remaining
+    begin
+      data = @socket.recv @buffer.remaining
+    rescue Errno::ECONNRESET
+      return 0
+    end
     bytes_read = @buffer.write data
     @buffer.truncate bytes_read
     @buffer.rewind
