@@ -32,6 +32,8 @@ class GameInventory
   # @return [SteamId] The Steam ID of the owner of this inventory
   attr_reader :user
 
+  @@item_class = GameItem
+
   @@schema_language = 'en'
 
   # Sets the language the schema should be fetched in (default is: `'en'`)
