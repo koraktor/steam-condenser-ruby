@@ -55,12 +55,12 @@ class GameItemSchema
 
   # The item origins defined for this game's items
   #
-  # @return [Hash<Symbol, Object>] This item schema's origins
+  # @return [Array<String>] This item schema's origins
   attr_reader :origins
 
   # The item qualities defined for this game's items
   #
-  # @return [Hash<Symbol, Object>] This item schema's qualities
+  # @return [Array<String>] This item schema's qualities
   attr_reader :qualities
 
   # Creates a new item schema for the game with the given application ID and
