@@ -94,7 +94,7 @@ class GameItemSchema
     @item_names = {}
     data[:items].each do |item|
       @items[item[:defindex]] = item
-      @items[item[:name]] = item[:defindex]
+      @item_names[item[:name]] = item[:defindex]
     end
 
     @item_levels = {}
