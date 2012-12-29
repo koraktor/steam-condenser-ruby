@@ -2,6 +2,8 @@
 --private
 --protected
 --title "Steam Condenser – Ruby API"
+lib/steam/community/cacheable.rb
+lib/**/*.rb
 -
 README.md
 LICENSE

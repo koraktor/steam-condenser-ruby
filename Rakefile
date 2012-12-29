@@ -3,7 +3,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'rake/testtask'
 require 'rubygems/package_task'
@@ -27,7 +27,7 @@ begin
   # Create a rake task +:doc+ to build the documentation using YARD
   YARD::Rake::YardocTask.new do |yardoc|
     yardoc.name    = 'doc'
-    yardoc.files   = [ 'lib/**/*.rb', 'LICENSE', 'README.md' ]
+    yardoc.files   = [ 'lib/steam/community/cacheable.rb', 'lib/**/*.rb', 'LICENSE', 'README.md' ]
     yardoc.options = [ '--private', '--title', 'Metior — API Documentation' ]
   end
 rescue LoadError
