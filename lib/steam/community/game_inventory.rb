@@ -9,6 +9,15 @@ require 'steam/community/game_item_schema'
 require 'steam/community/steam_id'
 require 'steam/community/web_api'
 
+class GameInventory
+end
+
+require 'steam/community/dota2/dota2_beta_inventory'
+require 'steam/community/dota2/dota2_inventory'
+require 'steam/community/portal2/portal2_inventory'
+require 'steam/community/tf2/tf2_beta_inventory'
+require 'steam/community/tf2/tf2_inventory'
+
 # Provides basic functionality to represent an inventory of player in a game
 #
 # @author Sebastian Staudt
@@ -35,6 +44,44 @@ class GameInventory
   @@item_class = GameItem
 
   @@schema_language = 'en'
+
+  # This is a wrapper around all subclasses of `GameInventory` so that an
+  # instance of correct subclass is returned for a given application ID. If
+  # there's no specific subclass for an application ID exists, a generic
+  # instance of `GameInventory` is created.
+  #
+  # @param [Fixnum] app_id The application ID of the game
+  # @param [Fixnum] steam_id The 64bit Steam ID or vanity URL of the user
+  # @return [GameInventory] The inventory for the given user and game
+  # @raise [SteamCondenserException] if creating the inventory fails
+  # @macro cacheable
+  def self.new(app_id, steam_id, *args)
+    args = args.unshift steam_id
+    if self != GameInventory
+      args = args.unshift app_id
+      app_id = self::APP_ID
+    end
+
+    cacheable_new = Cacheable::ClassMethods.instance_method :new
+
+    case app_id
+      when Dota2BetaInventory::APP_ID
+        cacheable_new = cacheable_new.bind Dota2BetaInventory
+      when Dota2Inventory::APP_ID
+        cacheable_new = cacheable_new.bind Dota2Inventory
+      when Portal2Inventory::APP_ID
+        cacheable_new = cacheable_new.bind Portal2Inventory
+      when TF2BetaInventory::APP_ID
+        cacheable_new = cacheable_new.bind TF2BetaInventory
+      when TF2Inventory::APP_ID
+        cacheable_new = cacheable_new.bind TF2Inventory
+      else
+        cacheable_new = cacheable_new.bind GameInventory
+        return cacheable_new.call app_id, *args
+    end
+
+    cacheable_new.call *args
+  end
 
   # Sets the language the schema should be fetched in (default is: `'en'`)
   #

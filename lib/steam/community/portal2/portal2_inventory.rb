@@ -11,6 +11,9 @@ require 'steam/community/portal2/portal2_item'
 # @author Sebastian Staudt
 class Portal2Inventory < GameInventory
 
+  # The Steam application ID of Portal 2
+  APP_ID = 620
+
   # Creates a new inventory object for the given SteamID64 in Portal 2 (App ID
   # 620)
   #
@@ -18,7 +21,7 @@ class Portal2Inventory < GameInventory
   #        inventory for
   # @macro cacheable
   def initialize(steam_id64)
-    super 620, steam_id64
+    super APP_ID, steam_id64
   end
 
   # The class representing Portal 2 items

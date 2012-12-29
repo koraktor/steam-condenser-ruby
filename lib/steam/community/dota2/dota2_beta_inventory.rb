@@ -11,6 +11,9 @@ require 'steam/community/game_inventory'
 # @author Sebastian Staudt
 class Dota2BetaInventory < GameInventory
 
+  # The Steam application ID of the DotA 2 beta
+  APP_ID = 205790
+
   # Creates a new inventory object for the given SteamID64 in the DotA 2 beta
   # (App ID 205790)
   #
@@ -18,7 +21,7 @@ class Dota2BetaInventory < GameInventory
   #        inventory for
   # @macro cacheable
   def initialize(steam_id64)
-    super 205790, steam_id64
+    super APP_ID, steam_id64
   end
 
   # The class representing DotA 2 items

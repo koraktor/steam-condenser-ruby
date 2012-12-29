@@ -11,6 +11,9 @@ require 'steam/community/tf2/tf2_item'
 # @author Sebastian Staudt
 class TF2Inventory < GameInventory
 
+  # The Steam application ID of Team Fortress 2
+  APP_ID = 440
+
   # Creates a new inventory object for the given SteamID64 in Team Fortress 2
   # (App ID 440)
   #
@@ -18,7 +21,7 @@ class TF2Inventory < GameInventory
   #        inventory for
   # @macro cacheable
   def initialize(steam_id64)
-    super 440, steam_id64
+    super APP_ID, steam_id64
   end
 
   # The class representing Team Fortress 2 items
