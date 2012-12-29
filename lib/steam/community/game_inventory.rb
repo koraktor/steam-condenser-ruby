@@ -105,6 +105,7 @@ class GameInventory
     end
 
     @app_id     = app_id
+    @items      = []
     @steam_id64 = steam_id64
     @user       = SteamId.new steam_id64, false
   end
@@ -136,7 +137,7 @@ class GameInventory
   #
   # @return [String] A string representation of this inventory
   def inspect
-    "#<#{self.class}:#@app_id #@steam_id64 (#{@items.size} items) - " +
+    "#<#{self.class}:#@app_id #@steam_id64 (#{size} items) - " +
     "#{fetch_time || 'not fetched'}>"
   end
 
