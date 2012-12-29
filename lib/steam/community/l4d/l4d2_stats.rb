@@ -28,7 +28,9 @@ class L4D2Stats < GameStats
   # Creates a `L4D2Stats` object by calling the super constructor with the game
   # name `'l4d2'`
   #
-  # @param [String] steam_id The custom URL or 64bit Steam ID of the user
+  # @param [String, Fixnum] steam_id The custom URL or 64bit Steam ID of the
+  #        user
+  # @macro cacheable
   def initialize(steam_id)
     super steam_id, 'l4d2'
 

@@ -39,6 +39,7 @@ class CSSStats < GameStats
   #
   # @param [String, Fixnum] steam_id The custom URL or 64bit Steam ID of the
   #        user
+  # @macro cacheable
   def initialize(steam_id)
     super steam_id, 'cs:s'
 

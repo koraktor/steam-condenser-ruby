@@ -30,6 +30,7 @@ class TF2Stats < GameStats
   # @param [String, Fixnum] steam_id The custom URL or 64bit Steam ID of the
   #        user
   # @param [Boolean] beta If `true, creates stats for the public TF2 beta
+  # @macro cacheable
   def initialize(steam_id, beta = false)
     super steam_id, (beta ? '520' : 'tf2')
 
