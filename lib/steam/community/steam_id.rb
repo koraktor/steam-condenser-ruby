@@ -327,9 +327,9 @@ class SteamId
   #
   # @see #games
   def fetch_games
+    games_data = parse "#{base_url}/games?xml=1"
     @games     = {}
     @playtimes = {}
-    games_data = parse "#{base_url}/games?xml=1"
     games_data['games']['game'].each do |game_data|
       app_id = game_data['appID'].to_i
       game = SteamGame.new app_id, game_data
