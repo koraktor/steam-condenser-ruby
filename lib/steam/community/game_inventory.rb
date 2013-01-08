@@ -55,9 +55,11 @@ class GameInventory
   # @return [GameInventory] The inventory for the given user and game
   # @raise [SteamCondenserException] if creating the inventory fails
   # @macro cacheable
-  def self.new(app_id, steam_id, *args)
-    args = args.unshift steam_id
-    if self != GameInventory
+  def self.new(app_id, steam_id = nil, *args)
+    args = args.unshift steam_id unless steam_id.nil?
+    if self == GameInventory
+      raise ArgumentError, 'wrong number of arguments (1 for 2)' if args.empty?
+    else
       args = args.unshift app_id
       app_id = self::APP_ID
     end

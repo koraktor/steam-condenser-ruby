@@ -96,7 +96,8 @@ module Cacheable
       bypass_cache = args.size > arity + 1 ? !!args.pop : false
       fetch = args.size > arity ? !!args.pop : true
 
-      object = super *args
+      object = self.allocate
+      object.send :initialize, *args
       cached_object = object.send :cached_instance
       object = cached_object unless cached_object.nil? || bypass_cache
 
