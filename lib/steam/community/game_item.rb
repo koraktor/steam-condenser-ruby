@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2013, Sebastian Staudt
 
 require 'steam/community/web_api'
 
@@ -99,6 +99,7 @@ module GameItem
     @name              = schema_data[:item_name]
     @origin            = inventory.item_schema.origins[item_data[:origin]]
     @original_id       = item_data[:original_id]
+    @preliminary       = item_data[:inventory] & 0x40000000 != 0
     @quality           = inventory.item_schema.qualities[item_data[:quality]]
     @tradeable         = !!item_data[:flag_cannot_trade]
     @type              = schema_data[:item_type_name]
@@ -123,6 +124,16 @@ module GameItem
   # @return [Boolean] `true` if this item is craftable
   def craftable?
     @craftable
+  end
+
+  # Returns whether this item is preliminary
+  #
+  # Preliminary means that this item was just found or traded and has not yet
+  # been added to the inventory
+  #
+  # @return [Boolean] `true` if this item is preliminary
+  def preliminary?
+    @preliminary
   end
 
   # Returns the data for this item that's defined in the item schema

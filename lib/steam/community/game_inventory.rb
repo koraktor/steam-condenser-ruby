@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2013, Sebastian Staudt
 
 require 'steam/community/cacheable'
 require 'steam/community/game_item'
@@ -35,6 +35,11 @@ class GameInventory
   #
   # @return [Array<GameItem>] All items in the backpack
   attr_reader :items
+
+  # Returns an array of all items that this player just found or traded
+  #
+  # @return [Array<GameItem>] All preliminary items of the inventory
+  attr_reader :preliminary_items
 
   # Returns the Steam ID of the player owning this inventory
   #
@@ -127,10 +132,15 @@ class GameInventory
     item_class = self.class.send :class_variable_get, :@@item_class
 
     @items = []
+    @preliminary_items = []
     result[:items].each do |item_data|
       unless item_data.nil?
         item = item_class.new(self, item_data)
-        @items[item.backpack_position - 1] = item
+        if item.preliminary?
+          @preliminary_items << item
+        else
+          @items[item.backpack_position - 1] = item
+        end
       end
     end
   end
