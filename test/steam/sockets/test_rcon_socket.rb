@@ -100,8 +100,9 @@ class TestRCONSocket < Test::Unit::TestCase
       @socket.expects(:receive_packet).with(4).returns 0
       @tcp_socket.expects :close
 
-      assert_nil @socket.reply
-      assert_nil @socket.instance_variable_get(:@tcp_socket)
+      assert_raise RCONNoAuthError do
+        assert_nil @socket.reply
+      end
     end
 
   end
