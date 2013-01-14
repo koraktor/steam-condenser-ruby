@@ -1,13 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'ipaddr'
 require 'socket'
 require 'timeout'
 
 require 'errors/rcon_ban_error'
+require 'errors/rcon_no_auth_error'
 require 'errors/timeout_error'
 require 'steam/packets/rcon/rcon_packet'
 require 'steam/packets/rcon/rcon_packet_factory'
@@ -74,11 +75,17 @@ class RCONSocket
   #
   # @raise [RCONBanError] if the IP of the local machine has been banned on the
   #        game server
+  # @raise [RCONNoAuthException] if an authenticated connection has been
+  #        dropped by the server
   # @return [RCONPacket] The packet replied from the server
   def reply
-    if receive_packet(4) == 0
-      @socket.close
-      return nil
+    begin
+      if receive_packet(4) == 0
+        @socket.close
+        raise RCONNoAuthError
+      end
+    rescue Errno::ECONNRESET
+      raise RCONBanError
     end
 
     remaining_bytes = @buffer.long

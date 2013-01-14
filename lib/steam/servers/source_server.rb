@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'errors/rcon_no_auth_error'
 require 'steam/packets/rcon/rcon_auth_request'
@@ -72,7 +72,7 @@ class SourceServer
     @rcon_request_id = rand 2**16
 
     @rcon_socket.send RCONAuthRequest.new(@rcon_request_id, password)
-    return rcon_auth(password) if @rcon_socket.reply.nil?
+    @rcon_socket.reply
     reply = @rcon_socket.reply
 
     @rcon_authenticated = reply.request_id == @rcon_request_id
@@ -82,6 +82,9 @@ class SourceServer
   #
   # @param [String] command The command to execute on the server via RCON
   # @return [String] The output of the executed command
+  # @raise [RCONBanException] if the IP of the local machine has been banned on
+  #        the game server
+  # @raise [RCONNoAuthException] if not authenticated with the server
   # @see #rcon_auth
   def rcon_exec(command)
     raise RCONNoAuthError unless @rcon_authenticated
@@ -91,13 +94,19 @@ class SourceServer
 
     response = []
     begin
-      response_packet = @rcon_socket.reply
-      if response_packet.nil?
-        @rcon_authenticated = false
-        break
-      elsif response_packet.is_a?(RCONAuthResponse)
-        @rcon_authenticated = false
-        raise RCONNoAuthError
+      begin
+        response_packet = @rcon_socket.reply
+        if response_packet.is_a? RCONAuthResponse
+          @rcon_authenticated = false
+          raise RCONNoAuthError
+        end
+      rescue RCONBanError
+        if @rcon_authenticated
+          @rcon_authenticated = false
+          raise RCONNoAuthError
+        end
+
+        raise $!
       end
       response << response_packet.response
     end while response.size < 3 || response_packet.response.size > 0

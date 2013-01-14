@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'ipaddr'
 require 'socket'
@@ -65,7 +65,8 @@ module SteamSocket
     begin
       data = @socket.recv @buffer.remaining
     rescue Errno::ECONNRESET
-      return 0
+      @socket.close
+      raise $!
     end
     bytes_read = @buffer.write data
     @buffer.truncate bytes_read
