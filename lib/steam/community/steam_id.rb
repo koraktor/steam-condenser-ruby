@@ -312,8 +312,8 @@ class SteamId
   # @see #friends
   # @see #initialize
   def fetch_friends
-    @friends = []
     friends_data = parse "#{base_url}/friends?xml=1"
+    @friends = []
     friends_data['friends']['friend'].each do |friend|
       @friends << SteamId.new(friend.to_i, false)
     end
