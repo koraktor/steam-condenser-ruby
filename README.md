@@ -41,6 +41,7 @@ included LICENSE file.
 * Mike Połtyn – mike(at)railslove.com
 * Sam Kinard – snkinard(at)gmail.com
 * "withgod" – noname(at)withgod.jp
+* John Amicangelo - amicangelo.j(at)husky.neu.edu
 
 ## See Also
 
