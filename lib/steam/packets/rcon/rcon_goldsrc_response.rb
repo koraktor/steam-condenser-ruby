@@ -12,23 +12,25 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GoldSrcServer#rcon_exec
-class RCONGoldSrcResponse
+module SteamCondenser
+  class RCONGoldSrcResponse
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a RCON command response for the given command output
-  #
-  # @param [String] command_response The output of the command executed on the
-  #        server
-  def initialize(command_response)
-    super RCON_GOLDSRC_RESPONSE_HEADER, command_response
+    # Creates a RCON command response for the given command output
+    #
+    # @param [String] command_response The output of the command executed on the
+    #        server
+    def initialize(command_response)
+      super RCON_GOLDSRC_RESPONSE_HEADER, command_response
+    end
+
+    # Returns the output of the command execution
+    #
+    # @return [String] The output of the command
+    def response
+      @content_data.string[0..-3]
+    end
+
   end
-
-  # Returns the output of the command execution
-  #
-  # @return [String] The output of the command
-  def response
-    @content_data.string[0..-3]
-  end
-
 end

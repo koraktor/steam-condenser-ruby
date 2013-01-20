@@ -13,23 +13,25 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GameServer#update_challenge_number
-class S2C_CHALLENGE_Packet
+module SteamCondenser
+  class S2C_CHALLENGE_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a new S2C_CHALLENGE response object based on the given data
-  #
-  # @param [String] challenge_number The raw packet data replied from the
-  #        server
-  def initialize(challenge_number)
-    super S2C_CHALLENGE_HEADER, challenge_number
-  end
+    # Creates a new S2C_CHALLENGE response object based on the given data
+    #
+    # @param [String] challenge_number The raw packet data replied from the
+    #        server
+    def initialize(challenge_number)
+      super S2C_CHALLENGE_HEADER, challenge_number
+    end
 
-  # Returns the challenge number received from the game server
-  #
-  # @return [Fixnum] The challenge number provided by the game server
-  def challenge_number
-    @content_data.rewind
-    @content_data.long
+    # Returns the challenge number received from the game server
+    #
+    # @return [Fixnum] The challenge number provided by the game server
+    def challenge_number
+      @content_data.rewind
+      @content_data.long
+    end
   end
 end

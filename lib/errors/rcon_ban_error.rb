@@ -12,11 +12,13 @@ require 'errors/steam_condenser_error'
 #
 # @author Sebastian Staudt
 # @see GameServer#rcon_auth
-class RCONBanError < SteamCondenserError
+module SteamCondenser
+  class RCONBanError < SteamCondenserError
 
-  # Creates a new `RCONBanError` instance
-  def initialize
-    super 'You have been banned from this server.'
+    # Creates a new `RCONBanError` instance
+    def initialize
+      super 'You have been banned from this server.'
+    end
+
   end
-
 end

@@ -13,13 +13,15 @@ require 'steam/packets/steam_packet'
 #
 # @author Sebastian Staudt
 # @see GameServer#update_challenge_number
-class A2S_SERVERQUERY_GETCHALLENGE_Packet
+module SteamCondenser
+  class A2S_SERVERQUERY_GETCHALLENGE_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
-  def initialize
-    super A2S_SERVERQUERY_GETCHALLENGE_HEADER
+    # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
+    def initialize
+      super A2S_SERVERQUERY_GETCHALLENGE_HEADER
+    end
+
   end
-
 end

@@ -10,15 +10,17 @@ require 'multi_xml'
 # This class provides basic functionality to parse XML data
 #
 # @author Sebastian Staudt
-module XMLData
+module SteamCondenser
+  module XMLData
 
-  # Parse the given URL as XML data using `multi_xml`
-  #
-  # @param [String] url The URL to parse
-  # @return [Hash<String, Object>] The data parsed from the XML document
-  def parse(url)
-    data = open(url, { :proxy => true })
-    @xml_data = MultiXml.parse(data).values.first
+    # Parse the given URL as XML data using `multi_xml`
+    #
+    # @param [String] url The URL to parse
+    # @return [Hash<String, Object>] The data parsed from the XML document
+    def parse(url)
+      data = open(url, { :proxy => true })
+      @xml_data = MultiXml.parse(data).values.first
+    end
+
   end
-
 end

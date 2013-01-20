@@ -12,20 +12,22 @@ require 'steam/packets/steam_packet'
 # @author Sebastian Staudt
 # @deprecated
 # @see MasterServer#challenge
-class C2M_CHECKMD5_Packet
+module SteamCondenser
+  class C2M_CHECKMD5_Packet
 
-  include SteamPacket
+    include SteamPacket
 
-  # Creates a new C2M_CHECKMD5 request object
-  def initialize
-    super C2M_CHECKMD5_HEADER
+    # Creates a new C2M_CHECKMD5 request object
+    def initialize
+      super C2M_CHECKMD5_HEADER
+    end
+
+    # Returns the raw data representing this packet
+    #
+    # @return [String] A string containing the raw data of this request packet
+    def to_s
+      [@header_data, 0xFF].pack('c2')
+    end
+
   end
-
-  # Returns the raw data representing this packet
-  #
-  # @return [String] A string containing the raw data of this request packet
-  def to_s
-    [@header_data, 0xFF].pack('c2')
-  end
-
 end

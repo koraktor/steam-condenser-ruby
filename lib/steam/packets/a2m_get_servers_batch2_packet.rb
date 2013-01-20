@@ -30,30 +30,33 @@ require 'steam/servers/master_server'
 #
 # @author Sebastian Staudt
 # @see MasterServer#servers
-class A2M_GET_SERVERS_BATCH2_Packet
+module SteamCondenser
 
-  include SteamPacket
+  class A2M_GET_SERVERS_BATCH2_Packet
 
-  # Creates a master server request, filtering by the given paramters
-  #
-  # @param [Numeric] region_code The region code to filter servers by region
-  # @param [String] start_ip This should be the last IP received from the
-  #        master server or 0.0.0.0
-  # @param [String] filter The filters to apply in the form
-  #        "\filtername\value..."
-  def initialize(region_code = MasterServer::REGION_ALL, start_ip = '0.0.0.0:0', filter = '')
-    super A2M_GET_SERVERS_BATCH2_HEADER
+    include SteamPacket
 
-    @filter = filter
-    @region_code = region_code
-    @start_ip = start_ip
+    # Creates a master server request, filtering by the given paramters
+    #
+    # @param [Numeric] region_code The region code to filter servers by region
+    # @param [String] start_ip This should be the last IP received from the
+    #        master server or 0.0.0.0
+    # @param [String] filter The filters to apply in the form
+    #        "\filtername\value..."
+    def initialize(region_code = MasterServer::REGION_ALL, start_ip = '0.0.0.0:0', filter = '')
+      super A2M_GET_SERVERS_BATCH2_HEADER
+
+      @filter = filter
+      @region_code = region_code
+      @start_ip = start_ip
+    end
+
+    # Returns the raw data representing this packet
+    #
+    # @return [String] A string containing the raw data of this request packet
+    def to_s
+      [@header_data, @region_code, @start_ip, @filter].pack('c2Z*Z*')
+    end
+
   end
-
-  # Returns the raw data representing this packet
-  #
-  # @return [String] A string containing the raw data of this request packet
-  def to_s
-    [@header_data, @region_code, @start_ip, @filter].pack('c2Z*Z*')
-  end
-
 end

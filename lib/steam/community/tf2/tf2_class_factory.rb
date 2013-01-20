@@ -13,28 +13,30 @@ require 'steam/community/tf2/tf2_spy'
 # XML input data
 #
 # @author Sebastian Staudt
-module TF2ClassFactory
+module SteamCondenser
+  module TF2ClassFactory
 
-  # Creates a new instance of a TF2 class instance based on the given XML data
-  #
-  # This returns an instance of `TF2Class` or its subclasses `TF2Engineer`,
-  # `TF2Medic`, `TF2Sniper` or `TF2Spy` depending on the given XML data.
-  #
-  # @param [Hash<String, Object>] class_data The XML data for the class
-  # @return [TF2Class] The statistics for the given class data
-  def self.tf2_class(class_data)
-    case class_data['className']
-      when 'Engineer' then
-        return TF2Engineer.new(class_data)
-      when 'Medic' then
-        return TF2Medic.new(class_data)
-      when 'Sniper' then
-        return TF2Sniper.new(class_data)
-      when 'Spy' then
-        return TF2Spy.new(class_data)
-      else
-        return TF2Class.new(class_data)
+    # Creates a new instance of a TF2 class instance based on the given XML data
+    #
+    # This returns an instance of `TF2Class` or its subclasses `TF2Engineer`,
+    # `TF2Medic`, `TF2Sniper` or `TF2Spy` depending on the given XML data.
+    #
+    # @param [Hash<String, Object>] class_data The XML data for the class
+    # @return [TF2Class] The statistics for the given class data
+    def self.tf2_class(class_data)
+      case class_data['className']
+        when 'Engineer' then
+          return TF2Engineer.new(class_data)
+        when 'Medic' then
+          return TF2Medic.new(class_data)
+        when 'Sniper' then
+          return TF2Sniper.new(class_data)
+        when 'Spy' then
+          return TF2Spy.new(class_data)
+        else
+          return TF2Class.new(class_data)
+      end
     end
-  end
 
+  end
 end
