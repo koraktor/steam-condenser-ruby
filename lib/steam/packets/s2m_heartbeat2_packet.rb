@@ -47,13 +47,13 @@ module SteamCondenser
     #
     # @param [Hash<Symbol, Object>] data The data to send with the heartbeat. The
     #        data contents are merge with the values from {DEFAULT_DATA}.
-    # @raise [SteamCondenserError] when the required challenge number is
+    # @raise [Error] when the required challenge number is
     #        missing
     def initialize(data = {})
       data = DEFAULT_DATA.merge data
 
       if data[:challenge].nil?
-        raise SteamCondenserError, 'You have to provide a challenge number when sending a heartbeat to a master server.'
+        raise Error, 'You have to provide a challenge number when sending a heartbeat to a master server.'
       end
 
       bytes = 0x0A.chr

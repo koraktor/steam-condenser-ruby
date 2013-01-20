@@ -42,7 +42,7 @@ module SteamCondenser
     #        combined with the port number. If a port number is given, e.g.
     #        'server.example.com:27016' it will override the second argument.
     # @param [Fixnum] port The port the server is listening on
-    # @raise [SteamCondenserError] if an host name cannot be resolved
+    # @raise [Error] if an host name cannot be resolved
     def initialize(address, port = 27015)
       super
     end

@@ -12,7 +12,7 @@ require 'errors/steam_condenser_error'
 # @see GameServer#rcon_auth
 # @see GameServer#rcon_exec
 module SteamCondenser
-  class RCONNoAuthError < SteamCondenserError
+  class RCONNoAuthError < Error
 
     # Creates a new `RCONNoAuthError` instance
     def initialize

@@ -115,7 +115,7 @@ module SteamCondenser
       end
 
       should 'raise an exception when parsing invalid XML' do
-        error = assert_raises SteamCondenserError do
+        error = assert_raises Error do
           url = fixture_io 'invalid.xml'
           SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
 
@@ -123,15 +123,15 @@ module SteamCondenser
         end
         assert_equal 'XML data could not be parsed.', error.message
       end
-      
+
       should 'not cache an empty hash when an error is encountered on steam' do
         SteamId.any_instance.expects(:parse).raises(OpenURI::HTTPError.new('', nil))
         steam_id = SteamId.new(76561197983311154, false)
-        
+
         assert_raises OpenURI::HTTPError do
           steam_id.games
         end
-        
+
         assert_equal(nil, steam_id.instance_variable_get("@games"))
       end
 

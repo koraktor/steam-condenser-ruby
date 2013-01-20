@@ -164,7 +164,7 @@ module SteamCondenser
     # @deprecated
     # @param [Hash<Symbol, Object>] data The data to send with the heartbeat
     #        request
-    # @raise [SteamCondenserError] if heartbeat data is missing the
+    # @raise [Error] if heartbeat data is missing the
     #        challenge number or the reply cannot be parsed
     # @return [Array<SteamPacket>] Zero or more reply packets from the server.
     #         Zero means either the heartbeat was accepted by the master or there
@@ -179,7 +179,7 @@ module SteamCondenser
 
         begin
           loop { reply_packets << @socket.reply }
-        rescue SteamCondenser::TimeoutError
+        rescue TimeoutError
         end
       end
 

@@ -10,7 +10,7 @@ require 'errors/steam_condenser_error'
 #
 # @author Sebastian Staudt
 module SteamCondenser
-  class PacketFormatError < SteamCondenserError
+  class PacketFormatError < Error
 
     # Creates a new `PacketFormatError` instance
     #

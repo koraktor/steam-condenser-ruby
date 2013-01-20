@@ -57,7 +57,7 @@ module SteamCondenser
       end
 
       should 'raise an exception when parsing invalid XML' do
-        error = assert_raises SteamCondenserError do
+        error = assert_raises Error do
           url = fixture_io 'invalid.xml'
           SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 

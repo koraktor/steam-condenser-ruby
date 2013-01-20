@@ -35,7 +35,7 @@ module SteamCondenser
     # Creates a new packet object based on the header byte of the given raw data
     #
     # @param [String] raw_data The raw data of the packet
-    # @raise [SteamCondenserError] if the packet header is not recognized
+    # @raise [Error] if the packet header is not recognized
     # @return [SteamPacket] The packet object generated from the packet data
     def self.packet_from_data(raw_data)
       header = raw_data[0].ord
@@ -87,7 +87,7 @@ module SteamCondenser
     #        compressed
     # @param [Fixnum] packet_checksum The CRC32 checksum of the decompressed
     #        packet data
-    # @raise [SteamCondenserError] if the bz2 gem is not installed
+    # @raise [Error] if the bz2 gem is not installed
     # @raise [PacketFormatError] if the calculated CRC32 checksum does not match
     #        the expected value
     # @return [SteamPacket] The reassembled packet

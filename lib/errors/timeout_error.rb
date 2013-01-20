@@ -16,7 +16,7 @@ module SteamCondenser
   # @author Sebastian Staudt
   # @note {SteamSocket.timeout=} allows to set a custom timeout for socket
   #       operations
-  class TimeoutError < SteamCondenserError
+  class TimeoutError < Error
 
     # Creates a new `TimeoutError` instance
     def initialize

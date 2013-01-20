@@ -13,7 +13,7 @@ require 'errors/steam_condenser_error'
 # @author Sebastian Staudt
 # @see GameServer#rcon_auth
 module SteamCondenser
-  class RCONBanError < SteamCondenserError
+  class RCONBanError < Error
 
     # Creates a new `RCONBanError` instance
     def initialize

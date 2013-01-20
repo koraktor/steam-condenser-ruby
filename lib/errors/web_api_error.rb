@@ -12,7 +12,7 @@ require 'errors/steam_condenser_error'
 # @author Sebastian Staudt
 # @see WebApi
 module SteamCondenser
-  class WebApiError < SteamCondenserError
+  class WebApiError < Error
 
     # Creates a new `WebApiError` with an error message according to the given
     # `cause`. If this cause is `:status_bad` (which will origin from the Web API

@@ -8,6 +8,6 @@
 #
 # @author Sebastian Staudt
 module SteamCondenser
-  class SteamCondenserError < StandardError
+  class Error < StandardError
   end
 end

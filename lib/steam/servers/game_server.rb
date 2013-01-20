@@ -84,7 +84,7 @@ module SteamCondenser
     #        combined with the port number. If a port number is given, e.g.
     #        'server.example.com:27016' it will override the second argument.
     # @param [Fixnum] port The port the server is listening on
-    # @raise [SteamCondenserError] if an host name cannot be resolved
+    # @raise [Error] if an host name cannot be resolved
     def initialize(address, port = 27015)
       super
 
@@ -199,7 +199,7 @@ module SteamCondenser
     #        if the replied packet isn't expected. This is useful to handle
     #        missing challenge numbers, which will be automatically filled in,
     #        although not requested explicitly.
-    # @raise [SteamCondenserError] if either the request type or the response
+    # @raise [Error] if either the request type or the response
     #        packet is not known
     def handle_response_for_request(request_type, repeat_on_failure = true)
       case request_type
@@ -216,7 +216,7 @@ module SteamCondenser
           request_packet = A2S_RULES_Packet.new(@challenge_number)
           expected_response = S2A_RULES_Packet
         else
-          raise SteamCondenserError, 'Called with wrong request type.'
+          raise Error, 'Called with wrong request type.'
       end
 
       send_request request_packet
@@ -231,7 +231,7 @@ module SteamCondenser
       elsif response_packet.kind_of? S2C_CHALLENGE_Packet
         @challenge_number = response_packet.challenge_number
       else
-        raise SteamCondenserError, "Response of type #{response_packet.class} cannot be handled by this method."
+        raise Error, "Response of type #{response_packet.class} cannot be handled by this method."
       end
 
       unless response_packet.kind_of? expected_response

@@ -122,7 +122,7 @@ module SteamCondenser
           @members << SteamId.new(member.to_i, false)
         end
       rescue
-        raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
+        raise Error, 'XML data could not be parsed.', $!.backtrace
       end
 
       total_pages

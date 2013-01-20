@@ -89,11 +89,11 @@ module SteamCondenser
     # the status command
     #
     # @param [String] player_data The player data retrieved from `rcon status`
-    # @raise [SteamCondenserError] if the information belongs to another
+    # @raise [SteamCondenser::Error] if the information belongs to another
     #         player
     def add_info(player_data)
       unless player_data[:name] == @name
-        raise SteamCondenserError, 'Information to add belongs to a different player.'
+        raise SteamCondenser::Error, 'Information to add belongs to a different player.'
       end
 
       @extended = true

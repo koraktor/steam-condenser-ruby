@@ -31,7 +31,7 @@ module SteamCondenser
     #        'server.example.com:27016' it will override the second argument.
     # @param [Fixnum] port The port the server is listening on
     # @see init_socket
-    # @raise [SteamCondenserError] if an host name cannot be resolved
+    # @raise [Error] if an host name cannot be resolved
     def initialize(address, port = nil)
       address = address.to_s
       address, port = address.split(':', 2) if address.include? ':'
