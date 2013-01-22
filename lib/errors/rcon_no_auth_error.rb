@@ -11,11 +11,13 @@ require 'errors/steam_condenser_error'
 # @author Sebastian Staudt
 # @see GameServer#rcon_auth
 # @see GameServer#rcon_exec
-class RCONNoAuthError < SteamCondenserError
+module SteamCondenser
+  class RCONNoAuthError < Error
 
-  # Creates a new `RCONNoAuthError` instance
-  def initialize
-    super 'Not authenticated yet.'
+    # Creates a new `RCONNoAuthError` instance
+    def initialize
+      super 'Not authenticated yet.'
+    end
+
   end
-
 end

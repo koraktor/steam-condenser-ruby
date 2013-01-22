@@ -7,5 +7,7 @@
 # Condenser's operation
 #
 # @author Sebastian Staudt
-class SteamCondenserError < StandardError
+module SteamCondenser
+  class Error < StandardError
+  end
 end

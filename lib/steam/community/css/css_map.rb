@@ -6,56 +6,58 @@
 # Represents the stats for a Counter-Strike: Source map for a specific user
 #
 # @author Sebastian Staudt
-class CSSMap
+module SteamCondenser
+  class CSSMap
 
-  # Returns the name of this map
-  #
-  # @return [String] The name of this map
-  attr_reader :name
+    # Returns the name of this map
+    #
+    # @return [String] The name of this map
+    attr_reader :name
 
-  # Returns the number of rounds the player has lost on this map
-  #
-  # @return [Fixnum] The number of rounds lost
-  attr_reader :rounds_lost
+    # Returns the number of rounds the player has lost on this map
+    #
+    # @return [Fixnum] The number of rounds lost
+    attr_reader :rounds_lost
 
-  # Returns the number of rounds the player has played on this map
-  #
-  # @return [Fixnum] The number of rounds played
-  attr_reader :rounds_played
+    # Returns the number of rounds the player has played on this map
+    #
+    # @return [Fixnum] The number of rounds played
+    attr_reader :rounds_played
 
-  # Returns the number of rounds the player has won on this map
-  #
-  # @return [Fixnum] The number of rounds won
-  attr_reader :rounds_won
+    # Returns the number of rounds the player has won on this map
+    #
+    # @return [Fixnum] The number of rounds won
+    attr_reader :rounds_won
 
-  # Creates a new instance of a Counter-Strike: Source class based on the
-  # given XML data
-  #
-  # @param [String] map_name The name of the map
-  # @param [Hash<String, Object>] maps_data The XML data of all maps
-  def initialize(map_name, maps_data)
-    @name          = map_name
+    # Creates a new instance of a Counter-Strike: Source class based on the
+    # given XML data
+    #
+    # @param [String] map_name The name of the map
+    # @param [Hash<String, Object>] maps_data The XML data of all maps
+    def initialize(map_name, maps_data)
+      @name          = map_name
 
-    @favorite      = (maps_data['favorite'] == @name)
-    @rounds_played = maps_data["#{@name}_rounds"].to_i
-    @rounds_won    = maps_data["#{@name}_wins"].to_i
+      @favorite      = (maps_data['favorite'] == @name)
+      @rounds_played = maps_data["#{@name}_rounds"].to_i
+      @rounds_won    = maps_data["#{@name}_wins"].to_i
 
-    @rounds_lost = @rounds_played - @rounds_won
-    @rounds_won_percentage = (@rounds_played > 0) ? @rounds_won.to_f / @rounds_played : 0
+      @rounds_lost = @rounds_played - @rounds_won
+      @rounds_won_percentage = (@rounds_played > 0) ? @rounds_won.to_f / @rounds_played : 0
+    end
+
+    # Returns whether this map is the favorite map of this player
+    #
+    # @return [Boolean] `true` if this is the favorite map
+    def favorite?
+      @favorite
+    end
+
+    # Returns the percentage of rounds the player has won on this map
+    #
+    # @return [Float] The percentage of rounds won
+    def rounds_won_percentage
+      (@rounds_played > 0) ? @rounds_won.to_f / @rounds_played : 0
+    end
+
   end
-
-  # Returns whether this map is the favorite map of this player
-  #
-  # @return [Boolean] `true` if this is the favorite map
-  def favorite?
-    @favorite
-  end
-
-  # Returns the percentage of rounds the player has won on this map
-  #
-  # @return [Float] The percentage of rounds won
-  def rounds_won_percentage
-    (@rounds_played > 0) ? @rounds_won.to_f / @rounds_played : 0
-  end
-
 end
