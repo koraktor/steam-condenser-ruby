@@ -71,11 +71,15 @@ class SourceServer
   def rcon_auth(password)
     @rcon_request_id = rand 2**16
 
-    @rcon_socket.send RCONAuthRequest.new(@rcon_request_id, password)
-    @rcon_socket.reply
-    reply = @rcon_socket.reply
+    @rcon_socket.send RCONAuthRequest.new @rcon_request_id, password
 
-    @rcon_authenticated = reply.request_id == @rcon_request_id
+    begin
+      @rcon_socket.reply
+      reply = @rcon_socket.reply
+      @rcon_authenticated = reply.request_id == @rcon_request_id
+    rescue Errno::ECONNRESET
+      raise RCONBanError
+    end
   end
 
   # Remotely executes a command on the server via RCON
@@ -100,13 +104,9 @@ class SourceServer
           @rcon_authenticated = false
           raise RCONNoAuthError
         end
-      rescue RCONBanError
-        if @rcon_authenticated
-          @rcon_authenticated = false
-          raise RCONNoAuthError
-        end
-
-        raise $!
+      rescue Errno::ECONNRESET
+        @rcon_authenticated = false
+        raise RCONNoAuthError
       end
       response << response_packet.response
     end while response.size < 3 || response_packet.response.size > 0

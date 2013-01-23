@@ -79,12 +79,8 @@ class RCONSocket
   #        dropped by the server
   # @return [RCONPacket] The packet replied from the server
   def reply
-    begin
-      if receive_packet(4) == 0
-        @socket.close
-        raise RCONNoAuthError
-      end
-    rescue Errno::ECONNRESET
+    if receive_packet(4) == 0
+      @socket.close
       raise RCONBanError
     end
 
