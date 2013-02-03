@@ -1,5 +1,9 @@
-Steam Condenser [![Build Status](https://secure.travis-ci.org/koraktor/steam-condenser-ruby.png)](http://travis-ci.org/koraktor/steam-condenser-ruby)
+Steam Condenser
 ===============
+
+[![Build Status](https://secure.travis-ci.org/koraktor/steam-condenser-ruby.png)](http://travis-ci.org/koraktor/steam-condenser-ruby)
+
+[![Code Climate](https://codeclimate.com/github/koraktor/steam-condenser-ruby.png)](https://codeclimate.com/github/koraktor/steam-condenser-ruby)
 
 The Steam Condenser is a multi-language library for querying the Steam
 Community, Source and GoldSrc game servers as well as the Steam master servers.
@@ -7,8 +11,8 @@ Currently it is implemented in Java, PHP and Ruby.
 
 ## Requirements
 
-* Linux, MacOS X or Windows
-* Ruby 1.8.7 or newer
+* Ruby 1.8.7 or newer (and compatible Ruby VMs)
+* Any operating system able to run such a VM
 
 The following gems are required:
 
@@ -20,13 +24,24 @@ The following gems are required:
 
 To install Steam Condenser as a Ruby gem use the following command:
 
-    gem install steam-condenser
+```bash
+$ gem install steam-condenser
+```
+
+If you're projet dependencies are managed by [Bundler](http://gembundler.com)
+add this to your `Gemfile`:
+
+```ruby
+gem 'steam-condenser'
+```
 
 ## Usage
 
 To start using Steam Condenser requiring the base file is usually enough:
 
-    require 'steam-condenser'
+```ruby
+require 'steam-condenser'
+```
 
 ## License
 
