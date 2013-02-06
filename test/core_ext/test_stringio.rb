@@ -26,7 +26,7 @@ class TestStringIO < Test::Unit::TestCase
     end
 
     should 'provide `#float`' do
-      assert_in_delta 7.713536684941307 * 10**31, @io.float, 0.0000000001
+      assert_equal 7.713536684941306e+31, @io.float
       assert_equal 0, @io.remaining
     end
 
