@@ -45,7 +45,7 @@ class S2A_INFO2_Packet
       @server_port = @content_data.short unless extra_data_flag & 0x80 == 0
 
       unless extra_data_flag & 0x10 == 0
-        @server_id =  @content_data.long | (@content_data.long << 32)
+        @server_id = @content_data.long | (@content_data.long << 32)
       end
 
       unless extra_data_flag & 0x40 == 0
@@ -54,6 +54,10 @@ class S2A_INFO2_Packet
       end
 
       @server_tags = @content_data.cstring unless extra_data_flag & 0x20 == 0
+
+      unless extra_data_flag & 0x01 == 0
+        @game_id = @content_data.long | (@content_data.long << 32)
+      end
     end
 
     generate_info_hash
