@@ -37,16 +37,6 @@ class TestMasterServer < Test::Unit::TestCase
       assert_same socket, @server.instance_variable_get(:@socket)
     end
 
-    should 'be able to get a challenge' do
-      reply = mock :challenge => 1234
-
-      socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with { |packet| packet.is_a? C2M_CHECKMD5_Packet }
-      socket.expects(:reply).returns reply
-
-      assert_equal 1234, @server.challenge
-    end
-
     should 'be able to get a list of servers' do
       reply1 = mock :servers => %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
       reply2 = mock :servers => %w{127.0.0.4:27015 0.0.0.0:0}
@@ -68,19 +58,6 @@ class TestMasterServer < Test::Unit::TestCase
 
       servers = [['127.0.0.1', '27015'], ['127.0.0.2', '27015'], ['127.0.0.3', '27015'], ['127.0.0.4', '27015']]
       assert_equal servers, @server.servers(MasterServer::REGION_EUROPE, 'filter')
-    end
-
-    should 'be able to send a heartbeat' do
-      reply1 = mock
-      reply2 = mock
-
-      socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with { |packet| packet.is_a? S2M_HEARTBEAT2_Packet }
-      socket.expects(:reply).times(3).returns(reply1).returns(reply2).then.
-        raises SteamCondenser::TimeoutError
-
-      data = { :challenge => 1234 }
-      assert_equal [reply1, reply2], @server.send_heartbeat(data)
     end
 
     should 'not timeout if returning servers is forced' do

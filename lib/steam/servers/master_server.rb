@@ -5,8 +5,6 @@
 
 require 'errors/timeout_error'
 require 'steam/packets/a2m_get_servers_batch2_packet'
-require 'steam/packets/c2m_checkmd5_packet'
-require 'steam/packets/s2m_heartbeat2_packet'
 require 'steam/servers/server'
 require 'steam/sockets/master_server_socket'
 
@@ -64,22 +62,6 @@ class MasterServer
   # @param [Fixnum] retries The number of allowed retries
   def self.retries=(retries)
     @@retries = retries
-  end
-
-  # Request a challenge number from the master server.
-  #
-  # This is used for further communication with the master server.
-  #
-  # @deprecated
-  # @note Please note that this is **not** needed for finding servers using
-  #       {#servers}.
-  # @return [Fixnum] The challenge number from the master server
-  # @see #send_heartbeat
-  def challenge
-    failsafe do
-      @socket.send C2M_CHECKMD5_Packet.new
-      @socket.reply.challenge
-    end
   end
 
   # Initializes the socket to communicate with the master server
@@ -154,35 +136,6 @@ class MasterServer
     end
 
     server_array
-  end
-
-  # Sends a constructed heartbeat to the master server
-  #
-  # This can be used to check server versions externally.
-  #
-  # @deprecated
-  # @param [Hash<Symbol, Object>] data The data to send with the heartbeat
-  #        request
-  # @raise [SteamCondenserError] if heartbeat data is missing the
-  #        challenge number or the reply cannot be parsed
-  # @return [Array<SteamPacket>] Zero or more reply packets from the server.
-  #         Zero means either the heartbeat was accepted by the master or there
-  #         was a timeout. So usually it's best to repeat a heartbeat a few
-  #         times when not receiving any packets.
-  # @see S2M_HEARTBEAT2_Packet
-  def send_heartbeat(data)
-    reply_packets = []
-
-    failsafe do
-      @socket.send S2M_HEARTBEAT2_Packet.new(data)
-
-      begin
-        loop { reply_packets << @socket.reply }
-      rescue SteamCondenser::TimeoutError
-      end
-    end
-
-    reply_packets
   end
 
 end
