@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'errors/steam_condenser_error'
 require 'errors/timeout_error'
@@ -222,7 +222,7 @@ module GameServer
     response_packet = reply
 
     if response_packet.kind_of? S2A_INFO_BasePacket
-      @info_hash = response_packet.info_hash
+      @info_hash = response_packet.info
     elsif response_packet.kind_of? S2A_PLAYER_Packet
       @player_hash = response_packet.player_hash
     elsif response_packet.kind_of? S2A_RULES_Packet

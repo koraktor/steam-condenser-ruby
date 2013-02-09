@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'steam/packets/steam_packet'
 
@@ -18,18 +18,8 @@ module S2A_INFO_BasePacket
   # Returns the information provided by the server
   #
   # @return [Hash<String, Object>] The information provided by the server
-  attr_reader :info_hash
-
-  protected
-
-  # Generates a hash of server properties from the instance variables of the
-  # including packet object
-  def generate_info_hash
-    @info_hash = Hash[
-      *instance_variables.map { |var|
-        [var[1..-1].to_sym, instance_variable_get(var)] if var != '@content_data' && var != '@header_data'
-      }.compact.flatten
-    ]
+  def info
+    @info ||= {}
   end
 
 end
