@@ -65,8 +65,6 @@ module SteamPacketFactory
            SteamPacket::RCON_GOLDSRC_NO_CHALLENGE_HEADER,
            SteamPacket::RCON_GOLDSRC_RESPONSE_HEADER
         return RCONGoldSrcResponse.new(data)
-      when SteamPacket::S2A_LOGSTRING_HEADER
-        return S2A_LOGSTRING_Packet.new(data)
       else
         raise PacketFormatError, "Unknown packet with header 0x#{header.to_s(16)} received."
     end
