@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'cgi'
 
@@ -181,11 +181,6 @@ class SteamId
     end
   end
 
-  class << self
-    alias_method :convert_community_id_to_steam_id, :community_id_to_steam_id
-    alias_method :convert_steam_id_to_community_id, :steam_id_to_community_id
-  end
-
   # Creates a new `SteamId` instance using a SteamID as used on servers
   #
   # The SteamID from the server is converted into a 64bit numeric SteamID first
@@ -197,7 +192,7 @@ class SteamId
   # @see .convert_steam_id_to_community_id
   # @see #initialize
   def self.from_steam_id(steam_id)
-    new(convert_steam_id_to_community_id(steam_id))
+    new(steam_id_to_community_id steam_id)
   end
 
   # Creates a new `SteamId` instance for the given Steam ID

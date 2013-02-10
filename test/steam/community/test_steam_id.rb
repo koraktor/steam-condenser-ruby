@@ -28,17 +28,17 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     should 'provide a conversion between 64bit Steam IDs and STEAM_IDs' do
-      steam_id = SteamId.convert_community_id_to_steam_id 76561197960290418
+      steam_id = SteamId.community_id_to_steam_id 76561197960290418
       assert_equal 'STEAM_0:0:12345', steam_id
     end
 
     should 'provide a conversion between STEAM_IDs and 64bit Steam IDs' do
-      steam_id64 = SteamId.convert_steam_id_to_community_id 'STEAM_0:0:12345'
+      steam_id64 = SteamId.steam_id_to_community_id 'STEAM_0:0:12345'
       assert_equal 76561197960290418, steam_id64
     end
 
     should 'provide a conversion between U_IDs and 64bit Steam IDs' do
-      steam_id64 = SteamId.convert_steam_id_to_community_id '[U:1:12345]'
+      steam_id64 = SteamId.steam_id_to_community_id '[U:1:12345]'
       assert_equal 76561197960278073, steam_id64
     end
 
@@ -123,15 +123,15 @@ class TestSteamId < Test::Unit::TestCase
       end
       assert_equal 'XML data could not be parsed.', error.message
     end
-    
+
     should 'not cache an empty hash when an error is encountered on steam' do
       SteamId.any_instance.expects(:parse).raises(OpenURI::HTTPError.new('', nil))
       steam_id = SteamId.new(76561197983311154, false)
-      
+
       assert_raises OpenURI::HTTPError do
         steam_id.games
       end
-      
+
       assert_equal(nil, steam_id.instance_variable_get("@games"))
     end
 
