@@ -416,7 +416,6 @@ class SteamId
   def in_game?
     @online_state == 'in-game'
   end
-  alias_method :is_in_game?, :in_game?
 
   # Returns whether this Steam account is limited
   #
@@ -438,7 +437,6 @@ class SteamId
   def online?
     @online_state != 'offline'
   end
-  alias_method :is_online?, :online?
 
   # Returns whether this Steam ID is publicly accessible
   #
