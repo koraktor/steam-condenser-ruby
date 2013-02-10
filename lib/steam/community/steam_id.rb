@@ -305,6 +305,7 @@ class SteamId
   # This creates a new `SteamId` instance for each of the friends without
   # fetching their data.
   #
+  # @return [Array<SteamId>] The friends of this user
   # @see #friends
   # @see #initialize
   def fetch_friends
@@ -316,6 +317,8 @@ class SteamId
     friends_data[:friendslist][:friends].each do |friend|
       @friends << SteamId.new(friend[:steamid].to_i, false)
     end
+
+    @friends
   end
 
   # Fetches the games this user owns
@@ -324,6 +327,7 @@ class SteamId
   # will either be `false` if the game does not have stats or the game's
   # "friendly name".
   #
+  # @return [Hash<Fixnum, SteamGame>] The games this user owns
   # @see #games
   def fetch_games
     games_data = parse "#{base_url}/games?xml=1"
@@ -340,7 +344,7 @@ class SteamId
       @playtimes[app_id] = [(recent * 60).to_i, (total * 60).to_i]
     end
 
-    true
+    @games
   end
 
   # Returns the URL of the full-sized version of this user's avatar
@@ -376,8 +380,7 @@ class SteamId
   # @return [Array<SteamId>] The friends of this user
   # @see #fetch_friends
   def friends
-    fetch_friends if @friends.nil?
-    @friends
+    @friends ||= fetch_friends
   end
 
   # Returns the games this user owns
@@ -390,8 +393,7 @@ class SteamId
   # @return [Hash<Fixnum, SteamGame>] The games this user owns
   # @see #fetch_games
   def games
-    fetch_games if @games.nil?
-    @games
+    @games ||= fetch_games
   end
 
   # Returns the URL of the icon version of this user's avatar
