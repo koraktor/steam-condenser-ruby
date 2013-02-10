@@ -1,17 +1,20 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2013, Sebastian Staudt
 
 require 'multi_xml'
 
 require 'steam/community/game_leaderboard_entry'
 require 'steam/community/steam_id'
+require 'steam/community/xml_data'
 
 # The GameLeaderboard class represents a single leaderboard for a specific game
 #
 # @author Sebastian Staudt
 class GameLeaderboard
+
+  include XMLData
 
   LEADERBOARD_DISPLAY_TYPE_NONE         = 0
   LEADERBOARD_DISPLAY_TYPE_NUMERIC      = 1
@@ -86,13 +89,12 @@ class GameLeaderboard
   def entry_for_steam_id(steam_id)
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
-    url = "#@url&steamid=#{steam_id}"
-    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+    parse "#@url&steamid=#{steam_id}"
 
-    error = xml_data['error']
+    error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
 
-    xml_data['entries']['entry'].each do |entry_data|
+    @xml_data['entries']['entry'].each do |entry_data|
       if entry_data['steamid'].to_i == steam_id
         return GameLeaderboardEntry.new entry_data, self
       end
@@ -113,14 +115,13 @@ class GameLeaderboard
   def entry_for_steam_id_friends(steam_id)
     steam_id = steam_id.steam_id64 if steam_id.is_a? SteamId
 
-    url = "#@url&steamid=#{steam_id}"
-    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+    parse "#@url&steamid=#{steam_id}"
 
-    error = xml_data['error']
+    error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
 
     entries = []
-    xml_data['entries']['entry'].each do |entry_data|
+    @xml_data['entries']['entry'].each do |entry_data|
       rank = entry_data['rank'].to_i
       entries[rank] = GameLeaderboardEntry.new entry_data, self
     end
@@ -150,14 +151,13 @@ class GameLeaderboard
         'Leaderboard entry lookup is currently limited to a maximum of 5001 entries per request.'
     end
 
-    url = "#@url&start=#{first}&end=#{last}"
-    xml_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+    parse "#@url&start=#{first}&end=#{last}"
 
-    error = xml_data['error']
+    error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
 
     entries = []
-    xml_data['entries']['entry'].each do |entry_data|
+    @xml_data['entries']['entry'].each do |entry_data|
       rank = entry_data['rank'].to_i
       entries[rank] = GameLeaderboardEntry.new entry_data, self
     end
@@ -185,8 +185,12 @@ class GameLeaderboard
   # @raise [SteamCondenserException] if an error occurs while fetching the
   #         leaderboards
   def self.load_leaderboards(game_name)
-    url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
-    boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+    begin
+      url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
+      boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+    rescue
+      raise SteamCondenserError.new 'XML data could not be parsed.', $!
+    end
 
     error = boards_data['error']
     raise SteamCondenserError, error unless error.nil?

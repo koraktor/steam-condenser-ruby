@@ -244,58 +244,55 @@ class SteamId
   #        when it is private
   # @see Cacheable#fetch
   def fetch
-    begin
-      profile = parse "#{base_url}?xml=1"
+    profile = parse "#{base_url}?xml=1"
 
-      raise SteamCondenserError, profile['error'] unless profile['error'].nil?
+    raise SteamCondenserError, profile['error'] unless profile['error'].nil?
 
-      unless profile['privacyMessage'].nil?
-        raise SteamCondenserError, profile['privacyMessage']
-      end
-
-      @nickname         = CGI.unescapeHTML profile['steamID']
-      @steam_id64       = profile['steamID64'].to_i
-      @limited          = (profile['isLimitedAccount'].to_i == 1)
-      @trade_ban_state  = profile['tradeBanState']
-      @vac_banned       = (profile['vacBanned'].to_i == 1)
-
-      @image_url        = profile['avatarIcon'][0..-5]
-      @online_state     = profile['onlineState']
-      @privacy_state    = profile['privacyState']
-      @state_message    = profile['stateMessage']
-      @visibility_state = profile['visibilityState'].to_i
-
-      if public?
-        @custom_url = (profile['customURL'] || '').downcase
-        @custom_url = nil if @custom_url.empty?
-
-        @head_line    = CGI.unescapeHTML profile['headline'] || ''
-        @hours_played = profile['hoursPlayed2Wk'].to_f
-        @location     = profile['location']
-        @member_since = Time.parse profile['memberSince']
-        @real_name    = CGI.unescapeHTML profile['realname'] || ''
-        @steam_rating = profile['steamRating'].to_f
-        @summary      = CGI.unescapeHTML profile['summary'] || ''
-
-        @most_played_games = {}
-        [(profile['mostPlayedGames'] || {})['mostPlayedGame']].compact.flatten.each do |most_played_game|
-          @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
-        end
-
-        @groups = []
-        [(profile['groups'] || {})['group']].compact.flatten.each do |group|
-          @groups << SteamGroup.new(group['groupID64'].to_i, false)
-        end
-
-        @links = {}
-        [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
-          @links[CGI.unescapeHTML link['title']] = link['link']
-        end
-      end
-    rescue
-      raise $! if $!.is_a? SteamCondenserError
-      raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
+    unless profile['privacyMessage'].nil?
+      raise SteamCondenserError, profile['privacyMessage']
     end
+
+    @nickname         = CGI.unescapeHTML profile['steamID']
+    @steam_id64       = profile['steamID64'].to_i
+    @limited          = (profile['isLimitedAccount'].to_i == 1)
+    @trade_ban_state  = profile['tradeBanState']
+    @vac_banned       = (profile['vacBanned'].to_i == 1)
+
+    @image_url        = profile['avatarIcon'][0..-5]
+    @online_state     = profile['onlineState']
+    @privacy_state    = profile['privacyState']
+    @state_message    = profile['stateMessage']
+    @visibility_state = profile['visibilityState'].to_i
+
+    if public?
+      @custom_url = (profile['customURL'] || '').downcase
+      @custom_url = nil if @custom_url.empty?
+
+      @head_line    = CGI.unescapeHTML profile['headline'] || ''
+      @hours_played = profile['hoursPlayed2Wk'].to_f
+      @location     = profile['location']
+      @member_since = Time.parse profile['memberSince']
+      @real_name    = CGI.unescapeHTML profile['realname'] || ''
+      @steam_rating = profile['steamRating'].to_f
+      @summary      = CGI.unescapeHTML profile['summary'] || ''
+
+      @most_played_games = {}
+      [(profile['mostPlayedGames'] || {})['mostPlayedGame']].compact.flatten.each do |most_played_game|
+        @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
+      end
+
+      @groups = []
+      [(profile['groups'] || {})['group']].compact.flatten.each do |group|
+        @groups << SteamGroup.new(group['groupID64'].to_i, false)
+      end
+
+      @links = {}
+      [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
+        @links[CGI.unescapeHTML link['title']] = link['link']
+      end
+    end
+  rescue
+    raise SteamCondenserError, 'XML data could not be parsed.'
   end
 
   # Fetches the friends of this user
