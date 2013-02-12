@@ -292,6 +292,7 @@ class SteamId
       end
     end
   rescue
+    raise $! if $!.is_a? SteamCondenserError
     raise SteamCondenserError, 'XML data could not be parsed.'
   end
 
