@@ -37,28 +37,30 @@ class AlienSwarmStats < GameStats
     super steam_id, 'alienswarm'
 
     if public?
-      @hours_played = @xml_data['stats']['lifetime']['timeplayed']
+      lifetime_data = @xml_data['stats']['lifetime']
+
+      @hours_played = lifetime_data['timeplayed']
 
       @lifetime_stats = {}
-      @lifetime_stats[:accuracy]            = @xml_data['stats']['lifetime']['accuracy'].to_f
-      @lifetime_stats[:aliens_burned]       = @xml_data['stats']['lifetime']['aliensburned'].to_i
-      @lifetime_stats[:aliens_killed]       = @xml_data['stats']['lifetime']['alienskilled'].to_i
-      @lifetime_stats[:campaigns]           = @xml_data['stats']['lifetime']['campaigns'].to_i
-      @lifetime_stats[:damage_taken]        = @xml_data['stats']['lifetime']['damagetaken'].to_i
-      @lifetime_stats[:experience]          = @xml_data['stats']['lifetime']['experience'].to_i
-      @lifetime_stats[:experience_required] = @xml_data['stats']['lifetime']['xprequired'].to_i
-      @lifetime_stats[:fast_hacks]          = @xml_data['stats']['lifetime']['fasthacks'].to_i
-      @lifetime_stats[:friendly_fire]       = @xml_data['stats']['lifetime']['friendlyfire'].to_i
-      @lifetime_stats[:games_successful]    = @xml_data['stats']['lifetime']['gamessuccess'].to_i
-      @lifetime_stats[:healing]             = @xml_data['stats']['lifetime']['healing'].to_i
-      @lifetime_stats[:kills_per_hour]      = @xml_data['stats']['lifetime']['killsperhour'].to_f
-      @lifetime_stats[:level]               = @xml_data['stats']['lifetime']['level'].to_i
-      @lifetime_stats[:promotion]           = @xml_data['stats']['lifetime']['promotion'].to_i
-      @lifetime_stats[:promotion_img]       = BASE_URL + @xml_data['stats']['lifetime']['promotionpic'] if @lifetime_stats[:promotion] > 0
-      @lifetime_stats[:next_unlock]         = @xml_data['stats']['lifetime']['nextunlock']
-      @lifetime_stats[:next_unlock_img]     = BASE_URL + @xml_data['stats']['lifetime']['nextunlockimg']
-      @lifetime_stats[:shots_fired]         = @xml_data['stats']['lifetime']['shotsfired'].to_i
-      @lifetime_stats[:total_games]         = @xml_data['stats']['lifetime']['totalgames'].to_i
+      @lifetime_stats[:accuracy]            = lifetime_data['accuracy'].to_f
+      @lifetime_stats[:aliens_burned]       = lifetime_data['aliensburned'].to_i
+      @lifetime_stats[:aliens_killed]       = lifetime_data['alienskilled'].to_i
+      @lifetime_stats[:campaigns]           = lifetime_data['campaigns'].to_i
+      @lifetime_stats[:damage_taken]        = lifetime_data['damagetaken'].to_i
+      @lifetime_stats[:experience]          = lifetime_data['experience'].to_i
+      @lifetime_stats[:experience_required] = lifetime_data['xprequired'].to_i
+      @lifetime_stats[:fast_hacks]          = lifetime_data['fasthacks'].to_i
+      @lifetime_stats[:friendly_fire]       = lifetime_data['friendlyfire'].to_i
+      @lifetime_stats[:games_successful]    = lifetime_data['gamessuccess'].to_i
+      @lifetime_stats[:healing]             = lifetime_data['healing'].to_i
+      @lifetime_stats[:kills_per_hour]      = lifetime_data['killsperhour'].to_f
+      @lifetime_stats[:level]               = lifetime_data['level'].to_i
+      @lifetime_stats[:promotion]           = lifetime_data['promotion'].to_i
+      @lifetime_stats[:promotion_img]       = BASE_URL + lifetime_data['promotionpic'] if @lifetime_stats[:promotion] > 0
+      @lifetime_stats[:next_unlock]         = lifetime_data['nextunlock']
+      @lifetime_stats[:next_unlock_img]     = BASE_URL + lifetime_data['nextunlockimg']
+      @lifetime_stats[:shots_fired]         = lifetime_data['shotsfired'].to_i
+      @lifetime_stats[:total_games]         = lifetime_data['totalgames'].to_i
 
       @lifetime_stats[:games_successful_percentage] = (@lifetime_stats[:total_games] > 0) ? @lifetime_stats[:games_successful].to_f / @lifetime_stats[:total_games] : 0;
     end
@@ -73,27 +75,29 @@ class AlienSwarmStats < GameStats
     return unless public?
 
     if @favorites.nil?
+      favorites_data = @xml_data['stats']['favorites']
+
       @favorites = {}
-      @favorites[:class]                       = @xml_data['stats']['favorites']['class']
-      @favorites[:class_img]                   = @xml_data['stats']['favorites']['classimg']
-      @favorites[:class_percentage]            = @xml_data['stats']['favorites']['classpct'].to_f
-      @favorites[:difficulty]                  = @xml_data['stats']['favorites']['difficulty']
-      @favorites[:difficulty_percentage]       = @xml_data['stats']['favorites']['difficultypct'].to_f
-      @favorites[:extra]                       = @xml_data['stats']['favorites']['extra']
-      @favorites[:extra_img]                   = @xml_data['stats']['favorites']['extraimg']
-      @favorites[:extra_percentage]            = @xml_data['stats']['favorites']['extrapct'].to_f
-      @favorites[:marine]                      = @xml_data['stats']['favorites']['marine']
-      @favorites[:marine_img]                  = @xml_data['stats']['favorites']['marineimg']
-      @favorites[:marine_percentage]           = @xml_data['stats']['favorites']['marinepct'].to_f
-      @favorites[:mission]                     = @xml_data['stats']['favorites']['mission']
-      @favorites[:mission_img]                 = @xml_data['stats']['favorites']['missionimg']
-      @favorites[:mission_percentage]          = @xml_data['stats']['favorites']['missionpct'].to_f
-      @favorites[:primary_weapon]              = @xml_data['stats']['favorites']['primary']
-      @favorites[:primary_weapon_img]          = @xml_data['stats']['favorites']['primaryimg']
-      @favorites[:primary_weapon_percentage]   = @xml_data['stats']['favorites']['primarypct'].to_f
-      @favorites[:secondary_weapon]            = @xml_data['stats']['favorites']['secondary']
-      @favorites[:secondary_weapon_img]        = @xml_data['stats']['favorites']['secondaryimg']
-      @favorites[:secondary_weapon_percentage] = @xml_data['stats']['favorites']['secondarypct'].to_f
+      @favorites[:class]                       = favorites_data['class']
+      @favorites[:class_img]                   = favorites_data['classimg']
+      @favorites[:class_percentage]            = favorites_data['classpct'].to_f
+      @favorites[:difficulty]                  = favorites_data['difficulty']
+      @favorites[:difficulty_percentage]       = favorites_data['difficultypct'].to_f
+      @favorites[:extra]                       = favorites_data['extra']
+      @favorites[:extra_img]                   = favorites_data['extraimg']
+      @favorites[:extra_percentage]            = favorites_data['extrapct'].to_f
+      @favorites[:marine]                      = favorites_data['marine']
+      @favorites[:marine_img]                  = favorites_data['marineimg']
+      @favorites[:marine_percentage]           = favorites_data['marinepct'].to_f
+      @favorites[:mission]                     = favorites_data['mission']
+      @favorites[:mission_img]                 = favorites_data['missionimg']
+      @favorites[:mission_percentage]          = favorites_data['missionpct'].to_f
+      @favorites[:primary_weapon]              = favorites_data['primary']
+      @favorites[:primary_weapon_img]          = favorites_data['primaryimg']
+      @favorites[:primary_weapon_percentage]   = favorites_data['primarypct'].to_f
+      @favorites[:secondary_weapon]            = favorites_data['secondary']
+      @favorites[:secondary_weapon_img]        = favorites_data['secondaryimg']
+      @favorites[:secondary_weapon_percentage] = favorites_data['secondarypct'].to_f
     end
 
     @favorites
@@ -109,28 +113,30 @@ class AlienSwarmStats < GameStats
     return unless public?
 
     if @item_stats.nil?
+      weapons_data = @xml_data['stats']['weapons']
+
       @item_stats = {}
-      @item_stats[:ammo_deployed]             = @xml_data['stats']['weapons']['ammo_deployed'].to_i
-      @item_stats[:sentryguns_deployed]       = @xml_data['stats']['weapons']['sentryguns_deployed'].to_i
-      @item_stats[:sentry_flamers_deployed]   = @xml_data['stats']['weapons']['sentry_flamers_deployed'].to_i
-      @item_stats[:sentry_freeze_deployed]    = @xml_data['stats']['weapons']['sentry_freeze_deployed'].to_i
-      @item_stats[:sentry_cannon_deployed]    = @xml_data['stats']['weapons']['sentry_cannon_deployed'].to_i
-      @item_stats[:medkits_used]              = @xml_data['stats']['weapons']['medkits_used'].to_i
-      @item_stats[:flares_used]               = @xml_data['stats']['weapons']['flares_used'].to_i
-      @item_stats[:adrenaline_used]           = @xml_data['stats']['weapons']['adrenaline_used'].to_i
-      @item_stats[:tesla_traps_deployed]      = @xml_data['stats']['weapons']['tesla_traps_deployed'].to_i
-      @item_stats[:freeze_grenades_thrown]    = @xml_data['stats']['weapons']['freeze_grenades_thrown'].to_i
-      @item_stats[:electric_armor_used]       = @xml_data['stats']['weapons']['electric_armor_used'].to_i
-      @item_stats[:healgun_heals]             = @xml_data['stats']['weapons']['healgun_heals'].to_i
-      @item_stats[:healgun_heals_self]        = @xml_data['stats']['weapons']['healgun_heals_self'].to_i
-      @item_stats[:healbeacon_heals]          = @xml_data['stats']['weapons']['healbeacon_heals'].to_i
-      @item_stats[:healbeacon_heals_self]     = @xml_data['stats']['weapons']['healbeacon_heals_self'].to_i
-      @item_stats[:damage_amps_used]          = @xml_data['stats']['weapons']['damage_amps_used'].to_i
-      @item_stats[:healbeacons_deployed]      = @xml_data['stats']['weapons']['healbeacons_deployed'].to_i
-      @item_stats[:healbeacon_heals_pct]      = @xml_data['stats']['weapons']['healbeacon_heals_pct'].to_f
-      @item_stats[:healgun_heals_pct]         = @xml_data['stats']['weapons']['healgun_heals_pct'].to_f
-      @item_stats[:healbeacon_heals_pct_self] = @xml_data['stats']['weapons']['healbeacon_heals_pct_self'].to_f
-      @item_stats[:healgun_heals_pct_self]    = @xml_data['stats']['weapons']['healgun_heals_pct_self'].to_f
+      @item_stats[:ammo_deployed]             = weapons_data['ammo_deployed'].to_i
+      @item_stats[:sentryguns_deployed]       = weapons_data['sentryguns_deployed'].to_i
+      @item_stats[:sentry_flamers_deployed]   = weapons_data['sentry_flamers_deployed'].to_i
+      @item_stats[:sentry_freeze_deployed]    = weapons_data['sentry_freeze_deployed'].to_i
+      @item_stats[:sentry_cannon_deployed]    = weapons_data['sentry_cannon_deployed'].to_i
+      @item_stats[:medkits_used]              = weapons_data['medkits_used'].to_i
+      @item_stats[:flares_used]               = weapons_data['flares_used'].to_i
+      @item_stats[:adrenaline_used]           = weapons_data['adrenaline_used'].to_i
+      @item_stats[:tesla_traps_deployed]      = weapons_data['tesla_traps_deployed'].to_i
+      @item_stats[:freeze_grenades_thrown]    = weapons_data['freeze_grenades_thrown'].to_i
+      @item_stats[:electric_armor_used]       = weapons_data['electric_armor_used'].to_i
+      @item_stats[:healgun_heals]             = weapons_data['healgun_heals'].to_i
+      @item_stats[:healgun_heals_self]        = weapons_data['healgun_heals_self'].to_i
+      @item_stats[:healbeacon_heals]          = weapons_data['healbeacon_heals'].to_i
+      @item_stats[:healbeacon_heals_self]     = weapons_data['healbeacon_heals_self'].to_i
+      @item_stats[:damage_amps_used]          = weapons_data['damage_amps_used'].to_i
+      @item_stats[:healbeacons_deployed]      = weapons_data['healbeacons_deployed'].to_i
+      @item_stats[:healbeacon_heals_pct]      = weapons_data['healbeacon_heals_pct'].to_f
+      @item_stats[:healgun_heals_pct]         = weapons_data['healgun_heals_pct'].to_f
+      @item_stats[:healbeacon_heals_pct_self] = weapons_data['healbeacon_heals_pct_self'].to_f
+      @item_stats[:healgun_heals_pct_self]    = weapons_data['healgun_heals_pct_self'].to_f
     end
 
     @item_stats
