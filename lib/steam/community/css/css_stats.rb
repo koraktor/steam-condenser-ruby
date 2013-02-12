@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 require 'steam/community/css/css_map'
 require 'steam/community/css/css_weapon'
@@ -44,48 +44,53 @@ class CSSStats < GameStats
     super steam_id, 'cs:s'
 
     if public?
+      last_match_data = @xml_data['stats']['lastmatch']
+      lifetime_data = @xml_data['stats']['lifetime']
+      summary_data = @xml_data['stats']['summary']
+
       @last_match_stats = {}
       @total_stats      = {}
 
-      @last_match_stats[:cost_per_kill]      = @xml_data['stats']['lastmatch']['costkill'].to_f
-      @last_match_stats[:ct_wins]            = @xml_data['stats']['lastmatch']['ct_wins'].to_i
-      @last_match_stats[:damage]             = @xml_data['stats']['lastmatch']['dmg'].to_i
-      @last_match_stats[:deaths]             = @xml_data['stats']['lastmatch']['deaths'].to_i
-      @last_match_stats[:dominations]        = @xml_data['stats']['lastmatch']['dominations'].to_i
-      @last_match_stats[:favorite_weapon_id] = @xml_data['stats']['lastmatch']['favwpnid'].to_i
-      @last_match_stats[:kills]              = @xml_data['stats']['lastmatch']['kills'].to_i
-      @last_match_stats[:max_players]        = @xml_data['stats']['lastmatch']['max_players'].to_i
-      @last_match_stats[:money]              = @xml_data['stats']['lastmatch']['money'].to_i
-      @last_match_stats[:revenges]           = @xml_data['stats']['lastmatch']['revenges'].to_i
-      @last_match_stats[:stars]              = @xml_data['stats']['lastmatch']['stars'].to_i
-      @last_match_stats[:t_wins]             = @xml_data['stats']['lastmatch']['t_wins'].to_i
-      @last_match_stats[:wins]               = @xml_data['stats']['lastmatch']['wins'].to_i
-      @total_stats[:blind_kills]             = @xml_data['stats']['lifetime']['blindkills'].to_i
-      @total_stats[:bombs_defused]           = @xml_data['stats']['lifetime']['bombsdefused'].to_i
-      @total_stats[:bombs_planted]           = @xml_data['stats']['lifetime']['bombsplanted'].to_i
-      @total_stats[:damage]                  = @xml_data['stats']['lifetime']['dmg'].to_i
-      @total_stats[:deaths]                  = @xml_data['stats']['summary']['deaths'].to_i
-      @total_stats[:domination_overkills]    = @xml_data['stats']['lifetime']['dominationoverkills'].to_i
-      @total_stats[:dominations]             = @xml_data['stats']['lifetime']['dominations'].to_i
-      @total_stats[:earned_money]            = @xml_data['stats']['lifetime']['money'].to_i
-      @total_stats[:enemy_weapon_kills]      = @xml_data['stats']['lifetime']['enemywpnkills'].to_i
-      @total_stats[:headshots]               = @xml_data['stats']['lifetime']['headshots'].to_i
-      @total_stats[:hits]                    = @xml_data['stats']['summary']['shotshit'].to_i
-      @total_stats[:hostages_rescued]        = @xml_data['stats']['lifetime']['hostagesrescued'].to_i
-      @total_stats[:kills]                   = @xml_data['stats']['summary']['kills'].to_i
-      @total_stats[:knife_kills]             = @xml_data['stats']['lifetime']['knifekills'].to_i
-      @total_stats[:logos_sprayed]           = @xml_data['stats']['lifetime']['decals'].to_i
-      @total_stats[:nightvision_damage]      = @xml_data['stats']['lifetime']['nvgdmg'].to_i
-      @total_stats[:pistol_rounds_won]       = @xml_data['stats']['lifetime']['pistolrounds'].to_i
-      @total_stats[:revenges]                = @xml_data['stats']['lifetime']['revenges'].to_i
-      @total_stats[:rounds_played]           = @xml_data['stats']['summary']['rounds'].to_i
-      @total_stats[:rounds_won]              = @xml_data['stats']['summary']['wins'].to_i
-      @total_stats[:seconds_played]          = @xml_data['stats']['summary']['timeplayed'].to_i
-      @total_stats[:shots]                   = @xml_data['stats']['summary']['shots'].to_i
-      @total_stats[:stars]                   = @xml_data['stats']['summary']['stars'].to_i
-      @total_stats[:weapons_donated]         = @xml_data['stats']['lifetime']['wpndonated'].to_i
-      @total_stats[:windows_broken]          = @xml_data['stats']['lifetime']['winbroken'].to_i
-      @total_stats[:zoomed_sniper_kills]     = @xml_data['stats']['lifetime']['zsniperkills'].to_i
+      @last_match_stats[:cost_per_kill]      = last_match_data['costkill'].to_f
+      @last_match_stats[:ct_wins]            = last_match_data['ct_wins'].to_i
+      @last_match_stats[:damage]             = last_match_data['dmg'].to_i
+      @last_match_stats[:deaths]             = last_match_data['deaths'].to_i
+      @last_match_stats[:dominations]        = last_match_data['dominations'].to_i
+      @last_match_stats[:favorite_weapon_id] = last_match_data['favwpnid'].to_i
+      @last_match_stats[:kills]              = last_match_data['kills'].to_i
+      @last_match_stats[:max_players]        = last_match_data['max_players'].to_i
+      @last_match_stats[:money]              = last_match_data['money'].to_i
+      @last_match_stats[:revenges]           = last_match_data['revenges'].to_i
+      @last_match_stats[:stars]              = last_match_data['stars'].to_i
+      @last_match_stats[:t_wins]             = last_match_data['t_wins'].to_i
+      @last_match_stats[:wins]               = last_match_data['wins'].to_i
+
+      @total_stats[:blind_kills]             = lifetime_data['blindkills'].to_i
+      @total_stats[:bombs_defused]           = lifetime_data['bombsdefused'].to_i
+      @total_stats[:bombs_planted]           = lifetime_data['bombsplanted'].to_i
+      @total_stats[:damage]                  = lifetime_data['dmg'].to_i
+      @total_stats[:deaths]                  = summary_data['deaths'].to_i
+      @total_stats[:domination_overkills]    = lifetime_data['dominationoverkills'].to_i
+      @total_stats[:dominations]             = lifetime_data['dominations'].to_i
+      @total_stats[:earned_money]            = lifetime_data['money'].to_i
+      @total_stats[:enemy_weapon_kills]      = lifetime_data['enemywpnkills'].to_i
+      @total_stats[:headshots]               = lifetime_data['headshots'].to_i
+      @total_stats[:hits]                    = summary_data['shotshit'].to_i
+      @total_stats[:hostages_rescued]        = lifetime_data['hostagesrescued'].to_i
+      @total_stats[:kills]                   = summary_data['kills'].to_i
+      @total_stats[:knife_kills]             = lifetime_data['knifekills'].to_i
+      @total_stats[:logos_sprayed]           = lifetime_data['decals'].to_i
+      @total_stats[:nightvision_damage]      = lifetime_data['nvgdmg'].to_i
+      @total_stats[:pistol_rounds_won]       = lifetime_data['pistolrounds'].to_i
+      @total_stats[:revenges]                = lifetime_data['revenges'].to_i
+      @total_stats[:rounds_played]           = summary_data['rounds'].to_i
+      @total_stats[:rounds_won]              = summary_data['wins'].to_i
+      @total_stats[:seconds_played]          = summary_data['timeplayed'].to_i
+      @total_stats[:shots]                   = summary_data['shots'].to_i
+      @total_stats[:stars]                   = summary_data['stars'].to_i
+      @total_stats[:weapons_donated]         = lifetime_data['wpndonated'].to_i
+      @total_stats[:windows_broken]          = lifetime_data['winbroken'].to_i
+      @total_stats[:zoomed_sniper_kills]     = lifetime_data['zsniperkills'].to_i
 
       @last_match_stats[:kdratio] = (@total_stats[:deaths] > 0) ? @last_match_stats[:kills].to_f / @last_match_stats[:deaths] : 0
       @total_stats[:accuracy]     = (@total_stats[:shots] > 0) ? @total_stats[:hits].to_f / @total_stats[:shots] : 0

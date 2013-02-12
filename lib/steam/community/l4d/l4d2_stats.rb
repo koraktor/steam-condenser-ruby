@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2009-2011, Sebastian Staudt
+# Copyright (c) 2009-2013, Sebastian Staudt
 
 require 'steam/community/l4d/abstract_l4d_stats'
 require 'steam/community/l4d/l4d2_map'
@@ -34,11 +34,13 @@ class L4D2Stats < GameStats
   def initialize(steam_id)
     super steam_id, 'l4d2'
 
+    weapons_data = @xml_data['stats']['weapons']
+
     @damage_percentages = {
-      :melee    => @xml_data['stats']['weapons']['meleepctdmg'].to_f,
-      :pistols  => @xml_data['stats']['weapons']['pistolspctdmg'].to_f,
-      :rifles   => @xml_data['stats']['weapons']['bulletspctdmg'].to_f,
-      :shotguns => @xml_data['stats']['weapons']['shellspctdmg'].to_f
+      :melee    => weapons_data['meleepctdmg'].to_f,
+      :pistols  => weapons_data['pistolspctdmg'].to_f,
+      :rifles   => weapons_data['bulletspctdmg'].to_f,
+      :shotguns => weapons_data['shellspctdmg'].to_f
     }
   end
 
@@ -58,9 +60,11 @@ class L4D2Stats < GameStats
 
     if @lifetime_stats.nil?
       super
-      @lifetime_stats[:avg_adrenaline_shared]   = @xml_data['stats']['lifetime']['adrenalineshared'].to_f
-      @lifetime_stats[:avg_adrenaline_used]     = @xml_data['stats']['lifetime']['adrenalineused'].to_f
-      @lifetime_stats[:avg_defibrillators_used] = @xml_data['stats']['lifetime']['defibrillatorsused'].to_f
+
+      lifetime_data = @xml_data['stats']['lifetime']
+      @lifetime_stats[:avg_adrenaline_shared]   = lifetime_data['adrenalineshared'].to_f
+      @lifetime_stats[:avg_adrenaline_used]     = lifetime_data['adrenalineused'].to_f
+      @lifetime_stats[:avg_defibrillators_used] = lifetime_data['defibrillatorsused'].to_f
     end
 
     @lifetime_stats
@@ -77,33 +81,36 @@ class L4D2Stats < GameStats
     return unless public?
 
     if @scavenge_stats.nil?
+      scavange_data = @xml_data['stats']['scavenge']
+
       @scavenge_stats = {}
-      @scavenge_stats[:avg_cans_per_round] = @xml_data['stats']['scavenge']['avgcansperround'].to_f
-      @scavenge_stats[:perfect_rounds]     = @xml_data['stats']['scavenge']['perfect16canrounds'].to_i
-      @scavenge_stats[:rounds_lost]        = @xml_data['stats']['scavenge']['roundslost'].to_i
-      @scavenge_stats[:rounds_played]      = @xml_data['stats']['scavenge']['roundsplayed'].to_i
-      @scavenge_stats[:rounds_won]         = @xml_data['stats']['scavenge']['roundswon'].to_i
-      @scavenge_stats[:total_cans]         = @xml_data['stats']['scavenge']['totalcans'].to_i
+      @scavenge_stats[:avg_cans_per_round] = scavange_data['avgcansperround'].to_f
+      @scavenge_stats[:perfect_rounds]     = scavange_data['perfect16canrounds'].to_i
+      @scavenge_stats[:rounds_lost]        = scavange_data['roundslost'].to_i
+      @scavenge_stats[:rounds_played]      = scavange_data['roundsplayed'].to_i
+      @scavenge_stats[:rounds_won]         = scavange_data['roundswon'].to_i
+      @scavenge_stats[:total_cans]         = scavange_data['totalcans'].to_i
 
       @scavenge_stats[:maps] = {}
-      @xml_data['stats']['scavenge']['mapstats']['map'].each do |map_data|
-        map_id = map_data['name']
-        @scavenge_stats[:maps][map_id] = {}
-        @scavenge_stats[:maps][map_id]['avg_round_score']     = map_data['avgscoreperround'].to_i
-        @scavenge_stats[:maps][map_id]['highest_game_score']  = map_data['highgamescore'].to_i
-        @scavenge_stats[:maps][map_id]['highest_round_score'] = map_data['highroundscore'].to_i
-        @scavenge_stats[:maps][map_id]['name']                = map_data['fullname']
-        @scavenge_stats[:maps][map_id]['rounds_played']       = map_data['roundsplayed'].to_i
-        @scavenge_stats[:maps][map_id]['rounds_won']          = map_data['roundswon'].to_i
+      scavange_data['mapstats']['map'].each do |map_data|
+        map_stats = {}
+        map_stats['avg_round_score']     = map_data['avgscoreperround'].to_i
+        map_stats['highest_game_score']  = map_data['highgamescore'].to_i
+        map_stats['highest_round_score'] = map_data['highroundscore'].to_i
+        map_stats['name']                = map_data['fullname']
+        map_stats['rounds_played']       = map_data['roundsplayed'].to_i
+        map_stats['rounds_won']          = map_data['roundswon'].to_i
+        @scavenge_stats[:maps][map_data['name']] = map_stats
+
       end
 
       @scavenge_stats[:infected] = {}
-      @xml_data['stats']['scavenge']['infectedstats']['special'].each do |infected_data|
-        infected_id = infected_data['name']
-        @scavenge_stats[:infected][infected_id] = {}
-        @scavenge_stats[:infected][infected_id]['max_damage_per_life']   = infected_data['maxdmg1life'].to_i
-        @scavenge_stats[:infected][infected_id]['max_pours_interrupted'] = infected_data['maxpoursinterrupted'].to_i
-        @scavenge_stats[:infected][infected_id]['special_attacks']       = infected_data['specialattacks'].to_i
+      scavange_data['infectedstats']['special'].each do |infected_data|
+        infected_stats = {}
+        infected_stats['max_damage_per_life']   = infected_data['maxdmg1life'].to_i
+        infected_stats['max_pours_interrupted'] = infected_data['maxpoursinterrupted'].to_i
+        infected_stats['special_attacks']       = infected_data['specialattacks'].to_i
+        @scavenge_stats[:infected][infected_data['name']] = infected_stats
       end
     end
 

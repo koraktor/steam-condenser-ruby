@@ -100,7 +100,7 @@ class GameStats
   # @param [String] game_id The application ID or friendly name of the game
   # @raise [SteamCondenserError] if the stats cannot be fetched
   def initialize(user_id, game_id)
-    @xml_data = parse "#{self.class.base_url(user_id, game_id)}?xml=all"
+    parse "#{self.class.base_url(user_id, game_id)}?xml=all"
 
     @user = SteamId.new user_id, false
 

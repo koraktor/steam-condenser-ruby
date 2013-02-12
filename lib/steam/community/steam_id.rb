@@ -240,64 +240,55 @@ class SteamId
   #        when it is private
   # @see Cacheable#fetch
   def fetch
-    begin
-      profile = parse "#{base_url}?xml=1"
+    profile = parse "#{base_url}?xml=1"
 
-      raise SteamCondenserError, profile['error'] unless profile['error'].nil?
+    raise SteamCondenserError, profile['error'] unless profile['error'].nil?
 
-      unless profile['privacyMessage'].nil?
-        raise SteamCondenserError, profile['privacyMessage']
-      end
-
-      @nickname         = CGI.unescapeHTML profile['steamID']
-      @steam_id64       = profile['steamID64'].to_i
-      @limited          = (profile['isLimitedAccount'].to_i == 1)
-      @trade_ban_state  = profile['tradeBanState']
-      @vac_banned       = (profile['vacBanned'].to_i == 1)
-
-      @image_url        = profile['avatarIcon'][0..-5]
-      @online_state     = profile['onlineState']
-      @privacy_state    = profile['privacyState']
-      @state_message    = profile['stateMessage']
-      @visibility_state = profile['visibilityState'].to_i
-
-      if public?
-        @custom_url = profile['customURL'].downcase rescue ''
-        @custom_url = nil if @custom_url.empty?
-
-        @head_line    = CGI.unescapeHTML profile['headline'] || ''
-        @hours_played = profile['hoursPlayed2Wk'].to_f
-        @location     = profile['location']
-        @member_since = Time.parse profile['memberSince']
-        @real_name    = CGI.unescapeHTML profile['realname'] || ''
-        @steam_rating = profile['steamRating'].to_f
-        @summary      = CGI.unescapeHTML profile['summary'] || ''
-
-        @most_played_games = {}
-        unless profile['mostPlayedGames'].to_s.strip.empty?
-          [profile['mostPlayedGames']['mostPlayedGame']].flatten.each do |most_played_game|
-            @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
-          end
-        end
-
-        @groups = []
-        unless profile['groups'].to_s.strip.empty?
-          [profile['groups']['group']].flatten.each do |group|
-            @groups << SteamGroup.new(group['groupID64'].to_i, false)
-          end
-        end
-
-        @links = {}
-        unless profile['weblinks'].to_s.strip.empty?
-          [profile['weblinks']['weblink']].flatten.each do |link|
-            @links[CGI.unescapeHTML link['title']] = link['link']
-          end
-        end
-      end
-    rescue
-      raise $! if $!.is_a? SteamCondenserError
-      raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
+    unless profile['privacyMessage'].nil?
+      raise SteamCondenserError, profile['privacyMessage']
     end
+
+    @nickname         = CGI.unescapeHTML profile['steamID']
+    @steam_id64       = profile['steamID64'].to_i
+    @limited          = (profile['isLimitedAccount'].to_i == 1)
+    @trade_ban_state  = profile['tradeBanState']
+    @vac_banned       = (profile['vacBanned'].to_i == 1)
+
+    @image_url        = profile['avatarIcon'][0..-5]
+    @online_state     = profile['onlineState']
+    @privacy_state    = profile['privacyState']
+    @state_message    = profile['stateMessage']
+    @visibility_state = profile['visibilityState'].to_i
+
+    if public?
+      @custom_url = (profile['customURL'] || '').downcase
+      @custom_url = nil if @custom_url.empty?
+
+      @head_line    = CGI.unescapeHTML profile['headline'] || ''
+      @hours_played = profile['hoursPlayed2Wk'].to_f
+      @location     = profile['location']
+      @member_since = Time.parse profile['memberSince']
+      @real_name    = CGI.unescapeHTML profile['realname'] || ''
+      @steam_rating = profile['steamRating'].to_f
+      @summary      = CGI.unescapeHTML profile['summary'] || ''
+
+      @most_played_games = {}
+      [(profile['mostPlayedGames'] || {})['mostPlayedGame']].compact.flatten.each do |most_played_game|
+        @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
+      end
+
+      @groups = []
+      [(profile['groups'] || {})['group']].compact.flatten.each do |group|
+        @groups << SteamGroup.new(group['groupID64'].to_i, false)
+      end
+
+      @links = {}
+      [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
+        @links[CGI.unescapeHTML link['title']] = link['link']
+      end
+    end
+  rescue
+    raise SteamCondenserError, 'XML data could not be parsed.'
   end
 
   # Fetches the friends of this user
@@ -331,17 +322,18 @@ class SteamId
   # @see #games
   def fetch_games
     games_data = parse "#{base_url}/games?xml=1"
-    @games     = {}
-    @playtimes = {}
+    @games            = {}
+    @recent_playtimes = {}
+    @total_playtimes  = {}
     games_data['games']['game'].each do |game_data|
       app_id = game_data['appID'].to_i
-      game = SteamGame.new app_id, game_data
-      @games[app_id] = game
+      @games[app_id] = SteamGame.new app_id, game_data
 
       recent = game_data['hoursLast2Weeks'].to_f
       total = (game_data['hoursOnRecord'] || '').delete(',').to_f
 
-      @playtimes[app_id] = [(recent * 60).to_i, (total * 60).to_i]
+      @recent_playtimes[app_id] = (recent * 60).to_i
+      @total_playtimes[app_id]  = (total * 60).to_i
     end
 
     @games
@@ -409,7 +401,7 @@ class SteamId
   #
   # @return [Fixnum, String] The 64bit numeric SteamID or the custom URL
   def id
-    @custom_url.nil? ? @steam_id64 : @custom_url
+    @custom_url || @steam_id64
   end
 
   # Returns whether the owner of this SteamId is playing a game
@@ -456,7 +448,7 @@ class SteamId
   #         the last two weeks
   def recent_playtime(id)
     game = find_game id
-    @playtimes[game.app_id][0]
+    @recent_playtimes[game.app_id]
   end
 
   # Returns the total time in minutes this user has played this game
@@ -467,7 +459,7 @@ class SteamId
   #         game
   def total_playtime(id)
     game = find_game id
-    @playtimes[game.app_id][1]
+    @total_playtimes[game.app_id]
   end
 
   private

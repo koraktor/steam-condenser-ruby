@@ -112,19 +112,17 @@ class SteamGroup
   def fetch_page(page)
     member_data = parse "#{base_url}/memberslistxml?p=#{page}"
 
-    begin
-      @group_id64   = member_data['groupID64'].to_i if page == 1
-      @member_count = member_data['memberCount'].to_i
-      total_pages   = member_data['totalPages'].to_i
+    @group_id64   = member_data['groupID64'].to_i if page == 1
+    @member_count = member_data['memberCount'].to_i
+    total_pages   = member_data['totalPages'].to_i
 
-      member_data['members']['steamID64'].each do |member|
-        @members << SteamId.new(member.to_i, false)
-      end
-    rescue
-      raise SteamCondenserError, 'XML data could not be parsed.', $!.backtrace
+    member_data['members']['steamID64'].each do |member|
+      @members << SteamId.new(member.to_i, false)
     end
 
     total_pages
+  rescue
+    raise SteamCondenserError, 'XML data could not be parsed.'
   end
 
 end

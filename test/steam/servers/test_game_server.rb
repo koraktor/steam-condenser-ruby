@@ -229,7 +229,7 @@ class TestGameServer < Test::Unit::TestCase
 
       packet = mock
       packet.expects(:kind_of?).with(S2A_INFO_BasePacket).twice.returns true
-      packet.expects(:info_hash).returns({ :test => 'test' })
+      packet.expects(:info).returns({ :test => 'test' })
       @server.expects(:reply).returns packet
 
       @server.handle_response_for_request :info
@@ -278,7 +278,7 @@ class TestGameServer < Test::Unit::TestCase
       packet1 = mock
       packet1.expects(:kind_of?).with(S2A_INFO_BasePacket).returns true
       packet1.expects(:kind_of?).with(S2A_PLAYER_Packet).returns false
-      packet1.expects(:info_hash).returns({ :test => 'test1' })
+      packet1.expects(:info).returns({ :test => 'test1' })
       packet2 = mock
       packet2.expects(:kind_of?).with(S2A_INFO_BasePacket).returns false
       packet2.expects(:kind_of?).with(S2A_PLAYER_Packet).twice.returns true
