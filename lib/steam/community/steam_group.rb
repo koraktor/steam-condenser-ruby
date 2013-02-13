@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
@@ -122,6 +122,7 @@ class SteamGroup
 
     total_pages
   rescue
+    raise $! if $!.is_a? SteamCondenserError
     raise SteamCondenserError, 'XML data could not be parsed.'
   end
 
