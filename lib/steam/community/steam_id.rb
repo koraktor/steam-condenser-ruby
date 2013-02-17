@@ -205,7 +205,7 @@ class SteamId
       @steam_id64 = id
     else
       if id =~ /^STEAM_[0-1]:[0-1]:[0-9]+$/ || id =~ /\[U:[0-1]:[0-9]+\]/
-        @steam_id64 = self.steam_id_to_community_id id
+        @steam_id64 = SteamId.steam_id_to_community_id id
       else
         @custom_url = id.downcase
       end
