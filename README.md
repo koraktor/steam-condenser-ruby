@@ -55,6 +55,7 @@ included LICENSE file.
 * Sam Kinard – snkinard(at)gmail.com
 * "withgod" – noname(at)withgod.jp
 * John Amicangelo - amicangelo.j(at)husky.neu.edu
+* Eric Litak – elitak(at)gmail.com
 
 ## See Also
 
