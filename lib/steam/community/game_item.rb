@@ -97,12 +97,15 @@ module GameItem
     @item_set          = inventory.item_schema.item_sets[schema_data[:item_set]]
     @level             = item_data[:level]
     @name              = schema_data[:item_name]
-    @origin            = inventory.item_schema.origins[item_data[:origin]]
     @original_id       = item_data[:original_id]
     @preliminary       = item_data[:inventory] & 0x40000000 != 0
     @quality           = inventory.item_schema.qualities[item_data[:quality]]
     @tradeable         = !!item_data[:flag_cannot_trade]
     @type              = schema_data[:item_type_name]
+
+    if item_data.key? :origin
+      @origin = inventory.item_schema.origins[item_data[:origin]]
+    end
 
     attributes_data = schema_data[:attributes] || []
     attributes_data += item_data[:attributes] if item_data.key? :attributes
