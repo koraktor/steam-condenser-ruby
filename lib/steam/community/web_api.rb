@@ -117,7 +117,7 @@ module WebApi
     end
 
     begin
-      puts "Querying Steam Web API: #{url}" if $DEBUG
+      puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
       open(url, { :proxy => true }).read
     rescue OpenURI::HTTPError
       status = $!.io.status[0]
