@@ -125,14 +125,14 @@ class TestSteamId < Test::Unit::TestCase
     end
 
     should 'not cache an empty hash when an error is encountered on steam' do
-      SteamId.any_instance.expects(:parse).raises(OpenURI::HTTPError.new('', nil))
-      steam_id = SteamId.new(76561197983311154, false)
+      WebApi.expects(:json).raises WebApiError.new('tesst')
+      steam_id = SteamId.new 76561197983311154, false
 
-      assert_raises OpenURI::HTTPError do
+      assert_raises WebApiError do
         steam_id.games
       end
 
-      assert_equal(nil, steam_id.instance_variable_get("@games"))
+      assert_equal nil, steam_id.instance_variable_get(:@games)
     end
 
     teardown do

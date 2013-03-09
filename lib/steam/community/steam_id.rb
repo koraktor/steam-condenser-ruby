@@ -322,19 +322,22 @@ class SteamId
   # @return [Hash<Fixnum, SteamGame>] The games this user owns
   # @see #games
   def fetch_games
-    games_data = parse "#{base_url}/games?xml=1"
+    params = {
+      :include_appinfo           => 1,
+      :include_played_free_games => 1,
+      :steamId                   => @steam_id64
+    }
+    games_data = WebApi.json 'IPlayerService', 'GetOwnedGames', 1, params
+    games_data = MultiJson.load games_data, :symbolize_keys => true
     @games            = {}
     @recent_playtimes = {}
     @total_playtimes  = {}
-    games_data['games']['game'].each do |game_data|
-      app_id = game_data['appID'].to_i
+    games_data[:response][:games].each do |game_data|
+      app_id = game_data[:appid]
       @games[app_id] = SteamGame.new app_id, game_data
 
-      recent = game_data['hoursLast2Weeks'].to_f
-      total = (game_data['hoursOnRecord'] || '').delete(',').to_f
-
-      @recent_playtimes[app_id] = (recent * 60).to_i
-      @total_playtimes[app_id]  = (total * 60).to_i
+      @recent_playtimes[app_id] = game_data[:playtime_2weeks] || 0
+      @total_playtimes[app_id]  = game_data[:playtime_forever] || 0
     end
 
     @games
