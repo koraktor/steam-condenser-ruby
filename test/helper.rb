@@ -1,11 +1,14 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
-
-require 'test/unit'
+# Copyright (c) 2011-2013, Sebastian Staudt
 
 require 'rubygems'
+
+require 'coveralls'
+Coveralls.wear!
+
+require 'test/unit'
 
 require 'mocha/setup'
 require 'shoulda-context'

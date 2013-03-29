@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = [ 'Sebastian Staudt' ]
   s.email       = [ 'koraktor@gmail.com' ]
   s.homepage    = 'http://koraktor.de/steam-condenser'
+  s.license     = 'BSD'
   s.summary     = 'Steam Condenser - A Steam query library'
   s.description = 'A multi-language library for querying the Steam Community, Source, GoldSrc servers and Steam master servers'
 
