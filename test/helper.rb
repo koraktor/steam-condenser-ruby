@@ -3,12 +3,12 @@
 #
 # Copyright (c) 2011-2013, Sebastian Staudt
 
+require 'rubygems'
+
 require 'coveralls'
 Coveralls.wear!
 
 require 'test/unit'
-
-require 'rubygems'
 
 require 'mocha/setup'
 require 'shoulda-context'
