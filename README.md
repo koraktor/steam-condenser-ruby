@@ -60,6 +60,7 @@ included LICENSE file.
 * "withgod" – noname(at)withgod.jp
 * John Amicangelo - amicangelo.j(at)husky.neu.edu
 * Eric Litak – elitak(at)gmail.com
+* Rodrigo Navarro – rnavarro1(at)gmail.com
 
 ## See Also
 
