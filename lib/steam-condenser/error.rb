@@ -16,7 +16,7 @@ class SteamCondenser::Error < StandardError
   # @return [Exception] The exception that caused this error
   attr_reader :cause
 
-  # Creates a new `SteamCondenserError` instance
+  # Creates a new `Error` instance
   #
   # @param [String] message The message to attach to the error
   # @param [Exception] cause The exception that caused this error

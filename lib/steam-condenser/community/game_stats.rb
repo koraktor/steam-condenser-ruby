@@ -108,7 +108,7 @@ module SteamCondenser::Community
       @user = SteamId.new user_id, false
 
       error = @xml_data['error']
-      raise Error, error unless error.nil?
+      raise SteamCondenser::Error, error unless error.nil?
 
       @privacy_state = @xml_data['privacyState']
       if public?

@@ -112,7 +112,7 @@ module SteamCondenser::Community
     def initialize(app_id, steam_id64)
       unless steam_id64.is_a? Fixnum
         steam_id64 = SteamId.resolve_vanity_url steam_id64.to_s
-        raise SteamCondenserError.new 'User not found' if steam_id64.nil?
+        raise SteamCondenser::Error.new 'User not found' if steam_id64.nil?
       end
 
       @app_id     = app_id

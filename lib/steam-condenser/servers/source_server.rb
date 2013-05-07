@@ -83,7 +83,7 @@ module SteamCondenser
           reply = @rcon_socket.reply
           @rcon_authenticated = reply.request_id == @rcon_request_id
         rescue Errno::ECONNRESET
-          raise RCONBanError
+          raise Error::RCONBan
         end
       end
 

@@ -18,12 +18,12 @@ module SteamCondenser::Community
     #
     # @param [String] url The URL to parse
     # @return [Hash<String, Object>] The data parsed from the XML document
-    # @raise [SteamCondenserError] if an error occurs while parsing the XML data
+    # @raise [Error] if an error occurs while parsing the XML data
     def parse(url)
       data = open(url, { :proxy => true })
       @xml_data = MultiXml.parse(data).values.first
     rescue
-      raise SteamCondenserError.new "XML data could not be parsed: #{$!.message}", $!
+      raise SteamCondenser::Error.new "XML data could not be parsed: #{$!.message}", $!
     end
 
   end

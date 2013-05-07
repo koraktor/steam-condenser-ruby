@@ -18,7 +18,7 @@ module SteamCondenser::Servers::Sockets
     # Reads a single packet from the socket
     #
     # @raise [Error::PacketFormat] if the packet has the wrong format
-    # @return [SteamPacket] The packet replied from the server
+    # @return [BasePacket] The packet replied from the server
     def reply
       receive_packet 1500
 

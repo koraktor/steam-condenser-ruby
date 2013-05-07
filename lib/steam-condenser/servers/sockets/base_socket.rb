@@ -58,7 +58,7 @@ module SteamCondenser::Servers
       # @see StringIO
       def receive_packet(buffer_length = 0)
         if select([@socket], nil, nil, @@timeout / 1000.0).nil?
-          raise Error::Timeout
+          raise SteamCondenser::Error::Timeout
         end
 
         if buffer_length == 0
@@ -85,8 +85,9 @@ module SteamCondenser::Servers
       # This converts the packet into a byte stream first before writing it to
       # the socket.
       #
-      # @param [SteamPacket] data_packet The packet to send to the server
-      # @see SteamPacket#to_s
+      # @param [Packets::BasePacket] data_packet The packet to send to the
+      #        server
+      # @see Packets::BasePacket#to_s
       def send(data_packet)
         puts "Sending data packet of type \"#{data_packet.class.to_s}\"." if $DEBUG
 

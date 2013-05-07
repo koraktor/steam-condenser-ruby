@@ -31,7 +31,7 @@ module SteamCondenser::Community
     #
     # @param [String] api_key The 128bit API key as a hexadecimal string that
     #        has to be requested from http://steamcommunity.com/dev
-    # @raise [WebApiError] if the given API key is not a valid 128bit
+    # @raise [Error::WebApi] if the given API key is not a valid 128bit
     #        hexadecimal string
     def self.api_key=(api_key)
       unless api_key.nil? || api_key.match(/^[0-9A-F]{32}$/)
@@ -63,7 +63,7 @@ module SteamCondenser::Community
     # @param [Fixnum] version The API method version to use
     # @param [Hash<Symbol, Object>] params Additional parameters to supply via
     #        HTTP GET
-    # @raise [WebApiError] if the request to Steam's Web API fails
+    # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Object>] The JSON data replied to the request
     def self.json(interface, method, version = 1, params = {})
       data = get :json, interface, method, version, params
@@ -81,7 +81,7 @@ module SteamCondenser::Community
     # @param [Fixnum] version The API method version to use
     # @param [Hash<Symbol, Object>] params Additional parameters to supply via
     #        HTTP GET
-    # @raise [WebApiError] if the request to Steam's Web API fails
+    # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [Hash<Symbol, Object>] The JSON data replied to the request
     def self.json!(interface, method, version = 1, params = {})
       result = json(interface, method, version, params)[:result]
@@ -107,7 +107,7 @@ module SteamCondenser::Community
     # @param [Fixnum] version The API method version to use
     # @param [Hash<Symbol, Object>] params Additional parameters to supply via
     #        HTTP GET
-    # @raise [WebApiError] if the request to Steam's Web API fails
+    # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [String] The data as replied by the Web API in the desired format
     def self.get(format, interface, method, version = 1, params = {})
       version = version.to_s.rjust(4, '0')

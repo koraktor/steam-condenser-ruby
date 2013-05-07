@@ -18,7 +18,7 @@ module SteamCondenser::Community
     #
     # @param [Dota2Inventory] inventory The inventory this item is contained in
     # @param [Hash<Symbol, Object>] item_data The data specifying this item
-    # @raise [WebApiError] on Web API errors
+    # @raise [Error::WebApi] on Web API errors
     def initialize(inventory, item_data)
       super
 

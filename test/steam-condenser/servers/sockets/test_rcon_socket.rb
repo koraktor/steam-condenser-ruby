@@ -103,7 +103,7 @@ class TestRCONSocket < Test::Unit::TestCase
       end
     end
 
-    should 'raise an RCONBanError if the connection has been dropped' do
+    should 'raise an Error::RCONNBan if the connection has been dropped' do
       @socket.expects(:receive_packet).with(4).returns 0
       @tcp_socket.expects :close
 

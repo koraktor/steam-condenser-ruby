@@ -219,7 +219,7 @@ module SteamCondenser
             request_packet = Packets::A2S_RULES_Packet.new(@challenge_number)
             expected_response = Packets::S2A_RULES_Packet
           else
-            raise Error, 'Called with wrong request type.'
+            raise SteamCondenser::Error, 'Called with wrong request type.'
         end
 
         send_request request_packet
@@ -234,7 +234,7 @@ module SteamCondenser
         elsif response_packet.kind_of? Packets::S2C_CHALLENGE_Packet
           @challenge_number = response_packet.challenge_number
         else
-          raise Error, "Response of type #{response_packet.class} cannot be handled by this method."
+          raise SteamCondenser::Error, "Response of type #{response_packet.class} cannot be handled by this method."
         end
 
         unless response_packet.kind_of? expected_response
@@ -382,14 +382,15 @@ module SteamCondenser
 
       # Receives a response from the server
       #
-      # @return [SteamPacket] The response packet replied by the server
+      # @return [Packets::BasePacket] The response packet replied by the server
       def reply
         @socket.reply
       end
 
       # Sends a request packet to the server
       #
-      # @param [SteamPacket] packet The request packet to send to the server
+      # @param [Packets::BasePacket] packet The request packet to send to the
+      #        server
       def send_request(packet)
         @socket.send packet
       end

@@ -24,7 +24,7 @@ module SteamCondenser::Servers::Sockets
     # reassembles split packets into single packet objects. Additionally Source
     # may compress big packets using bzip2. Those packets will be compressed.
     #
-    # @return [SteamPacket] The packet replied from the server
+    # @return [BasePacket] The packet replied from the server
     def reply
       receive_packet 1400
       is_compressed = false
@@ -55,9 +55,9 @@ module SteamCondenser::Servers::Sockets
           end
         end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 
-        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.reassemble_packet(split_packets, is_compressed, packet_checksum)
+        packet = Servers::Packets::SteamPacketFactory.reassemble_packet(split_packets, is_compressed, packet_checksum)
       else
-        packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
+        packet = Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
       if is_compressed

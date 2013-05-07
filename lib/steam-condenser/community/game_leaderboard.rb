@@ -95,7 +95,7 @@ module SteamCondenser::Community
       parse "#@url&steamid=#{steam_id}"
 
       error = @xml_data['error']
-      raise Error, error unless error.nil?
+      raise SteamCondenser::Error, error unless error.nil?
 
       @xml_data['entries']['entry'].each do |entry_data|
         if entry_data['steamid'].to_i == steam_id
@@ -121,7 +121,7 @@ module SteamCondenser::Community
       parse "#@url&steamid=#{steam_id}"
 
       error = @xml_data['error']
-      raise Error, error unless error.nil?
+      raise SteamCondenser::Error, error unless error.nil?
 
       parse_entries
     end
@@ -139,19 +139,19 @@ module SteamCondenser::Community
     #         leaderboard
     def entry_range(first, last)
       if last < first
-        raise Error,
+        raise SteamCondenser::Error,
           'First entry must be prior to last entry for leaderboard entry lookup.'
       end
 
       if (last - first) > 5000
-        raise Error,
+        raise SteamCondenser::Error,
           'Leaderboard entry lookup is currently limited to a maximum of 5001 entries per request.'
       end
 
       parse "#@url&start=#{first}&end=#{last}"
 
       error = @xml_data['error']
-      raise Error, error unless error.nil?
+      raise SteamCondenser::Error, error unless error.nil?
 
       entries = []
       @xml_data['entries']['entry'].each do |entry_data|
@@ -199,11 +199,11 @@ module SteamCondenser::Community
         url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
         boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
       rescue
-        raise SteamCondenserError.new 'XML data could not be parsed.', $!
+        raise SteamCondenser::Error.new 'XML data could not be parsed.', $!
       end
 
       error = boards_data['error']
-      raise Error, error unless error.nil?
+      raise SteamCondenser::Error, error unless error.nil?
 
       @@leaderboards[game_name] = []
       boards_data['leaderboard'].each do |board_data|

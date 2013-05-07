@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'core_ext/stringio'
 require 'steam-condenser/servers/packets/rcon/rcon_goldsrc_request'
@@ -42,7 +42,7 @@ module SteamCondenser::Servers::Sockets
     # Bigger packets will be split over several UDP packets. This method
     # reassembles split packets into single packet objects.
     #
-    # @return [SteamPacket] The packet replied from the server
+    # @return [BasePacket] The packet replied from the server
     def reply
       receive_packet 1400
 
@@ -61,7 +61,7 @@ module SteamCondenser::Servers::Sockets
           if split_packets.size < packet_count
             begin
               bytes_read = receive_packet
-            rescue Error::Timeout
+            rescue SteamCondenser::Error::Timeout
               bytes_read = 0
             end
           else

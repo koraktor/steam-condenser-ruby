@@ -61,7 +61,8 @@ module SteamCondenser::Servers::Sockets
 
     # Sends the given RCON packet to the server
     #
-    # @param [RCONPacket] data_packet The RCON packet to send to the server
+    # @param [Packets::RCON::BasePacket] data_packet The RCON packet to send to
+    #        the server
     # @see #connect
     def send(data_packet)
       connect if @socket.nil? || @socket.closed?
@@ -77,13 +78,13 @@ module SteamCondenser::Servers::Sockets
     #
     # @raise [Error::RCONBan] if the IP of the local machine has been banned on
     #        the game server
-    # @raise [RCONNoAuthException] if an authenticated connection has been
+    # @raise [Error::RCONNoAuth] if an authenticated connection has been
     #        dropped by the server
-    # @return [RCONPacket] The packet replied from the server
+    # @return [Packets::RCON::BasePacket] The packet replied from the server
     def reply
       if receive_packet(4) == 0
         @socket.close
-        raise Error::RCONBan
+        raise SteamCondenser::Error::RCONBan
       end
 
       remaining_bytes = @buffer.long

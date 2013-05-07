@@ -139,7 +139,7 @@ module SteamCondenser::Community
       steam_id2 = community_id - 76561197960265728
 
       unless steam_id2 > 0
-        raise Error, "SteamID #{community_id} is too small."
+        raise SteamCondenser::Error, "SteamID #{community_id} is too small."
       end
 
       steam_id2 = (steam_id2 - steam_id1) / 2
@@ -171,7 +171,7 @@ module SteamCondenser::Community
     # @return [Fixnum] The converted 64bit numeric SteamID
     def self.steam_id_to_community_id(steam_id)
       if steam_id == 'STEAM_ID_LAN' || steam_id == 'BOT'
-        raise Error, "Cannot convert SteamID \"#{steam_id}\" to a community ID."
+        raise SteamCondenser::Error, "Cannot convert SteamID \"#{steam_id}\" to a community ID."
       elsif steam_id =~ /^STEAM_[0-1]:([0-1]:[0-9]+)$/
         steam_id = $1.split(':').map! { |s| s.to_i }
         steam_id[0] + steam_id[1] * 2 + 76561197960265728
@@ -179,7 +179,7 @@ module SteamCondenser::Community
         steam_id = $1.split(':').map { |s| s.to_i }
         steam_id[0] + steam_id[1] + 76561197960265727
       else
-        raise Error, "SteamID \"#{steam_id}\" doesn't have the correct format."
+        raise SteamCondenser::Error, "SteamID \"#{steam_id}\" doesn't have the correct format."
       end
     end
 
@@ -245,10 +245,10 @@ module SteamCondenser::Community
     def fetch
       profile = parse "#{base_url}?xml=1"
 
-      raise Error, profile['error'] unless profile['error'].nil?
+      raise SteamCondenser::Error, profile['error'] unless profile['error'].nil?
 
       unless profile['privacyMessage'].nil?
-        raise Error, profile['privacyMessage']
+        raise SteamCondenser::Error, profile['privacyMessage']
       end
 
       @nickname         = CGI.unescapeHTML profile['steamID']
@@ -489,7 +489,7 @@ module SteamCondenser::Community
         else
           message = "This SteamID does not own the game \"#{id}\"."
         end
-        raise Error, message
+        raise SteamCondenser::Error, message
       end
 
       game

@@ -18,7 +18,7 @@ module SteamCondenser::Servers::Packets::RCON
   # communication with Source servers.
   #
   # @author Sebastian Staudt
-  # @see RCONPacket
+  # @see BasePacket
   module RCONPacketFactory
 
     # Creates a new packet object based on the header byte of the given raw
@@ -26,7 +26,7 @@ module SteamCondenser::Servers::Packets::RCON
     #
     # @param [String] raw_data The raw data of the packet
     # @raise [Error::PacketFormat] if the packet header is not recognized
-    # @return [RCONPacket] The packet object generated from the packet data
+    # @return [BasePacket] The packet object generated from the packet data
     def self.packet_from_data(raw_data)
       byte_buffer = StringIO.new raw_data
 
@@ -35,9 +35,9 @@ module SteamCondenser::Servers::Packets::RCON
       data = byte_buffer.cstring
 
       case header
-        when RCONPacket::SERVERDATA_AUTH_RESPONSE then
+        when BasePacket::SERVERDATA_AUTH_RESPONSE then
           return RCONAuthResponse.new(request_id)
-        when RCONPacket::SERVERDATA_RESPONSE_VALUE then
+        when BasePacket::SERVERDATA_RESPONSE_VALUE then
           return RCONExecResponse.new(request_id, data)
         else
           raise SteamCondenser::Error::PacketFormat, "Unknown packet with header #{header.to_s(16)} received."

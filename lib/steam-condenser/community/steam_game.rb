@@ -45,7 +45,7 @@ module SteamCondenser::Community
         app_id = steam_inf.match(/^\s*appID=(\d+)\s*$/im)[1].to_i
         version = steam_inf.match(/^\s*PatchVersion=([\d\.]+)\s*$/im)[1].gsub('.', '').to_i
       rescue
-        raise Error, "The steam.inf file at \"#{path}\" is invalid."
+        raise SteamCondenser::Error, "The steam.inf file at \"#{path}\" is invalid."
       end
     end
 
@@ -73,7 +73,7 @@ module SteamCondenser::Community
       params = { :appid => app_id, :version => version }
       result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
       result = MultiJson.load(result, { :symbolize_keys => true})[:response]
-      raise Error, result[:error] unless result[:success]
+      raise SteamCondenser::Error, result[:error] unless result[:success]
       result[:up_to_date]
     end
 
