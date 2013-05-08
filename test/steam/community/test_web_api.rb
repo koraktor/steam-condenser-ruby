@@ -31,27 +31,25 @@ class TestWebApi < Test::Unit::TestCase
       assert_equal 'This is not a valid Steam Web API key.', error.message
     end
 
-    should 'provide easy access to JSON data' do
-      WebApi.expects(:get).with :json, 'interface', 'method', 2, { :test => 'param' }
-
-      WebApi.json 'interface', 'method', 2, { :test => 'param' }
-    end
-
     should 'provide easy access to parsed JSON data' do
       data = mock
-      WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
+      WebApi.expects(:get).with(:json, 'interface', 'method', 2, { :test => 'param' }).
         returns data
       MultiJson.expects(:load).with(data, { :symbolize_keys => true }).
+        returns({ :result => { :status => 1 }})
+
+      assert_equal({ :result => { :status => 1 }}, WebApi.json('interface', 'method', 2, { :test => 'param' }))
+    end
+
+    should 'provide easy access to parsed and checked JSON data' do
+      WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
         returns({ :result => { :status => 1 }})
 
       assert_equal({ :status => 1 }, WebApi.json!('interface', 'method', 2, { :test => 'param' }))
     end
 
-    should 'raise an error if the parsed JSON data is an error message' do
-      data = mock
+    should 'raise an error if the checked JSON data is an error message' do
       WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
-        returns data
-      MultiJson.expects(:load).with(data, { :symbolize_keys => true }).
         returns({ :result => { :status => 2, :statusDetail => 'error' } })
 
       error = assert_raises WebApiError do
