@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2012, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 require 'multi_json'
 require 'open-uri'
@@ -47,13 +47,12 @@ module WebApi
   #
   # @return [Array<Hash>] The list of interfaces and methods
   def self.interfaces
-    data = json 'ISteamWebAPIUtil', 'GetSupportedAPIList'
-    MultiJson.load(data, { :symbolize_keys => true })[:apilist][:interfaces]
+    json('ISteamWebAPIUtil', 'GetSupportedAPIList')[:apilist][:interfaces]
   end
 
   # Fetches JSON data from Steam Web API using the specified interface, method
   # and version. Additional parameters are supplied via HTTP GET.
-  # Data is returned as a JSON-encoded string.
+  # Data is returned as a Hash containing the JSON data.
   #
   # @param [String] interface The Web API interface to call, e.g. `ISteamUser`
   # @param [String] method The Web API method to call, e.g.
@@ -62,9 +61,10 @@ module WebApi
   # @param [Hash<Symbol, Object>] params Additional parameters to supply via
   #        HTTP GET
   # @raise [WebApiError] if the request to Steam's Web API fails
-  # @return [String] The raw JSON data replied to the request
+  # @return [Hash<Symbol, Object>] The JSON data replied to the request
   def self.json(interface, method, version = 1, params = nil)
-    get(:json, interface, method, version, params)
+    data = get(:json, interface, method, version, params)
+    MultiJson.load(data, { :symbolize_keys => true })
   end
 
   # Fetches JSON data from Steam Web API using the specified interface, method
@@ -80,8 +80,7 @@ module WebApi
   # @raise [WebApiError] if the request to Steam's Web API fails
   # @return [Hash<Symbol, Object>] The JSON data replied to the request
   def self.json!(interface, method, version = 1, params = nil)
-    data = json(interface, method, version, params)
-    result = MultiJson.load(data, { :symbolize_keys => true })[:result]
+    result = json(interface, method, version, params)[:result]
 
     status = result[:status]
     if status != 1
