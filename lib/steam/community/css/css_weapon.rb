@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 # Represents the stats for a Counter-Strike: Source weapon for a specific user
 #
@@ -34,14 +34,14 @@ class CSSWeapon
   # @param [String] weapon_name The name of the weapon
   # @param [Hash<String, Object>] weapons_data The XML data of all weapons
   def initialize(weapon_name, weapons_data)
-    @name     = weapon_name
+    @name = weapon_name
 
     @favorite = (weapons_data['favorite'] == @name)
     @kills    = weapons_data["#{@name}_kills"].to_i
 
     if @name != 'grenade' && @name != 'knife'
-      @hits     = weapons_data["#{@name}_hits"].to_i
-      @shots    = weapons_data["#{@name}_shots"].to_i
+      @hits  = weapons_data["#{@name}_hits"].to_i
+      @shots = weapons_data["#{@name}_shots"].to_i
     end
   end
 
