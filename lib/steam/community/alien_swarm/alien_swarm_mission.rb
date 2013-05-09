@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 # This class holds statistical information about missions played by a player in
 # Alien Swarm
@@ -106,14 +106,15 @@ class AlienSwarmMission
     @total_games            = mission_data['gamestotal'].to_i
     @total_games_percentage = mission_data['gamestotalpct'].to_f
 
-    @time = {}
-    @time[:average] = mission_data['avgtime']
-    @time[:brutal]  = mission_data['brutaltime']
-    @time[:easy]    = mission_data['easytime']
-    @time[:hard]    = mission_data['hardtime']
-    @time[:insane]  = mission_data['insanetime']
-    @time[:normal]  = mission_data['normaltime']
-    @time[:total]   = mission_data['totaltime']
+    @time = {
+      :average => mission_data['avgtime'],
+      :brutal  => mission_data['brutaltime'],
+      :easy    => mission_data['easytime'],
+      :hard    => mission_data['hardtime'],
+      :insane  => mission_data['insanetime'],
+      :normal  => mission_data['normaltime'],
+      :total   => mission_data['totaltime']
+    }
   end
 
 end

@@ -16,14 +16,14 @@ class GameLeaderboard
 
   include XMLData
 
-  LEADERBOARD_DISPLAY_TYPE_NONE         = 0
-  LEADERBOARD_DISPLAY_TYPE_NUMERIC      = 1
-  LEADERBOARD_DISPLAY_TYPE_SECONDS      = 2
-  LEADERBOARD_DISPLAY_TYPE_MILLISECONDS = 3
+  DISPLAY_TYPE_NONE         = 0
+  DISPLAY_TYPE_NUMERIC      = 1
+  DISPLAY_TYPE_SECONDS      = 2
+  DISPLAY_TYPE_MILLISECONDS = 3
 
-  LEADERBOARD_SORT_METHOD_NONE = 0
-  LEADERBOARD_SORT_METHOD_ASC  = 1
-  LEADERBOARD_SORT_METHOD_DESC = 2
+  SORT_METHOD_NONE = 0
+  SORT_METHOD_ASC  = 1
+  SORT_METHOD_DESC = 2
 
   @@leaderboards = {}
 
@@ -120,13 +120,7 @@ class GameLeaderboard
     error = @xml_data['error']
     raise SteamCondenserError, error unless error.nil?
 
-    entries = []
-    @xml_data['entries']['entry'].each do |entry_data|
-      rank = entry_data['rank'].to_i
-      entries[rank] = GameLeaderboardEntry.new entry_data, self
-    end
-
-    entries
+    parse_entries
   end
 
   # Returns the entries on this leaderboard for a given rank range
@@ -162,7 +156,7 @@ class GameLeaderboard
       entries[rank] = GameLeaderboardEntry.new entry_data, self
     end
 
-    entries
+    parse_entries
   end
 
   private
@@ -177,6 +171,19 @@ class GameLeaderboard
     @entry_count  = board_data['entries'].to_i
     @sort_method  = board_data['sortmethod'].to_i
     @display_type = board_data['displaytype'].to_i
+  end
+
+  # Parses all entries available in the XML data
+  #
+  # @return [Array<GameLeaderboardEntry>] All available entries
+  def parse_entries
+    entries = []
+    @xml_data['entries']['entry'].each do |entry_data|
+      entries[entry_data['rank'].to_i] =
+        GameLeaderboardEntry.new entry_data, self
+    end
+
+    entries
   end
 
   # Loads the leaderboards of the specified games into the cache

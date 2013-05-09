@@ -31,13 +31,12 @@ module AbstractL4DStats
     if public?
       most_recent_game_data = @xml_data['stats']['mostrecentgame']
 
-      @most_recent_game = {}
-      unless most_recent_game_data.nil?
-        @most_recent_game[:difficulty]  = most_recent_game_data['difficulty']
-        @most_recent_game[:escaped]     = (most_recent_game_data['bEscaped'] == 1)
-        @most_recent_game[:movie]       = most_recent_game_data['movie']
-        @most_recent_game[:time_played] = most_recent_game_data['time']
-      end
+      @most_recent_game = most_recent_game_data.nil? ? {} : {
+        :difficulty  => most_recent_game_data['difficulty'],
+        :escaped     => (most_recent_game_data['bEscaped'] == 1),
+        :movie       => most_recent_game_data['movie'],
+        :time_played => most_recent_game_data['time']
+      }
     end
   end
 
@@ -52,15 +51,16 @@ module AbstractL4DStats
     if @favorites.nil?
       favorites_data = @xml_data['stats']['favorites']
 
-      @favorites = {}
-      @favorites[:campaign]                 = favorites_data['campaign']
-      @favorites[:campaign_percentage]      = favorites_data['campaignpct'].to_i
-      @favorites[:character]                = favorites_data['character']
-      @favorites[:character_percentage]     = favorites_data['characterpct'].to_i
-      @favorites[:level1_weapon]            = favorites_data['weapon1']
-      @favorites[:level1_weapon_percentage] = favorites_data['weapon1pct'].to_i
-      @favorites[:level2_weapon]            = favorites_data['weapon2']
-      @favorites[:level2_weapon_percentage] = favorites_data['weapon2pct'].to_i
+      @favorites = {
+        :campaign                 => favorites_data['campaign'],
+        :campaign_percentage      => favorites_data['campaignpct'].to_i,
+        :character                => favorites_data['character'],
+        :character_percentage     => favorites_data['characterpct'].to_i,
+        :level1_weapon            => favorites_data['weapon1'],
+        :level1_weapon_percentage => favorites_data['weapon1pct'].to_i,
+        :level2_weapon            => favorites_data['weapon2'],
+        :level2_weapon_percentage => favorites_data['weapon2pct'].to_i
+      }
     end
 
     @favorites
@@ -78,18 +78,18 @@ module AbstractL4DStats
     if @lifetime_stats.nil?
       lifetime_data = @xml_data['stats']['lifetime']
 
-      @lifetime_stats = {}
-      @lifetime_stats[:finales_survived] = lifetime_data['finales'].to_i
-      @lifetime_stats[:games_played]     = lifetime_data['gamesplayed'].to_i
-      @lifetime_stats[:infected_killed]  = lifetime_data['infectedkilled'].to_i
-      @lifetime_stats[:kills_per_hour]   = lifetime_data['killsperhour'].to_f
-      @lifetime_stats[:avg_kits_shared]  = lifetime_data['kitsshared'].to_f
-      @lifetime_stats[:avg_kits_used]    = lifetime_data['kitsused'].to_f
-      @lifetime_stats[:avg_pills_shared] = lifetime_data['pillsshared'].to_f
-      @lifetime_stats[:avg_pills_used]   = lifetime_data['pillsused'].to_f
-      @lifetime_stats[:time_played]      = lifetime_data['timeplayed']
-
-      @lifetime_stats[:finales_survived_percentage] = @lifetime_stats[:finales_survived].to_f / @lifetime_stats[:games_played]
+      @lifetime_stats = {
+        :finales_survived            => lifetime_data['finales'].to_i,
+        :games_played                => lifetime_data['gamesplayed'].to_i,
+        :infected_killed             => lifetime_data['infectedkilled'].to_i,
+        :kills_per_hour              => lifetime_data['killsperhour'].to_f,
+        :avg_kits_shared             => lifetime_data['kitsshared'].to_f,
+        :avg_kits_used               => lifetime_data['kitsused'].to_f,
+        :avg_pills_shared            => lifetime_data['pillsshared'].to_f,
+        :avg_pills_used              => lifetime_data['pillsused'].to_f,
+        :time_played                 => lifetime_data['timeplayed'],
+        :finales_survived_percentage => @lifetime_stats[:finales_survived].to_f / @lifetime_stats[:games_played]
+      }
     end
 
     @lifetime_stats
@@ -107,12 +107,13 @@ module AbstractL4DStats
     if @survival_stats.nil?
       survival_data = @xml_data['stats']['survival']
 
-      @survival_stats = {}
-      @survival_stats[:gold_medals]   = survival_data['goldmedals'].to_i
-      @survival_stats[:silver_medals] = survival_data['silvermedals'].to_i
-      @survival_stats[:bronze_medals] = survival_data['bronzemedals'].to_i
-      @survival_stats[:rounds_played] = survival_data['roundsplayed'].to_i
-      @survival_stats[:best_time]     = survival_data['besttime'].to_f
+      @survival_stats = {
+        :gold_medals   => survival_data['goldmedals'].to_i,
+        :silver_medals => survival_data['silvermedals'].to_i,
+        :bronze_medals => survival_data['bronzemedals'].to_i,
+        :rounds_played => survival_data['roundsplayed'].to_i,
+        :best_time     => survival_data['besttime'].to_f
+      }
     end
 
     @survival_stats
@@ -130,18 +131,19 @@ module AbstractL4DStats
     if @teamplay_stats.nil?
       teamplay_data = @xml_data['stats']['teamplay']
 
-      @teamplay_stats = {}
-      @teamplay_stats[:revived]                       = teamplay_data['revived'].to_i
-      @teamplay_stats[:most_revived_difficulty]       = teamplay_data['reviveddiff']
-      @teamplay_stats[:avg_revived]                   = teamplay_data['revivedavg'].to_f
-      @teamplay_stats[:avg_was_revived]               = teamplay_data['wasrevivedavg'].to_f
-      @teamplay_stats[:protected]                     = teamplay_data['protected'].to_i
-      @teamplay_stats[:most_protected_difficulty]     = teamplay_data['protecteddiff']
-      @teamplay_stats[:avg_protected]                 = teamplay_data['protectedavg'].to_f
-      @teamplay_stats[:avg_was_protected]             = teamplay_data['wasprotectedavg'].to_f
-      @teamplay_stats[:friendly_fire_damage]          = teamplay_data['ffdamage'].to_i
-      @teamplay_stats[:most_friendly_fire_difficulty] = teamplay_data['ffdamagediff']
-      @teamplay_stats[:avg_friendly_fire_damage]      = teamplay_data['ffdamageavg'].to_f
+      @teamplay_stats = {
+        :revived                       => teamplay_data['revived'].to_i,
+        :most_revived_difficulty       => teamplay_data['reviveddiff'],
+        :avg_revived                   => teamplay_data['revivedavg'].to_f,
+        :avg_was_revived               => teamplay_data['wasrevivedavg'].to_f,
+        :protected                     => teamplay_data['protected'].to_i,
+        :most_protected_difficulty     => teamplay_data['protecteddiff'],
+        :avg_protected                 => teamplay_data['protectedavg'].to_f,
+        :avg_was_protected             => teamplay_data['wasprotectedavg'].to_f,
+        :friendly_fire_damage          => teamplay_data['ffdamage'].to_i,
+        :most_friendly_fire_difficulty => teamplay_data['ffdamagediff'],
+        :avg_friendly_fire_damage      => teamplay_data['ffdamageavg'].to_f
+      }
     end
 
     @teamplay_stats
@@ -159,23 +161,24 @@ module AbstractL4DStats
     if @versus_stats.nil?
       versus_data = @xml_data['stats']['versus']
 
-      @versus_stats = {}
-      @versus_stats[:games_played]                = versus_data['gamesplayed'].to_i
-      @versus_stats[:games_completed]             = versus_data['gamescompleted'].to_i
-      @versus_stats[:finales_survived]            = versus_data['finales'].to_i
-      @versus_stats[:points]                      = versus_data['points'].to_i
-      @versus_stats[:most_points_infected]        = versus_data['pointsas']
-      @versus_stats[:games_won]                   = versus_data['gameswon'].to_i
-      @versus_stats[:games_lost]                  = versus_data['gameslost'].to_i
-      @versus_stats[:highest_survivor_score]      = versus_data['survivorscore'].to_i
-
-      @versus_stats[:finales_survived_percentage] = @versus_stats[:finales_survived].to_f / @versus_stats[:games_played]
+      @versus_stats = {
+        :games_played                => versus_data['gamesplayed'].to_i,
+        :games_completed             => versus_data['gamescompleted'].to_i,
+        :finales_survived            => versus_data['finales'].to_i,
+        :points                      => versus_data['points'].to_i,
+        :most_points_infected        => versus_data['pointsas'],
+        :games_won                   => versus_data['gameswon'].to_i,
+        :games_lost                  => versus_data['gameslost'].to_i,
+        :highest_survivor_score      => versus_data['survivorscore'].to_i,
+        :finales_survived_percentage => @versus_stats[:finales_survived].to_f / @versus_stats[:games_played]
+      }
 
       self.class.const_get(:SPECIAL_INFECTED).each do |infected|
-        @versus_stats[infected] = {}
-        @versus_stats[infected][:special_attacks] = versus_data["#{infected}special"].to_i
-        @versus_stats[infected][:most_damage]     = versus_data["#{infected}dmg"].to_i
-        @versus_stats[infected]['avg_lifespan']    = versus_data["#{infected}lifespan"].to_i
+        @versus_stats[infected] = {
+          :special_attacks => versus_data["#{infected}special"].to_i,
+          :most_damage     => versus_data["#{infected}dmg"].to_i,
+          :avg_lifespan    => versus_data["#{infected}lifespan"].to_i
+        }
       end
     end
 

@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 # Represents the stats for a Counter-Strike: Source map for a specific user
 #
@@ -34,7 +34,7 @@ class CSSMap
   # @param [String] map_name The name of the map
   # @param [Hash<String, Object>] maps_data The XML data of all maps
   def initialize(map_name, maps_data)
-    @name          = map_name
+    @name = map_name
 
     @favorite      = (maps_data['favorite'] == @name)
     @rounds_played = maps_data["#{@name}_rounds"].to_i
