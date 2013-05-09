@@ -62,9 +62,11 @@ class L4D2Stats < GameStats
       super
 
       lifetime_data = @xml_data['stats']['lifetime']
-      @lifetime_stats[:avg_adrenaline_shared]   = lifetime_data['adrenalineshared'].to_f
-      @lifetime_stats[:avg_adrenaline_used]     = lifetime_data['adrenalineused'].to_f
-      @lifetime_stats[:avg_defibrillators_used] = lifetime_data['defibrillatorsused'].to_f
+      @lifetime_stats.merge!({
+        :avg_adrenaline_shared   => lifetime_data['adrenalineshared'].to_f,
+        :avg_adrenaline_used     => lifetime_data['adrenalineused'].to_f,
+        :avg_defibrillators_used => lifetime_data['defibrillatorsused'].to_f
+      })
     end
 
     @lifetime_stats
@@ -83,33 +85,36 @@ class L4D2Stats < GameStats
     if @scavenge_stats.nil?
       scavange_data = @xml_data['stats']['scavenge']
 
-      @scavenge_stats = {}
-      @scavenge_stats[:avg_cans_per_round] = scavange_data['avgcansperround'].to_f
-      @scavenge_stats[:perfect_rounds]     = scavange_data['perfect16canrounds'].to_i
-      @scavenge_stats[:rounds_lost]        = scavange_data['roundslost'].to_i
-      @scavenge_stats[:rounds_played]      = scavange_data['roundsplayed'].to_i
-      @scavenge_stats[:rounds_won]         = scavange_data['roundswon'].to_i
-      @scavenge_stats[:total_cans]         = scavange_data['totalcans'].to_i
+      @scavenge_stats = {
+        :avg_cans_per_round => scavange_data['avgcansperround'].to_f,
+        :perfect_rounds     => scavange_data['perfect16canrounds'].to_i,
+        :rounds_lost        => scavange_data['roundslost'].to_i,
+        :rounds_played      => scavange_data['roundsplayed'].to_i,
+        :rounds_won         => scavange_data['roundswon'].to_i,
+        :total_cans         => scavange_data['totalcans'].to_i
+      }
 
       @scavenge_stats[:maps] = {}
       scavange_data['mapstats']['map'].each do |map_data|
-        map_stats = {}
-        map_stats['avg_round_score']     = map_data['avgscoreperround'].to_i
-        map_stats['highest_game_score']  = map_data['highgamescore'].to_i
-        map_stats['highest_round_score'] = map_data['highroundscore'].to_i
-        map_stats['name']                = map_data['fullname']
-        map_stats['rounds_played']       = map_data['roundsplayed'].to_i
-        map_stats['rounds_won']          = map_data['roundswon'].to_i
+        map_stats = {
+          :avg_round_score     => map_data['avgscoreperround'].to_i,
+          :highest_game_score  => map_data['highgamescore'].to_i,
+          :highest_round_score => map_data['highroundscore'].to_i,
+          :name                => map_data['fullname'],
+          :rounds_played       => map_data['roundsplayed'].to_i,
+          :rounds_won          => map_data['roundswon'].to_i
+        }
         @scavenge_stats[:maps][map_data['name']] = map_stats
 
       end
 
       @scavenge_stats[:infected] = {}
       scavange_data['infectedstats']['special'].each do |infected_data|
-        infected_stats = {}
-        infected_stats['max_damage_per_life']   = infected_data['maxdmg1life'].to_i
-        infected_stats['max_pours_interrupted'] = infected_data['maxpoursinterrupted'].to_i
-        infected_stats['special_attacks']       = infected_data['specialattacks'].to_i
+        infected_stats = {
+          :max_damage_per_life   => infected_data['maxdmg1life'].to_i,
+          :max_pours_interrupted => infected_data['maxpoursinterrupted'].to_i,
+          :special_attacks       => infected_data['specialattacks'].to_i
+        }
         @scavenge_stats[:infected][infected_data['name']] = infected_stats
       end
     end
