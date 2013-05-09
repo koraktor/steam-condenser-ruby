@@ -1,6 +1,7 @@
 ## Version 2.0.0 / Unreleased
 
  * [FEATURE] Use the Web API to get games
+ * [ENHANCEMENT] Use proper namespacing throughout the library
  * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
