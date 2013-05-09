@@ -30,20 +30,22 @@ class S2A_INFO2_Packet
   def initialize(data)
     super S2A_INFO2_HEADER, data
 
-    info[:protocol_version] = @content_data.byte
-    info[:server_name] = @content_data.cstring
-    info[:map_name] = @content_data.cstring
-    info[:game_directory] = @content_data.cstring
-    info[:game_description] = @content_data.cstring
-    info[:app_id] = @content_data.short
-    info[:number_of_players] = @content_data.byte
-    info[:max_players] = @content_data.byte
-    info[:number_of_bots] = @content_data.byte
-    info[:dedicated] = @content_data.byte.chr
-    info[:operating_system] = @content_data.byte.chr
-    info[:password_needed] = @content_data.byte == 1
-    info[:secure] = @content_data.byte == 1
-    info[:game_version] = @content_data.cstring
+    info.merge!({
+      :protocol_version => @content_data.byte,
+      :server_name => @content_data.cstring,
+      :map_name => @content_data.cstring,
+      :game_directory => @content_data.cstring,
+      :game_description => @content_data.cstring,
+      :app_id => @content_data.short,
+      :number_of_players => @content_data.byte,
+      :max_players => @content_data.byte,
+      :number_of_bots => @content_data.byte,
+      :dedicated => @content_data.byte.chr,
+      :operating_system => @content_data.byte.chr,
+      :password_needed => @content_data.byte == 1,
+      :secure => @content_data.byte == 1,
+      :game_version => @content_data.cstring
+    })
 
     if @content_data.remaining > 0
       extra_data_flag = @content_data.byte
