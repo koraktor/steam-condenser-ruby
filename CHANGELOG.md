@@ -1,3 +1,10 @@
+## Version 2.0.0 / Unreleased
+
+ * [FEATURE] Use the Web API to get games
+ * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API
+ * [ENHANCEMENT] Removed old hackish master server functionality
+ * [ENHANCEMENT] Removed deprecated aliases from SteamId
+
 ## Version 1.3.5 / 2013-03-29
 
  * [ENHANCEMENT] Adapted game item parsing to *DotA 2* API changes
