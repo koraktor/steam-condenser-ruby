@@ -23,7 +23,7 @@ module GameItem
 
   # Returns the number of items the player owns of this item
   #
-  # @return [Fixnum] The quanitity of this item
+  # @return [Fixnum] The quantity of this item
   attr_reader :count
 
   # Returns the index where the item is defined in the schema
@@ -112,8 +112,7 @@ module GameItem
 
     @attributes = []
     attributes_data.each do |attribute_data|
-      attribute_key = attribute_data[:defindex]
-      attribute_key = attribute_data[:name] if attribute_key.nil?
+      attribute_key = attribute_data[:defindex] || attribute_data[:name]
 
       unless attribute_key.nil?
         schema_attribute_data = inventory.item_schema.attributes[attribute_key]

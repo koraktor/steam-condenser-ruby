@@ -279,8 +279,9 @@ module GameServer
 
     players.each do |player|
       player_data = GameServer.split_player_status(attributes, player)
-      if @player_hash.key? player_data[:name]
-        @player_hash[player_data[:name]].add_info player_data
+      player_name = player_data[:name]
+      if @player_hash.key? player_name
+        @player_hash[player_name].add_info player_data
       end
     end
   end

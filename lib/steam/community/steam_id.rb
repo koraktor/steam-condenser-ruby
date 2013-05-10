@@ -170,11 +170,11 @@ class SteamId
   def self.steam_id_to_community_id(steam_id)
     if steam_id == 'STEAM_ID_LAN' || steam_id == 'BOT'
       raise SteamCondenserError, "Cannot convert SteamID \"#{steam_id}\" to a community ID."
-    elsif steam_id =~ /^STEAM_[0-1]:[0-1]:[0-9]+$/
-      steam_id = steam_id[8..-1].split(':').map! { |s| s.to_i }
+    elsif steam_id =~ /^STEAM_[0-1]:([0-1]:[0-9]+)$/
+      steam_id = $1.split(':').map! { |s| s.to_i }
       steam_id[0] + steam_id[1] * 2 + 76561197960265728
-    elsif steam_id =~ /\[U:[0-1]:[0-9]+\]/
-      steam_id = steam_id[3..-2].split(':').map! { |s| s.to_i }
+    elsif steam_id =~ /^\[(U:[0-1]:[0-9]+)\]$/
+      steam_id = $1.split(':').map { |s| s.to_i }
       steam_id[0] + steam_id[1] + 76561197960265727
     else
       raise SteamCondenserError, "SteamID \"#{steam_id}\" doesn't have the correct format."
@@ -305,12 +305,9 @@ class SteamId
 
     friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
     friends_data = MultiJson.decode(friends_data, { :symbolize_keys => true })
-    @friends = []
-    friends_data[:friendslist][:friends].each do |friend|
+    @friends = friends_data[:friendslist][:friends].map do |friend|
       @friends << SteamId.new(friend[:steamid].to_i, false)
     end
-
-    @friends
   end
 
   # Fetches the games this user owns
@@ -451,8 +448,7 @@ class SteamId
   # @return [Fixnum] The number of minutes this user played the given game in
   #         the last two weeks
   def recent_playtime(id)
-    game = find_game id
-    @recent_playtimes[game.app_id]
+    @recent_playtimes[find_game(id).app_id]
   end
 
   # Returns the total time in minutes this user has played this game
@@ -462,8 +458,7 @@ class SteamId
   # @return [Fixnum] The total number of minutes this user played the given
   #         game
   def total_playtime(id)
-    game = find_game id
-    @total_playtimes[game.app_id]
+    @total_playtimes[find_game(id).app_id]
   end
 
   private
