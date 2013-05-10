@@ -44,7 +44,7 @@ class TestSourceSocket < Test::Unit::TestCase
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
-      SteamPacketFactory.expects(:reassemble_packet).with([data1, data2]).
+      SteamPacketFactory.expects(:reassemble_packet).with([data1, data2], false, 0).
         returns packet
 
       assert_equal packet, @socket.reply
