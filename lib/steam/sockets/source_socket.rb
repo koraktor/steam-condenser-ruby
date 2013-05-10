@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'core_ext/stringio'
 require 'errors/timeout_error'
@@ -26,6 +26,7 @@ class SourceSocket
   def reply
     receive_packet 1400
     is_compressed = false
+    packet_checksum = 0
 
     if @buffer.long == 0xFFFFFFFE
       split_packets = []
@@ -46,22 +47,13 @@ class SourceSocket
 
         puts "Received packet #{packet_number} of #{packet_count} for request ##{request_id}" if $DEBUG
 
+        bytes_read = 0
         if split_packets.size < packet_count
-          begin
-            bytes_read = receive_packet
-          rescue SteamCondenser::TimeoutError
-            bytes_read = 0
-          end
-        else
-          bytes_read = 0
+          bytes_read = receive_packet rescue 0
         end
       end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 
-      if is_compressed
-        packet = SteamPacketFactory.reassemble_packet(split_packets, true, packet_checksum)
-      else
-        packet = SteamPacketFactory.reassemble_packet(split_packets)
-      end
+      packet = SteamPacketFactory.reassemble_packet(split_packets, is_compressed, packet_checksum)
     else
       packet = SteamPacketFactory.packet_from_data(@buffer.get)
     end
