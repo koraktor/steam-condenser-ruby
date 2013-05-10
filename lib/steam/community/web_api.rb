@@ -63,8 +63,8 @@ module WebApi
   #        HTTP GET
   # @raise [WebApiError] if the request to Steam's Web API fails
   # @return [String] The raw JSON data replied to the request
-  def self.json(interface, method, version = 1, params = nil)
-    get(:json, interface, method, version, params)
+  def self.json(interface, method, version = 1, params = {})
+    get :json, interface, method, version, params
   end
 
   # Fetches JSON data from Steam Web API using the specified interface, method
@@ -79,8 +79,8 @@ module WebApi
   #        HTTP GET
   # @raise [WebApiError] if the request to Steam's Web API fails
   # @return [Hash<Symbol, Object>] The JSON data replied to the request
-  def self.json!(interface, method, version = 1, params = nil)
-    data = json(interface, method, version, params)
+  def self.json!(interface, method, version = 1, params = {})
+    data = json interface, method, version, params
     result = MultiJson.load(data, { :symbolize_keys => true })[:result]
 
     status = result[:status]
@@ -105,16 +105,11 @@ module WebApi
   #        HTTP GET
   # @raise [WebApiError] if the request to Steam's Web API fails
   # @return [String] The data as replied by the Web API in the desired format
-  def self.get(format, interface, method, version = 1, params = nil)
+  def self.get(format, interface, method, version = 1, params = {})
     version = version.to_s.rjust(4, '0')
-    url = "http://api.steampowered.com/#{interface}/#{method}/v#{version}/"
-    params = {} unless params.is_a?(Hash)
-    params[:format] = format
-    params[:key] = WebApi.api_key
-
-    unless params.nil? && params.empty?
-      url += '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
-    end
+    params = { :format => format, :key => WebApi.api_key }.merge params
+    url = "http://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
+          '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
 
     begin
       puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
