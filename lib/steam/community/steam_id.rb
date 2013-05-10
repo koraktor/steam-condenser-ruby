@@ -172,7 +172,7 @@ class SteamId
     elsif steam_id =~ /^STEAM_[0-1]:([0-1]:[0-9]+)$/
       steam_id = $1.split(':').map! { |s| s.to_i }
       steam_id[0] + steam_id[1] * 2 + 76561197960265728
-    elsif steam_id =~ /^\[(U:[0-1]:[0-9]+)\]$/
+    elsif steam_id =~ /^\[U:([0-1]:[0-9]+)\]$/
       steam_id = $1.split(':').map { |s| s.to_i }
       steam_id[0] + steam_id[1] + 76561197960265727
     else
