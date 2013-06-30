@@ -64,7 +64,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock :read => 'data'
       WebApi.expects(:open).with do |url, options|
         options == { :proxy => true } &&
-        url.start_with?('http://api.steampowered.com/interface/method/v0002/?') &&
+        url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
 
@@ -91,6 +91,19 @@ class TestWebApi < Test::Unit::TestCase
         WebApi.get :json, 'interface', 'method', 2, { :test => 'param' }
       end
       assert_equal 'The Web API request has failed due to an HTTP error: Not found (status code: 404).', error.message
+    end
+
+    should 'use insecure HTTP if set' do
+      WebApi.secure = false
+
+      data = mock :read => 'data'
+      WebApi.expects(:open).with do |url, options|
+        options == { :proxy => true } &&
+        url.start_with?('http://api.steampowered.com/interface/method/v0002/?') &&
+        (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
+      end.returns data
+
+      assert_equal 'data', WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
     end
 
   end

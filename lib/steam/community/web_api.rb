@@ -18,6 +18,8 @@ module WebApi
 
   @@api_key = nil
 
+  @@secure = true
+
   # Returns the Steam Web API key currently used by Steam Condenser
   #
   # @return [String] The currently active Steam Web API key
@@ -37,6 +39,13 @@ module WebApi
     end
 
     @@api_key = api_key
+  end
+
+  # Sets whether HTTPS should be used for the communication with the Web API
+  #
+  # @param [Boolean] secure Whether to use HTTPS
+  def self.secure=(secure)
+    @@secure = !!secure
   end
 
   # Returns a raw list of interfaces and their methods that are available in
@@ -108,7 +117,8 @@ module WebApi
   def self.get(format, interface, method, version = 1, params = {})
     version = version.to_s.rjust(4, '0')
     params = { :format => format, :key => WebApi.api_key }.merge params
-    url = "http://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
+    protocol = @@secure ? 'https' : 'http'
+    url = "#{protocol}://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
           '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
 
     begin
