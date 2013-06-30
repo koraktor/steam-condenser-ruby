@@ -1,3 +1,10 @@
+## Version 1.3.6 / Unreleased
+
+ * [SECURITY] Use HTTPS for Web API by default
+ * [BUGFIX] Fixed SourceSocket not failing when it should
+ * [BUGFIX] Fixed creating SteamId instances with `U_` IDs
+ * [ENHANCEMENT] Improved code style in various places
+
 ## Version 1.3.5 / 2013-03-29
 
  * [ENHANCEMENT] Adapted game item parsing to *DotA 2* API changes
