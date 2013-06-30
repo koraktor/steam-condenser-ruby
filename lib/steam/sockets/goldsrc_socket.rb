@@ -48,7 +48,7 @@ class GoldSrcSocket
       split_packets = []
       begin
         request_id = @buffer.long
-        packet_number_and_count = @buffer.byte
+        packet_number_and_count = @buffer.getbyte
         packet_count = packet_number_and_count & 0xF
         packet_number = (packet_number_and_count >> 4) + 1
 

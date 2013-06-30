@@ -31,17 +31,17 @@ class M2A_SERVER_BATCH_Packet
   def initialize(data)
     super M2A_SERVER_BATCH_HEADER, data
 
-    unless @content_data.byte == 0x0A
+    unless @content_data.getbyte == 0x0A
       raise PacketFormatError, 'Master query response is missing additional 0x0A byte.'
     end
 
     @servers = []
 
     begin
-      first_octet = @content_data.byte
-      second_octet = @content_data.byte
-      third_octet = @content_data.byte
-      fourth_octet = @content_data.byte
+      first_octet = @content_data.getbyte
+      second_octet = @content_data.getbyte
+      third_octet = @content_data.getbyte
+      fourth_octet = @content_data.getbyte
       port_number = @content_data.short
       port_number = ((port_number & 0xFF) << 8) + (port_number >> 8)
 

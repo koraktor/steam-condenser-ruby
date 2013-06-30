@@ -31,24 +31,24 @@ class S2A_INFO2_Packet
     super S2A_INFO2_HEADER, data
 
     info.merge!({
-      :protocol_version => @content_data.byte,
+      :protocol_version => @content_data.getbyte,
       :server_name => @content_data.cstring,
       :map_name => @content_data.cstring,
       :game_directory => @content_data.cstring,
       :game_description => @content_data.cstring,
       :app_id => @content_data.short,
-      :number_of_players => @content_data.byte,
-      :max_players => @content_data.byte,
-      :number_of_bots => @content_data.byte,
-      :dedicated => @content_data.byte.chr,
-      :operating_system => @content_data.byte.chr,
-      :password_needed => @content_data.byte == 1,
-      :secure => @content_data.byte == 1,
+      :number_of_players => @content_data.getbyte,
+      :max_players => @content_data.getbyte,
+      :number_of_bots => @content_data.getbyte,
+      :dedicated => @content_data.getc,
+      :operating_system => @content_data.getc,
+      :password_needed => @content_data.getbyte == 1,
+      :secure => @content_data.getbyte == 1,
       :game_version => @content_data.cstring
     })
 
     if @content_data.remaining > 0
-      extra_data_flag = @content_data.byte
+      extra_data_flag = @content_data.getbyte
 
       if extra_data_flag & EDF_GAME_PORT != 0
         info[:server_port] = @content_data.short

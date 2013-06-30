@@ -33,8 +33,8 @@ class SourceSocket
       begin
         request_id = @buffer.long
         is_compressed = ((request_id & 0x80000000) != 0)
-        packet_count = @buffer.byte
-        packet_number = @buffer.byte + 1
+        packet_count = @buffer.getbyte
+        packet_number = @buffer.getbyte + 1
 
         if is_compressed
           @buffer.long

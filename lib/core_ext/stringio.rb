@@ -21,13 +21,6 @@ class StringIO
     new "\0" * size
   end
 
-  # Reads a single byte from the current position of the byte stream
-  #
-  # @return [Fixnum] The numeric value of the byte at the current position
-  def byte
-    read(1)[0].ord
-  end
-
   # Reads a floating-point integer (32 bit) from the current position of the
   # byte stream
   #

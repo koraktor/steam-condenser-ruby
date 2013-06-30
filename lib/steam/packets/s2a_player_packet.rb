@@ -32,11 +32,11 @@ class S2A_PLAYER_Packet
 
     super S2A_PLAYER_HEADER, content_data
 
-    @content_data.byte
+    @content_data.getbyte
     @player_hash = {}
 
     while @content_data.remaining > 0
-      player_data = @content_data.byte, @content_data.cstring, @content_data.signed_long, @content_data.float
+      player_data = @content_data.getbyte, @content_data.cstring, @content_data.signed_long, @content_data.float
       @player_hash[player_data[1]] = SteamPlayer.new(*player_data[0..3])
     end
   end

@@ -23,7 +23,7 @@ class S2A_LOGSTRING_Packet
   def initialize(data)
     super S2A_LOGSTRING_HEADER, data
 
-    @content_data.byte
+    @content_data.getbyte
     @message = @content_data.string
   end
 
