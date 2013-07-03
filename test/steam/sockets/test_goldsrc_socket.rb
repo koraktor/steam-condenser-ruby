@@ -80,7 +80,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       data1, data2 = mock, mock
       buffer.expects(:long).times(4).returns(0xFFFFFFFE).returns(1234).
         returns(0xFFFFFFFE).returns 1234
-      buffer.expects(:byte).twice.returns(0x02).returns 0x12
+      buffer.expects(:getbyte).twice.returns(0x02).returns 0x12
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock

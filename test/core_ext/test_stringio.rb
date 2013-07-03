@@ -20,11 +20,6 @@ class TestStringIO < Test::Unit::TestCase
       assert_equal "\0" * 10, @io.string
     end
 
-    should 'provide `#byte`' do
-      assert_equal 't'.bytes.first, @io.byte
-      assert_equal 3, @io.remaining
-    end
-
     should 'provide `#float`' do
       assert_equal 7.713536684941306e+31, @io.float
       assert_equal 0, @io.remaining

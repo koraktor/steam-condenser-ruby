@@ -38,8 +38,8 @@ class TestSourceSocket < Test::Unit::TestCase
       data1, data2 = mock, mock
       buffer.expects(:long).times(4).returns(0xFFFFFFFE).returns(1234).
         returns(0xFFFFFFFE).returns 1234
-      buffer.expects(:byte).times(4).returns(0x02).returns(0x00).returns(0x02).
-        returns 0x01
+      buffer.expects(:getbyte).times(4).returns(0x02).returns(0x00).
+        returns(0x02).returns 0x01
       buffer.expects(:short).twice
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
@@ -61,8 +61,8 @@ class TestSourceSocket < Test::Unit::TestCase
       buffer.expects(:long).times(8).returns(0xFFFFFFFE).returns(2147484882).
         returns(0).returns(1337).returns(0xFFFFFFFE).returns(2147484882).
         returns(0).returns 1337
-      buffer.expects(:byte).times(4).returns(0x02).returns(0x00).returns(0x02).
-        returns 0x01
+      buffer.expects(:getbyte).times(4).returns(0x02).returns(0x00).
+        returns(0x02).returns 0x01
       buffer.expects(:get).twice.returns(data1).returns(data2)
 
       packet = mock
