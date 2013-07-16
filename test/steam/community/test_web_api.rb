@@ -63,7 +63,7 @@ class TestWebApi < Test::Unit::TestCase
     should 'load data from the Steam Community Web API' do
       data = mock :read => 'data'
       WebApi.expects(:open).with do |url, options|
-        options == { :proxy => true } &&
+        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
         url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
@@ -98,7 +98,7 @@ class TestWebApi < Test::Unit::TestCase
 
       data = mock :read => 'data'
       WebApi.expects(:open).with do |url, options|
-        options == { :proxy => true } &&
+        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
         url.start_with?('http://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data

@@ -123,7 +123,7 @@ module WebApi
 
     begin
       puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
-      open(url, { :proxy => true }).read
+      open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' ,:proxy => true }).read
     rescue OpenURI::HTTPError
       status = $!.io.status[0]
       status = [status, ''] unless status.is_a? Array
