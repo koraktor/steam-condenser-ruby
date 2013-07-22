@@ -44,9 +44,11 @@ class TestCacheable < Test::Unit::TestCase
     should 'automatically update its last update time' do
       item = SingleCacheable.new false
       now1 = Time.now
+      sleep 0.001
       item.fetch
       assert item.fetch_time > now1
       now2 = Time.now
+      sleep 0.001
       item.fetch
       assert item.fetch_time > now2
     end
@@ -59,6 +61,7 @@ class TestCacheable < Test::Unit::TestCase
 
     should 'be able to bypass the cache if requested' do
       item1 = SingleCacheable.new
+      sleep 0.001
       item2 = SingleCacheable.new true, true
 
       assert item2.fetch_time > item1.fetch_time
