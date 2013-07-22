@@ -1,9 +1,8 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'bzip2-ruby'
 require 'zlib'
 
 require 'errors/packet_format_error'
@@ -95,6 +94,12 @@ module SteamPacketFactory
     packet_data = split_packets.join ''
 
     if is_compressed
+      begin
+        require 'bzip2-ruby'
+      rescue LoadError
+        raise SteamCondenserError, 'The "bzip2-ruby" gem is not installed. Please install it, if you want to query Source servers sending compressed packets.'
+      end
+
       packet_data = Bzip2.decompress packet_data
 
       unless Zlib.crc32(packet_data) == packet_checksum
