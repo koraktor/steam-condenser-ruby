@@ -1,10 +1,12 @@
 ## Version 1.3.6 / Unreleased
 
  * [SECURITY] Use HTTPS for Web API by default
+ * [ENHANCEMENT] bzip2-ruby is optional again for compatibility with Ruby 2.0.0
+                 and JRuby
+ * [ENHANCEMENT] Improved code style in various places
  * [BUGFIX] Changed to the correct GoldSrc master server port
  * [BUGFIX] Fixed SourceSocket not failing when it should
  * [BUGFIX] Fixed creating SteamId instances with `U_` IDs
- * [ENHANCEMENT] Improved code style in various places
 
 ## Version 1.3.5 / 2013-03-29
 
