@@ -1,4 +1,4 @@
-## Version 1.3.6 / Unreleased
+## Version 1.3.6 / 2013-07-23
 
  * [SECURITY] Use HTTPS for Web API by default
  * [ENHANCEMENT] bzip2-ruby is optional again for compatibility with Ruby 2.0.0
