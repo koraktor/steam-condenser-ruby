@@ -1,6 +1,7 @@
 ## Version 1.3.6 / Unreleased
 
  * [SECURITY] Use HTTPS for Web API by default
+ * [BUGFIX] Changed to the correct GoldSrc master server port
  * [BUGFIX] Fixed SourceSocket not failing when it should
  * [BUGFIX] Fixed creating SteamId instances with `U_` IDs
  * [ENHANCEMENT] Improved code style in various places
