@@ -6,6 +6,16 @@
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
 
+## Version 1.3.6 / 2013-07-23
+
+ * [SECURITY] Use HTTPS for Web API by default
+ * [ENHANCEMENT] bzip2-ruby is optional again for compatibility with Ruby 2.0.0
+                 and JRuby
+ * [ENHANCEMENT] Improved code style in various places
+ * [BUGFIX] Changed to the correct GoldSrc master server port
+ * [BUGFIX] Fixed SourceSocket not failing when it should
+ * [BUGFIX] Fixed creating SteamId instances with `U_` IDs
+
 ## Version 1.3.5 / 2013-03-29
 
  * [ENHANCEMENT] Adapted game item parsing to *DotA 2* API changes

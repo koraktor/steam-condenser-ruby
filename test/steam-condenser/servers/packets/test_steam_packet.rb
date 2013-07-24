@@ -28,7 +28,7 @@ class TestBasePacket < Test::Unit::TestCase
     end
 
     should 'have a valid byte representation' do
-      assert_equal "\xFF\xFF\xFF\xFFatest", @packet.to_s
+      assert_equal [255, 255, 255, 255, 'atest'].pack('c4a*'), @packet.to_s
     end
 
   end

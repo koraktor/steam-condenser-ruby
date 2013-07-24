@@ -51,7 +51,10 @@ module SteamCondenser::Servers::Sockets
 
           bytes_read = 0
           if split_packets.size < packet_count
-            bytes_read = receive_packet rescue 0
+            begin
+              bytes_read = receive_packet
+            rescue SteamCondenser::TimeoutError
+            end
           end
         end while bytes_read > 0 && @buffer.long == 0xFFFFFFFE
 

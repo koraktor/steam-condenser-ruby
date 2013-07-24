@@ -5,5 +5,7 @@
 lib/steam/community/cacheable.rb
 lib/**/*.rb
 -
+CHANGELOG.md
+CONTRIBUTING.md
 README.md
 LICENSE

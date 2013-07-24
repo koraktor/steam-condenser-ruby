@@ -28,7 +28,7 @@ module SteamCondenser
       @@retries = 3
 
       # The master server address to query for GoldSrc game servers
-      GOLDSRC_MASTER_SERVER = 'hl1master.steampowered.com', 27010
+      GOLDSRC_MASTER_SERVER = 'hl1master.steampowered.com', 27011
 
       # The master server address to query for Source game servers
       SOURCE_MASTER_SERVER = 'hl2master.steampowered.com', 27011

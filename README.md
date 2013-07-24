@@ -64,7 +64,7 @@ included LICENSE file.
 
 ## See Also
 
-* [Steam Condenser home](https://koraktor.de/steam-condenser)
+* [Steam Condenser home](http://koraktor.de/steam-condenser)
 * [Documentation](http://rubydoc.info/gems/steam-condenser)
 * [GitHub project page](https://github.com/koraktor/steam-condenser)
 * [Wiki](https://github.com/koraktor/steam-condenser/wiki)

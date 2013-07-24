@@ -20,6 +20,8 @@ module SteamCondenser::Community
 
     @@api_key = nil
 
+    @@secure = true
+
     # Returns the Steam Web API key currently used by Steam Condenser
     #
     # @return [String] The currently active Steam Web API key
@@ -39,6 +41,13 @@ module SteamCondenser::Community
       end
 
       @@api_key = api_key
+    end
+
+    # Sets whether HTTPS should be used for the communication with the Web API
+    #
+    # @param [Boolean] secure Whether to use HTTPS
+    def self.secure=(secure)
+      @@secure = !!secure
     end
 
     # Returns a raw list of interfaces and their methods that are available in
@@ -112,12 +121,13 @@ module SteamCondenser::Community
     def self.get(format, interface, method, version = 1, params = {})
       version = version.to_s.rjust(4, '0')
       params = { :format => format, :key => WebApi.api_key }.merge params
-      url = "http://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
+      protocol = @@secure ? 'https' : 'http'
+      url = "#{protocol}://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
             '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
 
       begin
         puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
-        open(url, { :proxy => true }).read
+        open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' ,:proxy => true }).read
       rescue OpenURI::HTTPError
         status = $!.io.status[0]
         status = [status, ''] unless status.is_a? Array

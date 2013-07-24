@@ -3,7 +3,6 @@
 #
 # Copyright (c) 2008-2013, Sebastian Staudt
 
-require 'bzip2-ruby'
 require 'zlib'
 
 require 'steam-condenser/servers/packets/s2a_info_detailed_packet'
@@ -89,6 +88,12 @@ module SteamCondenser::Servers::Packets
       packet_data = split_packets.join ''
 
       if is_compressed
+        begin
+          require 'bzip2-ruby'
+        rescue LoadError
+          raise SteamCondenser::Error, 'The "bzip2-ruby" gem is not installed. Please install it, if you want to query Source servers sending compressed packets.'
+        end
+
         packet_data = Bzip2.decompress packet_data
 
         unless Zlib.crc32(packet_data) == packet_checksum

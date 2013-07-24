@@ -175,7 +175,7 @@ module SteamCondenser::Community
       elsif steam_id =~ /^STEAM_[0-1]:([0-1]:[0-9]+)$/
         steam_id = $1.split(':').map! { |s| s.to_i }
         steam_id[0] + steam_id[1] * 2 + 76561197960265728
-      elsif steam_id =~ /^\[(U:[0-1]:[0-9]+)\]$/
+      elsif steam_id =~ /^\[U:([0-1]:[0-9]+)\]$/
         steam_id = $1.split(':').map { |s| s.to_i }
         steam_id[0] + steam_id[1] + 76561197960265727
       else
@@ -300,7 +300,6 @@ module SteamCondenser::Community
     # This creates a new `SteamId` instance for each of the friends without
     # fetching their data.
     #
-    # @return [Array<SteamId>] The friends of this user
     # @see #friends
     # @see #initialize
     def fetch_friends
@@ -319,7 +318,6 @@ module SteamCondenser::Community
     # will either be `false` if the game does not have stats or the game's
     # "friendly name".
     #
-    # @return [Hash<Fixnum, SteamGame>] The games this user owns
     # @see #games
     def fetch_games
       params = {
