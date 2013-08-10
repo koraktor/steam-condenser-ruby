@@ -1,5 +1,6 @@
 ## Version 2.0.0 / Unreleased
 
+ * [FEATURE] Provide an API to get users' Steam levels
  * [FEATURE] Use the Web API to get games
  * [ENHANCEMENT] Use proper namespacing throughout the library
  * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API

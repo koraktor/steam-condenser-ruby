@@ -99,6 +99,34 @@ class TestSteamId < Test::Unit::TestCase
       assert steam_id.public?
     end
 
+    should 'be able to query its Steam level' do
+      steam_id = Community::SteamId.new 76561197983311154, false
+
+      steam_id.expects(:update_steam_level).returns 10
+
+      assert_equal 10, steam_id.steam_level
+    end
+
+    should 'be able to return its Steam level' do
+      steam_id = Community::SteamId.new 76561197983311154, false
+
+      steam_id.instance_variable_set :@steam_level, 10
+      steam_id.expects(:update_steam_level).never
+
+      assert_equal 10, steam_id.steam_level
+    end
+
+    should 'be able to update its Steam level' do
+      steam_id = Community::SteamId.new 76561197983311154, false
+
+      Community::WebApi.expects(:json).
+        with('IPlayerService', 'GetSteamLevel', 1, { :steamid => 76561197983311154 }).
+        returns({ :response => { :player_level => 10 }})
+
+      assert_equal 10, steam_id.update_steam_level
+      assert_equal 10, steam_id.instance_variable_get(:@steam_level)
+    end
+
     should 'be found by the 64bit Community::SteamId' do
       steam_id = Community::SteamId.new 76561197983311154, false
 

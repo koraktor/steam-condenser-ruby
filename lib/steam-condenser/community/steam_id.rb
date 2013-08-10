@@ -452,6 +452,16 @@ module SteamCondenser::Community
       @recent_playtimes[find_game(id).app_id]
     end
 
+    # Returns the current Steam level of this user
+    #
+    # If the Steam level hasn't been updated yet, this is done now.
+    #
+    # @return [Fixnum] The current Steam level of this user
+    # @see #update_steam_level
+    def steam_level
+      @steam_level || update_steam_level
+    end
+
     # Returns the total time in minutes this user has played this game
     #
     # @param [Fixnum, String] id The full or short name or the application ID
@@ -460,6 +470,15 @@ module SteamCondenser::Community
     #         game
     def total_playtime(id)
       @total_playtimes[find_game(id).app_id]
+    end
+
+    # Updates the Steam level of this user using the Web API
+    #
+    # @return [Fixnum] The current Steam level of this user
+    # @see #steam_level
+    def update_steam_level
+      data = WebApi.json 'IPlayerService', 'GetSteamLevel', 1, { :steamid => @steam_id64 }
+      @steam_level = data[:response][:player_level]
     end
 
     private
