@@ -116,13 +116,17 @@ module WebApi
   # @return [String] The data as replied by the Web API in the desired format
   def self.get(format, interface, method, version = 1, params = {})
     version = version.to_s.rjust(4, '0')
-    params = { :format => format, :key => WebApi.api_key }.merge params
+    params = { :key => WebApi.api_key }.merge params unless WebApi.api_key.nil?
+    params = { :format => format }.merge params
     protocol = @@secure ? 'https' : 'http'
     url = "#{protocol}://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
           '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
 
     begin
-      puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
+      if $DEBUG
+        debug_url = @@api_key.nil? ? url : url.gsub(@@api_key, 'SECRET')
+        puts "Querying Steam Web API: #{debug_url}" if $DEBUG
+      end
       open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' ,:proxy => true }).read
     rescue OpenURI::HTTPError
       status = $!.io.status[0]
