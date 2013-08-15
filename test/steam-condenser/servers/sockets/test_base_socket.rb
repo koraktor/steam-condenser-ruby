@@ -8,6 +8,7 @@ require 'helper'
 class TestBaseSocket < Test::Unit::TestCase
 
   class GenericSocket
+    include Logging
     include Servers::Sockets::BaseSocket
   end
 

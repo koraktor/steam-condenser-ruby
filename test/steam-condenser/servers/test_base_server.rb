@@ -10,6 +10,7 @@ class TestBaseServer < Test::Unit::TestCase
   context 'A generic server' do
 
     class GenericServer
+      include Logging
       include Servers::BaseServer
     end
 

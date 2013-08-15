@@ -10,6 +10,7 @@ class TestGameServer < Test::Unit::TestCase
   context 'A generic game server' do
 
     class GenericGameServer
+      include Logging
       include Servers::GameServer
     end
 
