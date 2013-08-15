@@ -11,7 +11,7 @@ module SteamCondenser::Community
   # Represents the inventory of a player of the DotA 2 beta
   #
   # @author Sebastian Staudt
-  class Dota2BetaInventory < GameInventory
+  class Dota2TestInventory < GameInventory
 
     # The Steam application ID of the DotA 2 beta
     APP_ID = 205790

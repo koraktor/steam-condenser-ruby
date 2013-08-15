@@ -14,7 +14,7 @@ module SteamCondenser::Community
   end
 end
 
-require 'steam-condenser/community/dota2/dota2_beta_inventory'
+require 'steam-condenser/community/dota2/dota2_test_inventory'
 require 'steam-condenser/community/dota2/dota2_inventory'
 require 'steam-condenser/community/portal2/portal2_inventory'
 require 'steam-condenser/community/tf2/tf2_beta_inventory'
@@ -76,8 +76,8 @@ module SteamCondenser::Community
       cacheable_new = Cacheable::ClassMethods.instance_method :new
 
       case app_id
-        when Dota2BetaInventory::APP_ID
-          cacheable_new = cacheable_new.bind Dota2BetaInventory
+        when Dota2TestInventory::APP_ID
+          cacheable_new = cacheable_new.bind Dota2TestInventory
         when Dota2Inventory::APP_ID
           cacheable_new = cacheable_new.bind Dota2Inventory
         when Portal2Inventory::APP_ID
