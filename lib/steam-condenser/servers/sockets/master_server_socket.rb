@@ -14,6 +14,7 @@ module SteamCondenser::Servers::Sockets
   class MasterServerSocket
 
     include BaseSocket
+    include SteamCondenser::Logging
 
     # Reads a single packet from the socket
     #
@@ -28,7 +29,7 @@ module SteamCondenser::Servers::Sockets
 
       packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data @buffer.get
 
-      puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
+      log.debug "Got reply of type \"#{packet.class.to_s}\"."
 
       packet
     end

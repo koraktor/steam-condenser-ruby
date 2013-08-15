@@ -23,6 +23,7 @@ module SteamCondenser
     class MasterServer
 
       include BaseServer
+      include SteamCondenser::Logging
 
       # The default number of allowed retries
       @@retries = 3
@@ -129,9 +130,7 @@ module SteamCondenser
                 fail_count = 0
               rescue Error::Timeout
                 raise $! if (fail_count += 1) == @@retries
-                if $DEBUG
-                  puts "Request to master server #@ip_address timed out, retrying..."
-                end
+                log.info "Request to master server #@ip_address timed out, retrying..."
               end
             end while !finished
           end

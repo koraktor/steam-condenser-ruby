@@ -89,7 +89,10 @@ module SteamCondenser::Servers
       #        server
       # @see Packets::BasePacket#to_s
       def send(data_packet)
-        puts "Sending data packet of type \"#{data_packet.class.to_s}\"." if $DEBUG
+        if log.debug?
+          packet_class = data_packet.class.name[/[^:]*\z/]
+          log.debug "Sending data packet of type \"#{packet_class}\"."
+        end
 
         @socket.send data_packet.to_s, 0
       end

@@ -18,6 +18,8 @@ module SteamCondenser::Community
   # @author Sebastian Staudt
   module WebApi
 
+    include SteamCondenser::Logging
+
     @@api_key = nil
 
     @@secure = true
@@ -126,7 +128,7 @@ module SteamCondenser::Community
             '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
 
       begin
-        puts "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}" if $DEBUG
+        log.debug "Querying Steam Web API: #{url.gsub(@@api_key, 'SECRET')}"
         open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' ,:proxy => true }).read
       rescue OpenURI::HTTPError
         status = $!.io.status[0]

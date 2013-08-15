@@ -238,7 +238,11 @@ module SteamCondenser
         end
 
         unless response_packet.kind_of? expected_response
-          puts "Expected #{expected_response}, got #{response_packet.class}." if $DEBUG
+          if log.info?
+            expected_class = expected_response.class.name[/[^:]*\z/]
+            response_class = response_packet.class.name[/[^:]*\z/]
+            log.info "Expected #{expected_class}, got #{response_class}."
+          end
           handle_response_for_request(request_type, false) if repeat_on_failure
         end
       end

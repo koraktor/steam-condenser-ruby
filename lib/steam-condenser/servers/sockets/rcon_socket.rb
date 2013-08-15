@@ -26,6 +26,7 @@ module SteamCondenser::Servers::Sockets
   class RCONSocket
 
     include BaseSocket
+    include SteamCondenser::Logging
 
     # Creates a new TCP socket to communicate with the server on the given IP
     # address and port
@@ -98,7 +99,7 @@ module SteamCondenser::Servers::Sockets
 
       packet = SteamCondenser::Servers::Packets::RCON::RCONPacketFactory.packet_from_data(packet_data)
 
-      puts "Received packet of type \"#{packet.class}\"." if $DEBUG
+      log.debug "Received packet of type \"#{packet.class}\"."
 
       packet
     end

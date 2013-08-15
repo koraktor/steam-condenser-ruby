@@ -30,6 +30,7 @@ module SteamCondenser
     class SourceServer
 
       include GameServer
+      include SteamCondenser::Logging
 
       # Returns a master server instance for the default master server for Source
       # games

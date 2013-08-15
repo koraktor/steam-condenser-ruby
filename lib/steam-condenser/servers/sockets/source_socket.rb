@@ -16,6 +16,7 @@ module SteamCondenser::Servers::Sockets
   class SourceSocket
 
     include BaseSocket
+    include SteamCondenser::Logging
 
     # Reads a packet from the socket
     #
@@ -47,7 +48,7 @@ module SteamCondenser::Servers::Sockets
 
           split_packets[packet_number - 1] = @buffer.get
 
-          puts "Received packet #{packet_number} of #{packet_count} for request ##{request_id}" if $DEBUG
+          log.debug "Received packet #{packet_number} of #{packet_count} for request ##{request_id}"
 
           bytes_read = 0
           if split_packets.size < packet_count
@@ -63,10 +64,13 @@ module SteamCondenser::Servers::Sockets
         packet = Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
-      if is_compressed
-        puts "Got compressed reply of type \"#{packet.class.to_s}\"." if $DEBUG
-      else
-        puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
+      if log.debug?
+        packet_class = packet.class.name[/[^:]*\z/]
+        if is_compressed
+          log.debug "Got compressed reply of type \"#{packet_class}\"."
+        else
+          log.debug "Got reply of type \"#{packet_class}\"."
+        end
       end
 
       packet

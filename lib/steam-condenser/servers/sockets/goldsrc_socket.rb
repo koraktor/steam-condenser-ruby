@@ -21,6 +21,8 @@ module SteamCondenser::Servers::Sockets
 
     include BaseSocket
 
+    include SteamCondenser::Logging
+
     # Creates a new socket to communicate with the server on the given IP
     # address and port
     #
@@ -56,7 +58,7 @@ module SteamCondenser::Servers::Sockets
 
           split_packets[packet_number - 1] = @buffer.get
 
-          puts "Received packet #{packet_number} of #{packet_count} for request ##{request_id}" if $DEBUG
+          log.debug "Received packet #{packet_number} of #{packet_count} for request ##{request_id}"
 
           if split_packets.size < packet_count
             begin
@@ -74,7 +76,7 @@ module SteamCondenser::Servers::Sockets
         packet = SteamCondenser::Servers::Packets::SteamPacketFactory.packet_from_data(@buffer.get)
       end
 
-      puts "Got reply of type \"#{packet.class.to_s}\"." if $DEBUG
+      log.debug "Got reply of type \"#{packet.class.to_s}\"."
 
       packet
     end
