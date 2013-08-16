@@ -3,6 +3,7 @@
  * [FEATURE] Provide an API to get users' Steam levels
  * [FEATURE] Use the Web API to get games
  * [ENHANCEMENT] Use proper namespacing throughout the library
+ * [ENHANCEMENT] Logging using Ruby's Logger class
  * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
