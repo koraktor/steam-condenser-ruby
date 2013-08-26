@@ -94,10 +94,6 @@ class TestSourceServer < Test::Unit::TestCase
           packet.instance_variable_get(:@content_data).string == "command\0\0" &&
           packet.instance_variable_get(:@request_id) == 1234
         end
-        @rcon_socket.expects(:send).with do |packet|
-          packet.is_a?(RCONTerminator) &&
-          packet.instance_variable_get(:@request_id) == 1234
-        end
 
         @server.instance_variable_set :@rcon_authenticated, true
         @server.instance_variable_set :@rcon_request_id, 1234
@@ -115,14 +111,29 @@ class TestSourceServer < Test::Unit::TestCase
         assert_not @server.instance_variable_get(:@rcon_authenticated)
       end
 
+      should 'receive the empty response of a command' do
+        reply = mock
+        reply.expects(:response).twice.returns ''
+
+        @rcon_socket.expects(:reply).returns reply
+
+        assert_equal '', @server.rcon_exec('command')
+      end
+
       should 'receive the response of a command' do
-        reply1 = mock :response => 'test'
+        @rcon_socket.expects(:send).with do |packet|
+          packet.is_a?(RCONTerminator) &&
+          packet.instance_variable_get(:@request_id) == 1234
+        end
+
+        reply1 = mock
+        reply1.expects(:response).twice.returns 'test'
         reply2 = mock :response => 'test'
         reply3 = mock
         reply3.expects(:response).twice.returns ''
 
-        @rcon_socket.expects(:reply).times(3).returns(reply1).returns(reply2).
-          returns reply3
+        @rcon_socket.expects(:reply).times(4).returns(reply1).returns(reply2).
+          returns(reply3).returns(reply3)
 
         assert_equal 'testtest', @server.rcon_exec('command')
       end
