@@ -155,7 +155,7 @@ module SteamCondenser::Community
     def self.resolve_vanity_url(vanity_url)
       params = { :vanityurl => vanity_url }
       json = WebApi.json 'ISteamUser', 'ResolveVanityURL', 1, params
-      result = MultiJson.load(json, :symbolize_keys => true)[:response]
+      result = json[:response]
 
       return nil if result[:success] != 1
 
