@@ -100,22 +100,28 @@ module SteamCondenser
         raise Error::RCONNoAuth unless @rcon_authenticated
 
         @rcon_socket.send Packets::RCON::RCONExecRequest.new(@rcon_request_id, command)
-        @rcon_socket.send Packets::RCON::RCONTerminator.new(@rcon_request_id)
 
+        is_multi = false
         response = []
         begin
           begin
             response_packet = @rcon_socket.reply
+
             if response_packet.is_a? Packets::RCON::RCONAuthResponse
               @rcon_authenticated = false
               raise Error::RCONNoAuth
+            end
+
+            if !is_multi && response_packet.response.size > 0
+              is_multi = true
+              @rcon_socket.send Packets::RCON::RCONTerminator.new(@rcon_request_id)
             end
           rescue Errno::ECONNRESET
             @rcon_authenticated = false
             raise Error::RCONNoAuth
           end
           response << response_packet.response
-        end while response.size < 3 || response_packet.response.size > 0
+        end while is_multi && !(response[-2] == '' && response[-1] == '')
 
         response.join('').strip
       end

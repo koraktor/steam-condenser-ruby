@@ -8,6 +8,11 @@
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
 
+## Version 1.3.7 / 2013-09-02
+
+ * [IMPROVEMENT] Improved handling of empty RCON responses
+ * [BUGFIX] Fixed Web API calls without a key
+
 ## Version 1.3.6 / 2013-07-23
 
  * [SECURITY] Use HTTPS for Web API by default

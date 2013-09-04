@@ -69,6 +69,19 @@ class TestWebApi < Test::Unit::TestCase
       assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
     end
 
+    should 'load data from the Steam Community Web API without an API key' do
+      Community::WebApi.api_key = nil
+
+      data = mock :read => 'data'
+      Community::WebApi.expects(:open).with do |url, options|
+        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
+        url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
+        (url.split('?').last.split('&') & %w{test=param format=json}).size == 2
+      end.returns data
+
+      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
+    end
+
     should 'handle unauthorized access error when loading data' do
       io = mock :status => [401]
       http_error = OpenURI::HTTPError.new '', io
