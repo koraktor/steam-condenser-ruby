@@ -306,7 +306,6 @@ module SteamCondenser::Community
       params = { :relationship => 'friend', :steamid => @steam_id64 }
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
-      friends_data = MultiJson.decode(friends_data, { :symbolize_keys => true })
       @friends = friends_data[:friendslist][:friends].map do |friend|
         @friends << SteamId.new(friend[:steamid].to_i, false)
       end
@@ -326,7 +325,6 @@ module SteamCondenser::Community
         :steamId                   => @steam_id64
       }
       games_data = WebApi.json 'IPlayerService', 'GetOwnedGames', 1, params
-      games_data = MultiJson.load games_data, :symbolize_keys => true
       @games            = {}
       @recent_playtimes = {}
       @total_playtimes  = {}

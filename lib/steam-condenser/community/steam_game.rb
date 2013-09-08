@@ -72,7 +72,7 @@ module SteamCondenser::Community
     def self.uptodate?(app_id, version)
       params = { :appid => app_id, :version => version }
       result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
-      result = MultiJson.load(result, { :symbolize_keys => true})[:response]
+      result = result[:response]
       raise SteamCondenser::Error, result[:error] unless result[:success]
       result[:up_to_date]
     end
@@ -139,8 +139,7 @@ module SteamCondenser::Community
     def player_count
       params = { :appid => @app_id }
       result = WebApi.json 'ISteamUserStats', 'GetNumberOfCurrentPlayers', 1, params
-      result = MultiJson.load(result, { :symbolize_keys => true})[:response]
-      result[:player_count]
+      result[:response][:player_count]
     end
 
     # Returns the URL of this game's page in the Steam Store

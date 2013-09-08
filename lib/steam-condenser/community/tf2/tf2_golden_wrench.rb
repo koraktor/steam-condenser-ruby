@@ -48,7 +48,7 @@ module SteamCondenser::Community
       if @@golden_wrenches.nil?
         @@golden_wrenches = []
 
-        data = MultiJson.load(WebApi.json('ITFItems_440', 'GetGoldenWrenches', 2), { :symbolize_keys => true })
+        data = WebApi.json 'ITFItems_440', 'GetGoldenWrenches', 2
         data[:results][:wrenches].each do |wrench_data|
           @@golden_wrenches << TF2GoldenWrench.new(wrench_data)
         end

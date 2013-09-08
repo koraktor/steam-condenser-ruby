@@ -72,7 +72,7 @@ module SteamCondenser::Community
       percentages = {}
 
       data = WebApi.json('ISteamUserStats', 'GetGlobalAchievementPercentagesForApp', 2, { :gameid => app_id })
-      MultiJson.load(data, { :symbolize_keys => true })[:achievementpercentages][:achievements].each do |percentage|
+      data[:achievementpercentages][:achievements].each do |percentage|
         percentages[percentage[:name].to_sym] = percentage[:percent]
       end
 

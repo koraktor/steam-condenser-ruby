@@ -85,7 +85,7 @@ module SteamCondenser::Community
       data = WebApi.json('ISteamNews', 'GetNewsForApp', 2, params)
 
       news_items = []
-      MultiJson.load(data, { :symbolize_keys => true })[:appnews][:newsitems].each do |news_data|
+      data[:appnews][:newsitems].each do |news_data|
         news_items << AppNews.new(app_id, news_data)
       end
 
