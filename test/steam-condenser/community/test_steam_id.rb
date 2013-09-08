@@ -12,7 +12,7 @@ class TestSteamId < Test::Unit::TestCase
     should 'be able to resolve vanity URLs' do
       Community::WebApi.expects(:json).
         with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'koraktor' }).
-        returns '{ "response": { "success": 1, "steamid": "76561197961384956" } }'
+        returns({ response: { success: 1, steamid: 76561197961384956 } })
 
       steam_id64 = Community::SteamId.resolve_vanity_url 'koraktor'
       assert_equal 76561197961384956, steam_id64
@@ -21,7 +21,7 @@ class TestSteamId < Test::Unit::TestCase
     should 'be return nil when not able to resolve a vanity URL' do
       Community::WebApi.expects(:json).
         with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'unknown' }).
-        returns '{ "response": { "success": 42 } }'
+        returns({ response: { success: 42 } })
 
       assert_nil Community::SteamId.resolve_vanity_url 'unknown'
     end
