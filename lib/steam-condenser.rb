@@ -14,3 +14,4 @@ end
 
 require 'steam-condenser/logging'
 require 'steam-condenser/version'
+require 'steam-condenser/all'
