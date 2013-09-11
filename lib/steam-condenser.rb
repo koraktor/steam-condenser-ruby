@@ -9,9 +9,11 @@
 # point when using the gem (i.e. +require 'steam-condenser').
 #
 # @author Sebastian Staudt
+
 module SteamCondenser
 end
 
 require 'steam-condenser/logging'
 require 'steam-condenser/version'
-require 'steam-condenser/all'
+require 'steam-condenser/community/all'
+require 'steam-condenser/servers/all'
