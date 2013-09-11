@@ -16,7 +16,7 @@ require 'shoulda-context'
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-require 'steam-condenser/all'
+require 'steam-condenser'
 include SteamCondenser
 
 # Extends TestCase functionality
