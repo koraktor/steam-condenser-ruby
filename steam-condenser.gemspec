@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Steam Condenser - A Steam query library'
   s.description = 'A multi-language library for querying the Steam Community, Source, GoldSrc servers and Steam master servers'
 
-  s.add_dependency 'multi_json', '~> 1.7.2'
+  s.add_dependency 'multi_json', '~> 1.8.0'
   s.add_dependency 'multi_xml', '~> 0.5.2'
 
   s.add_development_dependency 'mocha', '~> 0.13.0'
