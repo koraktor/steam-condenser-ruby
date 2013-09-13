@@ -41,6 +41,7 @@ end
 # Task for cleaning documentation and package directories
 desc 'Clean documentation and package directories'
 task :clean do
+  FileUtils.rm_rf 'coverage'
   FileUtils.rm_rf 'doc'
   FileUtils.rm_rf 'pkg'
 end
