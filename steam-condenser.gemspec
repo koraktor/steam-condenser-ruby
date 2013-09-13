@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'multi_xml', '~> 0.5.2'
 
   s.add_development_dependency 'mocha', '~> 0.13.0'
-  s.add_development_dependency 'rake', '~> 10.0.1'
+  s.add_development_dependency 'rake', '~> 10.1.0'
   s.add_development_dependency 'shoulda-context', '~> 1.1.1'
   s.add_development_dependency 'yard', '~> 0.8.0'
 
