@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'mocha', '~> 0.14.0'
   s.add_development_dependency 'rake', '~> 10.1.0'
+  s.add_development_dependency 'rspec-core', '~> 2.14.4'
+  s.add_development_dependency 'rspec-expectations', '~> 2.14.2'
   s.add_development_dependency 'shoulda-context', '~> 1.1.1'
   s.add_development_dependency 'yard', '~> 0.8.0'
 
