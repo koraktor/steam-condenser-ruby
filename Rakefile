@@ -3,10 +3,11 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'rake/testtask'
 require 'rubygems/package_task'
+require 'yard/rake/yardoc_task'
 
 task :default => :test
 
@@ -20,22 +21,11 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-# Check if YARD is installed
-begin
-  require 'yard'
-
-  # Create a rake task +:doc+ to build the documentation using YARD
-  YARD::Rake::YardocTask.new do |yardoc|
-    yardoc.name    = 'doc'
-    yardoc.files   = [ 'lib/steam/community/cacheable.rb', 'lib/**/*.rb', 'LICENSE', 'README.md' ]
-    yardoc.options = [ '--private', '--title', 'Metior — API Documentation' ]
-  end
-rescue LoadError
-  # Create a rake task +:doc+ to show that YARD is not installed
-  desc 'Generate YARD Documentation (not available)'
-  task :doc do
-    $stderr.puts 'You need YARD to build the documentation. Install it using `gem install yard`.'
-  end
+# Create a rake task +:doc+ to build the documentation using YARD
+YARD::Rake::YardocTask.new do |yardoc|
+  yardoc.name    = 'doc'
+  yardoc.files   = [ 'lib/steam/community/cacheable.rb', 'lib/**/*.rb', 'LICENSE', 'README.md' ]
+  yardoc.options = [ '--private', '--title', 'Metior — API Documentation' ]
 end
 
 # Task for cleaning documentation and package directories
