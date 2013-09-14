@@ -23,6 +23,7 @@ module SteamCondenser
     class GoldSrcServer
 
       include GameServer
+      include SteamCondenser::Logging
 
       # Returns a master server instance for the default master server for
       # GoldSrc games
