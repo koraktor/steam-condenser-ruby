@@ -61,6 +61,7 @@ included LICENSE file.
 * John Amicangelo - amicangelo.j(at)husky.neu.edu
 * Eric Litak – elitak(at)gmail.com
 * Rodrigo Navarro – rnavarro1(at)gmail.com
+* Justas Palumickas – justas(at)elish.lt
 
 ## See Also
 
