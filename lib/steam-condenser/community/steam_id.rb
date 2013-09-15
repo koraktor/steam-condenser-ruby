@@ -372,7 +372,7 @@ module SteamCondenser::Community
     # @return [Array<SteamId>] The friends of this user
     # @see #fetch_friends
     def friends
-      @friends ||= fetch_friends
+      @friends || fetch_friends
     end
 
     # Returns the games this user owns
@@ -385,7 +385,7 @@ module SteamCondenser::Community
     # @return [Hash<Fixnum, SteamGame>] The games this user owns
     # @see #fetch_games
     def games
-      @games ||= fetch_games
+      @games || fetch_games
     end
 
     # Returns the URL of the icon version of this user's avatar
