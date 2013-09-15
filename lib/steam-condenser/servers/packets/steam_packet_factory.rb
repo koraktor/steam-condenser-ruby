@@ -66,7 +66,7 @@ module SteamCondenser::Servers::Packets
         when BasePacket::RCON_GOLDSRC_CHALLENGE_HEADER,
              BasePacket::RCON_GOLDSRC_NO_CHALLENGE_HEADER,
              BasePacket::RCON_GOLDSRC_RESPONSE_HEADER
-          return RCONGoldSrcResponse.new(data)
+          return RCON::RCONGoldSrcResponse.new(data)
         else
           raise SteamCondenser::Error::PacketFormat, "Unknown packet with header 0x#{header.to_s(16)} received."
       end
