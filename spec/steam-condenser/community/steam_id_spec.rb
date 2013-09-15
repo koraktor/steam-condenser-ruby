@@ -24,6 +24,14 @@ describe Community::SteamId do
     Community::SteamId.resolve_vanity_url('unknown').should be_nil
   end
 
+  it 'can be created using a STEAM_ID' do
+    steam_id = mock
+    Community::SteamId.expects(:steam_id_to_community_id).with('STEAM_ID').returns 1234
+    Community::SteamId.expects(:new).with(1234).returns steam_id
+
+    Community::SteamId.from_steam_id('STEAM_ID').should eq(steam_id)
+  end
+
   it 'should provide a conversion between 64bit Steam IDs and STEAM_IDs' do
     steam_id = Community::SteamId.community_id_to_steam_id 76561197960290418
     steam_id.should eq('STEAM_0:0:12345')
@@ -32,6 +40,11 @@ describe Community::SteamId do
   it 'should provide a conversion between STEAM_IDs and 64bit Steam IDs' do
     steam_id64 = Community::SteamId.steam_id_to_community_id 'STEAM_0:0:12345'
     steam_id64.should eq(76561197960290418)
+  end
+
+  it 'should fail when trying to convert invalid STEAM_IDs to 64bit Steam IDs' do
+    expect { Community::SteamId.steam_id_to_community_id 'BOT' }.to raise_error(SteamCondenser::Error)
+    expect { Community::SteamId.steam_id_to_community_id 'STEAM_LAN' }.to raise_error(SteamCondenser::Error)
   end
 
   it 'should provide a conversion between U_IDs and 64bit Steam IDs' do
@@ -151,6 +164,51 @@ describe Community::SteamId do
     -> { steam_id.games }.should raise_error(SteamCondenser::Error::WebApi)
 
     steam_id.instance_variable_get(:@games).should be_nil
+  end
+
+  it 'fetches friends using Steam\'s Web API' do
+    steam_id = Community::SteamId.new 1234, false
+
+    friends_data = {
+      friendslist: {
+        friends: [
+          { steamid: 12345 },
+          { steamid: 67890 }
+        ]
+      }
+    }
+
+    params = { :relationship => 'friend', :steamid => 1234 }
+    Community::WebApi.expects(:json).
+      with('ISteamUser', 'GetFriendList', 1, params).returns friends_data
+
+    friend1, friend2 = mock, mock
+    Community::SteamId.expects(:new).with(12345, false).returns friend1
+    Community::SteamId.expects(:new).with(67890, false).returns friend2
+
+    steam_id.fetch_friends.should eq([ friend1, friend2 ])
+  end
+
+  it 'fetches friends conditionally' do
+    steam_id = Community::SteamId.new 1234, false
+
+    steam_id.expects(:fetch_friends).once.with {
+      steam_id.instance_variable_set :@friends, []
+    }.returns []
+
+    steam_id.friends.should eq([])
+    steam_id.friends.should eq([])
+  end
+
+  it 'fetches games conditionally' do
+    steam_id = Community::SteamId.new 1234, false
+
+    steam_id.expects(:fetch_games).once.with {
+      steam_id.instance_variable_set :@games, []
+    }.returns []
+
+    steam_id.games.should eq([])
+    steam_id.games.should eq([])
   end
 
   after do
