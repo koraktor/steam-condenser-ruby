@@ -307,7 +307,7 @@ module SteamCondenser::Community
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
       @friends = friends_data[:friendslist][:friends].map do |friend|
-        @friends << SteamId.new(friend[:steamid].to_i, false)
+        SteamId.new(friend[:steamid].to_i, false)
       end
     end
 
