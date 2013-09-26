@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011, Sebastian Staudt
+# Copyright (c) 2011-2013, Sebastian Staudt
 
 require 'helper'
 require 'steam/community/steam_group'
@@ -35,10 +35,10 @@ class TestSteamGroup < Test::Unit::TestCase
       group = SteamGroup.new 'valve'
       members = group.members
 
-      assert_equal 221, group.member_count
-      assert_equal 76561197960265740, members.first.steam_id64
+      assert_equal 239, group.member_count
+      assert_equal 76561197985607672, members.first.steam_id64
       assert_not members.first.fetched?
-      assert_equal 76561197970323416, members.last.steam_id64
+      assert_equal 76561198086572943, members.last.steam_id64
       assert group.fetched?
     end
 
@@ -71,7 +71,7 @@ class TestSteamGroup < Test::Unit::TestCase
       SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
 
       group = SteamGroup.new 'valve', false
-      assert_equal 221, group.member_count
+      assert_equal 239, group.member_count
     end
 
     teardown do
