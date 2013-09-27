@@ -156,6 +156,7 @@ class SteamGroup
     if page == 1
       member_data['groupDetails']['avatarIcon'] =~ /\/([0-9a-f]+)\.jpg$/
       @avatar_hash = $1
+      @custom_url  = member_data['groupDetails']['groupURL']
       @group_id64  = member_data['groupID64'].to_i
       @headline    = member_data['groupDetails']['headline']
       @name        = member_data['groupDetails']['groupName']
