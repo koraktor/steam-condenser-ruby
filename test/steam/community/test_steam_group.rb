@@ -28,17 +28,26 @@ class TestSteamGroup < Test::Unit::TestCase
       assert SteamGroup.cached? 'valve'
     end
 
-    should 'be able to fetch its members' do
+    should 'be able to fetch its members and properties' do
       url = fixture_io 'valve-members.xml'
-      SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', { :proxy => true }).returns url
+      SteamGroup.any_instance.expects(:open).with('http://steamcommunity.com/gid/103582791429521412/memberslistxml?p=1', { :proxy => true }).returns url
 
-      group = SteamGroup.new 'valve'
+      group = SteamGroup.new 103582791429521412
       members = group.members
 
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/1d/1d8baf5a2b5968ae5ca65d7a971c02e222c9a17e_full.jpg', group.avatar_full_url
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/1d/1d8baf5a2b5968ae5ca65d7a971c02e222c9a17e.jpg', group.avatar_icon_url
+      assert_equal 'http://media.steampowered.com/steamcommunity/public/images/avatars/1d/1d8baf5a2b5968ae5ca65d7a971c02e222c9a17e_medium.jpg', group.avatar_medium_url
+      assert_equal 'Valve', group.custom_url
+      assert_equal 'VALVE', group.headline
       assert_equal 239, group.member_count
+      assert_equal 'Valve', group.name
+      assert_equal 'In addition to producing best-selling entertainment titles, Valve is a developer of leading-edge technologies such as the Source™ game engine and Steam™, a broadband platform for the delivery and management of digital content.', group.summary
+
       assert_equal 76561197985607672, members.first.steam_id64
       assert_not members.first.fetched?
       assert_equal 76561198086572943, members.last.steam_id64
+
       assert group.fetched?
     end
 
