@@ -4,6 +4,7 @@
 # Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'cgi'
+require 'time'
 
 require 'errors/steam_condenser_error'
 require 'steam/community/cacheable'
