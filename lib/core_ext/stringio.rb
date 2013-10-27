@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2011, Sebastian Staudt
+# Copyright (c) 2010-2013, Sebastian Staudt
 
 require 'stringio'
 
@@ -73,12 +73,14 @@ class StringIO
   # Reads a zero-byte terminated string from the current position of the byte
   # stream
   #
-  # This reads the stream up until the first occurance of a zero-byte or the
+  # This reads the stream up until the first occurrence of a zero-byte or the
   # end of the stream. The zero-byte is not included in the returned string.
   #
   # @return [String] The zero-byte terminated string read from the byte stream
   def cstring
-    gets("\0")[0..-2]
+    string = gets("\0")[0..-2]
+    string.force_encoding 'UTF-8' if string.respond_to? :force_encoding
+    string
   end
 
 end

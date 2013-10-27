@@ -4,6 +4,7 @@
 # Copyright (c) 2008-2013, Sebastian Staudt
 
 require 'cgi'
+require 'time'
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_stats'

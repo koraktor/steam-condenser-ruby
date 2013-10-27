@@ -20,6 +20,8 @@ module SteamCondenser::Community
 
     include XMLData
 
+    AVATAR_URL = 'http://media.steampowered.com/steamcommunity/public/images/avatars/%s/%s%s.jpg'
+
     # Returns the custom URL of this group
     #
     # The custom URL is a admin specified unique string that can be used
@@ -33,6 +35,21 @@ module SteamCondenser::Community
     # @return [Fixnum] This group's 64bit SteamID
     attr_reader :group_id64
 
+    # Returns this group's headline text
+    #
+    # @return [String] This group's headline text
+    attr_reader :headline
+
+    # Returns this group's name
+    #
+    # @return [String] This group's name
+    attr_reader :name
+
+    # Returns this group's summary text
+    #
+    # @return [String] This group's summary text
+    attr_reader :summary
+
     # Creates a new `SteamGroup` instance for the group with the given ID
     #
     # @param [String, Fixnum] id The custom URL of the group specified by the
@@ -45,6 +62,27 @@ module SteamCondenser::Community
         @custom_url = id.downcase
       end
       @members = []
+    end
+
+    # Returns the URL to this group's full avatar
+    #
+    # @return [String] The URL to this group's full avatar
+    def avatar_full_url
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_full' ]
+    end
+
+    # Returns the URL to this group's icon avatar
+    #
+    # @return [String] The URL to this group's icon avatar
+    def avatar_icon_url
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '' ]
+    end
+
+    # Returns the URL to this group's medium avatar
+    #
+    # @return [String] The URL to this group's medium avatar
+    def avatar_medium_url
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_medium' ]
     end
 
     # Returns the base URL for this group's page
@@ -114,22 +152,27 @@ module SteamCondenser::Community
     def fetch_page(page)
       member_data = parse "#{base_url}/memberslistxml?p=#{page}"
 
-      begin
-        @group_id64   = member_data['groupID64'].to_i if page == 1
-        @member_count = member_data['memberCount'].to_i
-        total_pages   = member_data['totalPages'].to_i
+      @member_count = member_data['memberCount'].to_i
+      total_pages   = member_data['totalPages'].to_i
 
-        member_data['members']['steamID64'].each do |member|
-          @members << SteamId.new(member.to_i, false)
-        end
+      if page == 1
+        member_data['groupDetails']['avatarIcon'] =~ /\/([0-9a-f]+)\.jpg$/
+        @avatar_hash = $1
+        @custom_url  = member_data['groupDetails']['groupURL']
+        @group_id64  = member_data['groupID64'].to_i
+        @headline    = member_data['groupDetails']['headline']
+        @name        = member_data['groupDetails']['groupName']
+        @summary     = member_data['groupDetails']['summary']
+      end
 
-        total_pages
-      rescue
-        raise $! if $!.is_a? SteamCondenser::Error
-        raise SteamCondenser::Error, 'XML data could not be parsed.'
+      member_data['members']['steamID64'].each do |member|
+        @members << SteamId.new(member.to_i, false)
       end
 
       total_pages
+    rescue
+      raise $! if $!.is_a? SteamCondenser::Error
+      raise SteamCondenser::Error, 'XML data could not be parsed.'
     end
 
   end
