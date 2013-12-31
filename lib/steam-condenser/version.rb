@@ -6,6 +6,6 @@
 module SteamCondenser
 
   # The current version of Steam Condenser
-  VERSION = '1.3.8'
+  VERSION = '1.3.8.1'
 
 end

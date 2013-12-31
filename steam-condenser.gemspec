@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.2'
 
-  s.add_dependency 'multi_json', '~> 1.8.0'
-  s.add_dependency 'multi_xml', '~> 0.5.2'
+  s.add_dependency 'multi_json', '~> 1.6'
+  s.add_dependency 'multi_xml', '~> 0.5'
 
   s.add_development_dependency 'mocha', '~> 0.14.0'
   s.add_development_dependency 'rake', '~> 10.1.0'
