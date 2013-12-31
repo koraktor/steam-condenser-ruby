@@ -7,8 +7,10 @@ rvm:
   - 2.1.0
   - jruby-18mode
   - jruby-19mode
+  - jruby-head
   - ruby-head
 matrix:
   allow_failures:
+    - rvm: jruby-head
     - rvm: ruby-head
   fast_finish: true
