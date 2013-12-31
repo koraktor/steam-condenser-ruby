@@ -90,7 +90,7 @@ module SteamCondenser
       # * `\gamedir\[mod]`: Request only servers of a specific mod
       # * `\map\[mapname]`: Request only servers running a specific map
       # * `\linux\1`: Request only linux servers
-      # * `\emtpy\1`: Request only **non**-empty servers
+      # * `\empty\1`: Request only **non**-empty servers
       # * `\full\1`: Request only servers **not** full
       # * `\proxy\1`: Request only spectator proxy servers
       #
