@@ -44,7 +44,7 @@ module SteamCondenser::Community
     # @return [Array<String>] The names of the classes this player has equipped
     #         this item
     def classes_equipped?
-      @equipped.reject { |class_id, equipped| !equipped }
+      @equipped.reject { |_, equipped| !equipped }
     end
 
     # Returns whether this item is equipped by this player at all

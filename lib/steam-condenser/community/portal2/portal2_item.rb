@@ -45,7 +45,7 @@ module SteamCondenser::Community
     # @return [Array<String>] The names of the bots this player has equipped
     #         this item
     def bots_equipped?
-      @equipped.reject { |bot_id, equipped| !equipped }
+      @equipped.reject { |_, equipped| !equipped }
     end
 
     # Returns whether this item is equipped by this player at all
