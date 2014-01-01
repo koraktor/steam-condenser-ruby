@@ -237,7 +237,7 @@ module SteamCondenser::Community
       end
     end
 
-    # Fetchs data from the Steam Community by querying the XML version of the
+    # Fetches data from the Steam Community by querying the XML version of the
     # profile specified by the ID of this Steam ID
     #
     # @raise [Error] if the Steam ID data is not available, e.g. when it is
