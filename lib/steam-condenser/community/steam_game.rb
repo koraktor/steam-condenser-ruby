@@ -47,6 +47,7 @@ module SteamCondenser::Community
       rescue
         raise SteamCondenser::Error, "The steam.inf file at \"#{path}\" is invalid."
       end
+      uptodate? app_id, version
     end
 
     # Creates a new instance of a game with the given data and caches it
