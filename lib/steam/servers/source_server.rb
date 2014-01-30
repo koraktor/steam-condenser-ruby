@@ -73,13 +73,10 @@ class SourceServer
 
     @rcon_socket.send RCONAuthRequest.new @rcon_request_id, password
 
-    begin
-      @rcon_socket.reply
-      reply = @rcon_socket.reply
-      @rcon_authenticated = reply.request_id == @rcon_request_id
-    rescue Errno::ECONNRESET
-      raise RCONBanError
-    end
+    reply = @rcon_socket.reply
+    raise RCONBanError if reply.nil?
+    reply = @rcon_socket.reply
+    @rcon_authenticated = reply.request_id == @rcon_request_id
   end
 
   # Remotely executes a command on the server via RCON
@@ -98,22 +95,18 @@ class SourceServer
     is_multi = false
     response = []
     begin
-      begin
-        response_packet = @rcon_socket.reply
+      response_packet = @rcon_socket.reply
 
-        if response_packet.is_a? RCONAuthResponse
-          @rcon_authenticated = false
-          raise RCONNoAuthError
-        end
-
-        if !is_multi && response_packet.response.size > 0
-          is_multi = true
-          @rcon_socket.send RCONTerminator.new(@rcon_request_id)
-        end
-      rescue Errno::ECONNRESET
+      if response_packet.nil? || response_packet.is_a?(RCONAuthResponse)
         @rcon_authenticated = false
         raise RCONNoAuthError
       end
+
+      if !is_multi && response_packet.response.size > 0
+        is_multi = true
+        @rcon_socket.send RCONTerminator.new(@rcon_request_id)
+      end
+
       response << response_packet.response
     end while is_multi && !(response[-2] == '' && response[-1] == '')
 

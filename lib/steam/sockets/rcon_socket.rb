@@ -79,9 +79,13 @@ class RCONSocket
   #        dropped by the server
   # @return [RCONPacket] The packet replied from the server
   def reply
-    if receive_packet(4) == 0
-      @socket.close
-      raise RCONBanError
+    begin
+      if receive_packet(4) == 0
+        @socket.close
+        return nil
+      end
+    rescue Errno::ECONNRESET
+      return nil
     end
 
     remaining_bytes = @buffer.long
