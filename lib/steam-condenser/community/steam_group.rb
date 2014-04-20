@@ -68,21 +68,21 @@ module SteamCondenser::Community
     #
     # @return [String] The URL to this group's full avatar
     def avatar_full_url
-      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_full' ]
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_full' ] if @avatar_hash
     end
 
     # Returns the URL to this group's icon avatar
     #
     # @return [String] The URL to this group's icon avatar
     def avatar_icon_url
-      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '' ]
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '' ] if @avatar_hash
     end
 
     # Returns the URL to this group's medium avatar
     #
     # @return [String] The URL to this group's medium avatar
     def avatar_medium_url
-      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_medium' ]
+      AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_medium' ] if @avatar_hash
     end
 
     # Returns the base URL for this group's page
