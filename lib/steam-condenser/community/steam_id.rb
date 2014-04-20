@@ -318,6 +318,26 @@ module SteamCondenser::Community
       @groups
     end
 
+    # Fetches the users summary data
+    #
+    # This returns summaries for a given user id, this call requires
+    # an api key to be set
+    # @see #summary
+    def fetch_summary
+      params = { :steamids => steam_id64 }
+
+      if WebApi.api_key
+        summary_data = WebApi.json 'ISteamUser', 'GetPlayerSummaries', 2, params
+        data = summary_data[:response][:players].first || {}
+
+        {
+          :game_id => data[:gameid],
+          :game_name => data[:gameextrainfo],
+          :game_server_ip => data[:gameserverip]
+        }
+      end
+    end
+
     # Returns the URL of the full-sized version of this user's avatar
     #
     # @return [String] The URL of the full-sized avatar
@@ -365,6 +385,16 @@ module SteamCondenser::Community
     # @see #fetch_groups
     def groups
       @groups || fetch_groups
+    end
+
+    # Returns the Steam Community summary of this user
+    #
+    # If the summary hasn't been fetched yet, this is done now.
+    #
+    # @return Summary The summary of this user
+    # @see #fetch_summary
+    def summary
+      @fetch_summary || fetch_summary
     end
 
     # Returns the URL of the icon version of this user's avatar
