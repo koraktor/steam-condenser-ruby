@@ -308,11 +308,17 @@ module SteamCondenser::Community
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
       friends = friends_data['friends']['friend']
-      if friends.nil?
-        friends = []
-      elsif /^\d+$/ =~ friends
-        friends = [friends]
+      
+      if not friends.is_a?(Array)
+        # If friends is not an array, then either you have no friend and has "\t\n" in the field
+        # or you have a single ID in the field.
+        if /^\d+$/ =~ friends
+          friends = [friends]
+        else
+          friends = []
+        end
       end
+      
       @friends = friends.map do |friend|
         SteamId.new friend.to_i, false
       end
