@@ -1,3 +1,7 @@
+## Version 1.3.9 / 2014-07-22
+
+ * [IMPROVEMENT] Simplified and improved socket error handling
+
 ## Version 1.3.8.1 / 2013-12-31
 
  * [IMPROVEMENT] Relaxed runtime dependencies
