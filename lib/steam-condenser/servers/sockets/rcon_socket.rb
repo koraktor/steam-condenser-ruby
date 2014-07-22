@@ -83,9 +83,13 @@ module SteamCondenser::Servers::Sockets
     #        dropped by the server
     # @return [Packets::RCON::BasePacket] The packet replied from the server
     def reply
-      if receive_packet(4) == 0
-        @socket.close
-        raise SteamCondenser::Error::RCONBan
+      begin
+        if receive_packet(4) == 0
+          @socket.close
+          return nil
+        end
+      rescue Errno::ECONNRESET
+        return nil
       end
 
       remaining_bytes = @buffer.long
