@@ -1,3 +1,13 @@
+## Version 1.3.8.1 / 2013-12-31
+
+ * [IMPROVEMENT] Relaxed runtime dependencies
+
+## Version 1.3.8 / 2013-10-27
+
+ * [ENHANCEMENT] Add support for additional group information
+ * [IMPROVEMENT] Improve handling of UTF-8 characters in server replies
+ * [IMPROVEMENT] Other improvments
+
 ## Version 1.3.7 / 2013-09-02
 
  * [IMPROVEMENT] Improved handling of empty RCON responses
