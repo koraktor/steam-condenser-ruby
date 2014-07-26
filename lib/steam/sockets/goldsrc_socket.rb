@@ -91,7 +91,6 @@ class GoldSrcSocket
     rcon_challenge if @rcon_challenge.nil? || @is_hltv
 
     rcon_send "rcon #@rcon_challenge #{password} #{command}"
-    rcon_send "rcon #@rcon_challenge #{password}"
     if @is_hltv
       begin
         response = reply.response
@@ -107,6 +106,8 @@ class GoldSrcSocket
     elsif response.strip == 'You have been banned from this server.'
       raise RCONBanError
     end
+
+    rcon_send "rcon #@rcon_challenge #{password}"
 
     begin
       response_part = reply.response
