@@ -80,7 +80,7 @@ module SteamCondenser
         @rcon_socket.send Packets::RCON::RCONAuthRequest.new @rcon_request_id, password
 
         reply = @rcon_socket.reply
-        raise RCONBanError if reply.nil?
+        raise Error::RCONBan if reply.nil?
         reply = @rcon_socket.reply
         @rcon_authenticated = reply.request_id == @rcon_request_id
       end
