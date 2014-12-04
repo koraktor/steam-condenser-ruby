@@ -10,7 +10,7 @@
 
  * [ENHANCEMENT] Add support for additional group information
  * [IMPROVEMENT] Improve handling of UTF-8 characters in server replies
- * [IMPROVEMENT] Other improvments
+ * [IMPROVEMENT] Other improvements
 
 ## Version 1.3.7 / 2013-09-02
 
@@ -86,7 +86,7 @@
  * [BUGFIX] Use `A2S_PLAYER` packet to challenge game servers
  * [BUGFIX] Fixed several URL related problems
  * [BUGFIX] Fixed Web API not working without an API key
- * [PERFORMACE] Optimized fetching of Steam group members
+ * [PERFORMANCE] Optimized fetching of Steam group members
 
 ## Version 1.1.0 / 2011-12-13
 
@@ -229,7 +229,7 @@
  * [FEATURE] Support for *Team Fortress 2* stats and achievements
  * [FEATURE] Support for split RCON replies
  * [FEATURE] Support for compressed query replies
- * [ENHANCEMENT] Better support for HTLV servers
+ * [ENHANCEMENT] Better support for HLTV servers
  * [ENHANCEMENT] XML cache for `GameStats`
  * [ENHANCEMENT] Use correct packet names
  * [BUGFIX] Fixed fetching of `SteamId` data
