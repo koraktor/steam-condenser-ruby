@@ -1,3 +1,8 @@
+## Version 1.3.10 / Unreleased
+
+ * [BUGFIX] Fixed problems with game inventories
+ * [PERFORMANCE] Optimized GoldSrc RCON requests
+
 ## Version 1.3.9 / 2014-07-22
 
  * [IMPROVEMENT] Simplified and improved socket error handling
