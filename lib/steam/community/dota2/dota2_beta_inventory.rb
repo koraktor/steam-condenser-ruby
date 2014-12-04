@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2012, Sebastian Staudt
+# Copyright (c) 2012-2014, Sebastian Staudt
 
 require 'steam/community/dota2/dota2_item'
 require 'steam/community/game_inventory'
@@ -25,6 +25,6 @@ class Dota2BetaInventory < GameInventory
   end
 
   # The class representing DotA 2 items
-  @@item_class = Dota2Item
+  @item_class = Dota2Item
 
 end
