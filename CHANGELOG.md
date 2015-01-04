@@ -2,6 +2,7 @@
 
  * [BUGFIX] Fixed problems with game inventories
  * [PERFORMANCE] Optimized GoldSrc RCON requests
+ * [ENHANCEMENT] Specify minimum Ruby version in gem specification
 
 ## Version 1.3.9 / 2014-07-22
 
