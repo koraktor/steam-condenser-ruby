@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2012, Sebastian Staudt
+# Copyright (c) 2012-2014, Sebastian Staudt
 
 require 'steam-condenser/community/game_item'
 
@@ -10,9 +10,7 @@ module SteamCondenser::Community
   # Represents a DotA 2 item
   #
   # @author Sebastian Staudt
-  class Dota2Item
-
-    include GameItem
+  class Dota2Item < GameItem
 
     # Creates a new instance of a DotA 2 item with the given data
     #
