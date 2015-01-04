@@ -1,4 +1,4 @@
-## Version 1.3.10 / Unreleased
+## Version 1.3.10 / 2015-01-04
 
  * [BUGFIX] Fixed problems with game inventories
  * [PERFORMANCE] Optimized GoldSrc RCON requests
