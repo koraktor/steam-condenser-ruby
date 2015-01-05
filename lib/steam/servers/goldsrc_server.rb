@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'steam/servers/game_server'
 require 'steam/servers/master_server'
@@ -58,8 +58,16 @@ class GoldSrcServer
   #         method always returns `true`
   # @see #rcon_exec
   def rcon_auth(password)
+    @rcon_authenticated = true
     @rcon_password = password
-    true
+
+    begin
+      rcon_exec ''
+    rescue RCONNoAuthError
+      @rcon_password = nil
+    end
+
+    @rcon_authenticated
   end
 
   # Remotely executes a command on the server via RCON
@@ -68,7 +76,14 @@ class GoldSrcServer
   # @return [String] The output of the executed command
   # @see #rcon_auth
   def rcon_exec(command)
-    @socket.rcon_exec(@rcon_password, command).strip
+    raise RCONNoAuthError unless @rcon_authenticated
+
+    begin
+      @socket.rcon_exec(@rcon_password, command).strip
+    rescue RCONNoAuthError
+      @rcon_authenticated = false
+      raise
+    end
   end
 
 end
