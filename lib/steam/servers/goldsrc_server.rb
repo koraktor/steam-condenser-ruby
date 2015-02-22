@@ -50,12 +50,14 @@ class GoldSrcServer
     @socket = GoldSrcSocket.new @ip_address, @port, @is_hltv
   end
 
-  # Saves the password for authenticating the RCON communication with the
-  # server
+  # Tries to establish RCON authentication with the server with the given
+  # password
+  #
+  # This will send an empty command that will ensure the given password was
+  # correct. If successful, the password is stored for future use.
   #
   # @param [String] password The RCON password of the server
-  # @return [true] GoldSrc's RCON does not preauthenticate connections so this
-  #         method always returns `true`
+  # @return [Boolean] `true` if authentication was successful
   # @see #rcon_exec
   def rcon_auth(password)
     @rcon_authenticated = true
