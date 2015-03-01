@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Steam Condenser - A Steam query library'
   s.description = 'A multi-language library for querying the Steam Community, Source, GoldSrc servers and Steam master servers'
 
-  s.required_ruby_version = '>= 1.9.2'
+  s.required_ruby_version = '>= 2.0'
 
   s.add_dependency 'multi_json', '~> 1.6'
   s.add_dependency 'multi_xml', '~> 0.5'
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'mocha', '~> 1.1'
   s.add_development_dependency 'rake', '~> 10.4'
   s.add_development_dependency 'shoulda-context', '~> 1.2'
+  s.add_development_dependency 'test-unit', '~> 3.0'
   s.add_development_dependency 'yard', '~> 0.8'
 
   s.files              = Dir.glob '**/*'
