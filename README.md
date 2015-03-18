@@ -1,11 +1,11 @@
 Steam Condenser
 ===============
 
-[![Gem Version](https://badge.fury.io/rb/steam-condenser.png)](http://badge.fury.io/rb/steam-condenser)
+[![Gem Version](https://badge.fury.io/rb/steam-condenser.svg)](http://badge.fury.io/rb/steam-condenser)
 [![Build Status](https://secure.travis-ci.org/koraktor/steam-condenser-ruby.png)](http://travis-ci.org/koraktor/steam-condenser-ruby)
 [![Dependency Status](https://gemnasium.com/koraktor/steam-condenser-ruby.png)](https://gemnasium.com/koraktor/steam-condenser-ruby)
 [![Code Climate](https://codeclimate.com/github/koraktor/steam-condenser-ruby.png)](https://codeclimate.com/github/koraktor/steam-condenser-ruby)
-[![Coverage Status](https://coveralls.io/repos/koraktor/steam-condenser-ruby/badge.png?branch=master)](https://coveralls.io/r/koraktor/steam-condenser-ruby)
+[![Coverage Status](https://coveralls.io/repos/koraktor/steam-condenser-ruby/badge.svg?branch=1.3-stable)](https://coveralls.io/r/koraktor/steam-condenser-ruby?branch=1.3-stable)
 
 The Steam Condenser is a multi-language library for querying the Steam
 Community, Source and GoldSrc game servers as well as the Steam master servers.
