@@ -1,3 +1,7 @@
+## Version 1.3.11 /2015-03-19
+
+ * [IMPROVEMENT] Optimize GoldSrc RCON authentication
+
 ## Version 1.3.10 / 2015-01-04
 
  * [BUGFIX] Fixed problems with game inventories
