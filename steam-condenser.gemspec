@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'mocha', '~> 0.13.0'
   s.add_development_dependency 'rake', '~> 10.0.1'
   s.add_development_dependency 'shoulda-context', '~> 1.1.1'
+  s.add_development_dependency 'test-unit', '~> 3.0'
   s.add_development_dependency 'yard', '~> 0.8.0'
 
   s.files              = Dir.glob '**/*'
