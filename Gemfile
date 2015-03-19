@@ -7,5 +7,6 @@ group :test do
 
   if RUBY_VERSION.to_f == 1.8
     gem 'mime-types', '< 2.0.0'
+    gem 'rest-client', '< 1.7.0'
   end
 end
