@@ -98,7 +98,10 @@ module SteamCondenser::Community
       end
     end
 
-    # Loads the members of this group
+    # Loads information about and members of this group
+    #
+    # This includes the ID, name, headline, summary of the group as well as
+    # avatar and custom URLs.
     #
     # This might take several HTTP requests as the Steam Community splits this
     # data over several XML documents if the group has lots of members.

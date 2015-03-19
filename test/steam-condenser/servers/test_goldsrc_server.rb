@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2015, Sebastian Staudt
 
 require 'helper'
 
@@ -39,8 +39,21 @@ class TestGoldSrcServer < Test::Unit::TestCase
       assert_same socket, @server.instance_variable_get(:@socket)
     end
 
-    should 'save the RCON password for further use' do
+    should 'not save the RCON password if not authenticated successfully' do
+      socket = mock
+      socket.expects(:rcon_exec).with('password', '').raises Error::RCONNoAuth
+      @server.instance_variable_set :@socket, socket
+
+      assert_not @server.rcon_auth 'password'
+      assert_not @server.rcon_authenticated?
+      assert_nil @server.instance_variable_get(:@rcon_password)
+    end
+
+    should 'save the RCON password if authenticated successfully' do
+      @server.expects(:rcon_exec).with('').returns ''
+
       assert @server.rcon_auth 'password'
+      assert @server.rcon_authenticated?
       assert_equal 'password', @server.instance_variable_get(:@rcon_password)
     end
 
@@ -48,10 +61,31 @@ class TestGoldSrcServer < Test::Unit::TestCase
       socket = mock
       socket.expects(:rcon_exec).with('password', 'command').returns 'test '
 
+      @server.instance_variable_set :@rcon_authenticated, true
       @server.instance_variable_set :@rcon_password, 'password'
       @server.instance_variable_set :@socket, socket
 
       assert_equal 'test', @server.rcon_exec('command')
+    end
+
+    should 'reset authentication if the server denies access' do
+      socket = mock
+      socket.expects(:rcon_exec).with('password', 'command').raises Error::RCONNoAuth
+      @server.instance_variable_set :@rcon_authenticated, true
+      @server.instance_variable_set :@rcon_password, 'password'
+      @server.instance_variable_set :@socket, socket
+
+      assert_raises Error::RCONNoAuth do
+        @server.rcon_exec('command')
+      end
+
+      assert_not @server.rcon_authenticated?
+    end
+
+    should 'raise an error if sending RCON commands before authentication' do
+      assert_raises Error::RCONNoAuth do
+        @server.rcon_exec('command')
+      end
     end
 
   end
