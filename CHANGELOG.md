@@ -7,7 +7,6 @@
  * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
- * [ENHANCEMENT] Add support for Ruby 2.2
  * [ENHANCEMENT] Drop support for Ruby 1.9
 
 ## Version 1.3.10 / 2015-01-04
