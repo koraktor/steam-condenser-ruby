@@ -10,9 +10,7 @@ module SteamCondenser::Servers::Packets
   # This class represents a S2A_LOGSTRING packet used to transfer log messages
   #
   # @author Sebastian Staudt
-  class S2A_LOGSTRING_Packet
-
-    include BasePacket
+  class S2A_LOGSTRING_Packet < BasePacket
 
     # Returns the log message contained in this packet
     #

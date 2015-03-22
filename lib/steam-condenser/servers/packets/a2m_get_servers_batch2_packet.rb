@@ -33,9 +33,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see MasterServer#servers
-  class A2M_GET_SERVERS_BATCH2_Packet
-
-    include BasePacket
+  class A2M_GET_SERVERS_BATCH2_Packet < BasePacket
 
     HEADER = 0x31
 

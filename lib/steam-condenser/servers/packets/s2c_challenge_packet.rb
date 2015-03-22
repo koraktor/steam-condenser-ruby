@@ -15,9 +15,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_challenge_number
-  class S2C_CHALLENGE_Packet
-
-    include BasePacket
+  class S2C_CHALLENGE_Packet < BasePacket
 
     HEADER = 0x41
     # Creates a new S2C_CHALLENGE response object based on the given data

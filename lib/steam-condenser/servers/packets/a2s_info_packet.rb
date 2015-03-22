@@ -14,9 +14,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_server_info
-  class A2S_INFO_Packet
-
-    include BasePacket
+  class A2S_INFO_Packet < BasePacket
 
     HEADER = 0x54
 

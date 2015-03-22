@@ -14,9 +14,10 @@ module SteamCondenser::Servers::Packets::RCON
   #
   # @author Sebastian Staudt
   # @see SourceServer#rcon_exec
-  class RCONExecRequest
+  class RCONExecRequest < BasePacket
 
-    include BasePacket
+    # Header for command execution requests
+    EXECCOMMAND = 2
 
     # Creates a RCON command execution request for the given request ID and
     # command
@@ -24,7 +25,7 @@ module SteamCondenser::Servers::Packets::RCON
     # @param [Fixnum] request_id The request ID of the RCON connection
     # @param [String] rcon_command The command to execute on the server
     def initialize(request_id, rcon_command)
-      super request_id, SERVERDATA_EXECCOMMAND, rcon_command
+      super request_id, EXECCOMMAND, rcon_command
     end
 
   end

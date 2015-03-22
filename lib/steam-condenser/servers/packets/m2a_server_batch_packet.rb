@@ -16,9 +16,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see MasterServer#servers
-  class M2A_SERVER_BATCH_Packet
-
-    include BasePacket
+  class M2A_SERVER_BATCH_Packet < BasePacket
 
     HEADER = 0x66
 

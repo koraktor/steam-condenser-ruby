@@ -35,10 +35,10 @@ module SteamCondenser::Servers::Packets::RCON
       data = byte_buffer.cstring
 
       case header
-        when BasePacket::SERVERDATA_AUTH_RESPONSE then
-          return RCONAuthResponse.new(request_id)
-        when BasePacket::SERVERDATA_RESPONSE_VALUE then
-          return RCONExecResponse.new(request_id, data)
+        when RCONAuthResponse::HEADER
+          RCONAuthResponse.new(request_id)
+        when RCONExecResponse::HEADER
+          RCONExecResponse.new(request_id, data)
         else
           raise SteamCondenser::Error::PacketFormat, "Unknown packet with header #{header.to_s(16)} received."
       end

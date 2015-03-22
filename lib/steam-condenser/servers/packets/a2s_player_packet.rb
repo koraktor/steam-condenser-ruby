@@ -17,9 +17,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_player_info
-  class A2S_PLAYER_Packet
-
-    include BasePacket
+  class A2S_PLAYER_Packet < BasePacket
     include RequestWithChallenge
 
     HEADER = 0x55

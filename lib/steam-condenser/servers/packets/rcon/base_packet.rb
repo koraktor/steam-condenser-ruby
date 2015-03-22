@@ -17,19 +17,7 @@ module SteamCondenser::Servers::Packets
     #
     # @author Sebastian Staudt
     # @see RCONPacketFactory
-    module BasePacket
-
-      # Header for authentication requests
-      SERVERDATA_AUTH = 3
-
-      # Header for replies to authentication attempts
-      SERVERDATA_AUTH_RESPONSE = 2
-
-      # Header for command execution requests
-      SERVERDATA_EXECCOMMAND = 2
-
-      # Header for packets with the output of a command execution
-      SERVERDATA_RESPONSE_VALUE = 0
+    class BasePacket
 
       # Returns the request ID used to identify the RCON communication
       #

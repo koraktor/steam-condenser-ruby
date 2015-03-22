@@ -7,9 +7,7 @@ require 'helper'
 
 class TestBasePacket < Test::Unit::TestCase
 
-  class GenericPacket
-    include Servers::Packets::BasePacket
-  end
+  GenericPacket = Class.new(Servers::Packets::BasePacket)
 
   context 'A packet' do
 

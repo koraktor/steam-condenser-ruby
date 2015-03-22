@@ -14,9 +14,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_player_info
-  class S2A_PLAYER_Packet
-
-    include BasePacket
+  class S2A_PLAYER_Packet < BasePacket
 
     HEADER = 0x44
 

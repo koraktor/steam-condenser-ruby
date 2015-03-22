@@ -15,9 +15,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_challenge_number
-  class A2S_SERVERQUERY_GETCHALLENGE_Packet
-
-    include BasePacket
+  class A2S_SERVERQUERY_GETCHALLENGE_Packet < BasePacket
 
     HEADER = 0x57
 

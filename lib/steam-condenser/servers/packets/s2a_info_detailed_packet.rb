@@ -15,9 +15,7 @@ module SteamCondenser::Servers::Packets
   #             format. Newer ones use the same format as Source servers now
   #             (see {S2A_INFO2_Packet}).
   # @see GameServer#update_server_info
-  class S2A_INFO_DETAILED_Packet
-
-    include S2A_INFO_BasePacket
+  class S2A_INFO_DETAILED_Packet < S2A_INFO_BasePacket
 
     HEADER = 0x6D
 

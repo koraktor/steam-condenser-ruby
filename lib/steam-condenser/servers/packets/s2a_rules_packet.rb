@@ -14,9 +14,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_rules_info
-  class S2A_RULES_Packet
-
-    include BasePacket
+  class S2A_RULES_Packet < BasePacket
     HEADER = 0x45
 
     # Returns the list of server rules (a.k.a. CVars) with the current values

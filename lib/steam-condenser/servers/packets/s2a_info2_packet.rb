@@ -15,9 +15,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_server_info
-  class S2A_INFO2_Packet
-
-    include S2A_INFO_BasePacket
+  class S2A_INFO2_Packet < S2A_INFO_BasePacket
 
     EDF_GAME_ID     = 0x01
     EDF_GAME_PORT   = 0x80

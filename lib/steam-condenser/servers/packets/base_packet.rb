@@ -9,12 +9,12 @@ module SteamCondenser::Servers
 
   module Packets
 
-    # This module implements the basic functionality used by most of the packets
+    # This class implements the basic functionality used by most of the packets
     # used in communication with master, Source or GoldSrc servers.
     #
     # @author Sebastian Staudt
     # @see SteamPacketFactory
-    module BasePacket
+    class BasePacket
 
       # Creates a new packet object based on the given data
       #
