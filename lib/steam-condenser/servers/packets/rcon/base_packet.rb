@@ -19,8 +19,6 @@ module SteamCondenser::Servers::Packets
     # @see RCONPacketFactory
     module BasePacket
 
-      include SteamCondenser::Servers::Packets::BasePacket
-
       # Header for authentication requests
       SERVERDATA_AUTH = 3
 
@@ -46,9 +44,9 @@ module SteamCondenser::Servers::Packets
       # @param [Fixnum] rcon_header The header for the packet type
       # @param [String] rcon_data The raw packet data
       def initialize(request_id, rcon_header, rcon_data)
-        super rcon_header, "#{rcon_data}\0\0"
-
-        @request_id = request_id
+        @request_id   = request_id
+        @header_data  = rcon_header
+        @content_data = StringIO.new "#{rcon_data}\0\0"
       end
 
       # Returns the raw data representing this packet

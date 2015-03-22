@@ -18,9 +18,11 @@ module SteamCondenser::Servers::Packets
 
     include BasePacket
 
+    HEADER = 0x54
+
     # Creates a new A2S_INFO request object
     def initialize
-      super A2S_INFO_HEADER, "Source Engine Query\0"
+      super HEADER, "Source Engine Query\0"
     end
 
   end

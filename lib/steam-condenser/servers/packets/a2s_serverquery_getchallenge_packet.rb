@@ -19,9 +19,11 @@ module SteamCondenser::Servers::Packets
 
     include BasePacket
 
+    HEADER = 0x57
+
     # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
     def initialize
-      super A2S_SERVERQUERY_GETCHALLENGE_HEADER
+      super HEADER
     end
 
   end

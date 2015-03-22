@@ -25,12 +25,14 @@ module SteamCondenser::Servers::Packets
     EDF_SERVER_TAGS = 0x20
     EDF_SOURCE_TV   = 0x40
 
+    HEADER = 0x49
+
     # Creates a new S2A_INFO2 response object based on the given data
     #
     # @param [String] data The raw packet data replied from the server
     # @see S2A_INFO_BasePacket#generate_info_hash
     def initialize(data)
-      super S2A_INFO2_HEADER, data
+      super HEADER, data
 
       info.merge!({
         :protocol_version => @content_data.getbyte,

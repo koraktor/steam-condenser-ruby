@@ -17,6 +17,7 @@ module SteamCondenser::Servers::Packets
   class S2A_RULES_Packet
 
     include BasePacket
+    HEADER = 0x45
 
     # Returns the list of server rules (a.k.a. CVars) with the current values
     #
@@ -31,7 +32,7 @@ module SteamCondenser::Servers::Packets
         raise SteamCondenser::Error::PacketFormat, 'Wrong formatted S2A_RULES response packet.'
       end
 
-      super BasePacket::S2A_RULES_HEADER, content_data
+      super HEADER, content_data
 
       rules_count = @content_data.short
 

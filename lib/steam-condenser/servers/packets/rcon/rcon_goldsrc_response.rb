@@ -19,6 +19,10 @@ module SteamCondenser::Servers::Packets::RCON
 
     include SteamCondenser::Servers::Packets::BasePacket
 
+    CHALLENGE_HEADER = 0x63
+    NO_CHALLENGE_HEADER = 0x39
+    RESPONSE_HEADER = 0x6c
+
     # Creates a RCON command response for the given command output
     #
     # @param [String] command_response The output of the command executed on

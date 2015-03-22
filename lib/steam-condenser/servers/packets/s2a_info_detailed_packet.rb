@@ -19,12 +19,14 @@ module SteamCondenser::Servers::Packets
 
     include S2A_INFO_BasePacket
 
+    HEADER = 0x6D
+
     # Creates a new S2A_INFO_DETAILED response object based on the given data
     #
     # @param [String] data The raw packet data replied from the server
     # @see S2A_INFO_BasePacket#generate_info_hash
     def initialize(data)
-      super S2A_INFO_DETAILED_HEADER, data
+      super HEADER, data
 
       info.merge!({
         :game_ip => @content_data.cstring,

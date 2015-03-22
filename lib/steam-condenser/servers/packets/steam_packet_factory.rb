@@ -41,31 +41,31 @@ module SteamCondenser::Servers::Packets
       data = raw_data[1..-1]
 
       case header
-        when BasePacket::S2A_INFO_DETAILED_HEADER
+        when S2A_INFO_DETAILED_Packet::HEADER
           return S2A_INFO_DETAILED_Packet.new(data)
-        when BasePacket::A2S_INFO_HEADER
+        when A2S_INFO_Packet::HEADER
           return A2S_INFO_Packet.new
-        when BasePacket::S2A_INFO2_HEADER
+        when S2A_INFO2_Packet::HEADER
           return S2A_INFO2_Packet.new(data)
-        when BasePacket::A2S_PLAYER_HEADER
+        when A2S_PLAYER_Packet::HEADER
           return A2S_PLAYER_Packet.new
-        when BasePacket::S2A_PLAYER_HEADER
+        when S2A_PLAYER_Packet::HEADER
           return S2A_PLAYER_Packet.new(data)
-        when BasePacket::A2S_RULES_HEADER
+        when A2S_RULES_Packet::HEADER
           return A2S_RULES_Packet
-        when BasePacket::S2A_RULES_HEADER
+        when S2A_RULES_Packet::HEADER
           return S2A_RULES_Packet.new(data)
-        when BasePacket::A2S_SERVERQUERY_GETCHALLENGE_HEADER
+        when A2S_SERVERQUERY_GETCHALLENGE_Packet::HEADER
           return A2S_SERVERQUERY_GETCHALLENGE_Packet.new
-        when BasePacket::S2C_CHALLENGE_HEADER
+        when S2C_CHALLENGE_Packet::HEADER
           return S2C_CHALLENGE_Packet.new(data)
-        when BasePacket::A2M_GET_SERVERS_BATCH2_HEADER
+        when A2M_GET_SERVERS_BATCH2_Packet::HEADER
           return A2M_GET_SERVERS_BATCH2_Packet.new(data)
-        when BasePacket::M2A_SERVER_BATCH_HEADER
+        when M2A_SERVER_BATCH_Packet::HEADER
           return M2A_SERVER_BATCH_Packet.new(data)
-        when BasePacket::RCON_GOLDSRC_CHALLENGE_HEADER,
-             BasePacket::RCON_GOLDSRC_NO_CHALLENGE_HEADER,
-             BasePacket::RCON_GOLDSRC_RESPONSE_HEADER
+        when RCON::RCONGoldSrcResponse::CHALLENGE_HEADER,
+             RCON::RCONGoldSrcResponse::NO_CHALLENGE_HEADER,
+             RCON::RCONGoldSrcResponse::RESPONSE_HEADER
           return RCON::RCONGoldSrcResponse.new(data)
         else
           raise SteamCondenser::Error::PacketFormat, "Unknown packet with header 0x#{header.to_s(16)} received."
