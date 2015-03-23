@@ -33,9 +33,9 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see MasterServer#servers
-  class A2M_GET_SERVERS_BATCH2_Packet
+  class A2M_GET_SERVERS_BATCH2_Packet < BasePacket
 
-    include BasePacket
+    HEADER = 0x31
 
     # Creates a master server request, filtering by the given paramters
     #
@@ -45,7 +45,7 @@ module SteamCondenser::Servers::Packets
     # @param [String] filter The filters to apply in the form
     #        "\filtername\value..."
     def initialize(region_code = Servers::MasterServer::REGION_ALL, start_ip = '0.0.0.0:0', filter = '')
-      super A2M_GET_SERVERS_BATCH2_HEADER
+      super HEADER
 
       @filter = filter
       @region_code = region_code

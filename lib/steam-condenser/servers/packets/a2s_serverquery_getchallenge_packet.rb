@@ -15,13 +15,13 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_challenge_number
-  class A2S_SERVERQUERY_GETCHALLENGE_Packet
+  class A2S_SERVERQUERY_GETCHALLENGE_Packet < BasePacket
 
-    include BasePacket
+    HEADER = 0x57
 
     # Creates a new A2S_SERVERQUERY_GETCHALLENGE request object
     def initialize
-      super A2S_SERVERQUERY_GETCHALLENGE_HEADER
+      super HEADER
     end
 
   end

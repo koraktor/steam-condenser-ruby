@@ -14,9 +14,9 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_player_info
-  class S2A_PLAYER_Packet
+  class S2A_PLAYER_Packet < BasePacket
 
-    include BasePacket
+    HEADER = 0x44
 
     # Returns the list of active players provided by the server
     #
@@ -32,7 +32,7 @@ module SteamCondenser::Servers::Packets
         raise SteamCondenser::Error::PacketFormat, 'Wrong formatted S2A_PLAYER packet.'
       end
 
-      super S2A_PLAYER_HEADER, content_data
+      super HEADER, content_data
 
       @content_data.getbyte
       @player_hash = {}

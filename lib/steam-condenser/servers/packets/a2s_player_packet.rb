@@ -17,17 +17,17 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_player_info
-  class A2S_PLAYER_Packet
-
-    include BasePacket
+  class A2S_PLAYER_Packet < BasePacket
     include RequestWithChallenge
+
+    HEADER = 0x55
 
     # Creates a new A2S_PLAYER request object including the challenge number
     #
     # @param [Numeric] challenge_number The challenge number received from the
     #        server
     def initialize(challenge_number = -1)
-      super A2S_PLAYER_HEADER, challenge_number
+      super HEADER, challenge_number
     end
 
   end

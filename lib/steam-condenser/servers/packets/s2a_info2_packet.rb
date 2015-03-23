@@ -15,9 +15,7 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_server_info
-  class S2A_INFO2_Packet
-
-    include S2A_INFO_BasePacket
+  class S2A_INFO2_Packet < S2A_INFO_BasePacket
 
     EDF_GAME_ID     = 0x01
     EDF_GAME_PORT   = 0x80
@@ -25,12 +23,14 @@ module SteamCondenser::Servers::Packets
     EDF_SERVER_TAGS = 0x20
     EDF_SOURCE_TV   = 0x40
 
+    HEADER = 0x49
+
     # Creates a new S2A_INFO2 response object based on the given data
     #
     # @param [String] data The raw packet data replied from the server
     # @see S2A_INFO_BasePacket#generate_info_hash
     def initialize(data)
-      super S2A_INFO2_HEADER, data
+      super HEADER, data
 
       info.merge!({
         :protocol_version => @content_data.getbyte,

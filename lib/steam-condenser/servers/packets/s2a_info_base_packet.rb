@@ -13,9 +13,7 @@ module SteamCondenser::Servers::Packets
   # @author Sebastian Staudt
   # @see S2A_INFO_DETAILED_Packet
   # @see S2A_INFO2_Packet
-  module S2A_INFO_BasePacket
-
-    include BasePacket
+  class S2A_INFO_BasePacket < BasePacket
 
     # Returns the information provided by the server
     #

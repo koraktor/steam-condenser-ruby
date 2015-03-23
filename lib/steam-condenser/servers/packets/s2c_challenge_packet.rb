@@ -15,16 +15,15 @@ module SteamCondenser::Servers::Packets
   #
   # @author Sebastian Staudt
   # @see GameServer#update_challenge_number
-  class S2C_CHALLENGE_Packet
+  class S2C_CHALLENGE_Packet < BasePacket
 
-    include BasePacket
-
+    HEADER = 0x41
     # Creates a new S2C_CHALLENGE response object based on the given data
     #
     # @param [String] challenge_number The raw packet data replied from the
     #        server
     def initialize(challenge_number)
-      super S2C_CHALLENGE_HEADER, challenge_number
+      super HEADER, challenge_number
     end
 
     # Returns the challenge number received from the game server

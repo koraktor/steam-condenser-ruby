@@ -16,16 +16,14 @@ module SteamCondenser::Servers::Packets::RCON
   #
   # @author Sebastian Staudt
   # @see SourceServer#rcon_exec
-  class RCONTerminator
-
-    include BasePacket
+  class RCONTerminator < BasePacket
 
     # Creates a new RCON terminator packet instance for the given request ID
     #
     # @param [Fixnum] request_id The request ID for the current RCON
     #        communication
     def initialize(request_id)
-      super request_id, SERVERDATA_RESPONSE_VALUE, nil
+      super request_id, RCONExecResponse::HEADER, nil
     end
 
   end

@@ -9,29 +9,12 @@ module SteamCondenser::Servers
 
   module Packets
 
-    # This module implements the basic functionality used by most of the packets
+    # This class implements the basic functionality used by most of the packets
     # used in communication with master, Source or GoldSrc servers.
     #
     # @author Sebastian Staudt
     # @see SteamPacketFactory
-    module BasePacket
-
-      A2M_GET_SERVERS_BATCH2_HEADER = 0x31
-      A2S_INFO_HEADER = 0x54
-      A2S_PLAYER_HEADER = 0x55
-      A2S_RULES_HEADER = 0x56
-      A2S_SERVERQUERY_GETCHALLENGE_HEADER = 0x57
-      C2M_CHECKMD5_HEADER = 0x4D
-      M2A_SERVER_BATCH_HEADER = 0x66
-      RCON_GOLDSRC_CHALLENGE_HEADER = 0x63
-      RCON_GOLDSRC_NO_CHALLENGE_HEADER = 0x39
-      RCON_GOLDSRC_RESPONSE_HEADER = 0x6c
-      S2A_INFO_DETAILED_HEADER = 0x6D
-      S2A_INFO2_HEADER = 0x49
-      S2A_PLAYER_HEADER = 0x44
-      S2A_RULES_HEADER = 0x45
-      S2C_CONNREJECT_HEADER = 0x39
-      S2C_CHALLENGE_HEADER = 0x41
+    class BasePacket
 
       # Creates a new packet object based on the given data
       #

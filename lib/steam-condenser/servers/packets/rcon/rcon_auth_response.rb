@@ -7,7 +7,7 @@ require 'steam-condenser/servers/packets/rcon/base_packet'
 
 module SteamCondenser::Servers::Packets::RCON
 
-  # This packet class represents a SERVERDATA_AUTH_RESPONSE packet sent by a
+  # This packet class represents a HEADER packet sent by a
   # Source server
   #
   # It is used to indicate the success or failure of an authentication attempt
@@ -15,9 +15,10 @@ module SteamCondenser::Servers::Packets::RCON
   #
   # @author Sebastian Staudt
   # @see SourceServer#rcon_auth
-  class RCONAuthResponse
+  class RCONAuthResponse < BasePacket
 
-    include BasePacket
+    # Header for replies to authentication attempts
+    HEADER = 2
 
     # Creates a RCON authentication response for the given request ID
     #
@@ -26,7 +27,7 @@ module SteamCondenser::Servers::Packets::RCON
     #
     # @param [Fixnum] request_id The request ID of the RCON connection
     def initialize(request_id)
-      super request_id, SERVERDATA_AUTH_RESPONSE, ''
+      super request_id, HEADER, ''
     end
 
   end

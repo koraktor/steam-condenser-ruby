@@ -92,7 +92,6 @@ module SteamCondenser::Community
           :weapons_donated      => lifetime_data['wpndonated'].to_i,
           :windows_broken       => lifetime_data['winbroken'].to_i,
           :zoomed_sniper_kills  => lifetime_data['zsniperkills'].to_i,
-          :kdratio              => (@total_stats[:deaths] > 0) ? @last_match_stats[:kills].to_f / @last_match_stats[:deaths] : 0,
           :accuracy             => (@total_stats[:shots] > 0) ? @total_stats[:hits].to_f / @total_stats[:shots] : 0,
           :kdratio              => (@total_stats[:deaths] > 0) ? @total_stats[:kills].to_f / @total_stats[:deaths] : 0,
           :rounds_lost          => @total_stats[:rounds_played] - @total_stats[:rounds_won]
