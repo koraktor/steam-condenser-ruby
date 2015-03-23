@@ -16,7 +16,6 @@ require 'steam-condenser/servers/packets/a2s_serverquery_getchallenge_packet'
 require 'steam-condenser/servers/packets/s2c_challenge_packet'
 require 'steam-condenser/servers/packets/a2m_get_servers_batch2_packet'
 require 'steam-condenser/servers/packets/m2a_server_batch_packet'
-require 'steam-condenser/servers/packets/s2a_logstring_packet'
 require 'steam-condenser/servers/packets/rcon/rcon_goldsrc_response'
 require 'steam-condenser/error/packet_format'
 
