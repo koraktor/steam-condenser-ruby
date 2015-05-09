@@ -300,11 +300,6 @@ module SteamCondenser::Community
           @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
         end
 
-        @groups = []
-        [(profile['groups'] || {})['group']].compact.flatten.each do |group|
-          @groups << SteamGroup.new(group['groupID64'].to_i, false)
-        end
-
         @links = {}
         [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
           @links[CGI.unescapeHTML link['title']] = link['link']
@@ -359,6 +354,23 @@ module SteamCondenser::Community
       @games
     end
 
+    # Fetches the groups this user is member of
+    #
+    # Uses the ISteamUser/GetUserGroupList interface.
+    #
+    # @return [Array<SteamGroup>] The groups of this user
+    # @see #groups
+    def fetch_groups
+      groups_data = WebApi.json 'ISteamUser', 'GetUserGroupList', 1, steamid: steam_id64
+
+      @groups = []
+      groups_data[:response][:groups].each do |group_data|
+        @groups << SteamGroup.new(group_data[:gid].to_i, false)
+      end
+
+      @groups
+    end
+
     # Returns the URL of the full-sized version of this user's avatar
     #
     # @return [String] The URL of the full-sized avatar
@@ -398,6 +410,14 @@ module SteamCondenser::Community
     # @see #fetch_games
     def games
       @games || fetch_games
+    end
+
+    # Returns all groups where this user is a member
+    #
+    # @return [] The groups of this user
+    # @see #fetch_groups
+    def groups
+      @groups || fetch_groups
     end
 
     # Returns the URL of the icon version of this user's avatar
