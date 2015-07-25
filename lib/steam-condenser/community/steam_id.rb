@@ -128,8 +128,8 @@ module SteamCondenser::Community
     # @return [Fixnum] This Steam ID's visibility State
     attr_reader :visibility_state
 
-    # Converts a 64bit numeric SteamID as used by the Steam Community to a
-    # SteamID as reported by game servers
+    # Converts a 64bit numeric SteamID as used by the Steam Community to the
+    # legacy SteamID format
     #
     # @param [Fixnum] community_id The SteamID string as used by the Steam
     #        Community
@@ -148,8 +148,15 @@ module SteamCondenser::Community
       "STEAM_0:#{steam_id1}:#{steam_id2}"
     end
 
+    # Converts a 64bit numeric SteamID as used by the Steam Community to the
+    # modern SteamID format (also known as SteamID 3)
+    #
+    # @param [Fixnum] community_id The SteamID string as used by the Steam
+    #        Community
+    # @raise [Error] if the community ID is to small
+    # @return [String] The converted SteamID, like `[U:1:12345]`
     def self.community_id_to_steam_id3(community_id)
-      #First part of Steam ID 3 is always 1
+      # Only the public universe (1) is supported
       steam_id1 = 1
       steam_id2 = community_id - 76561197960265728
 
