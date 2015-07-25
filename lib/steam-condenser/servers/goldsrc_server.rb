@@ -55,16 +55,26 @@ module SteamCondenser
         @socket = Sockets::GoldSrcSocket.new @ip_address, @port, @is_hltv
       end
 
-      # Saves the password for authenticating the RCON communication with the
-      # server
+      # Tries to establish RCON authentication with the server with the given
+      # password
+      #
+      # This will send an empty command that will ensure the given password was
+      # correct. If successful, the password is stored for future use.
       #
       # @param [String] password The RCON password of the server
-      # @return [true] GoldSrc's RCON does not preauthenticate connections so
-      #         this method always returns `true`
+      # @return [Boolean] `true` if authentication was successful
       # @see #rcon_exec
       def rcon_auth(password)
+        @rcon_authenticated = true
         @rcon_password = password
-        true
+
+        begin
+          rcon_exec ''
+        rescue Error::RCONNoAuth
+          @rcon_password = nil
+        end
+
+        @rcon_authenticated
       end
 
       # Remotely executes a command on the server via RCON
@@ -73,7 +83,14 @@ module SteamCondenser
       # @return [String] The output of the executed command
       # @see #rcon_auth
       def rcon_exec(command)
-        @socket.rcon_exec(@rcon_password, command).strip
+        raise Error::RCONNoAuth unless @rcon_authenticated
+
+        begin
+          @socket.rcon_exec(@rcon_password, command).strip
+        rescue Error::RCONNoAuth
+          @rcon_authenticated = false
+          raise
+        end
       end
 
     end

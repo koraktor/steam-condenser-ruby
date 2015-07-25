@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'steam-condenser/error'
 
@@ -16,6 +16,11 @@ module SteamCondenser::Servers
     #
     # @return [Fixnum] The client port of the player
     attr_reader :client_port
+
+    # Returns the connection ID (as used on the server) of this player
+    #
+    # @return [Fixnum] The connection ID of this player
+    attr_reader :connection_id
 
     # Returns the time this player is connected to the server
     #
@@ -51,11 +56,6 @@ module SteamCondenser::Servers
     #
     # @return [Fixnum] The rate of this player
     attr_reader :rate
-
-    # Returns the real ID (as used on the server) of this player
-    #
-    # @return [Fixnum] The real ID of this player
-    attr_reader :real_id
 
     # Returns the score of this player
     #
@@ -99,9 +99,9 @@ module SteamCondenser::Servers
 
       @extended = true
 
-      @real_id  = player_data[:userid].to_i
+      @connection_id = player_data[:userid].to_i
       @steam_id = player_data[:uniqueid]
-      @state    = player_data[:state] if player_data.key? :state
+      @state = player_data[:state] if player_data.key? :state
 
       if !bot?
         @loss = player_data[:loss].to_i
@@ -136,7 +136,7 @@ module SteamCondenser::Servers
     # @return [String] A string representing this player
     def to_s
       if @extended
-        "\##@real_id \"#@name\", SteamID: #@steam_id, Score: #@score, Time: #@connect_time"
+        "\##@connection_id \"#@name\", SteamID: #@steam_id, Score: #@score, Time: #@connect_time"
       else
         "\##@id \"#@name\", Score: #@score, Time: #@connect_time"
       end

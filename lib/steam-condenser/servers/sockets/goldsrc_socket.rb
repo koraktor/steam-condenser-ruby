@@ -95,7 +95,6 @@ module SteamCondenser::Servers::Sockets
       rcon_challenge if @rcon_challenge.nil? || @is_hltv
 
       rcon_send "rcon #@rcon_challenge #{password} #{command}"
-      rcon_send "rcon #@rcon_challenge #{password}"
       if @is_hltv
         begin
           response = reply.response
@@ -111,6 +110,8 @@ module SteamCondenser::Servers::Sockets
       elsif response.strip == 'You have been banned from this server.'
         raise SteamCondenser::Error::RCONBan
       end
+
+      rcon_send "rcon #@rcon_challenge #{password}"
 
       begin
         response_part = reply.response

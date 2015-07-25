@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'steam-condenser/community/game_inventory'
 require 'steam-condenser/community/tf2/tf2_item'
@@ -27,7 +27,7 @@ module SteamCondenser::Community
       super APP_ID, steam_id64
     end
 
-    @@item_class = TF2Item
+    @item_class = TF2Item
 
   end
 end

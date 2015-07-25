@@ -1,5 +1,6 @@
 ## Version 2.0.0 / Unreleased
 
+ * [FEATURE] Support for game statistics via Web API
  * [FEATURE] Provide an API to get users' Steam levels
  * [FEATURE] Use the Web API to get games
  * [ENHANCEMENT] Use proper namespacing throughout the library
@@ -7,6 +8,13 @@
  * [ENHANCEMENT] Provide a simple way to get parsed JSON from Web API
  * [ENHANCEMENT] Removed old hackish master server functionality
  * [ENHANCEMENT] Removed deprecated aliases from SteamId
+ * [ENHANCEMENT] Drop support for Ruby 1.9
+
+## Version 1.3.10 / 2015-01-04
+
+ * [BUGFIX] Fixed problems with game inventories
+ * [PERFORMANCE] Optimized GoldSrc RCON requests
+ * [ENHANCEMENT] Specify minimum Ruby version in gem specification
 
 ## Version 1.3.9 / 2014-07-22
 
@@ -20,7 +28,7 @@
 
  * [ENHANCEMENT] Add support for additional group information
  * [IMPROVEMENT] Improve handling of UTF-8 characters in server replies
- * [IMPROVEMENT] Other improvments
+ * [IMPROVEMENT] Other improvements
 
 ## Version 1.3.7 / 2013-09-02
 
@@ -96,7 +104,7 @@
  * [BUGFIX] Use `A2S_PLAYER` packet to challenge game servers
  * [BUGFIX] Fixed several URL related problems
  * [BUGFIX] Fixed Web API not working without an API key
- * [PERFORMACE] Optimized fetching of Steam group members
+ * [PERFORMANCE] Optimized fetching of Steam group members
 
 ## Version 1.1.0 / 2011-12-13
 
@@ -239,7 +247,7 @@
  * [FEATURE] Support for *Team Fortress 2* stats and achievements
  * [FEATURE] Support for split RCON replies
  * [FEATURE] Support for compressed query replies
- * [ENHANCEMENT] Better support for HTLV servers
+ * [ENHANCEMENT] Better support for HLTV servers
  * [ENHANCEMENT] XML cache for `GameStats`
  * [ENHANCEMENT] Use correct packet names
  * [BUGFIX] Fixed fetching of `SteamId` data

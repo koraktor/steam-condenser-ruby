@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2013, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'multi_xml'
 
@@ -57,11 +57,11 @@ module SteamCondenser::Community
 
     # Returns the leaderboard for the given game and leaderboard ID or name
     #
-    # @param [String] game_name The short name of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @param [Fixnum, String] id The ID or name of the leaderboard to return
     # @return [GameLeaderboard] The matching leaderboard if available
-    def self.leaderboard(game_name, id)
-      leaderboards = self.leaderboards game_name
+    def self.leaderboard(app_id, id)
+      leaderboards = self.leaderboards app_id
 
       if id.is_a? Fixnum
         leaderboards[id]
@@ -74,12 +74,12 @@ module SteamCondenser::Community
 
     # Returns an array containing all of a game's leaderboards
     #
-    # @param [String] game_name The name of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @return [Array<GameLeaderboard>] The leaderboards for this game
-    def self.leaderboards(game_name)
-      self.load_leaderboards game_name unless @@leaderboards.key? game_name
+    def self.leaderboards(app_id)
+      self.load_leaderboards app_id unless @@leaderboards.key? app_id
 
-      @@leaderboards[game_name]
+      @@leaderboards[app_id]
     end
 
     # Returns the entry on this leaderboard for the user with the given SteamID
@@ -191,12 +191,12 @@ module SteamCondenser::Community
 
     # Loads the leaderboards of the specified games into the cache
     #
-    # @param [String] game_name The short name of the game
+    # @param [Fixnum] app_id The application ID of the game
     # @raise [SteamCondenserException] if an error occurs while fetching the
     #         leaderboards
-    def self.load_leaderboards(game_name)
+    def self.load_leaderboards(app_id)
       begin
-        url = "http://steamcommunity.com/stats/#{game_name}/leaderboards/?xml=1"
+        url = "http://steamcommunity.com/stats/#{app_id}/leaderboards/?xml=1"
         boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
       rescue
         raise SteamCondenser::Error.new 'XML data could not be parsed.', $!
@@ -205,10 +205,10 @@ module SteamCondenser::Community
       error = boards_data['error']
       raise SteamCondenser::Error, error unless error.nil?
 
-      @@leaderboards[game_name] = []
+      @@leaderboards[app_id] = {}
       boards_data['leaderboard'].each do |board_data|
         leaderboard = GameLeaderboard.new board_data
-        @@leaderboards[game_name][leaderboard.id] = leaderboard
+        @@leaderboards[app_id][leaderboard.id] = leaderboard
       end
     end
 

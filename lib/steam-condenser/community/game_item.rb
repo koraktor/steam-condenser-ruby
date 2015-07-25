@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2013, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'steam-condenser/community/web_api'
 
@@ -11,7 +11,7 @@ module SteamCondenser::Community
   # in a game
   #
   # @author Sebastian Staudt
-  module GameItem
+  class GameItem
 
     # Return the attributes of this item
     #

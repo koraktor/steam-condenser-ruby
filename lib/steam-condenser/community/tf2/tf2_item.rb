@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2012, Sebastian Staudt
+# Copyright (c) 2010-2014, Sebastian Staudt
 
 require 'steam-condenser/community/game_item'
 
@@ -10,9 +10,7 @@ module SteamCondenser::Community
   # Represents a Team Fortress 2 item
   #
   # @author Sebastian Staudt
-  class TF2Item
-
-    include GameItem
+  class TF2Item < GameItem
 
     # The names of the classes available in Team Fortress 2
     CLASSES = [ :scout, :sniper, :soldier, :demoman, :medic, :heavy, :pyro, :spy ]

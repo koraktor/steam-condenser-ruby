@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'steam-condenser/community/game_item'
 
@@ -10,9 +10,7 @@ module SteamCondenser::Community
   # Represents a Portal 2 item
   #
   # @author Sebastian Staudt
-  class Portal2Item
-
-    include GameItem
+  class Portal2Item < GameItem
 
     # The names of the bots available in Portal 2
     BOTS = [ :pbody, :atlas ]

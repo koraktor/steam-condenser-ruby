@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2013, Sebastian Staudt
+# Copyright (c) 2011-2014, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_item'
@@ -50,7 +50,7 @@ module SteamCondenser::Community
     # @return [SteamId] The Steam ID of the owner of this inventory
     attr_reader :user
 
-    @@item_class = GameItem
+    @item_class = GameItem
 
     @@schema_language = 'en'
 
@@ -133,7 +133,7 @@ module SteamCondenser::Community
     def fetch
       params = { :SteamID => @user.steam_id64 }
       result = WebApi.json! "IEconItems_#@app_id", 'GetPlayerItems', 1, params
-      item_class = self.class.send :class_variable_get, :@@item_class
+      item_class = self.class.instance_variable_get :@item_class
 
       @items = []
       @preliminary_items = []
