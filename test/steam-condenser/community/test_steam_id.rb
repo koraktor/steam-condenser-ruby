@@ -31,6 +31,17 @@ class TestSteamId < Test::Unit::TestCase
       assert_equal 'STEAM_0:0:12345', steam_id
     end
 
+    should 'provide a conversion between 64bit Steam IDs and STEAM_ID_3s' do
+      steam_id = Community::SteamId.community_id_to_steam_id3 76561197960497430
+      assert_equal '[U:1:231702]', steam_id
+
+      steam_id = Community::SteamId.community_id_to_steam_id3 76561197998273743
+      assert_equal '[U:1:38008015]', steam_id
+
+      steam_id = Community::SteamId.community_id_to_steam_id3 76561198000009691
+      assert_equal '[U:1:39743963]', steam_id
+    end
+
     should 'provide a conversion between STEAM_IDs and 64bit Steam IDs' do
       steam_id64 = Community::SteamId.steam_id_to_community_id 'STEAM_0:0:12345'
       assert_equal 76561197960290418, steam_id64
@@ -39,6 +50,9 @@ class TestSteamId < Test::Unit::TestCase
     should 'provide a conversion between U_IDs and 64bit Steam IDs' do
       steam_id64 = Community::SteamId.steam_id_to_community_id '[U:1:12345]'
       assert_equal 76561197960278073, steam_id64
+
+      steam_id64 = Community::SteamId.steam_id_to_community_id '[U:1:39743963]'
+      assert_equal 76561198000009691, steam_id64
     end
 
   end
