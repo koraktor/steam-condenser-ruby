@@ -148,6 +148,18 @@ module SteamCondenser::Community
       "STEAM_0:#{steam_id1}:#{steam_id2}"
     end
 
+    def self.community_id_to_steam_id3(community_id)
+      #First part of Steam ID 3 is always 1
+      steam_id1 = 1
+      steam_id2 = community_id - 76561197960265728
+
+      unless steam_id2 > 0
+        raise SteamCondenser::Error, "SteamID #{community_id} is too small."
+      end
+
+      "[U:#{steam_id1}:#{steam_id2}]"
+    end
+
     # Resolves a vanity URL of a Steam Community profile to a 64bit numeric
     # SteamID
     #
