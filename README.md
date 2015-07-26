@@ -30,8 +30,8 @@ To install Steam Condenser as a Ruby gem use the following command:
 $ gem install steam-condenser
 ```
 
-If you're projet dependencies are managed by [Bundler](http://gembundler.com)
-add this to your `Gemfile`:
+If you're project dependencies are managed by [Bundler](http://bundler.io) add
+this to your `Gemfile`:
 
 ```ruby
 gem 'steam-condenser'
@@ -62,6 +62,8 @@ included LICENSE file.
 * Eric Litak – elitak(at)gmail.com
 * Rodrigo Navarro – rnavarro1(at)gmail.com
 * Justas Palumickas – jpalumickas(at)gmail.com
+* Philipp Preß – philipp.press(at)blacklane.com
+* Arie – git(at)ariekanarie.nl
 
 ## See Also
 
