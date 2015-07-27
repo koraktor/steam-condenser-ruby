@@ -1,13 +1,11 @@
-# encoding: utf-8
-#
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'rake/testtask'
 require 'rubygems/package_task'
-require 'yard/rake/yardoc_task'
+require 'yard'
 
 task :default => :test
 
@@ -25,7 +23,7 @@ end
 YARD::Rake::YardocTask.new do |yardoc|
   yardoc.name    = 'doc'
   yardoc.files   = [ 'lib/steam/community/cacheable.rb', 'lib/**/*.rb', 'LICENSE', 'README.md' ]
-  yardoc.options = [ '--private', '--title', 'Metior — API Documentation' ]
+  yardoc.options = [ '--private', '--title', 'Steam Condenser — API Documentation' ]
 end
 
 # Task for cleaning documentation and package directories
