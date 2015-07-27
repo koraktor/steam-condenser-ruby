@@ -103,11 +103,6 @@ module SteamCondenser::Community
     # @see #online?
     attr_reader :state_message
 
-    # Returns this user's 64bit SteamID
-    #
-    # @return [Fixnum] This user's 64bit SteamID
-    attr_reader :steam_id64
-
     # Returns the Steam rating calculated over the last two weeks' activity
     #
     # @return [Float] The Steam rating of this user
@@ -318,7 +313,7 @@ module SteamCondenser::Community
     # @see #friends
     # @see #initialize
     def fetch_friends
-      params = { :relationship => 'friend', :steamid => @steam_id64 }
+      params = { :relationship => 'friend', :steamid => steam_id64 }
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
       @friends = friends_data[:friendslist][:friends].map do |friend|
@@ -337,7 +332,7 @@ module SteamCondenser::Community
       params = {
         :include_appinfo           => 1,
         :include_played_free_games => 1,
-        :steamId                   => @steam_id64
+        :steamId                   => steam_id64
       }
       games_data = WebApi.json 'IPlayerService', 'GetOwnedGames', 1, params
       @games            = {}
@@ -479,6 +474,16 @@ module SteamCondenser::Community
     #         the last two weeks
     def recent_playtime(app_id)
       @recent_playtimes[app_id]
+    end
+
+    # Returns this user's 64bit SteamID
+    #
+    # If the SteamID is not known yet it is resolved from the vanity URL.
+    #
+    # @return [Fixnum] This user's 64bit SteamID
+    # @see .resolve_vanity_url
+    def steam_id64
+      @steam_id64 || self.class.resolve_vanity_url(@custom_url)
     end
 
     # Returns the current Steam level of this user
