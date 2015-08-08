@@ -483,7 +483,7 @@ module SteamCondenser::Community
     # @return [Fixnum] This user's 64bit SteamID
     # @see .resolve_vanity_url
     def steam_id64
-      @steam_id64 || self.class.resolve_vanity_url(@custom_url)
+      @steam_id64 ||= self.class.resolve_vanity_url(@custom_url)
     end
 
     # Returns the current Steam level of this user
