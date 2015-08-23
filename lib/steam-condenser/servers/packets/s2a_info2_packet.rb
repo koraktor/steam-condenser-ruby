@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'steam-condenser/servers/packets/s2a_info_base_packet'
 
@@ -33,20 +33,20 @@ module SteamCondenser::Servers::Packets
       super S2A_INFO2_HEADER, data
 
       info.merge!({
-        :protocol_version => @content_data.getbyte,
-        :server_name => @content_data.cstring,
-        :map_name => @content_data.cstring,
-        :game_directory => @content_data.cstring,
-        :game_description => @content_data.cstring,
-        :app_id => @content_data.short,
-        :number_of_players => @content_data.getbyte,
-        :max_players => @content_data.getbyte,
-        :number_of_bots => @content_data.getbyte,
-        :dedicated => @content_data.getc,
-        :operating_system => @content_data.getc,
-        :password_needed => @content_data.getbyte == 1,
-        :secure => @content_data.getbyte == 1,
-        :game_version => @content_data.cstring
+        protocol_version: @content_data.getbyte,
+        server_name: @content_data.cstring,
+        map_name: @content_data.cstring,
+        game_directory: @content_data.cstring,
+        game_description: @content_data.cstring,
+        app_id: @content_data.short,
+        number_of_players: @content_data.getbyte,
+        max_players: @content_data.getbyte,
+        number_of_bots: @content_data.getbyte,
+        dedicated: @content_data.getc,
+        operating_system: @content_data.getc,
+        password_needed: @content_data.getbyte == 1,
+        secure: @content_data.getbyte == 1,
+        game_version: @content_data.cstring
       })
 
       if @content_data.remaining > 0

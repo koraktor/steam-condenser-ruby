@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2014, Sebastian Staudt
+# Copyright (c) 2011-2015, Sebastian Staudt
 
 require 'multi_xml'
 
@@ -197,7 +197,7 @@ module SteamCondenser::Community
     def self.load_leaderboards(app_id)
       begin
         url = "http://steamcommunity.com/stats/#{app_id}/leaderboards/?xml=1"
-        boards_data = MultiXml.parse(open(url, {:proxy => true})).values.first
+        boards_data = MultiXml.parse(open(url, proxy: true)).values.first
       rescue
         raise SteamCondenser::Error.new 'XML data could not be parsed.', $!
       end

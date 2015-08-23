@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2012, Sebastian Staudt
+# Copyright (c) 2010-2015, Sebastian Staudt
 
 require 'multi_json'
 
@@ -81,7 +81,7 @@ module SteamCondenser::Community
     # @return [Array<AppNews>] An array of news items for the specified game
     #         with the given options
     def self.news_for_app(app_id, count = 5, max_length = nil)
-      params = { :appid => app_id, :count => count, :maxlength => max_length }
+      params = { appid: app_id, count: count, maxlength: max_length }
       data = WebApi.json('ISteamNews', 'GetNewsForApp', 2, params)
 
       news_items = []

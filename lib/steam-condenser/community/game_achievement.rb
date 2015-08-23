@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'multi_json'
 
@@ -54,7 +54,7 @@ module SteamCondenser::Community
     def self.global_percentages(app_id)
       percentages = {}
 
-      data = WebApi.json('ISteamUserStats', 'GetGlobalAchievementPercentagesForApp', 2, { :gameid => app_id })
+      data = WebApi.json 'ISteamUserStats', 'GetGlobalAchievementPercentagesForApp', 2, gameid: app_id
       data[:achievementpercentages][:achievements].each do |percentage|
         percentages[percentage[:name].to_sym] = percentage[:percent]
       end

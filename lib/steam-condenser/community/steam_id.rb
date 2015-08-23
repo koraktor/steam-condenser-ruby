@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'cgi'
 require 'time'
@@ -134,8 +134,7 @@ module SteamCondenser::Community
     # @param [String] vanity_url The vanity URL of a Steam Community profile
     # @return [Fixnum] The 64bit numeric SteamID
     def self.resolve_vanity_url(vanity_url)
-      params = { :vanityurl => vanity_url }
-      json = WebApi.json 'ISteamUser', 'ResolveVanityURL', 1, params
+      json = WebApi.json 'ISteamUser', 'ResolveVanityURL', 1, vanityurl: vanity_url
       result = json[:response]
 
       return nil if result[:success] != 1
@@ -266,7 +265,7 @@ module SteamCondenser::Community
     # @see #friends
     # @see #initialize
     def fetch_friends
-      params = { :relationship => 'friend', :steamid => steam_id64 }
+      params = { relationship: 'friend', steamid: steam_id64 }
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
       @friends = friends_data[:friendslist][:friends].map do |friend|
@@ -283,9 +282,9 @@ module SteamCondenser::Community
     # @see #games
     def fetch_games
       params = {
-        :include_appinfo           => 1,
-        :include_played_free_games => 1,
-        :steamId                   => steam_id64
+        include_appinfo: 1,
+        include_played_free_games: 1,
+        steamId: steam_id64
       }
       games_data = WebApi.json 'IPlayerService', 'GetOwnedGames', 1, params
       @games            = {}
@@ -463,7 +462,7 @@ module SteamCondenser::Community
     # @return [Fixnum] The current Steam level of this user
     # @see #steam_level
     def update_steam_level
-      data = WebApi.json 'IPlayerService', 'GetSteamLevel', 1, { :steamid => @steam_id64 }
+      data = WebApi.json 'IPlayerService', 'GetSteamLevel', 1, steamid: @steam_id64
       @steam_level = data[:response][:player_level]
     end
 

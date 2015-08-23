@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2014, Sebastian Staudt
+# Copyright (c) 2011-2015, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_leaderboard'
@@ -66,7 +66,7 @@ module SteamCondenser::Community
     # @param [Fixnum] version The version to check against the Web API
     # @return [Boolean] `true` if the given version is up-to-date
     def self.uptodate?(app_id, version)
-      params = { :appid => app_id, :version => version }
+      params = { appid: app_id, version: version }
       result = WebApi.json 'ISteamApps', 'UpToDateCheck', 1, params
       result = result[:response]
       raise SteamCondenser::Error, result[:error] unless result[:success]
@@ -114,8 +114,7 @@ module SteamCondenser::Community
     #
     # @return [Fixnum] The number of players playing this game
     def player_count
-      params = { :appid => @app_id }
-      result = WebApi.json 'ISteamUserStats', 'GetNumberOfCurrentPlayers', 1, params
+      result = WebApi.json 'ISteamUserStats', 'GetNumberOfCurrentPlayers', 1, appid: @app_id
       result[:response][:player_count]
     end
 

@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2010-2013, Sebastian Staudt
+# Copyright (c) 2010-2015, Sebastian Staudt
 
 require 'multi_json'
 require 'open-uri'
@@ -78,7 +78,7 @@ module SteamCondenser::Community
     # @return [Hash<Symbol, Object>] The JSON data replied to the request
     def self.json(interface, method, version = 1, params = {})
       data = get :json, interface, method, version, params
-      MultiJson.load(data, { :symbolize_keys => true })
+      MultiJson.load data, symbolize_keys: true
     end
 
     # Fetches JSON data from Steam Web API using the specified interface,
@@ -122,8 +122,8 @@ module SteamCondenser::Community
     # @return [String] The data as replied by the Web API in the desired format
     def self.get(format, interface, method, version = 1, params = {})
       version = version.to_s.rjust(4, '0')
-      params = { :key => WebApi.api_key }.merge params unless WebApi.api_key.nil?
-      params = { :format => format }.merge params
+      params = { key: WebApi.api_key }.merge params unless WebApi.api_key.nil?
+      params = { format: format }.merge params
       protocol = @@secure ? 'https' : 'http'
       url = "#{protocol}://api.steampowered.com/#{interface}/#{method}/v#{version}/" +
             '?' + params.map { |k,v| "#{k}=#{v}" }.join('&')
@@ -133,7 +133,7 @@ module SteamCondenser::Community
           debug_url = @@api_key.nil? ? url : url.gsub(@@api_key, 'SECRET')
           log.debug "Querying Steam Web API: #{debug_url}"
         end
-        open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' ,:proxy => true }).read
+        open(url, { 'Content-Type': 'application/x-www-form-urlencoded' , proxy: true }).read
       rescue OpenURI::HTTPError
         status = $!.io.status[0]
         status = [status, ''] unless status.is_a? Array

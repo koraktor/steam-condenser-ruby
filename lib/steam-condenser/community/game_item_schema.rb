@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2012, Sebastian Staudt
+# Copyright (c) 2012-2015, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 
@@ -78,8 +78,7 @@ module SteamCondenser::Community
 
     # Updates the item definitions of this schema using the Steam Web API
     def fetch
-      params = { :language => language }
-      data = WebApi.json!("IEconItems_#{app_id}", 'GetSchema', 1, params)
+      data = WebApi.json! "IEconItems_#{app_id}", 'GetSchema', 1, language: language
 
       @attributes = {}
       data[:attributes].each do |attribute|

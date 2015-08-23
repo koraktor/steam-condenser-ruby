@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2012-2013, Sebastian Staudt
+# Copyright (c) 2012-2015, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_achievement'
@@ -99,8 +99,8 @@ module SteamCondenser::Community
       @achievement_translations[language] = {}
       schema[:availableGameStats][:achievements].each do |data|
         @achievement_translations[language][data[:name]] = {
-          :description => data[:description],
-          :name => data[:displayName]
+          description: data[:description],
+          name: data[:displayName]
         }
       end
     end

@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2014, Sebastian Staudt
+# Copyright (c) 2011-2015, Sebastian Staudt
 
 require 'steam-condenser/community/cacheable'
 require 'steam-condenser/community/game_item'
@@ -131,8 +131,7 @@ module SteamCondenser::Community
 
     # Updates the contents of the inventory using the Steam Web API
     def fetch
-      params = { :SteamID => @user.steam_id64 }
-      result = WebApi.json! "IEconItems_#@app_id", 'GetPlayerItems', 1, params
+      result = WebApi.json! "IEconItems_#@app_id", 'GetPlayerItems', 1, SteamID: @user.steam_id64
       item_class = self.class.instance_variable_get :@item_class
 
       @items = []

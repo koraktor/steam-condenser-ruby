@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2015, Sebastian Staudt
 
 require 'steam-condenser/servers/packets/s2a_info_base_packet'
 
@@ -27,32 +27,32 @@ module SteamCondenser::Servers::Packets
       super S2A_INFO_DETAILED_HEADER, data
 
       info.merge!({
-        :game_ip => @content_data.cstring,
-        :server_name => @content_data.cstring,
-        :map_name => @content_data.cstring,
-        :game_directory => @content_data.cstring,
-        :game_description => @content_data.cstring,
-        :number_of_players => @content_data.getbyte,
-        :max_players => @content_data.getbyte,
-        :network_version => @content_data.getbyte,
-        :dedicated => @content_data.getc,
-        :operating_system => @content_data.getc,
-        :password_needed => @content_data.getbyte == 1,
-        :is_mod => @content_data.getbyte == 1
+        game_ip: @content_data.cstring,
+        server_name: @content_data.cstring,
+        map_name: @content_data.cstring,
+        game_directory: @content_data.cstring,
+        game_description: @content_data.cstring,
+        number_of_players: @content_data.getbyte,
+        max_players: @content_data.getbyte,
+        network_version: @content_data.getbyte,
+        dedicated: @content_data.getc,
+        operating_system: @content_data.getc,
+        password_needed: @content_data.getbyte == 1,
+        is_mod: @content_data.getbyte == 1
       })
 
       if info[:is_mod]
         info[:mod_info] = {
-          :url_info => @content_data.cstring,
-          :url_dl => @content_data.cstring
+          url_info: @content_data.cstring,
+          url_dl: @content_data.cstring
         }
         @content_data.getbyte
         if @content_data.remaining == 12
           info[:mod_info].merge!({
-            :mod_version => @content_data.long,
-            :mod_size => @content_data.long,
-            :sv_only => @content_data.getbyte == 1,
-            :cl_dll => @content_data.getbyte == 1,
+            mod_version: @content_data.long,
+            mod_size: @content_data.long,
+            sv_only: @content_data.getbyte == 1,
+            cl_dll: @content_data.getbyte == 1,
           })
           info[:secure] = @content_data.getbyte == 1
           info[:number_of_bots] = @content_data.getbyte
