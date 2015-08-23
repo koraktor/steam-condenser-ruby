@@ -41,25 +41,6 @@ module SteamCondenser::Community
     # @return [Array<SteamGroup>] The groups this user is a member of
     attr_reader :groups
 
-    # Returns the headline specified by the user
-    #
-    # @return [String] The headline specified by the user
-    attr_reader :head_line
-
-    # Returns the number of hours that this user played a game in the last two
-    # weeks
-    #
-    # @return [Float] The number of hours the user has played recently
-    attr_reader :hours_played
-
-    # Returns the links that this user has added to his/her Steam ID
-    #
-    # The keys of the hash contain the titles of the links while the values
-    # contain the corresponding URLs.
-    #
-    # @return [Hash<String, String>] The links of this user
-    attr_reader :links
-
     # Returns the location of the user
     #
     # @return [String] The location of the user
@@ -92,11 +73,6 @@ module SteamCondenser::Community
     # @see #ingame?
     # @see #online?
     attr_reader :state_message
-
-    # Returns the Steam rating calculated over the last two weeks' activity
-    #
-    # @return [Float] The Steam rating of this user
-    attr_reader :steam_rating
 
     # Returns the summary this user has provided
     #
@@ -272,18 +248,10 @@ module SteamCondenser::Community
         @custom_url = (profile['customURL'] || '').downcase
         @custom_url = nil if @custom_url.empty?
 
-        @head_line    = CGI.unescapeHTML profile['headline'] || ''
-        @hours_played = profile['hoursPlayed2Wk'].to_f
         @location     = profile['location']
         @member_since = Time.parse profile['memberSince']
         @real_name    = CGI.unescapeHTML profile['realname'] || ''
-        @steam_rating = profile['steamRating'].to_f
         @summary      = CGI.unescapeHTML profile['summary'] || ''
-
-        @links = {}
-        [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
-          @links[CGI.unescapeHTML link['title']] = link['link']
-        end
       end
     rescue
       raise $! if $!.is_a? SteamCondenser::Error
