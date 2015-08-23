@@ -37,7 +37,7 @@ module SteamCondenser::Community
     end
 
     # @macro cacheable
-    def initialize(app_id, language = @@default_language)
+    def initialize(app_id)
       @app_id = app_id
     end
 
