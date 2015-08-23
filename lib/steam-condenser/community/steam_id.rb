@@ -71,16 +71,6 @@ module SteamCondenser::Community
     # @return [Time] The date of the Steam account registration
     attr_reader :member_since
 
-    # Returns the games this user has played the most in the last two weeks
-    #
-    # The keys of the hash contain the names of the games while the values
-    # contain the number of hours the corresponding game has been played by the
-    # user in the last two weeks.
-    #
-    # @return [Hash<String, Float>] The games this user has played the most
-    #         recently
-    attr_reader :most_played_games
-
     # Returns the Steam nickname of the user
     #
     # @return [String] The Steam nickname of the user
@@ -289,11 +279,6 @@ module SteamCondenser::Community
         @real_name    = CGI.unescapeHTML profile['realname'] || ''
         @steam_rating = profile['steamRating'].to_f
         @summary      = CGI.unescapeHTML profile['summary'] || ''
-
-        @most_played_games = {}
-        [(profile['mostPlayedGames'] || {})['mostPlayedGame']].compact.flatten.each do |most_played_game|
-          @most_played_games[most_played_game['gameName']] = most_played_game['hoursPlayed'].to_f
-        end
 
         @links = {}
         [(profile['weblinks'] || {})['weblink']].compact.flatten.each do |link|
