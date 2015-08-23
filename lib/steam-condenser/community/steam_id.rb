@@ -245,8 +245,8 @@ module SteamCondenser::Community
       @visibility_state = profile['visibilityState'].to_i
 
       if public?
-        @custom_url = (profile['customURL'] || '').downcase
-        @custom_url = nil if @custom_url.empty?
+        @custom_url = profile['customURL']
+        @custom_url.downcase! unless @custom_url.nil?
 
         @location     = profile['location']
         @member_since = Time.parse profile['memberSince']
