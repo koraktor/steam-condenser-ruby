@@ -136,7 +136,7 @@ module SteamCondenser::Community
     #
     # This will use the ID attributes selected for caching
     def cache
-      cache     = self.class.send :cache
+      cache = self.class.send :cache
       cache_ids.each do |cache_id|
         cache[cache_id] = self if cache_id
       end
@@ -175,7 +175,7 @@ module SteamCondenser::Community
       cached.nil? ? nil : cached.last
     end
 
-    # Returns a complete list of all values for the cache IDs of the cachable
+    # Returns a complete list of all values for the cache IDs of the cacheable
     # object
     #
     # @return [Array<Object, Array<Object>>] The values for the cache IDs
