@@ -46,26 +46,7 @@ module SteamCondenser::Community
     end
 
     def fetch
-      language = @@default_language
-      schema = fetch_language language
-
-      @app_name    = schema[:gameName]
-      @app_version = schema[:gameVersion].to_i
-
-      @datum_names = { language => {} }
-      @data = Hash[schema[:availableGameStats][:stats].map do |data|
-        @datum_names[language][data[:name]] = data[:displayName]
-        [data[:name], GameStatsDatum.new(self, data)]
-      end]
-
-      @achievement_translations = { language => {} }
-      @achievements = Hash[schema[:availableGameStats][:achievements].map do |data|
-        @achievement_translations[language][data[:name]] = {
-          :description => data[:description],
-          :name => data[:displayName]
-        }
-        [data[:name], GameAchievement.new(self, data)]
-      end]
+      add_language self.class.default_language
     end
 
     def achievement_translations(language)
@@ -91,9 +72,19 @@ module SteamCondenser::Community
     def add_language(language)
       schema = fetch_language language
 
+      initial = false
+      if @data.nil?
+        @achievements = {}
+        @app_name = schema[:gameName]
+        @app_version = schema[:gameVersion].to_i
+        @data = {}
+        initial = true
+      end
+
       @datum_names[language] = {}
       schema[:availableGameStats][:stats].each do |data|
         @datum_names[language][data[:name]] = data[:displayName]
+        @data[data[:name]] = GameStatsDatum.new self, data if initial
       end
 
       @achievement_translations[language] = {}
@@ -102,6 +93,7 @@ module SteamCondenser::Community
           description: data[:description],
           name: data[:displayName]
         }
+        @achievements[data[:name]] = GameAchievement.new self, data if initial
       end
     end
 
