@@ -23,6 +23,9 @@ module SteamCondenser::Community
     # @return [String] The API name of this achievement
     attr_reader :api_name
 
+    # Returns whether this achievement is hidden
+    #
+    # @return [Boolean] `true` if this achievement is hidden
     attr_reader :hidden
 
     # Returns the url for the closed icon of this achievement
@@ -88,6 +91,12 @@ module SteamCondenser::Community
       "#<#{self.class}:#@api_name>"
     end
 
+    # Returns an instance of this achievement for the given user and the given
+    # unlock state
+    #
+    # @param [SteamId] user The user the instance should be returned for
+    # @param [Boolean] unlocked The state of the achievement for this user
+    # @return [Instance] The achievement instance for this user
     def instance(user, unlocked)
       Instance.new self, user, unlocked
     end
