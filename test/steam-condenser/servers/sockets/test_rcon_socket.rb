@@ -32,7 +32,7 @@ class TestRCONSocket < Test::Unit::TestCase
         @socket.instance_variable_set :@socket, tcp_socket
       end
 
-      @socket.send mock(:to_s => 'test')
+      @socket.send mock to_s: 'test'
     end
 
     should 're-establish the TCP connection when sending' do

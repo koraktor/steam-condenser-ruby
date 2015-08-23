@@ -128,7 +128,7 @@ class TestSourceServer < Test::Unit::TestCase
 
         reply1 = mock
         reply1.expects(:response).twice.returns 'test'
-        reply2 = mock :response => 'test'
+        reply2 = mock response: 'test'
         reply3 = mock
         reply3.expects(:response).twice.returns ''
 

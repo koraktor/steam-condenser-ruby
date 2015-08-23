@@ -36,7 +36,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
     should 'be able to get a RCON challenge' do
       @socket.expects(:rcon_send).with 'challenge rcon'
 
-      reply = mock :response => 'hallenge rcon 12345678'
+      reply = mock response: 'hallenge rcon 12345678'
       @socket.expects(:reply).returns reply
 
       @socket.rcon_challenge
@@ -47,7 +47,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
     should 'raise an error if the client is banned on challenge' do
       @socket.expects(:rcon_send).with 'challenge rcon'
 
-      reply = mock :response => 'You have been banned from this server.'
+      reply = mock response: 'You have been banned from this server.'
       @socket.expects(:reply).returns reply
 
       assert_raises Error::RCONBan do
@@ -95,9 +95,9 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       end
       @socket.expects(:rcon_send).with("rcon 1234 password command")
       @socket.expects(:rcon_send).with("rcon 1234 password")
-      packet1 = mock :response => 'test '
-      packet2 = mock :response => 'test'
-      packet3 = mock :response => ''
+      packet1 = mock response: 'test '
+      packet2 = mock response: 'test'
+      packet3 = mock response: ''
       @socket.expects(:reply).times(3).returns(packet1).returns(packet2).
         returns packet3
 
@@ -112,9 +112,9 @@ class TestGoldSrcSocket < Test::Unit::TestCase
       end
       @socket.expects(:rcon_send).with("rcon 1234 password command")
       @socket.expects(:rcon_send).with("rcon 1234 password")
-      packet1 = mock :response => 'test '
-      packet2 = mock :response => 'test'
-      packet3 = mock :response => ''
+      packet1 = mock response: 'test '
+      packet2 = mock response: 'test'
+      packet3 = mock response: ''
       @socket.expects(:reply).times(4).raises(Error::Timeout).
         returns(packet1).returns(packet2).returns packet3
 

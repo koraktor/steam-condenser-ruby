@@ -37,8 +37,8 @@ class TestMasterServer < Test::Unit::TestCase
     end
 
     should 'be able to get a list of servers' do
-      reply1 = mock :servers => %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
-      reply2 = mock :servers => %w{127.0.0.4:27015 0.0.0.0:0}
+      reply1 = mock servers: %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
+      reply2 = mock servers: %w{127.0.0.4:27015 0.0.0.0:0}
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|
@@ -62,7 +62,7 @@ class TestMasterServer < Test::Unit::TestCase
     should 'not timeout if returning servers is forced' do
       Servers::MasterServer.retries = 1
 
-      reply = mock :servers => %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
+      reply = mock servers: %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
 
       socket = @server.instance_variable_get :@socket
       socket.expects(:send).with do |packet|

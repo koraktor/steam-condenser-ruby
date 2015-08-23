@@ -32,74 +32,74 @@ class TestWebApi < Test::Unit::TestCase
 
     should 'provide easy access to parsed JSON data' do
       data = mock
-      Community::WebApi.expects(:get).with(:json, 'interface', 'method', 2, { :test => 'param' }).
+      Community::WebApi.expects(:get).with(:json, 'interface', 'method', 2, test: 'param').
         returns data
-      MultiJson.expects(:load).with(data, { :symbolize_keys => true }).
-        returns({ :result => { :status => 1 }})
+      MultiJson.expects(:load).with(data, { symbolize_keys: true }).
+        returns({ result: { status: 1 }})
 
-      assert_equal({ :result => { :status => 1 }}, Community::WebApi.json('interface', 'method', 2, { :test => 'param' }))
+      assert_equal({ result: { status: 1 }}, Community::WebApi.json('interface', 'method', 2, test: 'param'))
     end
 
     should 'provide easy access to parsed and checked JSON data' do
-      Community::WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
-        returns({ :result => { :status => 1 }})
+      Community::WebApi.expects(:json).with('interface', 'method', 2, test: 'param').
+        returns({ result: { status: 1 }})
 
-      assert_equal({ :status => 1 }, Community::WebApi.json!('interface', 'method', 2, { :test => 'param' }))
+      assert_equal({ status: 1 }, Community::WebApi.json!('interface', 'method', 2, test: 'param'))
     end
 
     should 'raise an error if the checked JSON data is an error message' do
-      Community::WebApi.expects(:json).with('interface', 'method', 2, { :test => 'param' }).
-        returns({ :result => { :status => 2, :statusDetail => 'error' } })
+      Community::WebApi.expects(:json).with('interface', 'method', 2, test: 'param').
+        returns({ result: { status: 2, statusDetail: 'error' } })
 
       error = assert_raises Error::WebApi do
-        Community::WebApi.json! 'interface', 'method', 2, { :test => 'param' }
+        Community::WebApi.json! 'interface', 'method', 2, test: 'param'
       end
       assert_equal 'The Web API request failed with the following error: error (status code: 2).', error.message
     end
 
     should 'load data from the Steam Community Web API' do
-      data = mock :read => 'data'
+      data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
-        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
+        options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
         url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
         url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
 
-      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
+      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, test: 'param')
     end
 
     should 'load data from the Steam Community Web API without an API key' do
       Community::WebApi.api_key = nil
 
-      data = mock :read => 'data'
+      data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
-        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
+        options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
         url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json}).size == 2
       end.returns data
 
-      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
+      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, test: 'param')
     end
 
     should 'handle unauthorized access error when loading data' do
-      io = mock :status => [401]
+      io = mock status: [401]
       http_error = OpenURI::HTTPError.new '', io
       Community::WebApi.expects(:open).raises http_error
 
       error = assert_raises Error::WebApi do
-        Community::WebApi.get :json, 'interface', 'method', 2, { :test => 'param' }
+        Community::WebApi.get :json, 'interface', 'method', 2, test: 'param'
       end
       assert_equal 'Your Web API request has been rejected. You most likely did not specify a valid Web API key.', error.message
     end
 
     should 'handle generic HTTP errors when loading data' do
-      io = mock :status => [[404, 'Not found']]
+      io = mock status: [[404, 'Not found']]
       http_error = OpenURI::HTTPError.new '', io
       Community::WebApi.expects(:open).raises http_error
 
       error = assert_raises Error::WebApi do
-        Community::WebApi.get :json, 'interface', 'method', 2, { :test => 'param' }
+        Community::WebApi.get :json, 'interface', 'method', 2, test: 'param'
       end
       assert_equal 'The Web API request has failed due to an HTTP error: Not found (status code: 404).', error.message
     end
@@ -107,14 +107,14 @@ class TestWebApi < Test::Unit::TestCase
     should 'use insecure HTTP if set' do
       Community::WebApi.secure = false
 
-      data = mock :read => 'data'
+      data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
-        options == { :proxy => true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
+        options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
         url.start_with?('http://api.steampowered.com/interface/method/v0002/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
 
-      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, { :test => 'param' })
+      assert_equal 'data', Community::WebApi.get(:json, 'interface', 'method', 2, test: 'param')
     end
 
   end

@@ -11,7 +11,7 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'be able to resolve vanity URLs' do
       Community::WebApi.expects(:json).
-        with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'koraktor' }).
+        with('ISteamUser', 'ResolveVanityURL', 1, vanityurl: 'koraktor').
         returns({ response: { success: 1, steamid: 76561197961384956 } })
 
       steam_id64 = Community::SteamId.resolve_vanity_url 'koraktor'
@@ -20,7 +20,7 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'be return nil when not able to resolve a vanity URL' do
       Community::WebApi.expects(:json).
-        with('ISteamUser', 'ResolveVanityURL', 1, { :vanityurl => 'unknown' }).
+        with('ISteamUser', 'ResolveVanityURL', 1, vanityurl: 'unknown').
         returns({ response: { success: 42 } })
 
       assert_nil Community::SteamId.resolve_vanity_url 'unknown'
@@ -87,14 +87,13 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'be able to fetch its data' do
       url = fixture_io 'sonofthor.xml'
-      Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
+      Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
 
       steam_id = Community::SteamId.new 'Son_of_Thor'
 
       assert_equal 76561197983311154, steam_id.steam_id64
       assert_equal 'son_of_thor', steam_id.custom_url
       assert_equal 'Bellevue, Washington, United States', steam_id.location
-      assert_equal 'Dad serious.', steam_id.head_line
       assert_equal 'Son of Thor', steam_id.nickname
       assert_equal 'Torsten Zabka', steam_id.real_name
       assert_equal 'Last Online: 3 days ago', steam_id.state_message
@@ -134,8 +133,8 @@ class TestSteamId < Test::Unit::TestCase
       steam_id = Community::SteamId.new 76561197983311154, false
 
       Community::WebApi.expects(:json).
-        with('IPlayerService', 'GetSteamLevel', 1, { :steamid => 76561197983311154 }).
-        returns({ :response => { :player_level => 10 }})
+        with('IPlayerService', 'GetSteamLevel', 1, steamid: 76561197983311154).
+        returns({ response: { player_level: 10 }})
 
       assert_equal 10, steam_id.update_steam_level
       assert_equal 10, steam_id.instance_variable_get(:@steam_level)
@@ -158,7 +157,7 @@ class TestSteamId < Test::Unit::TestCase
     should 'raise an exception when parsing invalid XML' do
       error = assert_raises Error do
         url = fixture_io 'invalid.xml'
-        Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', { :proxy => true }).returns url
+        Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
 
         Community::SteamId.new 'Son_of_Thor'
       end

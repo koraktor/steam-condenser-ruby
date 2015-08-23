@@ -138,8 +138,8 @@ class TestGameServer < Test::Unit::TestCase
         @server.expects(:handle_response_for_request).with :players
         @server.expects(:rcon_exec).with('status').returns status
 
-        someone_data = { :name => 'someone', :userid => '1', :uniqueid => 'STEAM_0:0:123456', :score => '10', :time => '3:52', :ping => '12', :loss => '0', :state => 'active' }
-        somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :state => 'active' }
+        someone_data = { name: 'someone', userid: '1', uniqueid: 'STEAM_00:123456', score: '10', time: '352', ping: '12', loss: '0', state: 'active' }
+        somebody_data = { name: 'somebody', userid: '2', uniqueid: 'STEAM_00:123457', score: '3', time: '242', ping: '34', loss: '0', state: 'active' }
 
         attributes = mock
         Servers::GameServer.expects(:player_status_attributes).
@@ -181,8 +181,8 @@ class TestGameServer < Test::Unit::TestCase
       @server.expects(:handle_response_for_request).with :players
       @server.expects(:rcon_exec).with('status').returns status
 
-      someone_data = { :name => 'someone', :userid => '1', :uniqueid => 'STEAM_0:0:123456', :score => '10', :time => '3:52', :ping => '12', :loss => '0', :adr => '0' }
-      somebody_data = { :name => 'somebody', :userid => '2', :uniqueid => 'STEAM_0:0:123457', :score => '3', :time => '2:42', :ping => '34', :loss => '0', :adr => '0' }
+      someone_data = { name: 'someone', userid: '1', uniqueid: 'STEAM_00:123456', score: '10', time: '352', ping: '12', loss: '0', adr: '0' }
+      somebody_data = { name: 'somebody', userid: '2', uniqueid: 'STEAM_00:123457', score: '3', time: '242', ping: '34', loss: '0', adr: '0' }
 
       attributes = mock
       Servers::GameServer.expects(:player_status_attributes).
@@ -229,12 +229,12 @@ class TestGameServer < Test::Unit::TestCase
 
       packet = mock
       packet.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).twice.returns true
-      packet.expects(:info).returns({ :test => 'test' })
+      packet.expects(:info).returns test: 'test'
       @server.expects(:reply).returns packet
 
       @server.handle_response_for_request :info
 
-      assert_equal({ :test => 'test' }, @server.instance_variable_get(:@info_hash))
+      assert_equal({ test: 'test' }, @server.instance_variable_get(:@info_hash))
     end
 
     should 'handle rule requests' do
@@ -246,12 +246,12 @@ class TestGameServer < Test::Unit::TestCase
       packet.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns false
       packet.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).returns false
       packet.expects(:kind_of?).with(Servers::Packets::S2A_RULES_Packet).twice.returns true
-      packet.expects(:rules_hash).returns({ :test => 'test' })
+      packet.expects(:rules_hash).returns test: 'test'
       @server.expects(:reply).returns packet
 
       @server.handle_response_for_request :rules
 
-      assert_equal({ :test => 'test' }, @server.instance_variable_get(:@rules_hash))
+      assert_equal({ test: 'test' }, @server.instance_variable_get(:@rules_hash))
     end
 
     should 'handle player requests' do
@@ -262,12 +262,12 @@ class TestGameServer < Test::Unit::TestCase
       packet = mock
       packet.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns false
       packet.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).twice.returns true
-      packet.expects(:player_hash).returns({ :test => 'test' })
+      packet.expects(:player_hash).returns test: 'test'
       @server.expects(:reply).returns packet
 
       @server.handle_response_for_request :players
 
-      assert_equal({ :test => 'test' }, @server.instance_variable_get(:@player_hash))
+      assert_equal({ test: 'test' }, @server.instance_variable_get(:@player_hash))
     end
 
     should 'handle unexpected answers and retry' do
@@ -278,17 +278,17 @@ class TestGameServer < Test::Unit::TestCase
       packet1 = mock
       packet1.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns true
       packet1.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).returns false
-      packet1.expects(:info).returns({ :test => 'test1' })
+      packet1.expects(:info).returns test: 'test1'
       packet2 = mock
       packet2.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns false
       packet2.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).twice.returns true
-      packet2.expects(:player_hash).returns({ :test => 'test2' })
+      packet2.expects(:player_hash).returns test: 'test2'
       @server.expects(:reply).twice.returns(packet1).returns packet2
 
       @server.handle_response_for_request :players
 
-      assert_equal({ :test => 'test1' }, @server.instance_variable_get(:@info_hash))
-      assert_equal({ :test => 'test2' }, @server.instance_variable_get(:@player_hash))
+      assert_equal({ test: 'test1' }, @server.instance_variable_get(:@info_hash))
+      assert_equal({ test: 'test2' }, @server.instance_variable_get(:@player_hash))
     end
 
   end
