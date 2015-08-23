@@ -121,7 +121,6 @@ module SteamCondenser::Community
     # @raise [Error::WebApi] if the request to Steam's Web API fails
     # @return [String] The data as replied by the Web API in the desired format
     def self.get(format, interface, method, version = 1, params = {})
-      version = version.to_s.rjust(4, '0')
       params = { key: WebApi.api_key }.merge params unless WebApi.api_key.nil?
       params = { format: format }.merge params
       protocol = @@secure ? 'https' : 'http'

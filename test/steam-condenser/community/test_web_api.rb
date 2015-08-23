@@ -61,8 +61,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
         options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
-        url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
-        url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
+        url.start_with?('https://api.steampowered.com/interface/method/v2/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
 
@@ -75,7 +74,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
         options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
-        url.start_with?('https://api.steampowered.com/interface/method/v0002/?') &&
+        url.start_with?('https://api.steampowered.com/interface/method/v2/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json}).size == 2
       end.returns data
 
@@ -110,7 +109,7 @@ class TestWebApi < Test::Unit::TestCase
       data = mock read: 'data'
       Community::WebApi.expects(:open).with do |url, options|
         options == { proxy: true, 'Content-Type' => 'application/x-www-form-urlencoded' } &&
-        url.start_with?('http://api.steampowered.com/interface/method/v0002/?') &&
+        url.start_with?('http://api.steampowered.com/interface/method/v2/?') &&
         (url.split('?').last.split('&') & %w{test=param format=json key=0123456789ABCDEF0123456789ABCDEF}).size == 3
       end.returns data
 
