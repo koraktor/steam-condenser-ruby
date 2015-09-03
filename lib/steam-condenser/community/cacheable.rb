@@ -92,9 +92,9 @@ module SteamCondenser::Community
       # @see #fetch
       def new(*args)
         arity = self.instance_method(:initialize).arity.abs
-        args += [nil] * (arity - args.size) if args.size < arity
-        bypass_cache = args.size > arity + 1 ? !!args.pop : false
-        fetch = args.size > arity ? !!args.pop : true
+        args += Array.new(arity - args.size) if args.size < arity
+        bypass_cache = args.size > arity + 1 ? args.pop : false
+        fetch = args.size > arity ? args.pop : true
 
         object = self.allocate
         object.send :initialize, *args
@@ -171,7 +171,7 @@ module SteamCondenser::Community
     # @see #cache_ids
     def cached_instance
       ids = cache_ids
-      cached = self.class.send(:cache).find { |id, object| ids.include? id}
+      cached = self.class.send(:cache).find { |id, _| ids.include? id}
       cached.nil? ? nil : cached.last
     end
 
