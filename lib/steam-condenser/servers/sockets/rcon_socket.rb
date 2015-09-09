@@ -65,7 +65,7 @@ module SteamCondenser::Servers::Sockets
     # @param [Packets::RCON::BasePacket] data_packet The RCON packet to send to
     #        the server
     # @see #connect
-    def send(data_packet)
+    def send_packet(data_packet)
       connect if @socket.nil? || @socket.closed?
 
       super

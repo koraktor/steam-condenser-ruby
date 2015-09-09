@@ -32,7 +32,7 @@ class TestRCONSocket < Test::Unit::TestCase
         @socket.instance_variable_set :@socket, tcp_socket
       end
 
-      @socket.send mock to_s: 'test'
+      @socket.send_packet mock to_s: 'test'
     end
 
     should 're-establish the TCP connection when sending' do
@@ -44,7 +44,7 @@ class TestRCONSocket < Test::Unit::TestCase
 
       packet = mock
       packet.expects(:to_s).returns 'test'
-      @socket.send packet
+      @socket.send_packet packet
     end
 
     should 'be able to establish the TCP connection' do

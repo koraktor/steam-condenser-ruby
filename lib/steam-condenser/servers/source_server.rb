@@ -77,7 +77,7 @@ module SteamCondenser
       def rcon_auth(password)
         @rcon_request_id = rand 2**16
 
-        @rcon_socket.send Packets::RCON::RCONAuthRequest.new @rcon_request_id, password
+        @rcon_socket.send_packet Packets::RCON::RCONAuthRequest.new @rcon_request_id, password
 
         reply = @rcon_socket.reply
         raise Error::RCONBan if reply.nil?
@@ -96,7 +96,7 @@ module SteamCondenser
       def rcon_exec(command)
         raise Error::RCONNoAuth unless @rcon_authenticated
 
-        @rcon_socket.send Packets::RCON::RCONExecRequest.new(@rcon_request_id, command)
+        @rcon_socket.send_packet Packets::RCON::RCONExecRequest.new(@rcon_request_id, command)
 
         is_multi = false
         response = []
@@ -110,7 +110,7 @@ module SteamCondenser
 
           if !is_multi && response_packet.response.size > 0
             is_multi = true
-            @rcon_socket.send Packets::RCON::RCONTerminator.new(@rcon_request_id)
+            @rcon_socket.send_packet Packets::RCON::RCONTerminator.new(@rcon_request_id)
           end
 
           response << response_packet.response

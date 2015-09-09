@@ -396,7 +396,7 @@ module SteamCondenser
       # @param [Packets::BasePacket] packet The request packet to send to the
       #        server
       def send_request(packet)
-        @socket.send packet
+        @socket.send_packet packet
       end
 
     end

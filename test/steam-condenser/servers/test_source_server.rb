@@ -46,7 +46,7 @@ class TestSourceServer < Test::Unit::TestCase
       reply = mock
 
       rcon_socket = mock
-      rcon_socket.expects(:send).with do |packet|
+      rcon_socket.expects(:send_packet).with do |packet|
         reply.expects(:request_id).returns packet.request_id
 
         packet.is_a? Servers::Packets::RCON::RCONAuthRequest
@@ -63,7 +63,7 @@ class TestSourceServer < Test::Unit::TestCase
       reply.expects(:request_id).returns -1
 
       rcon_socket = mock
-      rcon_socket.expects(:send).with { |packet| packet.is_a? Servers::Packets::RCON::RCONAuthRequest }
+      rcon_socket.expects(:send_packet).with { |packet| packet.is_a? Servers::Packets::RCON::RCONAuthRequest }
       rcon_socket.expects(:reply).twice.returns(mock).returns(reply)
       @server.instance_variable_set :@rcon_socket, rcon_socket
 
@@ -89,7 +89,7 @@ class TestSourceServer < Test::Unit::TestCase
 
       setup do
         @rcon_socket = mock
-        @rcon_socket.expects(:send).with do |packet|
+        @rcon_socket.expects(:send_packet).with do |packet|
           packet.is_a?(Servers::Packets::RCON::RCONExecRequest) &&
           packet.instance_variable_get(:@content_data).string == "command\0\0" &&
           packet.instance_variable_get(:@request_id) == 1234
@@ -121,7 +121,7 @@ class TestSourceServer < Test::Unit::TestCase
       end
 
       should 'receive the response of a command' do
-        @rcon_socket.expects(:send).with do |packet|
+        @rcon_socket.expects(:send_packet).with do |packet|
           packet.is_a?(Servers::Packets::RCON::RCONTerminator) &&
           packet.instance_variable_get(:@request_id) == 1234
         end

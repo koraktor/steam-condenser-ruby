@@ -55,7 +55,7 @@ class TestBaseSocket < Test::Unit::TestCase
       packet.expects(:to_s).returns 'test'
       @udp_socket.expects(:send).with 'test', 0
 
-      @socket.send packet
+      @socket.send_packet packet
     end
 
     should 'raise a timeout if no reply is received' do

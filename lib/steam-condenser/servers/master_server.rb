@@ -116,7 +116,7 @@ module SteamCondenser
           failsafe do
             fail_count = 0
             begin
-              @socket.send Packets::A2M_GET_SERVERS_BATCH2_Packet.new(region_code, current_server, filters)
+              @socket.send_packet Packets::A2M_GET_SERVERS_BATCH2_Packet.new(region_code, current_server, filters)
               begin
                 servers = @socket.reply.servers
                 servers.each do |server|

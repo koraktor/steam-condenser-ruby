@@ -41,13 +41,13 @@ class TestMasterServer < Test::Unit::TestCase
       reply2 = mock servers: %w{127.0.0.4:27015 0.0.0.0:0}
 
       socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with do |packet|
+      socket.expects(:send_packet).with do |packet|
         packet.is_a?(Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
-      socket.expects(:send).with do |packet|
+      socket.expects(:send_packet).with do |packet|
         packet.is_a?(Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == Servers::MasterServer::REGION_EUROPE &&
@@ -65,13 +65,13 @@ class TestMasterServer < Test::Unit::TestCase
       reply = mock servers: %w{127.0.0.1:27015 127.0.0.2:27015 127.0.0.3:27015}
 
       socket = @server.instance_variable_get :@socket
-      socket.expects(:send).with do |packet|
+      socket.expects(:send_packet).with do |packet|
         packet.is_a?(Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == Servers::MasterServer::REGION_EUROPE &&
         packet.instance_variable_get(:@start_ip) == '0.0.0.0:0'
       end
-      socket.expects(:send).with do |packet|
+      socket.expects(:send_packet).with do |packet|
         packet.is_a?(Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == 'filter' &&
         packet.instance_variable_get(:@region_code) == Servers::MasterServer::REGION_EUROPE &&
@@ -89,7 +89,7 @@ class TestMasterServer < Test::Unit::TestCase
       Servers::MasterServer.retries = retries
 
       socket = @server.instance_variable_get :@socket
-      socket.expects(:send).times(retries).with do |packet|
+      socket.expects(:send_packet).times(retries).with do |packet|
         packet.is_a?(Servers::Packets::A2M_GET_SERVERS_BATCH2_Packet) &&
         packet.instance_variable_get(:@filter) == '' &&
         packet.instance_variable_get(:@region_code) == Servers::MasterServer::REGION_ALL &&

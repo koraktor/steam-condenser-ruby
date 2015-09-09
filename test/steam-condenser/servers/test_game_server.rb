@@ -26,7 +26,7 @@ class TestGameServer < Test::Unit::TestCase
 
     should 'send packets using its client socket' do
       packet = mock
-      @socket.expects(:send).with packet
+      @socket.expects(:send_packet).with packet
 
       @server.send :send_request, packet
     end
