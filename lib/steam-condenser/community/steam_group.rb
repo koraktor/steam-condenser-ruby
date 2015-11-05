@@ -68,6 +68,8 @@ module SteamCondenser::Community
     #
     # @return [String] The URL to this group's full avatar
     def avatar_full_url
+      return nil if @avatar_hash.nil?
+
       AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_full' ]
     end
 
@@ -75,6 +77,8 @@ module SteamCondenser::Community
     #
     # @return [String] The URL to this group's icon avatar
     def avatar_icon_url
+      return nil if @avatar_hash.nil?
+
       AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '' ]
     end
 
@@ -82,6 +86,8 @@ module SteamCondenser::Community
     #
     # @return [String] The URL to this group's medium avatar
     def avatar_medium_url
+      return nil if @avatar_hash.nil?
+
       AVATAR_URL % [ @avatar_hash[0..1], @avatar_hash, '_medium' ]
     end
 
