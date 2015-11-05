@@ -318,6 +318,23 @@ module SteamCondenser::Community
       @groups
     end
 
+    # Fetches information about the game the user is playing currently
+    #
+    # @return The user’s current game information
+    # @see #game_info
+    def fetch_game_info
+      params = { :steamids => steam_id64 }
+      summary_data = WebApi.json 'ISteamUser', 'GetPlayerSummaries', 2, params
+      data = summary_data[:response][:players].first || {}
+
+      @game_info = {
+        :game_id => data[:gameid],
+        :game_name => data[:gameextrainfo],
+        :game_server_ip => data[:gameserverip],
+        :game_server_id => data[:gameserversteamid]
+      }
+    end
+
     # Returns the URL of the full-sized version of this user's avatar
     #
     # @return [String] The URL of the full-sized avatar
@@ -365,6 +382,16 @@ module SteamCondenser::Community
     # @see #fetch_groups
     def groups
       @groups || fetch_groups
+    end
+
+    # Returns information about the game the user is playing currently
+    #
+    # If the information hasn't been fetched yet, this is done now.
+    #
+    # @return [Hash<Symbol, Object>] The user’s current game information
+    # @see #fetch_game_info
+    def game_info
+      @game_info || fetch_game_info
     end
 
     # Returns the URL of the icon version of this user's avatar
