@@ -318,12 +318,11 @@ module SteamCondenser::Community
       @groups
     end
 
-    # Fetches the users summary data
+    # Fetches information about the game the user is playing currently
     #
-    # This returns summaries for a given user id, this call requires
-    # an api key to be set
-    # @see #summary
-    def fetch_summary
+    # @return The user’s current game information
+    # @see #game_info
+    def fetch_game_info
       params = { :steamids => steam_id64 }
       summary_data = WebApi.json 'ISteamUser', 'GetPlayerSummaries', 2, params
       data = summary_data[:response][:players].first || {}
@@ -384,14 +383,14 @@ module SteamCondenser::Community
       @groups || fetch_groups
     end
 
-    # Returns the Steam Community summary of this user
+    # Returns information about the game the user is playing currently
     #
-    # If the summary hasn't been fetched yet, this is done now.
+    # If the information hasn't been fetched yet, this is done now.
     #
-    # @return Summary The summary of this user
-    # @see #fetch_summary
-    def summary
-      @fetch_summary || fetch_summary
+    # @return [Hash<Symbol, Object>] The user’s current game information
+    # @see #fetch_game_info
+    def game_info
+      @game_info || fetch_game_info
     end
 
     # Returns the URL of the icon version of this user's avatar
