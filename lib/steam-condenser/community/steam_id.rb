@@ -331,6 +331,7 @@ module SteamCondenser::Community
         :game_id => data[:gameid],
         :game_name => data[:gameextrainfo],
         :game_server_ip => data[:gameserverip],
+        :game_server_id => data[:gameserversteamid]
       }
     end
 
