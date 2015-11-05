@@ -222,8 +222,8 @@ module SteamCondenser
             raise SteamCondenser::Error, 'Called with wrong request type.'
         end
 
-        send_request request_packet
-        response_packet = reply
+        @socket.send_packet request_packet
+        response_packet = @socket.reply
 
         if response_packet.kind_of? Packets::S2A_INFO_BasePacket
           @info_hash = response_packet.info
@@ -341,9 +341,9 @@ module SteamCondenser
       # @return [Fixnum] The latency of this server in milliseconds
       # @see #ping
       def update_ping
-        send_request Packets::A2S_INFO_Packet.new
+        @socket.send_packet Packets::A2S_INFO_Packet.new
         start_time = Time.now
-        reply
+        @socket.reply
         end_time = Time.now
         @ping = (end_time - start_time) * 1000
       end
@@ -380,23 +380,6 @@ module SteamCondenser
         end
 
         return_string
-      end
-
-      protected
-
-      # Receives a response from the server
-      #
-      # @return [Packets::BasePacket] The response packet replied by the server
-      def reply
-        @socket.reply
-      end
-
-      # Sends a request packet to the server
-      #
-      # @param [Packets::BasePacket] packet The request packet to send to the
-      #        server
-      def send_request(packet)
-        @socket.send_packet packet
       end
 
     end
