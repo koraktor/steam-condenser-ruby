@@ -24,25 +24,11 @@ class TestGameServer < Test::Unit::TestCase
       @server.instance_variable_set :@socket, @socket
     end
 
-    should 'send packets using its client socket' do
-      packet = mock
-      @socket.expects(:send_packet).with packet
-
-      @server.send :send_request, packet
-    end
-
-    should 'get replies using its client socket' do
-      packet = mock
-      @socket.expects(:reply).returns packet
-
-      assert_equal packet, @server.send(:reply)
-    end
-
     should 'be able to calculate the latency of the server' do
-      @server.expects(:send_request).with do |packet|
+      @socket.expects(:send_packet).with do |packet|
         packet.is_a? Servers::Packets::A2S_INFO_Packet
       end
-      @server.expects(:reply).with { || sleep 0.05 }
+      @socket.expects(:reply).with { || sleep 0.05 }
 
       @server.update_ping
       assert_operator @server.instance_variable_get(:@ping), :>=, 50
@@ -204,7 +190,7 @@ class TestGameServer < Test::Unit::TestCase
     end
 
     should 'handle challenge requests' do
-      @server.expects(:send_request).with do |packet|
+      @socket.expects(:send_packet).with do |packet|
         packet.is_a? Servers::Packets::A2S_PLAYER_Packet
       end
 
@@ -215,7 +201,7 @@ class TestGameServer < Test::Unit::TestCase
       packet.expects(:kind_of?).with(Servers::Packets::S2C_CHALLENGE_Packet).twice.returns true
 
       packet.expects(:challenge_number).returns 1234
-      @server.expects(:reply).returns packet
+      @socket.expects(:reply).returns packet
 
       @server.handle_response_for_request :challenge
 
@@ -223,14 +209,14 @@ class TestGameServer < Test::Unit::TestCase
     end
 
     should 'handle info requests' do
-      @server.expects(:send_request).with do |packet|
+      @socket.expects(:send_packet).with do |packet|
         packet.is_a? Servers::Packets::A2S_INFO_Packet
       end
 
       packet = mock
       packet.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).twice.returns true
       packet.expects(:info).returns test: 'test'
-      @server.expects(:reply).returns packet
+      @socket.expects(:reply).returns packet
 
       @server.handle_response_for_request :info
 
@@ -238,7 +224,7 @@ class TestGameServer < Test::Unit::TestCase
     end
 
     should 'handle rule requests' do
-      @server.expects(:send_request).with do |packet|
+      @socket.expects(:send_packet).with do |packet|
         packet.is_a? Servers::Packets::A2S_RULES_Packet
       end
 
@@ -247,7 +233,7 @@ class TestGameServer < Test::Unit::TestCase
       packet.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).returns false
       packet.expects(:kind_of?).with(Servers::Packets::S2A_RULES_Packet).twice.returns true
       packet.expects(:rules_hash).returns test: 'test'
-      @server.expects(:reply).returns packet
+      @socket.expects(:reply).returns packet
 
       @server.handle_response_for_request :rules
 
@@ -255,7 +241,7 @@ class TestGameServer < Test::Unit::TestCase
     end
 
     should 'handle player requests' do
-      @server.expects(:send_request).with do |packet|
+      @socket.expects(:send_packet).with do |packet|
         packet.is_a? Servers::Packets::A2S_PLAYER_Packet
       end
 
@@ -263,7 +249,7 @@ class TestGameServer < Test::Unit::TestCase
       packet.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns false
       packet.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).twice.returns true
       packet.expects(:player_hash).returns test: 'test'
-      @server.expects(:reply).returns packet
+      @socket.expects(:reply).returns packet
 
       @server.handle_response_for_request :players
 
@@ -271,7 +257,7 @@ class TestGameServer < Test::Unit::TestCase
     end
 
     should 'handle unexpected answers and retry' do
-      @server.expects(:send_request).twice.with do |packet|
+      @socket.expects(:send_packet).twice.with do |packet|
         packet.is_a? Servers::Packets::A2S_PLAYER_Packet
       end
 
@@ -283,7 +269,7 @@ class TestGameServer < Test::Unit::TestCase
       packet2.expects(:kind_of?).with(Servers::Packets::S2A_INFO_BasePacket).returns false
       packet2.expects(:kind_of?).with(Servers::Packets::S2A_PLAYER_Packet).twice.returns true
       packet2.expects(:player_hash).returns test: 'test2'
-      @server.expects(:reply).twice.returns(packet1).returns packet2
+      @socket.expects(:reply).twice.returns(packet1).returns packet2
 
       @server.handle_response_for_request :players
 
