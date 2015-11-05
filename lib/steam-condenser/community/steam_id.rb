@@ -325,17 +325,14 @@ module SteamCondenser::Community
     # @see #summary
     def fetch_summary
       params = { :steamids => steam_id64 }
+      summary_data = WebApi.json 'ISteamUser', 'GetPlayerSummaries', 2, params
+      data = summary_data[:response][:players].first || {}
 
-      if WebApi.api_key
-        summary_data = WebApi.json 'ISteamUser', 'GetPlayerSummaries', 2, params
-        data = summary_data[:response][:players].first || {}
-
-        {
-          :game_id => data[:gameid],
-          :game_name => data[:gameextrainfo],
-          :game_server_ip => data[:gameserverip]
-        }
-      end
+      @game_info = {
+        :game_id => data[:gameid],
+        :game_name => data[:gameextrainfo],
+        :game_server_ip => data[:gameserverip],
+      }
     end
 
     # Returns the URL of the full-sized version of this user's avatar
