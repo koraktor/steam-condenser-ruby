@@ -138,7 +138,7 @@ module SteamCondenser
           raise $! unless force
         end
 
-        server_array
+        server_array.uniq
       end
 
     end
