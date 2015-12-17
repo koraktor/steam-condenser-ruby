@@ -28,7 +28,7 @@ class TestGoldSrcSocket < Test::Unit::TestCase
     should 'send wrapped up RCON requests' do
       packet = mock
       Servers::Packets::RCON::RCONGoldSrcRequest.expects(:new).with('test').returns packet
-      @socket.expects(:send).with packet
+      @socket.expects(:send_packet).with packet
 
       @socket.rcon_send 'test'
     end
