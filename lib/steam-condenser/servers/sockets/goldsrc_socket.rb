@@ -143,7 +143,7 @@ module SteamCondenser::Servers::Sockets
     #
     # @param [String] command The RCON command to send to the server
     def rcon_send(command)
-      send SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest.new(command)
+      send_packet SteamCondenser::Servers::Packets::RCON::RCONGoldSrcRequest.new(command)
     end
 
   end
