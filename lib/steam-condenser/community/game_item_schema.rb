@@ -118,7 +118,7 @@ module SteamCondenser::Community
 
       @qualities = []
       data[:qualities].keys.each_with_index do |key, index|
-        @qualities[index] = data[:qualityNames][key] || key.to_s.capitalize
+        @qualities[index] = data[:qualities][key] || key.to_s.capitalize
       end
     end
 
