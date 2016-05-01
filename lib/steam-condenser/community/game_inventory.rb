@@ -142,7 +142,7 @@ module SteamCondenser::Community
           if item.preliminary?
             @preliminary_items << item
           else
-            @items[item.backpack_position - 1] = item
+            @items[item.backpack_position] = item
           end
         end
       end
