@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2014, Sebastian Staudt
+# Copyright (c) 2011-2016, Sebastian Staudt
 
 require 'steam/community/web_api'
 
@@ -89,7 +89,6 @@ class GameItem
     @inventory = inventory
 
     @defindex          = item_data[:defindex]
-    @backpack_position = item_data[:inventory] & 0xffff
     @count             = item_data[:quantity]
     @craftable         = !!item_data[:flag_cannot_craft]
     @id                = item_data[:id]
@@ -98,10 +97,17 @@ class GameItem
     @level             = item_data[:level]
     @name              = schema_data[:item_name]
     @original_id       = item_data[:original_id]
-    @preliminary       = item_data[:inventory] & 0x40000000 != 0
+    @preliminary       = item_data[:inventory] == 0 || item_data[:inventory] & 0x40000000 != 0
     @quality           = inventory.item_schema.qualities[item_data[:quality]]
     @tradeable         = !!item_data[:flag_cannot_trade]
     @type              = schema_data[:item_type_name]
+
+    unpositioned = item_data[:inventory] & 0x7f000000
+    if preliminary? || unpositioned > 0
+      @backpack_position = unpositioned >> 24
+    else
+      @backpack_position = (item_data[:inventory] & 0xffff) << 8
+    end
 
     if item_data.key? :origin
       @origin = inventory.item_schema.origins[item_data[:origin]]
