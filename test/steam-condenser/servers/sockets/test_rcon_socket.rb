@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2011-2012, Sebastian Staudt
+# Copyright (c) 2011-2016, Sebastian Staudt
 
 require 'helper'
 
@@ -58,7 +58,7 @@ class TestRCONSocket < Test::Unit::TestCase
     end
 
     should 'raise a timeout if the connection cannot be established' do
-      @socket.expects(:timeout).raises Timeout::Error
+      ::Timeout.expects(:timeout).raises Timeout::Error
 
       assert_raises Error::Timeout do
         @socket.connect

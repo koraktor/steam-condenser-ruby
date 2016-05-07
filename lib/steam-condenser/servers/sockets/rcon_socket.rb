@@ -1,7 +1,7 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2013, Sebastian Staudt
+# Copyright (c) 2008-2016, Sebastian Staudt
 
 require 'ipaddr'
 require 'socket'
@@ -53,11 +53,11 @@ module SteamCondenser::Servers::Sockets
     # @raise [Error::Timeout] if the connection could not be
     #        established
     def connect
-      begin
-        timeout(@@timeout / 1000.0) { @socket = TCPSocket.new @ip, @port }
-      rescue ::Timeout::Error
-        raise SteamCondenser::Error::Timeout
+      ::Timeout.timeout(@@timeout / 1000.0) do
+        @socket = TCPSocket.new @ip, @port
       end
+    rescue ::Timeout::Error
+      raise SteamCondenser::Error::Timeout
     end
 
     # Sends the given RCON packet to the server
