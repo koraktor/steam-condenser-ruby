@@ -268,8 +268,20 @@ module SteamCondenser::Community
       params = { relationship: 'friend', steamid: steam_id64 }
 
       friends_data = WebApi.json 'ISteamUser', 'GetFriendList', 1, params
-      @friends = friends_data[:friendslist][:friends].map do |friend|
-        SteamId.new(friend[:steamid].to_i, false)
+      friends = friends_data['friends']['friend']
+      
+      if not friends.is_a?(Array)
+        # If friends is not an array, then either you have no friend and has "\t\n" in the field
+        # or you have a single ID in the field.
+        if /^\d+$/ =~ friends
+          friends = [friends]
+        else
+          friends = []
+        end
+      end
+      
+      @friends = friends.map do |friend|
+        SteamId.new friend.to_i, false
       end
     end
 
