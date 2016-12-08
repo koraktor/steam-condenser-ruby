@@ -9,6 +9,7 @@
 # point when using the gem (i.e. +require 'steam-condenser').
 #
 # @author Sebastian Staudt
+
 module SteamCondenser
 end
 
