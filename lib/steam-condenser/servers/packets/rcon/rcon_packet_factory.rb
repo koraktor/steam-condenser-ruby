@@ -4,8 +4,8 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'core_ext/stringio'
-require 'steam-condenser/servers//packets/steam_packet_factory'
-require 'steam-condenser/servers//packets/rcon/rcon_auth_response'
+require 'steam-condenser/servers/packets/steam_packet_factory'
+require 'steam-condenser/servers/packets/rcon/rcon_auth_response'
 require 'steam-condenser/servers/packets/rcon/rcon_exec_response'
 require 'steam-condenser/error/packet_format'
 
