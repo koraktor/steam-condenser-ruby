@@ -1,10 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2020, Sebastian Staudt
 
-require 'steam/packets/request_with_challenge'
-require 'steam/packets/steam_packet'
+require 'steam/packets/query_packet'
 
 # This packet class represents a A2S_RULES request send to a game server
 #
@@ -18,15 +17,14 @@ require 'steam/packets/steam_packet'
 # @see GameServer#update_rules_info
 class A2S_RULES_Packet
 
-  include SteamPacket
-  include RequestWithChallenge
+  include QueryPacket
 
   # Creates a new A2S_RULES request object including the challenge number
   #
   # @param [Numeric] challenge_number The challenge number received from the
   #        server
   def initialize(challenge_number = -1)
-    super A2S_RULES_HEADER, challenge_number
+    super A2S_RULES_HEADER, [challenge_number.to_i].pack('l')
   end
 
 end

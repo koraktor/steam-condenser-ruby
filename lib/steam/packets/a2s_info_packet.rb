@@ -1,9 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2011, Sebastian Staudt
+# Copyright (c) 2008-2020, Sebastian Staudt
 
-require 'steam/packets/steam_packet'
+require 'steam/packets/query_packet'
 
 # This packet class class represents a A2S_INFO request send to a game server
 #
@@ -14,7 +14,7 @@ require 'steam/packets/steam_packet'
 # @see GameServer#update_server_info
 class A2S_INFO_Packet
 
-  include SteamPacket
+  include QueryPacket
 
   # Creates a new A2S_INFO request object
   def initialize
