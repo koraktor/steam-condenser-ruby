@@ -1,10 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2020, Sebastian Staudt
 
 require 'steam-condenser/servers/packets/base_packet'
-require 'steam-condenser/servers/packets/request_with_challenge'
 
 module SteamCondenser::Servers::Packets
 
@@ -20,14 +19,13 @@ module SteamCondenser::Servers::Packets
   class A2S_PLAYER_Packet
 
     include BasePacket
-    include RequestWithChallenge
 
     # Creates a new A2S_PLAYER request object including the challenge number
     #
     # @param [Numeric] challenge_number The challenge number received from the
     #        server
     def initialize(challenge_number = -1)
-      super A2S_PLAYER_HEADER, challenge_number
+      super A2S_PLAYER_HEADER, [challenge_number.to_i].pack('l')
     end
 
   end

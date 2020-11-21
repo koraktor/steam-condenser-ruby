@@ -1,9 +1,9 @@
 # This code is free software; you can redistribute it and/or modify it under
 # the terms of the new BSD License.
 #
-# Copyright (c) 2008-2012, Sebastian Staudt
+# Copyright (c) 2008-2020, Sebastian Staudt
 
-require 'steam-condenser/servers/packets/base_packet'
+require 'steam-condenser/servers/packets/query_packet'
 
 module SteamCondenser::Servers::Packets
 
@@ -16,7 +16,7 @@ module SteamCondenser::Servers::Packets
   # @see GameServer#update_server_info
   class A2S_INFO_Packet
 
-    include BasePacket
+    include QueryPacket
 
     # Creates a new A2S_INFO request object
     def initialize
