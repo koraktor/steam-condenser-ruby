@@ -13,7 +13,7 @@ Currently it is implemented in Java, PHP and Ruby.
 
 ## Requirements
 
-* Ruby 2.0 or newer (and compatible Ruby VMs)
+* Ruby 2.1 or newer (and compatible Ruby VMs)
 * Any operating system able to run such a VM
 
 The following gems are required:
