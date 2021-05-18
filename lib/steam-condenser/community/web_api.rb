@@ -4,7 +4,7 @@
 # Copyright (c) 2010-2015, Sebastian Staudt
 
 require 'multi_json'
-require 'open-uri'
+require 'steam-condenser/community/uri'
 
 require 'steam-condenser/error/web_api'
 

@@ -31,7 +31,7 @@ class TestSteamGroup < Test::Unit::TestCase
 
     should 'be able to fetch its members and properties' do
       url = fixture_io 'valve-members.xml'
-      URI.expects(:open).with('http://steamcommunity.com/gid/103582791429521412/memberslistxml?p=1', proxy: true).returns url
+      Community::URI.expects(:open).with('http://steamcommunity.com/gid/103582791429521412/memberslistxml?p=1', proxy: true).returns url
 
       group = Community::SteamGroup.new 103582791429521412
       members = group.members
@@ -69,7 +69,7 @@ class TestSteamGroup < Test::Unit::TestCase
     should 'raise an exception when parsing invalid XML' do
       error = assert_raises Error do
         url = fixture_io 'invalid.xml'
-        URI.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', proxy: true).returns url
+        Community::URI.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', proxy: true).returns url
 
         Community::SteamGroup.new 'valve'
       end
@@ -78,7 +78,7 @@ class TestSteamGroup < Test::Unit::TestCase
 
     should 'be able to parse just the member count' do
       url = fixture_io 'valve-members.xml'
-      URI.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', proxy: true).returns url
+      Community::URI.expects(:open).with('http://steamcommunity.com/groups/valve/memberslistxml?p=1', proxy: true).returns url
 
       group = Community::SteamGroup.new 'valve', false
       assert_equal 239, group.member_count

@@ -5,6 +5,7 @@
 
 require 'multi_xml'
 
+require 'steam-condenser/community/uri'
 require 'steam-condenser/community/game_leaderboard_entry'
 require 'steam-condenser/community/steam_id'
 require 'steam-condenser/community/xml_data'
