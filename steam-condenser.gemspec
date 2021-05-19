@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'multi_json', '~> 1.6'
   s.add_dependency 'multi_xml', '~> 0.5'
+  s.add_dependency 'rexml', '~> 3.2'
 
   s.add_development_dependency 'mocha', '~> 1.1'
   s.add_development_dependency 'rake', '~> 10.4'

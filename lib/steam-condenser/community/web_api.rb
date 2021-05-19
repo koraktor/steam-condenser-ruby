@@ -4,7 +4,7 @@
 # Copyright (c) 2010-2015, Sebastian Staudt
 
 require 'multi_json'
-require 'open-uri'
+require 'steam-condenser/community/uri'
 
 require 'steam-condenser/error/web_api'
 
@@ -132,7 +132,7 @@ module SteamCondenser::Community
           debug_url = @@api_key.nil? ? url : url.gsub(@@api_key, 'SECRET')
           log.debug "Querying Steam Web API: #{debug_url}"
         end
-        open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' , proxy: true }).read
+        URI.open(url, { 'Content-Type' => 'application/x-www-form-urlencoded' , proxy: true }).read
       rescue OpenURI::HTTPError
         status = $!.io.status[0]
         status = [status, ''] unless status.is_a? Array

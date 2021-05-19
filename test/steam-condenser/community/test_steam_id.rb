@@ -87,7 +87,7 @@ class TestSteamId < Test::Unit::TestCase
 
     should 'be able to fetch its data' do
       url = fixture_io 'sonofthor.xml'
-      Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
+      Community::URI.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
 
       steam_id = Community::SteamId.new 'Son_of_Thor'
 
@@ -157,7 +157,7 @@ class TestSteamId < Test::Unit::TestCase
     should 'raise an exception when parsing invalid XML' do
       error = assert_raises Error do
         url = fixture_io 'invalid.xml'
-        Community::SteamId.any_instance.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
+        Community::URI.expects(:open).with('http://steamcommunity.com/id/son_of_thor?xml=1', proxy: true).returns url
 
         Community::SteamId.new 'Son_of_Thor'
       end
