@@ -37,6 +37,7 @@ module SteamCondenser::Servers::Packets
     # @raise [Error::PacketFormat] if the packet header is not recognized
     # @return [BasePacket] The packet object generated from the packet data
     def self.packet_from_data(raw_data)
+      return nil unless raw_data && raw_data.size > 1
       header = raw_data[0].ord
       data = raw_data[1..-1]
 
