@@ -210,7 +210,7 @@ module SteamCondenser
             request_packet = Packets::A2S_PLAYER_Packet.new
             expected_response = Packets::S2C_CHALLENGE_Packet
           when :info then
-            request_packet = Packets::A2S_INFO_Packet.new
+            request_packet = Packets::A2S_INFO_Packet.new(@challenge_number)
             expected_response = Packets::S2A_INFO_BasePacket
           when :players then
             request_packet = Packets::A2S_PLAYER_Packet.new(@challenge_number)
@@ -254,8 +254,8 @@ module SteamCondenser
       # @see #update_server_info
       def init
         update_ping
-        update_server_info
         update_challenge_number
+        update_server_info
       end
 
       # Sends a A2S_PLAYERS request to the server and updates the players' data for

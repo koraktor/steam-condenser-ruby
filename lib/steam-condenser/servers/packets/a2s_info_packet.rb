@@ -4,6 +4,7 @@
 # Copyright (c) 2008-2012, Sebastian Staudt
 
 require 'steam-condenser/servers/packets/base_packet'
+require 'steam-condenser/servers/packets/request_info_with_challenge'
 
 module SteamCondenser::Servers::Packets
 
@@ -17,10 +18,14 @@ module SteamCondenser::Servers::Packets
   class A2S_INFO_Packet
 
     include BasePacket
+    include RequestInfoWithChallenge
 
-    # Creates a new A2S_INFO request object
-    def initialize
-      super A2S_INFO_HEADER, "Source Engine Query\0"
+    # Creates a new A2S_INFO request object including the challenge number
+    #
+    # @param [Numeric] challenge_number The challenge number received from the
+    #        server
+    def initialize(challenge_number = -1)
+      super A2S_INFO_HEADER, challenge_number
     end
 
   end
